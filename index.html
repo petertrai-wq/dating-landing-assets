@@ -3,7 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peter Trai Dating</title>
+<title>Automated Dating - Your Personal Matchmaker</title>
+<meta name="description" content="We'll take over your dating apps and put quality dates on your calendar every week. Your first one in 7 days or you don't pay.">
+
+<!-- Open Graph (Facebook, iMessage, Slack, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://automated.dating/">
+<meta property="og:title" content="Automated Dating - Your Personal Matchmaker">
+<meta property="og:description" content="We'll take over your dating apps and put quality dates on your calendar every week. Your first one in 7 days or you don't pay.">
+<meta property="og:image" content="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/step1-after.jpg">
+<meta property="og:image:width" content="896">
+<meta property="og:image:height" content="1200">
+<meta property="og:site_name" content="Automated Dating">
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Automated Dating - Your Personal Matchmaker">
+<meta name="twitter:description" content="We'll take over your dating apps and put quality dates on your calendar every week. Your first one in 7 days or you don't pay.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/step1-after.jpg">
+
+<!-- Favicons (AD monogram in brand gradient) -->
+<link rel="icon" type="image/png" sizes="32x32"  href="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/apple-touch-icon.png">
+<meta name="theme-color" content="#a78bfa">
+
+<!-- Typeform popup embed (powers all CTA buttons -> data-tf-popup="qoQwwZI5") -->
+<script src="//embed.typeform.com/next/embed.js" async></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600;1,700;1,800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -21,13 +48,24 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ── HEADER ── */
+  /* ── HEADER (sticky, full viewport width) ── */
   .site-header {
     padding: 14px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    /* Stick to the top while scrolling */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    /* Break out of any GHL/container width constraint so the bar spans edge-to-edge */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
 
   .site-logo {
@@ -74,10 +112,32 @@
     transform: translateX(3px);
   }
 
+  .header-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-login {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    padding: 9px 16px;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 999px;
+    transition: all 0.2s ease;
+  }
+  .header-login:hover {
+    color: #ffffff;
+    border-color: rgba(255,255,255,0.32);
+    background: rgba(255,255,255,0.05);
+  }
+
   .page-wrapper {
     max-width: 900px;
     margin: 0 auto;
-    padding: 10px 20px 40px;
+    padding: 10px 20px 8px;
   }
 
   /* ── HEADLINE ── */
@@ -212,6 +272,108 @@
     letter-spacing: normal;
     text-transform: none;
   }
+  /* Same style as cta-sub but ABOVE the button instead of below */
+  .cta-pre {
+    margin-bottom: 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.88);
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  /* ── TYPEFORM POPUP — force "modal" look on mobile (90% of viewport, rounded) ── */
+  @media (max-width: 768px) {
+    .tf-v1-popup .tf-v1-iframe-wrapper {
+      /* Override Typeform's mobile-fullscreen rules (min-width/min-height: 100%) */
+      min-width: 0 !important;
+      min-height: 0 !important;
+      width: 92vw !important;
+      height: 88vh !important;
+      max-width: 92vw !important;
+      max-height: 88vh !important;
+      border-radius: 16px !important;
+      overflow: hidden !important;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) !important;
+    }
+    .tf-v1-popup {
+      background: rgba(0, 0, 0, 0.55) !important;
+    }
+    /* Close (X) button — keep it visible on the dim backdrop, just outside the modal */
+    .tf-v1-close {
+      top: 3vh !important;
+      right: 3vw !important;
+      color: #ffffff !important;
+    }
+  }
+
+  /* ── TYPEFORM POPUP — desktop sizing (fixed dimensions so popup doesn't stretch with window) ── */
+  @media (min-width: 769px) {
+    .tf-v1-popup .tf-v1-iframe-wrapper {
+      min-width: 0 !important;
+      min-height: 0 !important;
+      width: 720px !important;
+      height: 820px !important;
+      max-width: 92vw !important;
+      max-height: 92vh !important;
+      border-radius: 20px !important;
+      overflow: hidden !important;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5) !important;
+    }
+    .tf-v1-popup {
+      background: rgba(0, 0, 0, 0.6) !important;
+    }
+    .tf-v1-close {
+      top: 24px !important;
+      right: 24px !important;
+      color: #ffffff !important;
+    }
+  }
+
+  /* ── SHIMMER QUESTION (replaces a CTA with a glowing question) ── */
+  .cta-question {
+    margin: 40px auto;
+    max-width: 760px;
+    padding: 0 16px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    /* base color shows through under the shimmer */
+    color: #1a1a1a;
+    /* Gradient: long dark padding on both sides keeps text dark at every animation
+       frame, with a single bright band at 50% that sweeps across as we shift
+       background-position from 100% down to 0%. */
+    background: linear-gradient(
+      110deg,
+      #1a1a1a 0%,
+      #1a1a1a 38%,
+      #a78bfa 46%,
+      #ffffff 50%,
+      #a78bfa 54%,
+      #1a1a1a 62%,
+      #1a1a1a 100%
+    );
+    background-size: 300% 100%;
+    background-repeat: no-repeat;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* 4s total: 2s shimmer sweep + 2s dark pause, then loop. */
+    animation: ctaShimmer 4s linear infinite;
+  }
+  @keyframes ctaShimmer {
+    0%   { background-position: 100% 0; }   /* start: dark right */
+    50%  { background-position: 0% 0; }     /* end of sweep: dark left */
+    100% { background-position: 0% 0; }     /* hold dark for 2s pause */
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-question { animation: none; background: none; -webkit-text-fill-color: initial; color: #1a1a1a; }
+  }
 
   /* ── SECTION SHARED ── */
   .section-eyebrow {
@@ -246,7 +408,7 @@
 
   /* ── HOW IT WORKS ── */
   .how-it-works {
-    padding: 40px 0 0;
+    padding: 0;
     max-width: 820px;
     margin: 0 auto;
   }
@@ -283,9 +445,11 @@
     align-items: center;
   }
 
-  /* Step 1 has 2 portrait images side-by-side, so it gets a wider image column */
-  .hiw-step-card.hiw-step-card-large-image {
-    grid-template-columns: 1fr 1.35fr;
+  /* Step 1 has 2 portrait images side-by-side, so it gets a wider image column (desktop only) */
+  @media (min-width: 641px) {
+    .hiw-step-card.hiw-step-card-large-image {
+      grid-template-columns: 1fr 1.35fr;
+    }
   }
 
   .hiw-step-text {
@@ -480,7 +644,7 @@
     display: block;
   }
 
-  /* Reverse the card layout — image on the left, text on the right (desktop only) */
+  /* Reverse the card layout &mdash; image on the left, text on the right (desktop only) */
   @media (min-width: 641px) {
     .hiw-step-card.hiw-step-card-reverse .hiw-step-text {
       order: 2;
@@ -814,14 +978,14 @@
   .section-divider {
     height: 1px;
     background: linear-gradient(90deg, transparent 0%, #a78bfa 50%, transparent 100%);
-    margin-top: 60px;
+    margin-top: 32px;
     box-shadow: 0 0 24px 1px rgba(167, 139, 250, 0.5);
   }
 
   .light-section {
     background: #ffffff;
     color: #1a1a1a;
-    padding: 60px 0 60px;
+    padding: 40px 0 60px;
   }
 
   .light-wrap {
@@ -870,6 +1034,13 @@
     background: rgba(167, 139, 250, 0.06);
     border-color: rgba(167, 139, 250, 0.35);
     color: rgba(110, 86, 207, 0.8);
+  }
+  /* Image containers that already wrap real photos shouldn't get the lavender frame */
+  .light-section .hiw-image-comparison,
+  .light-section .hiw-image-stack,
+  .light-section .hiw-image-stack-natural {
+    background: transparent;
+    border: none;
   }
 
   /* Testimonials title: dark for plain part, gradient italic for the span */
@@ -1022,7 +1193,14 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
     .page-wrapper {
-      padding: 6px 16px 40px;
+      padding: 6px 16px 4px;
+    }
+    /* Tight, even space on both sides of the dark&rarr;light divider on mobile */
+    .section-divider {
+      margin-top: 22px;
+    }
+    .light-section {
+      padding: 24px 0 60px;
     }
     .headline-section {
       padding: 2px 0 16px;
@@ -1072,6 +1250,10 @@
     .header-cta {
       font-size: 13px;
       padding: 9px 14px;
+    }
+    .header-login {
+      font-size: 13px;
+      padding: 8px 13px;
     }
     .testimonials-grid {
       columns: 1;
@@ -1124,9 +1306,12 @@
 <!-- ═══ HEADER ═══ -->
 <header class="site-header">
   <div class="site-logo">Automated <span>Dating</span></div>
-  <a href="#survey" class="header-cta" onclick="document.getElementById('survey').scrollIntoView({behavior:'smooth'});return false;">
-    Apply Now <span class="arrow">→</span>
-  </a>
+  <div class="header-actions">
+    <a href="https://admin.automated.dating/login" class="header-login">Log In</a>
+    <a href="#" class="header-cta" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">
+      Apply Now <span class="arrow">&rarr;</span>
+    </a>
+  </div>
 </header>
 
 <div class="page-wrapper">
@@ -1144,7 +1329,7 @@
   <div class="video-section">
     <div class="video-meta">
       <span class="watch-now">Watch Now</span>
-      <span>4K · 60FPS</span>
+      <span>4K &middot; 60FPS</span>
     </div>
     <script src="https://fast.wistia.com/player.js" async></script>
     <script src="https://fast.wistia.com/embed/xqxjnvg102.js" async type="module"></script>
@@ -1154,10 +1339,10 @@
 
   <!-- ═══ CTA BUTTON ═══ -->
   <div class="cta-section">
-    <a href="#survey" class="cta-button" onclick="document.getElementById('survey').scrollIntoView({behavior:'smooth'});return false;">
-      Schedule Your Profile Audit Now <span class="arrow">→</span>
+    <p class="cta-pre">See if this will work for you:</p>
+    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">
+      Schedule Your Profile Audit Now <span class="arrow">&rarr;</span>
     </a>
-    <p class="cta-sub">Limited spots — serious applicants only</p>
   </div>
 
 </div>
@@ -1173,23 +1358,20 @@
   <!-- ═══ HOW IT WORKS ═══ -->
   <div class="how-it-works">
     <p class="section-eyebrow">How it works</p>
-    <h2 class="section-title">
-      <span class="gradient">Dating Simplified.</span>
-    </h2>
 
     <div class="hiw-steps">
       <div class="hiw-step-card hiw-step-card-large-image">
         <div class="hiw-step-text">
           <div class="hiw-step-header">
             <span class="hiw-step-num">1</span>
-            <span class="hiw-step-icon">📸</span>
+            <span class="hiw-step-icon">&#128248;</span>
           </div>
           <h3 class="hiw-step-title">AI-Optimized Profile</h3>
           <p class="hiw-step-desc">
             We use <strong>AI-optimized photos and prompts</strong> to attract your ideal type of match.
           </p>
           <ul class="hiw-step-bullets">
-            <li>The photos are not catfishing — they are you</li>
+            <li>The photos are not catfishing &mdash; they are you</li>
             <li>No need for photographers</li>
             <li>Built on data from 100k+ client photos</li>
             <li>99% of clients see better results from day 1</li>
@@ -1198,11 +1380,11 @@
         <div class="hiw-step-image hiw-image-comparison">
           <div class="hiw-before-after">
             <div class="hiw-ba-item">
-              <img src="img/step1-before.jpg" alt="Before AI optimization" loading="lazy">
+              <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/step1-before.jpg" alt="Before AI optimization" loading="lazy">
               <span class="hiw-ba-label">Before</span>
             </div>
             <div class="hiw-ba-item">
-              <img src="img/step1-after.jpg" alt="After AI optimization" loading="lazy">
+              <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/step1-after.jpg" alt="After AI optimization" loading="lazy">
               <span class="hiw-ba-label after">After</span>
             </div>
           </div>
@@ -1215,7 +1397,7 @@
         <div class="hiw-step-text">
           <div class="hiw-step-header">
             <span class="hiw-step-num">2</span>
-            <span class="hiw-step-icon">📱</span>
+            <span class="hiw-step-icon">&#128241;</span>
           </div>
           <h3 class="hiw-step-title">Professional Dating App Management</h3>
           <p class="hiw-step-desc">
@@ -1229,7 +1411,7 @@
         </div>
         <div class="hiw-step-image hiw-image-stack">
           <div class="hiw-img-frame" style="height: 100%;">
-            <img src="img/step2-a.jpg" alt="Conversation managed for you" loading="lazy">
+            <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/step2-a.jpg" alt="Conversation managed for you" loading="lazy">
           </div>
         </div>
       </div>
@@ -1240,11 +1422,11 @@
         <div class="hiw-step-text">
           <div class="hiw-step-header">
             <span class="hiw-step-num">3</span>
-            <span class="hiw-step-icon">📅</span>
+            <span class="hiw-step-icon">&#128197;</span>
           </div>
           <h3 class="hiw-step-title">Better Dates. Every Week. Zero Effort.</h3>
           <p class="hiw-step-desc">
-            You skip the swiping, the small talk, and the dead-end chats — and still get <strong>better dates than you'd find on your own.</strong>
+            You skip the swiping, the small talk, and the dead-end chats &mdash; and still get <strong>better dates than you'd find on your own.</strong>
           </p>
           <ul class="hiw-step-bullets">
             <li>You approve every date</li>
@@ -1254,17 +1436,25 @@
         </div>
         <div class="hiw-step-image hiw-image-stack hiw-image-stack-natural">
           <div class="hiw-img-frame">
-            <img src="img/step3-1.png" alt="Client message" loading="lazy">
+            <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/step3-1.png" alt="Client message" loading="lazy">
           </div>
           <div class="hiw-img-frame">
-            <img src="img/step3-2.png" alt="Client message" loading="lazy">
+            <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/step3-2.png" alt="Client message" loading="lazy">
           </div>
           <div class="hiw-img-frame">
-            <img src="img/step3-3.png" alt="Client message" loading="lazy">
+            <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/step3-3.png" alt="Client message" loading="lazy">
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- ═══ CTA BUTTON (ABOVE TESTIMONIALS) ═══ -->
+  <div class="cta-section" style="margin: 20px 0 50px;">
+    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">
+      Schedule Your Profile Audit Now <span class="arrow">&rarr;</span>
+    </a>
+    <p class="cta-sub">Limited spots &mdash; serious applicants only</p>
   </div>
 
   <!-- ═══ TESTIMONIALS ═══ -->
@@ -1275,8 +1465,13 @@
 
     <div class="testimonials-grid">
 
+      <!-- Angelica conversation moved to the top of the section -->
       <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6232.jpg" alt="Client testimonial" loading="lazy">
+        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-three-dates.jpg" alt="Client testimonial" loading="lazy">
+      </div>
+
+      <div class="testimonial-card">
+        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6302.jpg" alt="Client testimonial" loading="lazy">
       </div>
 
       <div class="quote-callout">
@@ -1284,7 +1479,16 @@
       </div>
 
       <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-jenny.png" alt="Client testimonial" loading="lazy">
+        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-hinge-raya.png" alt="Client testimonial" loading="lazy">
+      </div>
+
+      <div class="testimonial-card">
+        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-my-type.jpg" alt="Client testimonial" loading="lazy">
+      </div>
+
+      <!-- Jenny moved down here, between my-type and another-day -->
+      <div class="testimonial-card">
+        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-jenny-cropped.png" alt="Client testimonial" loading="lazy">
       </div>
 
       <div class="quote-callout quote-callout-desktop">
@@ -1292,7 +1496,7 @@
       </div>
 
       <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-hinge-raya.png" alt="Client testimonial" loading="lazy">
+        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-another-day.png" alt="Client testimonial" loading="lazy">
       </div>
 
       <div class="quote-callout">
@@ -1300,11 +1504,7 @@
       </div>
 
       <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-three-dates.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-another-day.png" alt="Client testimonial" loading="lazy">
+        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-tiffany-new.png" alt="Client testimonial" loading="lazy">
       </div>
 
       <div class="quote-callout quote-callout-desktop">
@@ -1312,15 +1512,25 @@
       </div>
 
       <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6302.jpg" alt="Client testimonial" loading="lazy">
+        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6232.jpg" alt="Client testimonial" loading="lazy">
+      </div>
+
+      <div class="testimonial-card">
+        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-gray.jpg" alt="Client testimonial" loading="lazy">
+      </div>
+
+      <!-- Stellar / "She was exactly my type" quote moved here, between gray and good-time -->
+      <div class="quote-callout">
+        <p class="quote-text-desktop">"You've got a stellar thing set up here"</p>
+        <p class="quote-text-mobile">"She was exactly my type"</p>
+      </div>
+
+      <div class="testimonial-card">
+        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-good-time.jpg" alt="Client testimonial" loading="lazy">
       </div>
 
       <div class="quote-callout quote-callout-desktop">
         <p>"She's exactly my type"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="img/testimonial-tiffany-new.png" alt="Client testimonial" loading="lazy">
       </div>
 
       <div class="testimonial-card">
@@ -1335,34 +1545,9 @@
         <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-bar.jpg" alt="Client testimonial" loading="lazy">
       </div>
 
-      <div class="quote-callout">
-        <p class="quote-text-desktop">"You've got a stellar thing set up here"</p>
-        <p class="quote-text-mobile">"She was exactly my type"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-good-time.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-gray.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-my-type.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
     </div>
 
     <p class="testimonials-note">Actual screenshots from Telegram, group chats, and DMs. Unedited.</p>
-  </div>
-
-  <!-- ═══ CTA BUTTON (REPEAT) ═══ -->
-  <div class="cta-section" style="margin-bottom: 40px;">
-    <a href="#survey" class="cta-button" onclick="document.getElementById('survey').scrollIntoView({behavior:'smooth'});return false;">
-      Book a Demo <span class="arrow">→</span>
-    </a>
-    <p class="cta-sub">Limited spots — serious applicants only</p>
   </div>
 
   <!-- ═══ ROI CALCULATOR ═══ -->
@@ -1375,8 +1560,9 @@
           <label for="income-slider">Your Annual Income</label>
           <span class="roi-value" id="income-display">$150,000</span>
         </div>
-        <input type="range" id="income-slider" min="75000" max="500000" step="25000" value="150000" class="roi-slider">
-        <div class="roi-helper">≈ <strong id="hourly-display">$72</strong>/hour</div>
+        <!-- Non-linear stepping: index 0..24 maps to $75k..$1M ($25k inc to $350k, then $50k inc to $1M). See JS below. -->
+        <input type="range" id="income-slider" min="0" max="24" step="1" value="3" class="roi-slider">
+        <div class="roi-helper">&asymp; <strong id="hourly-display">$72</strong>/hour</div>
       </div>
 
       <div class="roi-input-group">
@@ -1392,26 +1578,20 @@
         <p class="roi-result-amount" id="saved-display">$2,163</p>
         <p class="roi-result-period">every month of your time back</p>
         <div class="roi-result-detail">
-          That's <strong id="hours-saved-display">30 hours</strong> a month you can spend living your life — not swiping on apps.
+          That's <strong id="hours-saved-display">30 hours</strong> a month you can spend living your life &mdash; not swiping on apps.
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══ CTA BUTTON (UNDER ROI CALC) ═══ -->
-  <div class="cta-section" style="margin-bottom: 40px;">
-    <a href="#survey" class="cta-button" onclick="document.getElementById('survey').scrollIntoView({behavior:'smooth'});return false;">
-      Schedule Your Profile Audit Now <span class="arrow">→</span>
-    </a>
-    <p class="cta-sub">Limited spots — serious applicants only</p>
-  </div>
+  <!-- ═══ SHIMMER QUESTION (above survey) ═══ -->
+  <p class="cta-question">Ready to start landing higher quality dates with zero effort?</p>
 
-  <!-- ═══ GHL SURVEY ═══ -->
-  <div class="survey-section" id="survey">
-    <p class="survey-label">Answer A Few Quick Questions ↓</p>
-    <div class="survey-container">
-      <iframe id="ghl-survey" src="" scrolling="yes" frameborder="0" style="width:100%;min-height:600px;"></iframe>
-    </div>
+  <!-- ═══ FINAL CTA (was: embedded survey) ═══ -->
+  <div class="cta-section" style="margin: 8px 0 60px;">
+    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">
+      Schedule Your Profile Audit Now <span class="arrow">&rarr;</span>
+    </a>
   </div>
 
   </div>
@@ -1442,6 +1622,14 @@
 
     if (!incomeSlider || !hoursSlider) return;
 
+    // Non-linear income lookup: $25k increments to $350k, then $50k increments to $1M.
+    // Index 0..11 covers $75k-$350k (12 stops, the realistic range — finer control).
+    // Index 12..24 covers $400k-$1M (13 stops, $50k apart — bigger jumps for high earners).
+    var INCOME_STEPS = [
+      75000, 100000, 125000, 150000, 175000, 200000, 225000, 250000, 275000, 300000, 325000, 350000,
+      400000, 450000, 500000, 550000, 600000, 650000, 700000, 750000, 800000, 850000, 900000, 950000, 1000000
+    ];
+
     function money(n) { return '$' + Math.round(n).toLocaleString(); }
 
     function paintFill(slider) {
@@ -1457,7 +1645,8 @@
     }
 
     function update() {
-      var income = parseInt(incomeSlider.value, 10);
+      // Map slider index -> actual income (non-linear stepping)
+      var income = INCOME_STEPS[parseInt(incomeSlider.value, 10)] || INCOME_STEPS[0];
       var hours = parseFloat(hoursSlider.value);
       var hourly = income / 2080;            // 40 hr/wk × 52 wks
       var monthlyHours = hours * 30;          // assume 30-day month
@@ -1478,28 +1667,25 @@
     update();
   })();
 
-  // ── GHL SURVEY UTM ──
+  // ── TYPEFORM POPUP UTM PASS-THROUGH ──
+  // Reads UTM params from the landing-page URL and pipes them into the
+  // Typeform popup as hidden fields. Requires the matching hidden fields
+  // to exist in the Typeform (utm_source, utm_medium, utm_campaign, utm_content, utm_term).
   (function() {
     var params = new URLSearchParams(window.location.search);
-    var base = 'https://api.leadconnectorhq.com/widget/survey/JeLQIV5tAGNrS34YGJe6';
-
-    var defaults = {
-      utm_source: 'landingpage',
-      utm_content: 'vsl'
-    };
-
-    var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-    var utmParams = [];
-
-    utmKeys.forEach(function(key) {
-      var val = params.get(key) || defaults[key] || '';
-      if (val) {
-        utmParams.push(key + '=' + encodeURIComponent(val));
-      }
+    var defaults = { utm_source: 'landingpage', utm_content: 'vsl' };
+    var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    var pairs = [];
+    keys.forEach(function(k) {
+      var v = params.get(k) || defaults[k] || '';
+      if (v) pairs.push(k + '=' + encodeURIComponent(v));
     });
-
-    var surveyUrl = base + '?' + utmParams.join('&');
-    document.getElementById('ghl-survey').src = surveyUrl;
+    if (pairs.length) {
+      var hidden = pairs.join(',');
+      document.querySelectorAll('[data-tf-popup]').forEach(function(el) {
+        el.setAttribute('data-tf-hidden', hidden);
+      });
+    }
   })();
 </script>
 
