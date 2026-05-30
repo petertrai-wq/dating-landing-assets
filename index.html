@@ -331,6 +331,18 @@
     }
   }
 
+  /* ── TYPEFORM CLOSE (X) — Typeform ships it white-on-white over the form, so it
+     looks like there's no way out. Force full opacity + a dark drop-shadow (visible on
+     light AND dark) + a larger hit area. Higher specificity beats Typeform's !important. ── */
+  .tf-v1-popup .tf-v1-close.tf-v1-close-icon {
+    opacity: 1 !important;
+    color: #ffffff !important;
+    width: 36px !important;
+    height: 36px !important;
+    z-index: 2147483000 !important;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 6px rgba(0, 0, 0, 0.9)) !important;
+  }
+
   /* ── SHIMMER QUESTION (replaces a CTA with a glowing question) ── */
   .cta-question {
     margin: 40px auto;
