@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>automated.dating — Link Builder</title>
+<style>
+  :root{ --bg:#0b0b12; --card:#15141f; --line:#2a2937; --txt:#f2f2f7; --mut:#8b90a0; --accent:#7361f7; --accent2:#2dd4bf; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:linear-gradient(160deg,#15141f,#07070c); color:var(--txt); font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif; min-height:100vh; padding:22px 14px 60px; }
+  .wrap{ max-width:560px; margin:0 auto; }
+  h1{ font-size:21px; margin:0 0 2px; font-weight:700; }
+  .sub{ color:var(--mut); font-size:13px; margin:0 0 18px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; }
+  label{ display:block; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--mut); margin:14px 0 5px; font-weight:600; }
+  label:first-of-type{ margin-top:0; }
+  select,input{ width:100%; background:#0f0e17; border:1px solid var(--line); border-radius:10px; color:var(--txt); padding:11px 12px; font-size:15px; -webkit-appearance:none; appearance:none; }
+  select:focus,input:focus{ outline:none; border-color:var(--accent); }
+  .row{ display:flex; gap:10px; } .row>*{ flex:1; }
+  .hint{ font-size:11.5px; color:var(--mut); margin-top:4px; }
+  .presets{ display:flex; flex-wrap:wrap; gap:7px; margin:0 0 16px; }
+  .preset{ background:#1d1b2b; border:1px solid var(--line); color:#cfd2dc; border-radius:999px; padding:6px 13px; font-size:13px; cursor:pointer; }
+  .preset:active{ background:#272539; }
+  .datebtn{ margin-top:7px; background:#1d1b2b; border:1px solid var(--line); color:#cfd2dc; border-radius:9px; padding:7px 11px; font-size:12.5px; cursor:pointer; }
+  .out{ margin-top:18px; }
+  .url{ background:#0f0e17; border:1px solid var(--line); border-radius:10px; padding:12px; font-size:13px; word-break:break-all; color:var(--accent2); min-height:20px; font-family:ui-monospace,Menlo,monospace; }
+  .copy{ margin-top:10px; width:100%; background:var(--accent); color:#fff; border:none; border-radius:10px; padding:13px; font-size:15px; font-weight:700; cursor:pointer; }
+  .copy:active{ filter:brightness(.92); }
+  .copied{ background:var(--accent2)!important; }
+  .note{ font-size:12px; color:var(--mut); margin-top:16px; line-height:1.55; }
+  .note b{ color:#cfd2dc; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>automated.dating — Link Builder</h1>
+  <p class="sub">Pick the dropdowns, copy the link, paste it where you're posting. Consistent tags = clean attribution. (Internal tool — not indexed.)</p>
+
+  <div class="presets">
+    <button class="preset" data-preset="igbio">📷 IG bio</button>
+    <button class="preset" data-preset="igstory">📖 IG story (today)</button>
+    <button class="preset" data-preset="igreel">🎬 IG reel</button>
+    <button class="preset" data-preset="email">✉️ Email</button>
+    <button class="preset" data-preset="youtube">▶️ YouTube</button>
+  </div>
+
+  <div class="card">
+    <label>Destination page</label>
+    <select id="path">
+      <option value="/">Home / VSL  (automated.dating/)</option>
+      <option value="/video/">Video page  (/video/)</option>
+    </select>
+
+    <div class="row">
+      <div>
+        <label>Source — the platform</label>
+        <select id="source">
+          <option>instagram</option><option>facebook</option><option>youtube</option>
+          <option>tiktok</option><option>x</option><option>linkedin</option>
+          <option>email</option><option>sms</option><option>podcast</option><option value="__other">other…</option>
+        </select>
+        <input id="sourceOther" placeholder="custom source" style="display:none;margin-top:7px">
+      </div>
+      <div>
+        <label>Medium — the placement type</label>
+        <select id="medium">
+          <option>bio</option><option>story</option><option>post</option><option>reel</option>
+          <option>dm</option><option>profile</option><option>email</option>
+          <option>organic_social</option><option>paid_social</option><option>referral</option><option value="__other">other…</option>
+        </select>
+        <input id="mediumOther" placeholder="custom medium" style="display:none;margin-top:7px">
+      </div>
+    </div>
+
+    <label>Campaign — the bucket / series / launch</label>
+    <input id="campaign" value="evergreen" placeholder="evergreen, launch_jul, linktree…">
+
+    <label>Content — the EXACT spot (be specific)</label>
+    <input id="content" placeholder="main_bio, story_2026-06-25, email_welcome_2">
+    <button class="datebtn" id="dateBtn" type="button">📅 Make it a dated story tag</button>
+    <div class="hint">Date your stories so you can tell which one drove the booking.</div>
+
+    <div class="out">
+      <label>Your link</label>
+      <div class="url" id="url"></div>
+      <button class="copy" id="copy">Copy link</button>
+    </div>
+  </div>
+
+  <p class="note">
+    <b>Rule #1:</b> always use the dropdowns (one spelling per value) so your dashboard doesn't split one source into three.<br>
+    <b>Ads:</b> don't build ad links here — in Meta, set the ad's <b>Tracking → URL parameters</b> to
+    <code>utm_source=instagram&amp;utm_medium=paid_social&amp;utm_campaign={{campaign.name}}&amp;utm_content={{ad.name}}&amp;utm_id={{ad.id}}</code> once; Meta fills it per ad and adds <code>fbclid</code> automatically.<br>
+    <b>Self-book from the site:</b> needs no tag — whatever source first brought them in gets the credit.
+  </p>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function val(sel, other){ var v = $(sel).value; return v === '__other' ? ($(other).value || '').trim() : v; }
+  function slug(s){ return String(s||'').trim().toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_\-:.]/g,''); }
+  function today(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+  function toggleOther(sel, other){ $(other).style.display = $(sel).value==='__other' ? 'block' : 'none'; }
+
+  function build(){
+    var base = 'https://automated.dating' + $('path').value;
+    var p = [];
+    var src = slug(val('source','sourceOther'));
+    var med = slug(val('medium','mediumOther'));
+    var camp = slug($('campaign').value);
+    var cont = slug($('content').value);
+    if (src) p.push('utm_source='+src);
+    if (med) p.push('utm_medium='+med);
+    if (camp) p.push('utm_campaign='+camp);
+    if (cont) p.push('utm_content='+cont);
+    var url = base + (p.length ? ('?'+p.join('&')) : '');
+    $('url').textContent = url;
+    return url;
+  }
+
+  ['path','source','sourceOther','medium','mediumOther','campaign','content'].forEach(function(id){
+    $(id).addEventListener('input', build);
+    $(id).addEventListener('change', build);
+  });
+  $('source').addEventListener('change', function(){ toggleOther('source','sourceOther'); build(); });
+  $('medium').addEventListener('change', function(){ toggleOther('medium','mediumOther'); build(); });
+
+  $('dateBtn').addEventListener('click', function(){
+    var c = slug($('content').value) || 'story';
+    if (!/\d{4}-\d{2}-\d{2}$/.test(c)) c = c.replace(/_?\d{4}-\d{2}-\d{2}$/,'') + '_' + today();
+    $('content').value = c; build();
+  });
+
+  var presets = {
+    igbio:   { source:'instagram', medium:'bio',     campaign:'evergreen', content:'main_bio' },
+    igstory: { source:'instagram', medium:'story',   campaign:'evergreen', content:'story_'+today() },
+    igreel:  { source:'instagram', medium:'reel',    campaign:'evergreen', content:'reel_' },
+    email:   { source:'email',     medium:'email',   campaign:'',          content:'cta_button' },
+    youtube: { source:'youtube',   medium:'organic_social', campaign:'evergreen', content:'description_link' }
+  };
+  document.querySelectorAll('.preset').forEach(function(b){
+    b.addEventListener('click', function(){
+      var pr = presets[b.getAttribute('data-preset')]; if(!pr) return;
+      $('source').value = pr.source; $('medium').value = pr.medium;
+      $('campaign').value = pr.campaign; $('content').value = pr.content;
+      toggleOther('source','sourceOther'); toggleOther('medium','mediumOther'); build();
+    });
+  });
+
+  $('copy').addEventListener('click', function(){
+    var url = build();
+    var done = function(){ var b=$('copy'); b.textContent='Copied ✓'; b.classList.add('copied'); setTimeout(function(){ b.textContent='Copy link'; b.classList.remove('copied'); },1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(url).then(done, function(){ window.prompt('Copy this link:', url); }); }
+    else { window.prompt('Copy this link:', url); }
+  });
+
+  build();
+})();
+</script>
+</body>
+</html>

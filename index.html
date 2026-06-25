@@ -1679,25 +1679,68 @@
     update();
   })();
 
-  // ── TYPEFORM POPUP UTM PASS-THROUGH ──
-  // Reads UTM params from the landing-page URL and pipes them into the
-  // Typeform popup as hidden fields. Requires the matching hidden fields
-  // to exist in the Typeform (utm_source, utm_medium, utm_campaign, utm_content, utm_term).
+  // ── TYPEFORM POPUP UTM PASS-THROUGH + SOURCE FALLBACK ──
+  // Pipes UTM params from the landing-page URL into the Typeform popup as hidden fields.
+  // Typeform must have matching hidden fields: utm_source, utm_medium, utm_campaign,
+  // utm_content, utm_term (existing) + fbclid, gclid (add these to capture ad click IDs).
+  // A tagged link ALWAYS wins. If a link has NO utm_source (someone pasted the bare URL),
+  // we auto-detect the platform from the referrer + the in-app-browser user agent + fbclid,
+  // so it's recorded as e.g. instagram/untagged instead of "landingpage". Wrapped in try/catch
+  // so a detection error can never block the form.
   (function() {
-    var params = new URLSearchParams(window.location.search);
-    var defaults = { utm_source: 'landingpage', utm_content: 'vsl' };
-    var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-    var pairs = [];
-    keys.forEach(function(k) {
-      var v = params.get(k) || defaults[k] || '';
-      if (v) pairs.push(k + '=' + encodeURIComponent(v));
-    });
-    if (pairs.length) {
-      var hidden = pairs.join(',');
-      document.querySelectorAll('[data-tf-popup]').forEach(function(el) {
-        el.setAttribute('data-tf-hidden', hidden);
-      });
-    }
+    try {
+      var params = new URLSearchParams(window.location.search);
+
+      // Best-effort platform guess for UNTAGGED links. In-app browser UA is the most reliable
+      // signal (Instagram/Facebook strip the referrer); we can't tell bio vs story vs DM — that's
+      // what the ?utm_content tag is for. No referrer at all = direct / bookmark / EMAIL.
+      function detectSource() {
+        var ua = navigator.userAgent || '', host = '';
+        try { host = document.referrer ? new URL(document.referrer).hostname.toLowerCase() : ''; } catch (e) {}
+        if (/Instagram/i.test(ua)) return { utm_source: 'instagram', utm_medium: 'in_app' };
+        if (/FBAN|FBAV|FB_IAB/i.test(ua)) return { utm_source: 'facebook', utm_medium: 'in_app' };
+        if (/Messenger/i.test(ua)) return { utm_source: 'messenger', utm_medium: 'in_app' };
+        if (/TikTok|musical_ly|BytedanceWebview/i.test(ua)) return { utm_source: 'tiktok', utm_medium: 'in_app' };
+        if (/\bTwitter\b/i.test(ua)) return { utm_source: 'x', utm_medium: 'in_app' };
+        if (/LinkedInApp/i.test(ua)) return { utm_source: 'linkedin', utm_medium: 'in_app' };
+        if (/instagram\.com/.test(host)) return { utm_source: 'instagram', utm_medium: 'referral' };
+        if (/facebook\.com|fb\.com|lm\.facebook/.test(host)) return { utm_source: 'facebook', utm_medium: 'referral' };
+        if (/(^|\.)t\.co$|twitter\.com|(^|\.)x\.com$/.test(host)) return { utm_source: 'x', utm_medium: 'referral' };
+        if (/youtube\.com|youtu\.be/.test(host)) return { utm_source: 'youtube', utm_medium: 'referral' };
+        if (/tiktok\.com/.test(host)) return { utm_source: 'tiktok', utm_medium: 'referral' };
+        if (/linkedin\.com|lnkd\.in/.test(host)) return { utm_source: 'linkedin', utm_medium: 'referral' };
+        if (/google\.|bing\.|duckduckgo|search\.yahoo/.test(host)) return { utm_source: 'search', utm_medium: 'organic_search' };
+        if (host) return { utm_source: host, utm_medium: 'referral' };
+        return { utm_source: 'direct', utm_medium: 'none' };
+      }
+
+      var data = {
+        utm_source: params.get('utm_source') || '',
+        utm_medium: params.get('utm_medium') || '',
+        utm_campaign: params.get('utm_campaign') || '',
+        utm_content: params.get('utm_content') || '',
+        utm_term: params.get('utm_term') || ''
+      };
+      if (!data.utm_source) {                                   // bare/untagged link → auto-detect
+        var d = detectSource();
+        data.utm_source = d.utm_source;
+        data.utm_medium = data.utm_medium || d.utm_medium;
+        data.utm_campaign = data.utm_campaign || 'untagged';    // flag so you can spot placements that need a real tag
+        data.utm_content = data.utm_content || 'auto';
+      } else {
+        data.utm_content = data.utm_content || 'vsl';
+      }
+      var fbclid = params.get('fbclid') || '', gclid = params.get('gclid') || '';
+      if (fbclid) data.fbclid = fbclid;                         // ad click IDs (for which-ad + future Meta CAPI)
+      if (gclid) data.gclid = gclid;
+
+      var pairs = [];
+      Object.keys(data).forEach(function(k) { if (data[k]) pairs.push(k + '=' + encodeURIComponent(data[k])); });
+      if (pairs.length) {
+        var hidden = pairs.join(',');
+        document.querySelectorAll('[data-tf-popup]').forEach(function(el) { el.setAttribute('data-tf-hidden', hidden); });
+      }
+    } catch (e) { /* never block the form */ }
   })();
 </script>
 
