@@ -3,6 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Meta Pixel — Automated Dating · Website Funnel (dataset 997126436410749) -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '997126436410749');
+fbq('track', 'PageView');
+// Fire Lead + Schedule when the Typeform application is submitted. The Calendly booking is the final step
+// INSIDE the Typeform, so a completed form = a qualified lead who booked a call. Wired via the
+// data-tf-on-submit="adTfSubmit" attribute on every CTA; Typeform passes { formId, responseId }.
+// responseId is used as the Meta eventID so a future server-side (CAPI) Lead can dedupe against this one.
+window.adTfSubmit = function(data){
+  try{
+    var rid = (data && data.responseId) ? String(data.responseId) : ('tf_' + Date.now());
+    if (typeof fbq === 'function'){
+      fbq('track', 'Lead',     { content_name: 'Application' }, { eventID: rid });
+      fbq('track', 'Schedule', { content_name: 'Booked Call' }, { eventID: rid + '_sch' });
+    }
+  }catch(e){}
+};
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
 <title>Automated Dating - Your Personal Matchmaker</title>
 <meta name="description" content="We'll take over your dating apps and put quality dates on your calendar every week. Your first one in 7 days or you don't pay.">
 
@@ -1320,7 +1350,7 @@
   <div class="site-logo">Automated <span>Dating</span></div>
   <div class="header-actions">
     <a href="https://admin.automated.dating/login" class="header-login">Log In</a>
-    <a href="#" class="header-cta" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">
+    <a href="#" class="header-cta" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" data-tf-on-submit="adTfSubmit" onclick="return false;">
       Apply Now <span class="arrow">&rarr;</span>
     </a>
   </div>
@@ -1352,7 +1382,7 @@
   <!-- ═══ CTA BUTTON ═══ -->
   <div class="cta-section">
     <p class="cta-pre">See if this will work for you:</p>
-    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">
+    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" data-tf-on-submit="adTfSubmit" onclick="return false;">
       Schedule Your Profile Audit Now <span class="arrow">&rarr;</span>
     </a>
   </div>
@@ -1463,7 +1493,7 @@
 
   <!-- ═══ CTA BUTTON (ABOVE TESTIMONIALS) ═══ -->
   <div class="cta-section" style="margin: 20px 0 50px;">
-    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">
+    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" data-tf-on-submit="adTfSubmit" onclick="return false;">
       Schedule Your Profile Audit Now <span class="arrow">&rarr;</span>
     </a>
     <p class="cta-sub">Limited spots &mdash; serious applicants only</p>
@@ -1601,7 +1631,7 @@
 
   <!-- ═══ FINAL CTA (was: embedded survey) ═══ -->
   <div class="cta-section" style="margin: 8px 0 60px;">
-    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">
+    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" data-tf-on-submit="adTfSubmit" onclick="return false;">
       Schedule Your Profile Audit Now <span class="arrow">&rarr;</span>
     </a>
   </div>
