@@ -16,19 +16,10 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '997126436410749');
 fbq('track', 'PageView');
-// Fire Lead when the Typeform application is submitted (completed qualifying questions). The BOOKED-CALL
-// (Schedule) event is intentionally NOT fired here — it fires on /thankyou/, which Calendly only redirects
-// to AFTER a confirmed booking, so that page is the reliable place for it (and avoids double-counting).
-// Wired via data-tf-on-submit="adTfSubmit" on every CTA; Typeform passes { formId, responseId } (used as
-// the Meta eventID for future CAPI dedup).
-window.adTfSubmit = function(data){
-  try{
-    var rid = (data && data.responseId) ? String(data.responseId) : ('tf_' + Date.now());
-    if (typeof fbq === 'function'){
-      fbq('track', 'Lead', { content_name: 'Application' }, { eventID: rid });
-    }
-  }catch(e){}
-};
+// Lead (qualified) and Booked Call are now fired SERVER-SIDE via the relay's Conversions API — the qualified
+// Lead from the Typeform webhook, the Booked Call from the Calendly webhook. So the browser intentionally
+// does NOT fire them here: that avoids double-counting and keeps "Lead" = qualified. Browser pixel = PageView only.
+window.adTfSubmit = function(){};   // no-op (kept so the data-tf-on-submit refs never error)
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></noscript>
