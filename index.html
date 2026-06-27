@@ -1354,7 +1354,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   <!-- ═══ HEADLINE ═══ -->
   <div class="headline-section">
     <h1>
-      We'll Takeover Your Dating Apps And Put <span class="gradient">Quality Dates</span> On Your Calendar <span class="accent">Every Week</span>
+      We Run Your Dating Apps And Put <span class="gradient">12+ Quality Dates</span> Directly Onto Your <span class="accent">Calendar</span>.
       <span class="guarantee">Your First One In 7 Days Or You Don't Pay.</span>
     </h1>
     <p class="headline-sub">Watch the video below to see exactly how it works.</p>
@@ -1765,6 +1765,61 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       }
     } catch (e) { /* never block the form */ }
   })();
+</script>
+
+<!-- First-party funnel analytics beacon → relay (page_view / video_* / cta_click), tagged by UTM source. -->
+<script>
+(function () {
+  try {
+    var EP = 'https://admin.automated.dating/api/analytics/track';
+    var qs = new URLSearchParams(location.search);
+    function p(k) { return (qs.get(k) || '').slice(0, 200); }
+    var sid;
+    try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } }
+    catch (e) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
+    var base = {
+      sid: sid,
+      page: (location.pathname.indexOf('video') >= 0 ? 'video' : (location.pathname.indexOf('thankyou') >= 0 ? 'thankyou' : 'landing')),
+      utm_source: p('utm_source'), utm_medium: p('utm_medium'), utm_campaign: p('utm_campaign'),
+      utm_content: p('utm_content'), utm_term: p('utm_term'), fbclid: p('fbclid'),
+      referrer: (document.referrer || '').slice(0, 200)
+    };
+    function send(ev, extra) {
+      try {
+        var d = {}; for (var k in base) { d[k] = base[k]; } d.event = ev; if (extra) { for (var k2 in extra) { d[k2] = extra[k2]; } }
+        var s = JSON.stringify(d);
+        if (navigator.sendBeacon) { navigator.sendBeacon(EP, new Blob([s], { type: 'text/plain' })); }
+        else { var x = new XMLHttpRequest(); x.open('POST', EP, true); x.setRequestHeader('Content-Type', 'text/plain'); x.send(s); }
+      } catch (e) {}
+    }
+    send('page_view');
+    // CTA click = opened the Typeform application popup.
+    document.addEventListener('click', function (e) {
+      try { var t = e.target && e.target.closest && e.target.closest('[data-tf-popup],[data-tf-slider],[href*="qoQwwZI5"]'); if (t) send('cta_click'); } catch (_) {}
+    }, true);
+    // Wistia VSL watchtime — the landing runs the Aurora <wistia-player> web component, which dispatches
+    // DOM CustomEvents on the element: 'percent-watched-change' (e.detail.percent, a 0..1 fraction), 'ended',
+    // and 'play'. (The legacy window._wq / onReady / video.bind API is NOT honored by this embed.)
+    function adBindWistia(wp) {
+      if (!wp || wp.__adBound) { return; } wp.__adBound = 1;
+      var fired = {};
+      var onPlay = function () { if (!fired.play) { fired.play = 1; send('video_play', { pct: 0 }); } };
+      wp.addEventListener('play', onPlay);
+      wp.addEventListener('percent-watched-change', function (e) {
+        try {
+          onPlay();
+          var frac = (e && e.detail && e.detail.percent != null) ? e.detail.percent : 0;
+          var pc = Math.round(frac * 100);
+          [25, 50, 75, 95].forEach(function (m) { if (pc >= m && !fired[m]) { fired[m] = 1; send('video_' + m, { pct: m }); } });
+        } catch (_) {}
+      });
+      wp.addEventListener('ended', function () { if (!fired[95]) { fired[95] = 1; send('video_95', { pct: 100 }); } });
+    }
+    var adWp = document.querySelector('wistia-player');
+    if (adWp) { adBindWistia(adWp); }
+    else { var adTries = 0; var adIv = setInterval(function () { var w = document.querySelector('wistia-player'); if (w || ++adTries > 20) { clearInterval(adIv); if (w) { adBindWistia(w); } } }, 500); }
+  } catch (e) {}
+})();
 </script>
 
 </body>
