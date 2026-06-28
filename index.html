@@ -2,6 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- ═══ A/B TEST: VSL video (a) vs no-video (b) ═══ 50/50, sticky per visitor (cookie). ?ab=a|b forces a
+     variant for QA. Runs in <head> before <body> so the no-video variant never flashes the player. -->
+<script>
+(function () {
+  try {
+    var V = '';
+    var m = location.search.match(/[?&]ab=([ab])\b/);
+    if (m) { V = m[1]; }
+    if (!V) { var c = document.cookie.match(/(?:^|;\s*)ab_vsl=([ab])(?:;|$)/); if (c) { V = c[1]; } }
+    if (!V) { V = (Math.random() < 0.5) ? 'a' : 'b'; }
+    try { document.cookie = 'ab_vsl=' + V + '; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax'; } catch (e) {}
+    window.__AB = V;
+    if (V === 'b') { document.documentElement.className += ' ab-novideo'; }
+  } catch (e) { window.__AB = 'a'; }
+})();
+</script>
+<style>html.ab-novideo .video-section, html.ab-novideo .video-cue { display: none !important; }</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Meta Pixel — Automated Dating · Website Funnel (dataset 997126436410749) -->
@@ -1357,7 +1374,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       We Run Your Dating Apps And Put <span class="gradient">12+ Quality Dates</span> Directly Onto Your <span class="accent">Calendar</span>.
       <span class="guarantee">Your First One In 7 Days Or You Don't Pay.</span>
     </h1>
-    <p class="headline-sub">Watch the video below to see exactly how it works.</p>
+    <p class="headline-sub video-cue">Watch the video below to see exactly how it works.</p>
   </div>
 
   <!-- ═══ WISTIA VIDEO ═══ -->
@@ -1759,6 +1776,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
 
       var pairs = [];
       Object.keys(data).forEach(function(k) { if (data[k]) pairs.push(k + '=' + encodeURIComponent(data[k])); });
+      if (window.__AB) { pairs.push('ab=' + encodeURIComponent(window.__AB)); }   // A/B variant → Typeform hidden field 'ab' (carries through the funnel)
       if (pairs.length) {
         var hidden = pairs.join(',');
         document.querySelectorAll('[data-tf-popup]').forEach(function(el) { el.setAttribute('data-tf-hidden', hidden); });
@@ -1782,7 +1800,8 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       page: (location.pathname.indexOf('video') >= 0 ? 'video' : (location.pathname.indexOf('thankyou') >= 0 ? 'thankyou' : 'landing')),
       utm_source: p('utm_source'), utm_medium: p('utm_medium'), utm_campaign: p('utm_campaign'),
       utm_content: p('utm_content'), utm_term: p('utm_term'), fbclid: p('fbclid'),
-      referrer: (document.referrer || '').slice(0, 200)
+      referrer: (document.referrer || '').slice(0, 200),
+      ab: (window.__AB || '')
     };
     function send(ev, extra) {
       try {
