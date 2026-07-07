@@ -240,6 +240,20 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     margin-top: 14px;
   }
 
+  /* purple promise subtitle — ties into the headline "Guaranteed" gradient */
+  .headline-sub.headline-promise {
+    margin-top: 18px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #b7a5ff;
+    text-shadow: 0 0 22px rgba(167, 139, 250, 0.38);
+  }
+
+  @media (max-width: 600px) {
+    .headline-sub.headline-promise { font-size: 17px; }
+  }
+
   /* ── VIDEO FRAME ── */
   .video-section {
     margin: 8px auto 40px;
@@ -1382,7 +1396,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     <h1>
       We Run Your Dating Apps And Put <span class="gradient">12+ Quality Dates</span> Directly Onto Your <span class="accent">Calendar</span> Guaranteed.
     </h1>
-    <p class="headline-sub">Your first one in 7 days or you don't pay.</p>
+    <p class="headline-sub headline-promise">Your first one in 7 days or you don't pay.</p>
     <p class="headline-sub video-cue">Watch the video below to see exactly how it works.</p>
   </div>
 
@@ -1779,9 +1793,10 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       } else {
         data.utm_content = data.utm_content || 'vsl';
       }
-      var fbclid = params.get('fbclid') || '', gclid = params.get('gclid') || '';
+      var fbclid = params.get('fbclid') || '', gclid = params.get('gclid') || '', ttclid = params.get('ttclid') || '';
       if (fbclid) data.fbclid = fbclid;                         // ad click IDs (for which-ad + future Meta CAPI)
       if (gclid) data.gclid = gclid;
+      if (ttclid) data.ttclid = ttclid;                         // TikTok ad click ID (which-ad + future TikTok CAPI)
 
       var pairs = [];
       Object.keys(data).forEach(function(k) { if (data[k]) pairs.push(k + '=' + encodeURIComponent(data[k])); });
@@ -1808,7 +1823,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       sid: sid,
       page: (location.pathname.indexOf('video') >= 0 ? 'video' : (location.pathname.indexOf('thankyou') >= 0 ? 'thankyou' : 'landing')),
       utm_source: p('utm_source'), utm_medium: p('utm_medium'), utm_campaign: p('utm_campaign'),
-      utm_content: p('utm_content'), utm_term: p('utm_term'), fbclid: p('fbclid'),
+      utm_content: p('utm_content'), utm_term: p('utm_term'), fbclid: p('fbclid'), ttclid: p('ttclid'),
       referrer: (document.referrer || '').slice(0, 200),
       ab: (window.__AB || '')
     };
@@ -1832,16 +1847,35 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       if (!wp || wp.__adBound) { return; } wp.__adBound = 1;
       var fired = {};
       var onPlay = function () { if (!fired.play) { fired.play = 1; send('video_play', { pct: 0 }); } };
+      // Fire watch-time milestones from a measured percent (0..100). Guarded per-milestone so each fires
+      // at most once. This is the robust path: it reads the player's own percentWatched getter on a timer
+      // instead of trusting the 'percent-watched-change' event/detail shape, which is unreliable in real playback.
+      var checkPct = function (pc) {
+        try {
+          if (pc == null || isNaN(pc)) { return; }
+          [25, 50, 75, 95].forEach(function (m) { if (pc >= m && !fired[m]) { fired[m] = 1; send('video_' + m, { pct: m }); } });
+        } catch (_) {}
+      };
+      // percentWatched getter returns a 0..1 fraction; poll it while playing.
+      var pollPct = function () {
+        try {
+          onPlay();
+          var frac = wp.percentWatched;
+          if (frac != null && !isNaN(frac)) { checkPct(Math.round(frac * 100)); }
+        } catch (_) {}
+      };
       wp.addEventListener('play', onPlay);
+      wp.addEventListener('timeupdate', pollPct);
+      var adPollIv = setInterval(pollPct, 1000);              // fallback timer in case 'timeupdate' isn't dispatched
+      // Keep honoring the event too, in case this embed does emit a usable detail.percent.
       wp.addEventListener('percent-watched-change', function (e) {
         try {
           onPlay();
           var frac = (e && e.detail && e.detail.percent != null) ? e.detail.percent : 0;
-          var pc = Math.round(frac * 100);
-          [25, 50, 75, 95].forEach(function (m) { if (pc >= m && !fired[m]) { fired[m] = 1; send('video_' + m, { pct: m }); } });
+          checkPct(Math.round(frac * 100));
         } catch (_) {}
       });
-      wp.addEventListener('ended', function () { if (!fired[95]) { fired[95] = 1; send('video_95', { pct: 100 }); } });
+      wp.addEventListener('ended', function () { clearInterval(adPollIv); if (!fired[95]) { fired[95] = 1; send('video_95', { pct: 100 }); } });
     }
     var adWp = document.querySelector('wistia-player');
     if (adWp) { adBindWistia(adWp); }
