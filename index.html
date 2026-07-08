@@ -2,16 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- ═══ A/B TEST: VSL video (a) vs no-video (b) ═══ 50/50, sticky per visitor (cookie). ?ab=a|b forces a
-     variant for QA. Runs in <head> before <body> so the no-video variant never flashes the player. -->
+<!-- ═══ A/B TEST ENDED 2026-07-08 — no-video (b) is now the permanent site for everyone. ?ab=a still forces
+     the old video variant for QA only. Runs in <head> before <body> so the player never flashes. -->
 <script>
 (function () {
   try {
-    var V = '';
+    var V = 'b';                                  // A/B test ENDED 2026-07-08 — no-video (b) is permanent for everyone.
     var m = location.search.match(/[?&]ab=([ab])\b/);
-    if (m) { V = m[1]; }
-    if (!V) { var c = document.cookie.match(/(?:^|;\s*)ab_vsl=([ab])(?:;|$)/); if (c) { V = c[1]; } }
-    if (!V) { V = (Math.random() < 0.5) ? 'a' : 'b'; }
+    if (m) { V = m[1]; }                          // ?ab=a still forces the old video variant for QA only
     try { document.cookie = 'ab_vsl=' + V + '; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax'; } catch (e) {}
     window.__AB = V;
     if (V === 'b') { document.documentElement.className += ' ab-novideo'; }
