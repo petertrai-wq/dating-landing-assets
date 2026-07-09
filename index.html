@@ -1855,11 +1855,17 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
         } catch (_) {}
       };
       // percentWatched getter returns a 0..1 fraction; poll it while playing.
+      // IMPORTANT: this timer runs every second as soon as the player binds, WHETHER OR NOT the video is
+      // playing. Never fire onPlay() here unconditionally — that counted every page-load as a "play" and
+      // inflated the play rate to ~100% (regression from 58f1d73). Only count a play once genuine progress
+      // (percentWatched > 0) is observed; the real 'play' DOM event below is the primary play signal.
       var pollPct = function () {
         try {
-          onPlay();
           var frac = wp.percentWatched;
-          if (frac != null && !isNaN(frac)) { checkPct(Math.round(frac * 100)); }
+          if (frac != null && !isNaN(frac)) {
+            if (frac > 0) { onPlay(); }
+            checkPct(Math.round(frac * 100));
+          }
         } catch (_) {}
       };
       wp.addEventListener('play', onPlay);
@@ -1868,8 +1874,8 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       // Keep honoring the event too, in case this embed does emit a usable detail.percent.
       wp.addEventListener('percent-watched-change', function (e) {
         try {
-          onPlay();
           var frac = (e && e.detail && e.detail.percent != null) ? e.detail.percent : 0;
+          if (frac > 0) { onPlay(); }
           checkPct(Math.round(frac * 100));
         } catch (_) {}
       });
