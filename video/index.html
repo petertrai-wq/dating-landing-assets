@@ -1690,9 +1690,10 @@
     var defaults = { utm_source: 'landingpage', utm_content: 'vsl' };
     var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
     var pairs = [];
+    var tfEsc = function(v) { return String(v).replace(/%/g, '%25').replace(/,/g, '%2C').replace(/=/g, '%3D'); };   // escape only the hidden-format delimiters — full encoding double-encodes into Typeform
     keys.forEach(function(k) {
       var v = params.get(k) || defaults[k] || '';
-      if (v) pairs.push(k + '=' + encodeURIComponent(v));
+      if (v) pairs.push(k + '=' + tfEsc(v));
     });
     if (pairs.length) {
       var hidden = pairs.join(',');

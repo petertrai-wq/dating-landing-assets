@@ -1796,9 +1796,12 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       if (gclid) data.gclid = gclid;
       if (ttclid) data.ttclid = ttclid;                         // TikTok ad click ID (which-ad + future TikTok CAPI)
 
+      // Escape ONLY the data-tf-hidden format delimiters. Typeform stores whatever string we hand it
+      // verbatim, so full encodeURIComponent here double-encoded values ('AD%20Landing%20Page' in results).
+      var tfEsc = function(v) { return String(v).replace(/%/g, '%25').replace(/,/g, '%2C').replace(/=/g, '%3D'); };
       var pairs = [];
-      Object.keys(data).forEach(function(k) { if (data[k]) pairs.push(k + '=' + encodeURIComponent(data[k])); });
-      if (window.__AB) { pairs.push('ab=' + encodeURIComponent(window.__AB)); }   // A/B variant → Typeform hidden field 'ab' (carries through the funnel)
+      Object.keys(data).forEach(function(k) { if (data[k]) pairs.push(k + '=' + tfEsc(data[k])); });
+      if (window.__AB) { pairs.push('ab=' + tfEsc(window.__AB)); }   // A/B variant → Typeform hidden field 'ab' (carries through the funnel)
       if (pairs.length) {
         var hidden = pairs.join(',');
         document.querySelectorAll('[data-tf-popup]').forEach(function(el) { el.setAttribute('data-tf-hidden', hidden); });
