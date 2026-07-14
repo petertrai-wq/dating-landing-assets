@@ -20,6 +20,10 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
     var _m = document.cookie.match(/(?:^|;\s*)ab_vsl=([abc])\b/);
     window.__AB = _f || (_m && _m[1]) || 'c';
     if (_f || !_m) { document.cookie = 'ab_vsl=' + window.__AB + '; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax'; }
+    // Clean split URL (Peter, 2026-07-14): the variant should not advertise /concierge — show the
+    // apex URL while serving this page. Query string (UTMs/fbclid) and hash are preserved, and the
+    // beacon + Typeform hidden fields read location.search AFTER this runs, so attribution is intact.
+    if (location.pathname.indexOf('/concierge') === 0) { try { history.replaceState({}, '', '/' + location.search + location.hash); } catch (e) {} }
   } catch (e) { window.__AB = 'c'; }
 </script>
 <!-- Typeform popup embed (powers all CTA buttons -> data-tf-popup="qoQwwZI5") -->
