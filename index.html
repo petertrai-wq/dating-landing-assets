@@ -10,10 +10,13 @@
 (function () {
   try {
     var forced = (location.search.match(/[?&]ab=([abc])\b/) || [])[1];
-    var m = document.cookie.match(/(?:^|;\s*)ab_vsl=([abc])\b/);
+    // ab_vsl2 (2026-07-14): the old ab_vsl cookie had been force-set to 'b' for EVERY visitor since
+    // 7/8 (the retired video test), so returning visitors could never flip to 'c' and the arms were
+    // only 50/50 among brand-new visitors. New name = one clean re-flip for everyone.
+    var m = document.cookie.match(/(?:^|;\s*)ab_vsl2=([abc])\b/);
     var V = forced || (m && m[1]);
-    if (!V) { V = (Math.random() < 0.5) ? 'c' : 'b'; }   // new visitor: 50/50 main vs concierge
-    try { document.cookie = 'ab_vsl=' + V + '; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax'; } catch (e) {}
+    if (!V) { V = (Math.random() < 0.5) ? 'c' : 'b'; }   // 50/50 main vs concierge
+    try { document.cookie = 'ab_vsl2=' + V + '; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax'; } catch (e) {}
     if (V === 'c') { location.replace('/concierge/' + location.search + location.hash); return; }
     window.__AB = V;
     if (V === 'b') { document.documentElement.className += ' ab-novideo'; }
@@ -34,7 +37,7 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '997126436410749');
-fbq('track', 'PageView');
+if (window.__AB) { fbq('track', 'PageView'); }   // c-visitors redirect before __AB is set: their PageView belongs to /concierge, not here
 // Lead (qualified) and Booked Call are now fired SERVER-SIDE via the relay's Conversions API — the qualified
 // Lead from the Typeform webhook, the Booked Call from the Calendly webhook. So the browser intentionally
 // does NOT fire them here: that avoids double-counting and keeps "Lead" = qualified. Browser pixel = PageView only.
@@ -48,7 +51,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
 !function (w, d, t) {
   w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
   ttq.load('D94PJOBC77U0A0PAN09G');
-  ttq.page();
+  if (window.__AB) { ttq.page(); }   // same PageView gating as Meta above
 }(window, document, 'ttq');
 </script>
 <!-- End TikTok Pixel Code -->
