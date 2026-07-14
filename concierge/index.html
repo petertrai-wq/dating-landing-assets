@@ -1,4 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- BASE is load-bearing: the clean-URL script rewrites the address to "/" before the body parses,
+     which would re-anchor every RELATIVE src (photos!) to the apex and 404 them. -->
+<base href="/concierge/">
 <title>Automated Dating — We run your dating apps. You just show up.</title>
 <meta name="description" content="We run your dating apps, handle your conversations, and schedule your dates. You just show up. Your first date in 48 hours or you don't pay.">
 <!-- Meta Pixel 997126436410749 — PageView only; ALL conversion events fire server-side from the relay (never add browser conversions). -->
