@@ -11,11 +11,15 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   ttq.load('D94PJOBC77U0A0PAN09G');
   ttq.page();
 </script>
-<!-- A/B: this page IS variant c (concierge). Sticky cookie so the visitor keeps seeing this version. -->
+<!-- A/B: this page IS variant c (concierge). Assign c ONLY when the visitor has no bucket yet; an
+     existing a/b assignment is honored (intention-to-treat: a main-page subject who opens this link
+     stays a main-page subject), so the 50/50 buckets never bleed into each other. ?ab=c forces. -->
 <script>
   try {
-    window.__AB = 'c';
-    document.cookie = 'ab_vsl=c; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax';
+    var _f = (location.search.match(/[?&]ab=([abc])\b/) || [])[1];
+    var _m = document.cookie.match(/(?:^|;\s*)ab_vsl=([abc])\b/);
+    window.__AB = _f || (_m && _m[1]) || 'c';
+    if (_f || !_m) { document.cookie = 'ab_vsl=' + window.__AB + '; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax'; }
   } catch (e) { window.__AB = 'c'; }
 </script>
 <!-- Typeform popup embed (powers all CTA buttons -> data-tf-popup="qoQwwZI5") -->
