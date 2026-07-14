@@ -203,14 +203,17 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
     .btn.sm{padding:7px 4px;font-size:12.5px;white-space:nowrap;box-shadow:none;background:transparent;color:var(--ink);font-weight:700}
     /* Tight hero: title + subtitle + CTA above the fold. Title styled like the 1% mobile hero:
        lighter weight, one sentence per line (nowrap + vw sizing), roomier line spacing. */
-    .hero{padding:104px 0 54px;min-height:0}
-    .hero h1{font-size:min(6.5vw,30px);font-weight:600;letter-spacing:-0.02em;line-height:1.5}
+    /* Title clears the two mini polaroids that flank the top corners (1%-style). Lighter weight,
+       one sentence per line, airier spacing. Padding-top leaves room for the ~120px-tall polaroids. */
+    .hero{padding:150px 0 48px;min-height:0}
+    .hero h1{font-size:min(6.2vw,26px);font-weight:600;letter-spacing:-0.02em;line-height:1.55}
     .hero h1 .l{white-space:nowrap}
-    .hero h1 .hl{padding:3px 14px;border-radius:9px;margin-top:8px;font-weight:700}
-    /* two mini polaroids tucked at the hero's top corners (hidden on desktop-mid widths by the 1080px rule) */
-    .poly.p1,.poly.p3{display:block;width:88px;padding:5px 5px 9px;box-shadow:0 8px 18px rgba(0,0,0,.16)}
-    .poly.p1{left:5%;top:10px;transform:rotate(-7deg)}
-    .poly.p3{right:5%;top:6px;transform:rotate(7deg)}
+    .hero h1 .hl{display:inline-block;padding:3px 13px;border-radius:9px;margin-top:9px;font-weight:700}
+    .hero .sub{font-size:15px;margin-top:16px}
+    /* two mini polaroids at the hero's top corners */
+    .poly.p1,.poly.p3{display:block;width:74px;padding:5px 5px 8px;box-shadow:0 8px 18px rgba(0,0,0,.16)}
+    .poly.p1{left:4%;top:14px;transform:rotate(-7deg)}
+    .poly.p3{right:4%;top:10px;transform:rotate(7deg)}
     .hero .sub{font-size:15.5px;margin-top:14px}
     .hero .nopay{font-size:14.5px;margin-top:10px}
     .hero .btn{margin-top:18px}
