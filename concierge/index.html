@@ -187,11 +187,18 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
     .hero .sub{font-size:15.5px;margin-top:14px}
     .hero .nopay{font-size:14.5px;margin-top:10px}
     .hero .btn{margin-top:18px}
-    .sh h2,.band h2,.founder h2{font-size:29px}
+    .sh h2,.band h2,.founder h2{font-size:27px}
     .cards3{grid-template-columns:1fr}
-    section{padding:60px 0}
+    /* Tighter vertical rhythm: kill the big dead zones between sections */
+    section{padding:34px 0}
+    .sh{margin-bottom:24px}
+    .sh p{margin-top:10px;font-size:15.5px}
+    .center-cta{margin-top:26px}
     .cres .amt{font-size:48px}
-    .stats{gap:28px}
+    /* All 3 stats on ONE horizontal line */
+    .stats{gap:14px;margin-top:20px;flex-wrap:nowrap;align-items:flex-start}
+    .stats div{flex:1 1 0;font-size:12px;line-height:1.3}
+    .stats b{font-size:23px;margin-bottom:3px}
     .fcard h2{font-size:25px}
   }
 </style>
