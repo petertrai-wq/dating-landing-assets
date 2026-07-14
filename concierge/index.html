@@ -70,6 +70,7 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   /* hero */
   .hero{position:relative;text-align:center;padding:74px 0 96px;overflow:hidden;min-height:640px}
   .hero h1{font-size:54px;font-weight:700;max-width:920px;margin:0 auto}
+  .hero h1 .l{display:block}
   .hero h1 .hl{display:inline-block;background:var(--black);color:#fff;padding:3px 18px;border-radius:10px;margin-top:10px}
   .hero .sub{max-width:560px;margin:26px auto 0;font-size:19px;color:var(--muted)}
   .hero .sub b{color:var(--ink)}
@@ -200,10 +201,16 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
     .txtus{font-size:12.5px;white-space:nowrap;gap:5px}
     .txtus svg{width:14px;height:14px}
     .btn.sm{padding:7px 4px;font-size:12.5px;white-space:nowrap;box-shadow:none;background:transparent;color:var(--ink);font-weight:700}
-    /* Tight hero: title + subtitle + CTA all above the fold on load */
-    .hero{padding:26px 0 54px;min-height:0}
-    .hero h1{font-size:26px;text-wrap:balance}
-    .hero h1 .hl{padding:2px 12px;border-radius:8px;margin-top:6px}
+    /* Tight hero: title + subtitle + CTA above the fold. Title styled like the 1% mobile hero:
+       lighter weight, one sentence per line (nowrap + vw sizing), roomier line spacing. */
+    .hero{padding:104px 0 54px;min-height:0}
+    .hero h1{font-size:min(6.5vw,30px);font-weight:600;letter-spacing:-0.02em;line-height:1.5}
+    .hero h1 .l{white-space:nowrap}
+    .hero h1 .hl{padding:3px 14px;border-radius:9px;margin-top:8px;font-weight:700}
+    /* two mini polaroids tucked at the hero's top corners (hidden on desktop-mid widths by the 1080px rule) */
+    .poly.p1,.poly.p3{display:block;width:88px;padding:5px 5px 9px;box-shadow:0 8px 18px rgba(0,0,0,.16)}
+    .poly.p1{left:5%;top:10px;transform:rotate(-7deg)}
+    .poly.p3{right:5%;top:6px;transform:rotate(7deg)}
     .hero .sub{font-size:15.5px;margin-top:14px}
     .hero .nopay{font-size:14.5px;margin-top:10px}
     .hero .btn{margin-top:18px}
@@ -242,7 +249,7 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   <div class="poly p3"><div class="ph"><img src="date-3.jpg" alt="" onerror="this.style.display='none'"></div></div>
   <div class="poly p4"><div class="ph"><img src="date-4.jpg" alt="" onerror="this.style.display='none'"></div></div>
 
-  <h1>We run your dating apps.<br>We handle your conversations.<br>We schedule your dates.<br><span class="hl">You just show up.</span></h1>
+  <h1><span class="l">We run your dating apps.</span><span class="l">We handle your conversations.</span><span class="l">We schedule your dates.</span><span class="hl">You just show up.</span></h1>
   <p class="sub">Go on enough dates with your exact type of woman, and you <b>WILL</b> find the one.</p>
   <p class="nopay">Your first date in 48 hours or you don't pay.</p>
   <a href="#" class="btn" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Find Your Ideal Woman <span class="chev">&rsaquo;</span></a>
