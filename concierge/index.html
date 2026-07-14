@@ -136,7 +136,7 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   .tcard .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
   .tcard .who b{display:block;font-size:14.5px}
   .tcard .who span{font-size:12.5px;color:var(--muted)}
-  @media(max-width:860px){.wall{grid-template-columns:1fr;height:640px}.wall .wcol:nth-child(2),.wall .wcol:nth-child(3){display:none}}
+  @media(max-width:860px){.wall{grid-template-columns:repeat(2,1fr);gap:12px;height:620px}.wall .wcol:nth-child(3){display:none}.wcol{gap:12px}.tcard{padding:14px 15px}.tcard .qq{font-size:13px;line-height:1.45}.tcard .who{gap:8px;margin-top:12px}.tcard .av{width:34px;height:34px;font-size:13px}.tcard .who b{font-size:12.5px}.tcard .who span{font-size:10.5px}}
   /* here's what happens next (3 columns, numbered, connected) */
   .nextgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:960px;margin:0 auto;position:relative}
   .ncard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px 24px;text-align:center;box-shadow:0 2px 16px rgba(0,0,0,.04)}
@@ -417,12 +417,12 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
       { q: "I don't have trouble with women. I just don't want to spend the time. It's like a full-time job.", n: "Marco", loc: "$500k+ FAANG Exec · San Francisco, CA", img: "tw-marco.jpg" },
       { q: "On Hinge I actually just don't get matches. Like, I don't get any. This fixed that completely.", n: "Asang", loc: "$1m/mo SaaS Owner · Sydney, Australia", img: "tw-asang.jpg" },
       { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Contracting Officer · Ogden, UT", img: "tw-casey.jpg" },
-      { q: "You guys have literally changed my life", n: "Derek", loc: "Startup Founder · Seattle, WA" },
-      { q: "She wants to see me again", n: "Nathan", loc: "Private Equity · Chicago, IL" },
-      { q: "Had a great time with her", n: "Ryan", loc: "Real Estate Investor · Scottsdale, AZ" },
+      { q: "You guys have literally changed my life", n: "Derek", loc: "Startup Founder · Seattle, WA", img: "tw-derek.jpg" },
+      { q: "She wants to see me again", n: "Nathan", loc: "Private Equity · Chicago, IL", img: "tw-nathan.jpg" },
+      { q: "Had a great time with her", n: "Ryan", loc: "Real Estate Investor · Scottsdale, AZ", img: "tw-ryan.jpg" },
       { q: "You've got a stellar thing set up here", n: "Chris", loc: "Restaurant Group Owner · Nashville, TN" },
-      { q: "She was exactly my type", n: "James", loc: "M&A Attorney · Boston, MA" },
-      { q: "we met and had a good time", n: "Victor", loc: "Crypto Fund Manager · Miami, FL" },
+      { q: "She was exactly my type", n: "James", loc: "M&A Attorney · Boston, MA", img: "tw-james.jpg" },
+      { q: "we met and had a good time", n: "Victor", loc: "Crypto Fund Manager · Miami, FL", img: "tw-victor.jpg" },
       { q: "closed. she was rly cool", n: "Brett", loc: "Med Device Sales · Denver, CO" }
     ];
     function card(o) {
