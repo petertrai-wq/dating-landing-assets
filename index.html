@@ -842,6 +842,31 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     display: block;
   }
 
+  /* ── TESTIMONIAL WALL (ported from /concierge; JS-driven constant marquee) ── */
+  .wall{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;height:780px;overflow:hidden;position:relative;max-width:1060px;margin:34px auto 0;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%);
+    mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%)}
+  .wcol{display:flex;flex-direction:column;gap:20px;will-change:transform}
+  .tcard{background:#fff;border:1px solid #e7e3da;border-radius:16px;padding:22px;box-shadow:0 2px 14px rgba(0,0,0,.04);flex:none;text-align:left}
+  .tcard .qq{font-size:15.5px;line-height:1.5;color:#16130f;margin:0}
+  .tcard .who{display:flex;align-items:center;gap:12px;margin-top:16px}
+  .tcard .av{position:relative;overflow:hidden;width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;background:linear-gradient(140deg,#3a352c,#141210)}
+  .tcard .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+  .tcard .who b{display:block;font-size:14.5px;color:#16130f}
+  .tcard .who span{font-size:12.5px;color:#6f6a60}
+  @media(max-width:860px){.wall{grid-template-columns:1fr;height:640px}.wall .wcol:nth-child(2),.wall .wcol:nth-child(3){display:none}}
+  /* ── FIND-YOUR-IDEAL-WOMAN CTA CARD (ported from /concierge) ── */
+  .fcard{max-width:640px;margin:10px auto 26px;background:#fff;border:1px solid #e7e3da;border-radius:22px;padding:34px;text-align:center;box-shadow:0 2px 24px rgba(0,0,0,.05)}
+  .fcard .im{border-radius:16px;overflow:hidden;aspect-ratio:3/4;max-height:440px;background:linear-gradient(140deg,#e9e2d6,#c9b79e);display:none;margin:0 auto}
+  .fcard .im.on{display:block}
+  .fcard .im img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+  .fcard h2{font-size:30px;margin:26px 0 0;color:#16130f}
+  .fcard > p{margin:14px auto 0;font-size:16px;color:#6f6a60;max-width:460px}
+  .fcard .cta-button{margin-top:26px}
+  .trustrow{display:flex;justify-content:center;gap:22px;margin-top:22px;flex-wrap:wrap;font-size:13.5px;color:#6f6a60}
+  .trustrow span{display:inline-flex;align-items:center;gap:7px}
+  .trustrow svg{width:16px;height:16px;stroke:#6f6a60;fill:none}
+  @media(max-width:640px){.fcard h2{font-size:25px}}
   /* ── QUOTE CALLOUTS ── */
   .quote-callout {
     break-inside: avoid;
@@ -1533,94 +1558,15 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   <!-- ═══ TESTIMONIALS ═══ -->
   <div class="testimonials">
     <h2 class="section-title">
-      What Automated Dating<br><span class="gradient">clients are saying</span>
+      Real Results from<br><span class="gradient">Real Clients</span>
     </h2>
+    <p class="testimonials-note" style="margin-top:10px;">Join hundreds of men who transformed their dating lives.</p>
 
-    <div class="testimonials-grid">
-
-      <!-- Angelica conversation moved to the top of the section -->
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-three-dates.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6302.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout">
-        <p>"You guys have literally changed my life"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-hinge-raya.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-my-type.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <!-- Jenny moved down here, between my-type and another-day -->
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-jenny-cropped.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout quote-callout-desktop">
-        <p>"She wants to see me again"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-another-day.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout">
-        <p>"The Hinge & Raya are Firing!"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-tiffany-new.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout quote-callout-desktop">
-        <p>"Had a great time with her"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6232.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-gray.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <!-- Stellar / "She was exactly my type" quote moved here, between gray and good-time -->
-      <div class="quote-callout">
-        <p class="quote-text-desktop">"You've got a stellar thing set up here"</p>
-        <p class="quote-text-mobile">"She was exactly my type"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-good-time.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout quote-callout-desktop">
-        <p>"She's exactly my type"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-closed.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout quote-callout-desktop">
-        <p>"All at my place"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-bar.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
+    <div class="wall" id="wall">
+      <div class="wcol"></div>
+      <div class="wcol"></div>
+      <div class="wcol"></div>
     </div>
-
-    <p class="testimonials-note">Actual screenshots from Telegram, group chats, and DMs. Unedited.</p>
   </div>
 
   <!-- ═══ ROI CALCULATOR ═══ -->
@@ -1657,6 +1603,21 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     </div>
   </div>
 
+  <!-- ═══ FIND YOUR IDEAL WOMAN (ported from /concierge) ═══ -->
+  <div class="fcard">
+    <div class="im" id="fcardIm"><img src="concierge/cta-woman.jpg" alt="" onerror="document.getElementById('fcardIm').classList.remove('on')" onload="document.getElementById('fcardIm').classList.add('on')"></div>
+    <h2>Find your ideal woman.</h2>
+    <p>We'll search for her, but first we need to know exactly what you want, so we can see if she's even out there for you.</p>
+    <a href="#" class="cta-button" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" data-tf-on-submit="adTfSubmit" onclick="return false;">
+      Find Your Ideal Woman <span class="arrow">&rarr;</span>
+    </a>
+    <div class="trustrow">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>100% Confidential</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>No Obligation</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Guaranteed Dates or Don't Pay</span>
+    </div>
+  </div>
+
   <!-- ═══ SHIMMER QUESTION (above survey) ═══ -->
   <p class="cta-question">Ready to start landing higher quality dates with zero effort?</p>
 
@@ -1683,6 +1644,64 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
 </footer>
 
 <script>
+  // ── TESTIMONIAL WALL (ported from /concierge; real client quotes, JS marquee) ──
+  (function () {
+    var P = 'concierge/';
+    var quotes = [
+      { q: "Getting a shit load of matches on hinge tho", n: "Tony", loc: "Consultant · Austin, TX", img: P + "tw-tony.jpg" },
+      { q: "It's been approx 36 hours, I'm definitely seeing an uptick in quality matches on Bumble", n: "David", loc: "Sales Director · Miami, FL", img: P + "tw-david.jpg" },
+      { q: "The new profile is fire. Matching with half the girls I swipe on", n: "Mike", loc: "Attorney · Chicago, IL", img: P + "tw-mike.jpg" },
+      { q: "the hinge/raya is firing btw, thanks a lot for the pics. game changer actually haha", n: "Jonathan", loc: "Product Manager · New York, NY", img: P + "tw-jonathan.jpg" },
+      { q: "Three dates, three nights in a row this past Sunday, Monday and Tuesday. All at my place.", n: "Shaun", loc: "Finance · London, UK", img: P + "tw-shaun.jpg" },
+      { q: "I went to a bar with all of them. Also going to her house Wednesday", n: "Anthony", loc: "Physician · London, UK", img: P + "tw-anthony.jpg" },
+      { q: "If I just put in the time, I'd be fine. But I just don't want to put in the time. I'd rather just pay somebody.", n: "Grayson", loc: "Agency Owner · New York, NY", img: P + "tw-grayson.jpg" },
+      { q: "I don't have trouble with women. I just don't want to spend the time. It's like a full-time job.", n: "Marco", loc: "Software Engineer · San Francisco, CA", img: P + "tw-marco.jpg" },
+      { q: "On Hinge I actually just don't get matches. Like, I don't get any. This fixed that completely.", n: "Asang", loc: "Tech Founder · Sydney, Australia", img: P + "tw-asang.jpg" },
+      { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Contracting Officer · Ogden, UT", img: P + "tw-casey.jpg" }
+    ];
+    function card(o) {
+      var av = o.img
+        ? '<div class="av"><img loading="lazy" src="' + o.img + '" alt="" onerror="this.remove()">' + o.n.charAt(0) + '</div>'
+        : '<div class="av">' + o.n.charAt(0) + '</div>';
+      return '<div class="tcard"><p class="qq">“' + o.q + '”</p>' +
+             '<div class="who">' + av + '<div><b>' + o.n + '</b><span>' + o.loc + '</span></div></div></div>';
+    }
+    var cols = document.querySelectorAll('#wall .wcol');
+    if (!cols.length) return;
+    // 7 cards per column (quotes reused across columns) so ONE copy is always TALLER than the
+    // container — the marquee never shows empty space at the wrap. Each column is a distinct rotation.
+    var split = [[0, 3, 6, 9, 2, 5, 8], [1, 4, 7, 0, 3, 6, 9], [2, 5, 8, 1, 4, 7, 0]];
+    split.forEach(function (idxs, ci) {
+      var html = idxs.map(function (i) { return card(quotes[i]); }).join('');
+      cols[ci].innerHTML = html + html;   // duplicate once so the loop wraps seamlessly
+    });
+    // Smooth constant marquee: rAF circular loop; loop length measured from the live DOM
+    // (first card to its duplicate) so the wrap is sub-pixel exact and never snaps.
+    var speeds = [30, 38, 26];
+    var offs = [0, 0, 0];
+    var last = null;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) {
+      requestAnimationFrame(function tick(ts) {
+        if (last != null) {
+          var dt = Math.min((ts - last) / 1000, 0.1);
+          for (var i = 0; i < cols.length; i++) {
+            var kids = cols[i].children;
+            var n = kids.length >> 1;
+            if (!n) continue;
+            var loop = kids[n].getBoundingClientRect().top - kids[0].getBoundingClientRect().top;
+            if (loop > 0) {
+              offs[i] = (offs[i] + speeds[i] * dt) % loop;
+              cols[i].style.transform = 'translate3d(0,' + (-offs[i]) + 'px,0)';
+            }
+          }
+        }
+        last = ts;
+        requestAnimationFrame(tick);
+      });
+    }
+  })();
+
   // ── ROI CALCULATOR ──
   (function() {
     var incomeSlider = document.getElementById('income-slider');
