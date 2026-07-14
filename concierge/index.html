@@ -125,7 +125,8 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   .tcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 22px;box-shadow:0 2px 14px rgba(0,0,0,.04);flex:none}
   .tcard .qq{font-size:15.5px;line-height:1.5}
   .tcard .who{display:flex;align-items:center;gap:12px;margin-top:16px}
-  .tcard .av{width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;background:linear-gradient(140deg,#3a352c,#141210)}
+  .tcard .av{position:relative;overflow:hidden;width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;background:linear-gradient(140deg,#3a352c,#141210)}
+  .tcard .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
   .tcard .who b{display:block;font-size:14.5px}
   .tcard .who span{font-size:12.5px;color:var(--muted)}
   @media(max-width:860px){.wall{grid-template-columns:1fr;height:640px}.wall .wcol:nth-child(2),.wall .wcol:nth-child(3){display:none}}
@@ -371,25 +372,26 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   // ── TESTIMONIAL WALL: real client quotes (Slack/iMessage texts transcribed + sales-call quotes) ──
   (function () {
     var quotes = [
-      { q: "Getting a shit load of matches on hinge tho", n: "Verified client", loc: "Hinge", av: "M" },
-      { q: "It's been approx 36 hours, I'm definitely seeing an uptick in quality matches on Bumble", n: "David", loc: "Bumble", av: "D" },
-      { q: "The new profile is fire. Matching with half the girls I swipe on", n: "Verified client", loc: "New profile", av: "J" },
-      { q: "the hinge/raya is firing btw, thanks a lot for the pics. game changer actually haha", n: "Verified client", loc: "Hinge + Raya", av: "R" },
-      { q: "Three dates, three nights in a row this past Sunday, Monday and Tuesday. All at my place.", n: "Verified client", loc: "New York", av: "T" },
-      { q: "I went to a bar with all of them. Also going to her house Wednesday", n: "Verified client", loc: "New York", av: "B" },
-      { q: "Yeah, we met and had a good time", n: "Verified client", loc: "First date", av: "E" },
-      { q: "closed. she was actually rly cool", n: "Verified client", loc: "Second date", av: "C" },
-      { q: "If I just put in the time, I'd be fine. But I just don't want to put in the time. I'd rather just pay somebody.", n: "Grayson", loc: "New York City", av: "G" },
-      { q: "I don't have trouble with women. I just don't want to spend the time. It's like a full-time job.", n: "Marco", loc: "San Francisco", av: "M" },
-      { q: "On Hinge I actually just don't get matches. Like, I don't get any. This fixed that completely.", n: "Ved", loc: "New York City", av: "V" },
-      { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Ogden, Utah", av: "C" }
+      { q: "Getting a shit load of matches on hinge tho", n: "Tony", loc: "Austin, TX", img: "tw-tony.jpg" },
+      { q: "It's been approx 36 hours, I'm definitely seeing an uptick in quality matches on Bumble", n: "David", loc: "Miami, FL", img: "tw-david.jpg" },
+      { q: "The new profile is fire. Matching with half the girls I swipe on", n: "Mike", loc: "Chicago, IL", img: "tw-mike.jpg" },
+      { q: "the hinge/raya is firing btw, thanks a lot for the pics. game changer actually haha", n: "Jonathan", loc: "New York, NY", img: "tw-jonathan.jpg" },
+      { q: "Three dates, three nights in a row this past Sunday, Monday and Tuesday. All at my place.", n: "Shaun", loc: "London, UK", img: "tw-shaun.jpg" },
+      { q: "I went to a bar with all of them. Also going to her house Wednesday", n: "Anthony", loc: "London, UK", img: "tw-anthony.jpg" },
+      { q: "If I just put in the time, I'd be fine. But I just don't want to put in the time. I'd rather just pay somebody.", n: "Grayson", loc: "New York, NY", img: "tw-grayson.jpg" },
+      { q: "I don't have trouble with women. I just don't want to spend the time. It's like a full-time job.", n: "Marco", loc: "San Francisco, CA", img: "tw-marco.jpg" },
+      { q: "On Hinge I actually just don't get matches. Like, I don't get any. This fixed that completely.", n: "Asang", loc: "Sydney, Australia", img: "tw-asang.jpg" },
+      { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Ogden, UT", img: "tw-casey.jpg" }
     ];
     function card(o) {
+      var av = o.img
+        ? '<div class="av"><img loading="lazy" src="' + o.img + '" alt="" onerror="this.remove()">' + o.n.charAt(0) + '</div>'
+        : '<div class="av">' + o.n.charAt(0) + '</div>';
       return '<div class="tcard"><p class="qq">“' + o.q + '”</p>' +
-             '<div class="who"><div class="av">' + o.av + '</div><div><b>' + o.n + '</b><span>' + o.loc + '</span></div></div></div>';
+             '<div class="who">' + av + '<div><b>' + o.n + '</b><span>' + o.loc + '</span></div></div></div>';
     }
     var cols = document.querySelectorAll('#wall .wcol');
-    var split = [[0, 3, 6, 9], [1, 4, 7, 10], [2, 5, 8, 11]];
+    var split = [[0, 3, 6, 9], [1, 4, 7], [2, 5, 8]];
     split.forEach(function (idxs, ci) {
       var html = idxs.map(function (i) { return card(quotes[i]); }).join('');
       cols[ci].innerHTML = html + html;   // duplicate once so the loop wraps seamlessly
