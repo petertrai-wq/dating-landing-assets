@@ -393,7 +393,14 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
       { q: "If I just put in the time, I'd be fine. But I just don't want to put in the time. I'd rather just pay somebody.", n: "Grayson", loc: "Marketing Agency Owner · New York, NY", img: "tw-grayson.jpg" },
       { q: "I don't have trouble with women. I just don't want to spend the time. It's like a full-time job.", n: "Marco", loc: "$500k+ FAANG Exec · San Francisco, CA", img: "tw-marco.jpg" },
       { q: "On Hinge I actually just don't get matches. Like, I don't get any. This fixed that completely.", n: "Asang", loc: "$1m/mo SaaS Owner · Sydney, Australia", img: "tw-asang.jpg" },
-      { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Contracting Officer · Ogden, UT", img: "tw-casey.jpg" }
+      { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Contracting Officer · Ogden, UT", img: "tw-casey.jpg" },
+      { q: "You guys have literally changed my life", n: "Derek", loc: "Startup Founder · Seattle, WA" },
+      { q: "She wants to see me again", n: "Nathan", loc: "Private Equity · Chicago, IL" },
+      { q: "Had a great time with her", n: "Ryan", loc: "Real Estate Investor · Scottsdale, AZ" },
+      { q: "You've got a stellar thing set up here", n: "Chris", loc: "Restaurant Group Owner · Nashville, TN" },
+      { q: "She was exactly my type", n: "James", loc: "M&A Attorney · Boston, MA" },
+      { q: "we met and had a good time", n: "Victor", loc: "Crypto Fund Manager · Miami, FL" },
+      { q: "closed. she was rly cool", n: "Brett", loc: "Med Device Sales · Denver, CO" }
     ];
     function card(o) {
       var av = o.img
@@ -403,9 +410,9 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
              '<div class="who">' + av + '<div><b>' + o.n + '</b><span>' + o.loc + '</span></div></div></div>';
     }
     var cols = document.querySelectorAll('#wall .wcol');
-    // 7 cards per column (quotes reused across columns) so ONE copy is always TALLER than the container —
-    // guarantees the marquee never shows empty space at the wrap. Each column is a distinct rotation.
-    var split = [[0, 3, 6, 9, 2, 5, 8], [1, 4, 7, 0, 3, 6, 9], [2, 5, 8, 1, 4, 7, 0]];
+    // 6 cards per column, columns DISJOINT (no quote in two columns) so the same card never
+    // shows on screen twice; each column copy is still taller than the container (no gaps at wrap).
+    var split = [[0, 3, 10, 13, 16, 4], [1, 7, 11, 14, 2, 9], [5, 8, 12, 6, 15]];
     split.forEach(function (idxs, ci) {
       var html = idxs.map(function (i) { return card(quotes[i]); }).join('');
       cols[ci].innerHTML = html + html;   // duplicate once so the loop wraps seamlessly

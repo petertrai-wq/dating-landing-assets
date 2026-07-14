@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- ═══ A/B TEST ENDED 2026-07-08 — no-video (b) is now the permanent site for everyone. ?ab=a still forces
-     the old video variant for QA only. Runs in <head> before <body> so the player never flashes. -->
+<!-- ═══ A/B 50/50 (started 2026-07-14): main page (b, no-video) vs /concierge (c). Sticky via ab_vsl
+     cookie; the query string / UTMs carry through the redirect so attribution is identical on both
+     sides. ?ab=a|b|c forces a variant (QA; a = the retired video page). Runs FIRST in <head>, before
+     the pixels, so a 'c' visitor redirects before the main-page PageView fires. -->
 <script>
 (function () {
   try {
-    var V = 'b';                                  // A/B test ENDED 2026-07-08 — no-video (b) is permanent for everyone.
-    var m = location.search.match(/[?&]ab=([ab])\b/);
-    if (m) { V = m[1]; }                          // ?ab=a still forces the old video variant for QA only
+    var forced = (location.search.match(/[?&]ab=([abc])\b/) || [])[1];
+    var m = document.cookie.match(/(?:^|;\s*)ab_vsl=([abc])\b/);
+    var V = forced || (m && m[1]);
+    if (!V) { V = (Math.random() < 0.5) ? 'c' : 'b'; }   // new visitor: 50/50 main vs concierge
     try { document.cookie = 'ab_vsl=' + V + '; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax'; } catch (e) {}
+    if (V === 'c') { location.replace('/concierge/' + location.search + location.hash); return; }
     window.__AB = V;
     if (V === 'b') { document.documentElement.className += ' ab-novideo'; }
-  } catch (e) { window.__AB = 'a'; }
+  } catch (e) { window.__AB = 'b'; }
 })();
 </script>
 <style>html.ab-novideo .video-section, html.ab-novideo .video-cue { display: none !important; }</style>
@@ -1657,7 +1661,14 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       { q: "If I just put in the time, I'd be fine. But I just don't want to put in the time. I'd rather just pay somebody.", n: "Grayson", loc: "Marketing Agency Owner · New York, NY", img: P + "tw-grayson.jpg" },
       { q: "I don't have trouble with women. I just don't want to spend the time. It's like a full-time job.", n: "Marco", loc: "$500k+ FAANG Exec · San Francisco, CA", img: P + "tw-marco.jpg" },
       { q: "On Hinge I actually just don't get matches. Like, I don't get any. This fixed that completely.", n: "Asang", loc: "$1m/mo SaaS Owner · Sydney, Australia", img: P + "tw-asang.jpg" },
-      { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Contracting Officer · Ogden, UT", img: P + "tw-casey.jpg" }
+      { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Contracting Officer · Ogden, UT", img: P + "tw-casey.jpg" },
+      { q: "You guys have literally changed my life", n: "Derek", loc: "Startup Founder · Seattle, WA" },
+      { q: "She wants to see me again", n: "Nathan", loc: "Private Equity · Chicago, IL" },
+      { q: "Had a great time with her", n: "Ryan", loc: "Real Estate Investor · Scottsdale, AZ" },
+      { q: "You've got a stellar thing set up here", n: "Chris", loc: "Restaurant Group Owner · Nashville, TN" },
+      { q: "She was exactly my type", n: "James", loc: "M&A Attorney · Boston, MA" },
+      { q: "we met and had a good time", n: "Victor", loc: "Crypto Fund Manager · Miami, FL" },
+      { q: "closed. she was rly cool", n: "Brett", loc: "Med Device Sales · Denver, CO" }
     ];
     function card(o) {
       var av = o.img
@@ -1668,9 +1679,9 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     }
     var cols = document.querySelectorAll('#wall .wcol');
     if (!cols.length) return;
-    // 7 cards per column (quotes reused across columns) so ONE copy is always TALLER than the
-    // container — the marquee never shows empty space at the wrap. Each column is a distinct rotation.
-    var split = [[0, 3, 6, 9, 2, 5, 8], [1, 4, 7, 0, 3, 6, 9], [2, 5, 8, 1, 4, 7, 0]];
+    // 6 cards per column, columns DISJOINT (no quote in two columns) so the same card never
+    // shows on screen twice; each column copy is still taller than the container (no gaps at wrap).
+    var split = [[0, 3, 10, 13, 16, 4], [1, 7, 11, 14, 2, 9], [5, 8, 12, 6, 15]];
     split.forEach(function (idxs, ci) {
       var html = idxs.map(function (i) { return card(quotes[i]); }).join('');
       cols[ci].innerHTML = html + html;   // duplicate once so the loop wraps seamlessly
