@@ -1869,7 +1869,10 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
         else { var x = new XMLHttpRequest(); x.open('POST', EP, true); x.setRequestHeader('Content-Type', 'text/plain'); x.send(s); }
       } catch (e) {}
     }
-    send('page_view');
+    // Only count the page_view once a variant is OWNED by this page. A 'c' visitor is mid-redirect
+    // to /concierge (window.__AB never set here) — location.replace does not halt script execution,
+    // so an unguarded beacon would race the navigation and log a phantom (unset)/b visit.
+    if (window.__AB) send('page_view');
     // CTA click = opened the Typeform application popup.
     document.addEventListener('click', function (e) {
       try { var t = e.target && e.target.closest && e.target.closest('[data-tf-popup],[data-tf-slider],[href*="qoQwwZI5"]'); if (t) send('cta_click'); } catch (_) {}
