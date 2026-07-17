@@ -2035,10 +2035,22 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   }
   function submit() {
     if (submitted) return; submitted = true;
-    try {
-      fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload(true), keepalive: true })
-        .then(function (r) { return r.json(); }).then(function (j) { try { console.log('[adq] submitted', j); } catch (e) {} }).catch(function () {});
-    } catch (e) {}
+    // Retry-with-rescue (review 2026-07-17): a failed POST must not strand the lead — retry twice,
+    // and if all attempts fail, reset `submitted` so the pagehide partial still rescues the contact
+    // info. On success the token is rotated so a second application from this tab is a NEW response
+    // (Typeform mints one token per response; reusing ours corrupted attribution + partial dedup).
+    var attempt = function (left) {
+      try {
+        fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload(true), keepalive: true })
+          .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+          .then(function (j) {
+            try { sessionStorage.removeItem('adq_token'); } catch (e) {}
+            try { console.log('[adq] submitted', j); } catch (e) {}
+          })
+          .catch(function () { if (left > 0) setTimeout(function () { attempt(left - 1); }, 1500); else submitted = false; });
+      } catch (e) { if (left > 0) setTimeout(function () { attempt(left - 1); }, 1500); else submitted = false; }
+    };
+    attempt(2);
   }
   // Typeform parity: abandoners past the email milestone become partials (typeform-partial tag,
   // attribution breadcrumb, the 20-min qualified-partial safety net) — sent once, on page hide.
@@ -2047,6 +2059,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     if (!A.email || !/.+@.+\..+/.test(A.email)) return;
     partialSent = true;
     try { navigator.sendBeacon(API, new Blob([payload(false)], { type: 'text/plain' })); } catch (e) {}
+    try { sessionStorage.removeItem('adq_token'); } catch (e) {}   // next visit = a fresh response token
   });
 
   function isDq() {
