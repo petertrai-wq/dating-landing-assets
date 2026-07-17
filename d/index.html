@@ -1960,12 +1960,13 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   .adq-phone { display: flex; align-items: flex-end; gap: 10px; max-width: 460px; }
   .adq-cc { border: none; border-bottom: 1px solid #d5d9de; background: transparent; font-size: 18px; padding: 10px 0 8px; outline: none; font-family: inherit; color: #1A1A1A; cursor: pointer; max-width: 118px; -webkit-appearance: none; appearance: none; border-radius: 0; }
   .adq-phone .adq-in { flex: 1; }
-  .adq-okrow { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
-  .adq-ok { border: none; background: #60A5FA; color: #ffffff; font-size: 17px; font-weight: 600; padding: 9px 22px; border-radius: 4px; cursor: pointer; font-family: inherit; }
+  .adq-okrow { display: flex; align-items: center; gap: 10px; margin-top: 24px; max-width: 460px; }
+  .adq-ok { flex: 1; border: none; background: #60A5FA; color: #ffffff; font-size: 17px; font-weight: 600; padding: 14px 22px; border-radius: 4px; cursor: pointer; font-family: inherit; }
   .adq-ok:hover { background: #4b94f5; }
-  .adq-hint { color: #9aa1ab; font-size: 12.5px; }
-  .adq-back { display: none; border: 1px solid #d5d9de; background: #fff; color: #55555c; font-size: 17px; font-weight: 600; padding: 8px 18px; border-radius: 4px; font-family: inherit; cursor: pointer; }
-  @media (max-width: 768px) { .adq-back { display: inline-block; } }
+  .adq-hint { color: #9aa1ab; font-size: 12.5px; flex: none; }
+  .adq-back { display: none; flex: none; width: 50px; height: 50px; align-items: center; justify-content: center; border: 1px solid #d5d9de; background: #fff; color: #55555c; font-size: 24px; line-height: 1; border-radius: 4px; font-family: inherit; cursor: pointer; }
+  .adq-back:hover { background: #f4f6f9; }
+  @media (max-width: 768px) { .adq-back { display: flex; } }
   @media (max-width: 768px) { .adq-hint { display: none; } }
   .adq-err { color: #d64545; font-size: 13.5px; margin-top: 10px; min-height: 18px; }
   #adqNav { position: absolute; bottom: 14px; right: 16px; display: flex; gap: 2px; }
@@ -2226,7 +2227,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     if (ok) ok.addEventListener('click', advance);
     // Mobile: a Back button sits next to OK (the floating arrows are easy to miss full-screen)
     var okr = body.querySelector('.adq-okrow');
-    if (okr && step > 0) { var bb = document.createElement('button'); bb.type = 'button'; bb.className = 'adq-back'; bb.textContent = 'Back'; okr.insertBefore(bb, okr.firstChild); bb.addEventListener('click', back); }
+    if (okr && step > 0) { var bb = document.createElement('button'); bb.type = 'button'; bb.className = 'adq-back'; bb.setAttribute('aria-label', 'Back'); bb.innerHTML = '&#8592;'; okr.insertBefore(bb, okr.firstChild); bb.addEventListener('click', back); }
     var ccSel = document.getElementById('adqCc');
     if (ccSel) ccSel.addEventListener('change', function () { cc = ccSel.value; saveState(); });
     var inp = document.getElementById('adqIn') || document.getElementById('adqF');
