@@ -2010,6 +2010,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   .adbk-confirm input { width: 17px; height: 17px; margin-top: 1px; accent-color: #e03e3e; flex: none; }
   .adbk-sched { display: block; width: 100%; border: none; background: #e03e3e; color: #fff; font-weight: 700; font-size: 15.5px; border-radius: 8px; padding: 13px 0; margin-top: 18px; cursor: pointer; font-family: inherit; }
   .adbk-sched:disabled { opacity: .55; cursor: default; }
+  .adbk-sched.off { opacity: .45; }
   .adbk-newtime { display: block; width: 100%; border: 1px solid #d9d9df; background: #fff; color: #55555c; font-weight: 600; font-size: 13.5px; border-radius: 8px; padding: 11px 0; margin-top: 10px; cursor: pointer; font-family: inherit; }
   .adbk-err { color: #d64545; font-size: 13px; margin-top: 10px; min-height: 17px; }
   .adbk-load { display: flex; align-items: center; justify-content: center; height: 100%; color: #8a8a90; font-size: 14.5px; }
@@ -2264,7 +2265,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       '<label>Phone *</label><input type="tel" id="bkPhone" value="' + esc(A.phone ? phoneE164() : '') + '">' +
       '<label>Email *</label><input type="email" id="bkEmail" value="' + esc(A.email || '') + '">' +
       '<label class="adbk-confirm"><input type="checkbox" id="bkConfirm"><span>Please confirm you will 100% be ready at this time at a laptop with no distractions. *</span></label>' +
-      '<button type="button" class="adbk-sched" id="bkSched">Schedule Meeting</button>' +
+      '<button type="button" class="adbk-sched off" id="bkSched">Schedule Meeting</button>' +
       '<button type="button" class="adbk-newtime" id="bkNewTime">I won\'t be at a computer at this time - pick a new time</button>' +
       '<div class="adbk-err" id="bkErr">' + esc(bk.err || '') + '</div></div>';
   }
@@ -2282,6 +2283,11 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     if (nt) nt.addEventListener('click', function () { bk.view = 'time'; bk.armed = ''; bk.slot = ''; bk.err = ''; bk.loaded = false; bk._fetching = false; renderBooker(); });
     var sb = document.getElementById('bkSched');
     if (sb) sb.addEventListener('click', bkSchedule);
+    var cf = document.getElementById('bkConfirm');
+    if (cf) cf.addEventListener('change', function () {
+      if (sb) sb.classList.toggle('off', !cf.checked);
+      if (cf.checked) { var e = document.getElementById('bkErr'); if (e) e.textContent = ''; }
+    });
   }
   function bkSchedule() {
     if (bk.busy) return;
@@ -2294,7 +2300,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     if (!first.trim()) return fail('Please enter your first name');
     if (phone.replace(/\D/g, '').length < 8) return fail('Please enter a valid phone number');
     if (!/.+@.+\..+/.test(email)) return fail('Please enter a valid email');
-    if (!conf || !conf.checked) return fail('Please check the confirmation box');
+    if (!conf || !conf.checked) return fail('Please confirm above that you will be ready, or pick a new time below.');
     bk.busy = true;
     var sb = document.getElementById('bkSched'); if (sb) { sb.disabled = true; sb.textContent = 'Scheduling…'; }
     fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot }) })
