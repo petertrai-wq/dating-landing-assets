@@ -2020,6 +2020,13 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   .adbk-newtime { display: block; width: 100%; border: 1px solid #d9d9df; background: #fff; color: #55555c; font-weight: 600; font-size: 13.5px; border-radius: 8px; padding: 12px 0; margin-top: 10px; cursor: pointer; font-family: inherit; }
   .adbk-err { color: #d64545; font-size: 13px; margin-top: 10px; min-height: 17px; text-align: center; }
   .adbk-load { display: flex; align-items: center; justify-content: center; height: 100%; color: #8a8a90; font-size: 14.5px; }
+  .adbk-prog { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 320px; height: 100%; text-align: center; padding: 24px 16px; box-sizing: border-box; }
+  .adbk-spin { width: 42px; height: 42px; border: 4px solid #e6ebf9; border-top-color: #3b6ff5; border-radius: 50%; animation: adbkSpin .8s linear infinite; }
+  @keyframes adbkSpin { to { transform: rotate(360deg); } }
+  .adbk-prog-msg { font-size: 15.5px; font-weight: 700; color: #1A1A1A; min-height: 22px; }
+  .adbk-prog-bar { width: min(320px, 82%); height: 6px; background: #ececf2; border-radius: 99px; overflow: hidden; }
+  .adbk-prog-bar i { display: block; height: 100%; width: 0%; background: #3b6ff5; border-radius: 99px; transition: width .35s ease; }
+  .adbk-prog-pct { font-size: 13px; font-weight: 600; color: #8a8a90; }
   @media (max-width: 768px) {
     .adbk { padding: 6px 16px 24px; }
     .adbk-timegrid { flex-direction: column; gap: 14px; }
@@ -2298,12 +2305,13 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     }).join('') + '</div>';
   }
   function bkDetailsHtml() {
+    var v = bk.vals || {};
     return '<div class="adbk-details">' +
-      '<label>First Name *</label><input type="text" id="bkFirst" value="' + esc(A.first || '') + '">' +
-      '<label>Phone *</label><input type="tel" id="bkPhone" value="' + esc(A.phone ? phoneE164() : '') + '">' +
-      '<label>Email *</label><input type="email" id="bkEmail" value="' + esc(A.email || '') + '">' +
-      '<label class="adbk-confirm"><input type="checkbox" id="bkConfirm"><span>Please confirm you will 100% be ready at this time at a laptop with no distractions. *</span></label>' +
-      '<button type="button" class="adbk-sched off" id="bkSched">Schedule Meeting</button>' +
+      '<label>First Name *</label><input type="text" id="bkFirst" value="' + esc(v.first != null ? v.first : (A.first || '')) + '">' +
+      '<label>Phone *</label><input type="tel" id="bkPhone" value="' + esc(v.phone != null ? v.phone : (A.phone ? phoneE164() : '')) + '">' +
+      '<label>Email *</label><input type="email" id="bkEmail" value="' + esc(v.email != null ? v.email : (A.email || '')) + '">' +
+      '<label class="adbk-confirm"><input type="checkbox" id="bkConfirm"' + (bk.confirmed ? ' checked' : '') + '><span>Please confirm you will 100% be ready at this time at a laptop with no distractions. *</span></label>' +
+      '<button type="button" class="adbk-sched' + (bk.confirmed ? '' : ' off') + '" id="bkSched">Schedule Meeting</button>' +
       '<button type="button" class="adbk-newtime" id="bkNewTime">Pick a new time</button>' +
       '<div class="adbk-err" id="bkErr">' + esc(bk.err || '') + '</div></div>';
   }
@@ -2334,7 +2342,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.armed = ''; if (bkIsMob()) bk.mStep = 'slots'; renderBooker(); }); });
     body.querySelectorAll('[data-bknav]').forEach(function (el) { el.addEventListener('click', function () { var m = bk.month || new Date(); bk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-bknav'), 10), 1); renderBooker(); }); });
     body.querySelectorAll('[data-bkarm]').forEach(function (el) { el.addEventListener('click', function () { bk.armed = el.getAttribute('data-bkarm'); renderBooker(); }); });
-    body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); bk.view = 'details'; bk.err = ''; renderBooker(); }); });
+    body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); bk.view = 'details'; bk.err = ''; bk.confirmed = false; renderBooker(); }); });
     var tzSel = document.getElementById('bkTz');
     if (tzSel) tzSel.addEventListener('change', function () { bk.tz = tzSel.value; renderBooker(); });
     var bt = document.getElementById('bkBackTimes');
@@ -2364,18 +2372,45 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     if (!/.+@.+\..+/.test(email)) return fail('Please enter a valid email');
     if (!conf || !conf.checked) return fail('Please confirm above that you will be ready, or pick a new time below.');
     bk.busy = true;
-    var sb = document.getElementById('bkSched'); if (sb) { sb.disabled = true; sb.textContent = 'Scheduling…'; }
+    bk.err = '';
+    bk.vals = { first: first, phone: phone, email: email };
+    bk.confirmed = true;
+    var BMSGS = ['Locking in your time slot...', 'Confirming with our calendar...', 'Finalizing your booking...'];
+    body.innerHTML = '<div class="adbk"><div class="adbk-prog"><div class="adbk-spin"></div>' +
+      '<div class="adbk-prog-msg" id="bkPMsg">' + BMSGS[0] + '</div>' +
+      '<div class="adbk-prog-bar"><i id="bkPBar"></i></div>' +
+      '<div class="adbk-prog-pct" id="bkPPct">0%</div></div></div>';
+    var w = 0, mi = 0;
+    var tick = setInterval(function () {
+      w += (93 - w) * 0.08;
+      var bar = document.getElementById('bkPBar'), pct = document.getElementById('bkPPct');
+      if (bar) bar.style.width = w + '%';
+      if (pct) pct.textContent = Math.round(w) + '%';
+    }, 350);
+    var mrot = setInterval(function () {
+      mi = Math.min(mi + 1, BMSGS.length - 1);
+      var m = document.getElementById('bkPMsg'); if (m) m.textContent = BMSGS[mi];
+    }, 2600);
+    var done = function () { clearInterval(tick); clearInterval(mrot); };
     fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot }) })
       .then(function (r) { return r.json(); })
       .then(function (j) {
-        if (j && j.ok) { if (sb) sb.textContent = 'Booked! One sec…'; try { clearState(); sessionStorage.removeItem('adq_token'); } catch (e) {} window.location.href = '/thankyou/'; return; }
+        done();
+        if (j && j.ok) {
+          var bar = document.getElementById('bkPBar'), pct = document.getElementById('bkPPct'), m = document.getElementById('bkPMsg');
+          if (bar) bar.style.width = '100%';
+          if (pct) pct.textContent = '100%';
+          if (m) m.textContent = 'Booked! Loading your confirmation...';
+          try { clearState(); sessionStorage.removeItem('adq_token'); } catch (e) {}
+          setTimeout(function () { window.location.href = '/thankyou/'; }, 400);
+          return;
+        }
         bk.busy = false;
-        if (sb) { sb.disabled = false; sb.textContent = 'Schedule Meeting'; }
         var msg = (j && j.error) || 'Booking failed - please try again';
         if (/just taken|pick another/i.test(msg)) { bk.view = 'time'; bk.mStep = 'date'; bk.armed = ''; bk.slot = ''; bk.err = msg; bk.loaded = false; bk._fetching = false; renderBooker(); return; }
-        fail(msg);
+        bk.err = msg; renderBooker();
       })
-      .catch(function () { bk.busy = false; if (sb) { sb.disabled = false; sb.textContent = 'Schedule Meeting'; } fail('Network error - please try again'); });
+      .catch(function () { done(); bk.busy = false; bk.err = 'Network error - please try again'; renderBooker(); });
   }
 
   var _animBusy = false;
