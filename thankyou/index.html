@@ -426,107 +426,93 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     </div>
   </div>
 
-  <!-- ‚ïê‚ïê‚ïê TESTIMONIALS ‚ïê‚ïê‚ïê -->
-  <div class="testimonials">
-    <div class="section-head">
-      <p class="eyebrow">Real results</p>
-      <h2>What Automated Dating <span class="gradient">clients are saying</span></h2>
+  <!-- ═══ TESTIMONIAL WALL (ported from /concierge, Peter 2026-07-17) ═══ -->
+<div class="adwall-sec">
+  <div class="adwall-wrap">
+    <div class="adwall-sh">
+      <h2>Real Results from Real Clients</h2>
+      <p>Join hundreds of men who transformed their dating lives.</p>
     </div>
-
-    <div class="testimonials-grid">
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-three-dates.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-david-bumble.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6302.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout">
-        <p>"You guys have literally changed my life"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-new-profile-fire.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-hinge-raya.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-my-type.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-jenny-cropped.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-hinge-matches.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-another-day.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout">
-        <p>"The Hinge &amp; Raya are Firing!"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-tiffany-new.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout">
-        <p>"Had a great time with her"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-ai-pics-difference.png" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6232.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-gray.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout">
-        <p>"You've got a stellar thing set up here"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-good-time.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout">
-        <p>"She's exactly my type"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-closed.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-      <div class="quote-callout">
-        <p>"All at my place"</p>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-bar.jpg" alt="Client testimonial" loading="lazy">
-      </div>
-
-    </div>
-
-    <p class="testimonials-note">Actual screenshots from Telegram, group chats, and DMs. Unedited.</p>
+    <div class="adwall" id="adwall"><div class="wcol"></div><div class="wcol"></div><div class="wcol"></div></div>
   </div>
+</div>
+<style>
+  .adwall-sec{background:#f7f5f1;padding:72px 0}
+  .adwall-wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+  .adwall-sh{text-align:center;margin-bottom:34px}
+  .adwall-sh h2{color:#131210;font-size:34px;line-height:1.2;margin:0 0 10px;font-weight:800}
+  .adwall-sh p{color:#6d6a63;font-size:16.5px;margin:0}
+  .adwall{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;height:780px;overflow:hidden;position:relative;
+    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 7%,#000 93%,transparent);
+    mask-image:linear-gradient(to bottom,transparent,#000 7%,#000 93%,transparent)}
+  .adwall .wcol{display:flex;flex-direction:column;gap:20px;will-change:transform}
+  .adwall .tcard{background:#fff;border:1px solid #eceae4;border-radius:16px;padding:22px 22px;box-shadow:0 2px 14px rgba(0,0,0,.04);flex:none}
+  .adwall .tcard .qq{font-size:15.5px;line-height:1.5;color:#131210;margin:0}
+  .adwall .tcard .who{display:flex;align-items:center;gap:12px;margin-top:16px}
+  .adwall .tcard .av{position:relative;overflow:hidden;width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;background:linear-gradient(140deg,#3a352c,#141210)}
+  .adwall .tcard .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+  .adwall .tcard .who b{display:block;font-size:14.5px;color:#131210}
+  .adwall .tcard .who span{font-size:12.5px;color:#6d6a63}
+  @media(max-width:860px){.adwall{grid-template-columns:repeat(2,1fr);gap:12px;height:620px}.adwall .wcol:nth-child(3){display:none}.adwall .wcol{gap:12px}.adwall .tcard{padding:14px 15px}.adwall .tcard .qq{font-size:14px}.adwall .tcard .who{gap:8px;margin-top:12px}.adwall .tcard .av{width:34px;height:34px;font-size:13px}.adwall .tcard .who b{font-size:12.5px}.adwall .tcard .who span{font-size:11px;line-height:1.3}.adwall-sh h2{font-size:26px}}
+</style>
+<script>
+(function () {
+  var P = '/concierge/';
+  var quotes = [
+    { q: "Getting a shit load of matches on hinge tho", n: "Tony", loc: "Info Business Owner · Austin, TX", img: P + "tw-tony.jpg" },
+    { q: "It's been approx 36 hours, I'm definitely seeing an uptick in quality matches on Bumble", n: "David", loc: "$5m/mo Ecom Founder · Miami, FL", img: P + "tw-david.jpg" },
+    { q: "The new profile is fire. Matching with half the girls I swipe on", n: "Mike", loc: "Attorney · Chicago, IL", img: P + "tw-mike.jpg" },
+    { q: "the hinge/raya is firing btw, thanks a lot for the pics. game changer actually haha", n: "Jonathan", loc: "Product Manager · New York, NY", img: P + "tw-jonathan.jpg" },
+    { q: "Three dates, three nights in a row this past Sunday, Monday and Tuesday. All at my place.", n: "Shaun", loc: "Finance Executive · London, UK", img: P + "tw-shaun2.jpg" },
+    { q: "I went to a bar with all of them. Also going to her house Wednesday", n: "Anthony", loc: "Physician · London, UK", img: P + "tw-anthony.jpg" },
+    { q: "If I just put in the time, I'd be fine. But I just don't want to put in the time. I'd rather just pay somebody.", n: "Grayson", loc: "Marketing Agency Owner · New York, NY", img: P + "tw-grayson.jpg" },
+    { q: "I don't have trouble with women. I just don't want to spend the time. It's like a full-time job.", n: "Marco", loc: "$500k+ FAANG Exec · San Francisco, CA", img: P + "tw-marco2.jpg" },
+    { q: "On Hinge I actually just don't get matches. Like, I don't get any. This fixed that completely.", n: "Asang", loc: "$1m/mo SaaS Owner · Sydney, Australia", img: P + "tw-asang.jpg" },
+    { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Contracting Officer · Ogden, UT", img: P + "tw-casey.jpg" },
+    { q: "You guys have literally changed my life", n: "Derek", loc: "Startup Founder · Seattle, WA", img: P + "tw-derek.jpg" },
+    { q: "She wants to see me again", n: "Nathan", loc: "Private Equity · Chicago, IL", img: P + "tw-nathan2.jpg" },
+    { q: "Had a great time with her", n: "Ryan", loc: "Real Estate Investor · Scottsdale, AZ", img: P + "tw-ryan2.jpg" },
+    { q: "You've got a stellar thing set up here", n: "Chris", loc: "Restaurant Group Owner · Nashville, TN", img: P + "tw-chris.jpg" },
+    { q: "She was exactly my type", n: "James", loc: "M&A Attorney · Boston, MA", img: P + "tw-james2.jpg" },
+    { q: "we met and had a good time", n: "Victor", loc: "Crypto Fund Manager · Miami, FL", img: P + "tw-victor.jpg" },
+    { q: "closed. she was rly cool", n: "Brett", loc: "Med Device Sales · Denver, CO", img: P + "tw-brett.jpg" }
+  ];
+  function card(o) {
+    var av = o.img
+      ? '<div class="av"><img loading="lazy" src="' + o.img + '" alt="" onerror="this.remove()">' + o.n.charAt(0) + '</div>'
+      : '<div class="av">' + o.n.charAt(0) + '</div>';
+    return '<div class="tcard"><p class="qq">\u201C' + o.q + '\u201D</p>' +
+           '<div class="who">' + av + '<div><b>' + o.n + '</b><span>' + o.loc + '</span></div></div></div>';
+  }
+  var cols = document.querySelectorAll('#adwall .wcol');
+  if (!cols.length) return;
+  var split = [[0, 3, 10, 13, 16, 4], [1, 7, 11, 14, 2, 9], [5, 8, 12, 6, 15]];
+  split.forEach(function (idxs, ci) {
+    var html = idxs.map(function (i) { return card(quotes[i]); }).join('');
+    cols[ci].innerHTML = html + html;
+  });
+  var speeds = [30, 38, 26], offs = [0, 0, 0], last = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    requestAnimationFrame(function tick(ts) {
+      if (last != null) {
+        var dt = Math.min((ts - last) / 1000, 0.1);
+        for (var i = 0; i < cols.length; i++) {
+          var kids = cols[i].children, n = kids.length >> 1;
+          if (!n) continue;
+          var loop = kids[n].getBoundingClientRect().top - kids[0].getBoundingClientRect().top;
+          if (loop > 0) { offs[i] = (offs[i] + speeds[i] * dt) % loop; cols[i].style.transform = 'translate3d(0,' + (-offs[i]) + 'px,0)'; }
+        }
+      }
+      last = ts;
+      requestAnimationFrame(tick);
+    });
+  }
+  // Guard: if the page runtime ever re-inserts the old screenshot-grid testimonials, hide it — the wall replaces it.
+  function hideOld() { try { document.querySelectorAll('.testimonials').forEach(function (el) { el.style.display = 'none'; }); } catch (e) {} }
+  hideOld(); setTimeout(hideOld, 1500); setTimeout(hideOld, 4000);
+})();
+</script>
 
 </div>
 
