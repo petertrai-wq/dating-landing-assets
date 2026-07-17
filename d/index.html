@@ -1995,9 +1995,9 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   .adbk-slotcol { flex: 0 0 205px; }
   .adbk-dayhead { font-size: 14.5px; font-weight: 600; color: #1A1A1A; margin: 4px 0 14px; text-align: center; }
   .adbk-slots { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; max-height: 430px; padding: 2px; }
-  .adbk-slot { border: 1px solid #9db6f2; background: #fff; color: #3b6ff5; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; width: 100%; }
+  .adbk-slot { flex: none; border: 1px solid #9db6f2; background: #fff; color: #3b6ff5; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; width: 100%; }
   .adbk-slot:hover { border-color: #3b6ff5; background: #eef2fb; }
-  .adbk-pair { display: flex; gap: 8px; overflow: hidden; }
+  .adbk-pair { display: flex; gap: 8px; flex: none; }   /* overflow:hidden removed - in the height-capped flex column it zeroed the pair's min-size and the whole row collapsed to 0px (Peter's dead Select click) */
   .adbk-chip { flex: 1; border: none; background: #43434a; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; font-family: inherit; animation: adbkChip .3s ease; }
   .adbk-go { flex: 1; border: none; background: #3b6ff5; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; animation: adbkGo .3s ease; }
   @keyframes adbkGo { from { opacity: 0; transform: translateX(22px); } to { opacity: 1; transform: none; } }
