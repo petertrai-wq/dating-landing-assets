@@ -1979,57 +1979,53 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   #adqCal { display: flex; flex-direction: column; height: 100%; }
   #adqCal .adq-caltop { padding: 4px 8px 4px; }
   #adqCal iframe { flex: 1 1 auto; width: 100%; border: none; border-radius: 8px; background: #fff; }
-  /* ── native GHL-style booker (Peter 2026-07-17, v2 scale-up) ── */
-  .adbk { display: flex; height: 100%; font-size: 14.5px; color: #1A1A1A; }
-  .adbk-left { flex: 0 0 265px; border-right: 1px solid #ececf0; padding: 30px 26px; }
-  .adbk-left h3 { font-size: 19px; line-height: 1.35; margin: 0 0 20px; font-weight: 700; }
-  .adbk-left .row { display: flex; gap: 11px; align-items: flex-start; color: #55555c; font-size: 13.5px; margin: 0 0 15px; line-height: 1.4; }
-  .adbk-left .row svg { flex: none; margin-top: 1px; }
-  .adbk-main { flex: 1 1 auto; padding: 28px 34px 22px; overflow-y: auto; }
-  .adbk-main h4 { font-size: 17px; margin: 0 0 18px; font-weight: 700; }
-  .adbk-timegrid { display: flex; gap: 34px; }
-  .adbk-calwrap { flex: 1 1 auto; min-width: 0; max-width: 420px; }
+  /* ── native booker v3: Calendly-integration look (Peter 2026-07-17) — no left bar ── */
+  .adbk { height: 100%; font-size: 14.5px; color: #1A1A1A; overflow-y: auto; padding: 10px 30px 24px; box-sizing: border-box; }
+  .adbk-title { text-align: center; font-size: 19px; font-weight: 700; margin: 6px 0 22px; }
+  .adbk-timegrid { display: flex; gap: 44px; justify-content: center; }
+  .adbk-calwrap { flex: 0 1 430px; min-width: 0; }
   .adbk-monthrow { display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 14px; font-weight: 700; font-size: 15.5px; }
-  .adbk-monthrow button { border: none; background: #fdeeee; color: #e03e3e; width: 34px; height: 34px; border-radius: 50%; font-size: 17px; cursor: pointer; }
+  .adbk-monthrow button { border: none; background: #eef2fb; color: #3b6ff5; width: 34px; height: 34px; border-radius: 50%; font-size: 17px; cursor: pointer; }
   .adbk-cal { width: 100%; border-collapse: collapse; table-layout: fixed; }
   .adbk-cal th { color: #8a8a90; font-size: 12px; font-weight: 600; padding: 6px 0; text-align: center; }
   .adbk-cal td { text-align: center; padding: 4px 0; }
-  .adbk-day { width: 40px; height: 40px; line-height: 40px; border-radius: 50%; display: inline-block; font-size: 14px; color: #c3c3c9; }
-  .adbk-day.av { color: #e03e3e; font-weight: 700; cursor: pointer; background: #fdeeee; }
-  .adbk-day.sel { background: #e03e3e; color: #fff; }
-  .adbk-slots { flex: 0 0 195px; display: flex; flex-direction: column; gap: 11px; overflow-y: auto; max-height: 470px; padding: 2px; }
-  .adbk-slot { border: 1px solid #e03e3e; background: #fff; color: #e03e3e; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; width: 100%; }
-  .adbk-slot:hover { background: #fdeeee; }
+  .adbk-day { width: 40px; height: 40px; line-height: 40px; border-radius: 50%; display: inline-block; font-size: 14px; color: #c3c3c9; position: relative; }
+  .adbk-day.av { color: #3b6ff5; font-weight: 700; cursor: pointer; background: #eef2fb; }
+  .adbk-day.sel { background: #3b6ff5; color: #fff; }
+  .adbk-slotcol { flex: 0 0 205px; }
+  .adbk-dayhead { font-size: 14.5px; font-weight: 600; color: #1A1A1A; margin: 4px 0 14px; text-align: center; }
+  .adbk-slots { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; max-height: 430px; padding: 2px; }
+  .adbk-slot { border: 1px solid #9db6f2; background: #fff; color: #3b6ff5; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; width: 100%; }
+  .adbk-slot:hover { border-color: #3b6ff5; background: #eef2fb; }
   .adbk-pair { display: flex; gap: 8px; overflow: hidden; }
   .adbk-chip { flex: 1; border: none; background: #43434a; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; font-family: inherit; animation: adbkChip .3s ease; }
-  .adbk-go { flex: 1; border: none; background: #e03e3e; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; animation: adbkGo .3s ease; }
+  .adbk-go { flex: 1; border: none; background: #3b6ff5; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; animation: adbkGo .3s ease; }
   @keyframes adbkGo { from { opacity: 0; transform: translateX(22px); } to { opacity: 1; transform: none; } }
   @keyframes adbkChip { from { transform: translateX(11px); } to { transform: none; } }
   .adbk-tzwrap { margin-top: 18px; }
   .adbk-tzlbl { color: #1A1A1A; font-size: 13.5px; font-weight: 700; margin-bottom: 7px; }
-  .adbk-tzwrap select { width: 100%; max-width: 320px; border: 1px solid #d9d9df; border-radius: 7px; padding: 9px 10px; font-size: 13.5px; font-family: inherit; color: #1A1A1A; background: #fff; outline: none; }
-  .adbk-back { display: inline-flex; align-items: center; gap: 6px; border: none; background: none; color: #e03e3e; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; padding: 0; margin-bottom: 14px; }
-  .adbk-details { max-width: 470px; }
+  .adbk-tzwrap select { width: 100%; max-width: 320px; border: none; background: transparent; font-size: 13.5px; font-family: inherit; color: #55555c; outline: none; cursor: pointer; }
+  .adbk-back { display: inline-flex; align-items: center; gap: 6px; border: none; background: none; color: #3b6ff5; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; padding: 0; margin-bottom: 14px; }
+  .adbk-when { display: flex; align-items: center; justify-content: center; gap: 8px; color: #55555c; font-size: 13.5px; margin: -10px 0 18px; }
+  .adbk-details { max-width: 470px; margin: 0 auto; }
+  .adbk-details h4 { font-size: 17px; margin: 0 0 6px; font-weight: 700; text-align: center; }
   .adbk-details label { display: block; color: #55555c; font-size: 13px; font-weight: 600; margin: 16px 0 6px; }
   .adbk-details input[type=text], .adbk-details input[type=tel], .adbk-details input[type=email] { display: block; width: 100%; box-sizing: border-box; border: 1px solid #d9d9df; border-radius: 7px; padding: 12px 12px; font-size: 15.5px; font-family: inherit; outline: none; }
-  .adbk-details input:focus { border-color: #e03e3e; }
+  .adbk-details input:focus { border-color: #3b6ff5; }
   .adbk-confirm { display: flex; gap: 12px; align-items: flex-start; margin: 18px 0 0; font-size: 13.5px; color: #1A1A1A; line-height: 1.45; cursor: pointer; }
-  .adbk-confirm input { width: 17px; height: 17px; margin-top: 3px; accent-color: #e03e3e; flex: none; }
-  .adbk-sched { display: block; width: 100%; border: none; background: #e03e3e; color: #fff; font-weight: 700; font-size: 15.5px; border-radius: 8px; padding: 14px 0; margin-top: 20px; cursor: pointer; font-family: inherit; }
+  .adbk-confirm input { width: 17px; height: 17px; margin-top: 3px; accent-color: #3b6ff5; flex: none; }
+  .adbk-sched { display: block; width: 100%; border: none; background: #3b6ff5; color: #fff; font-weight: 700; font-size: 15.5px; border-radius: 8px; padding: 14px 0; margin-top: 20px; cursor: pointer; font-family: inherit; }
   .adbk-sched:disabled { opacity: .55; cursor: default; }
   .adbk-sched.off { opacity: .45; }
   .adbk-newtime { display: block; width: 100%; border: 1px solid #d9d9df; background: #fff; color: #55555c; font-weight: 600; font-size: 13.5px; border-radius: 8px; padding: 12px 0; margin-top: 10px; cursor: pointer; font-family: inherit; }
-  .adbk-err { color: #d64545; font-size: 13px; margin-top: 10px; min-height: 17px; }
+  .adbk-err { color: #d64545; font-size: 13px; margin-top: 10px; min-height: 17px; text-align: center; }
   .adbk-load { display: flex; align-items: center; justify-content: center; height: 100%; color: #8a8a90; font-size: 14.5px; }
   @media (max-width: 768px) {
-    .adbk { flex-direction: column; overflow-y: auto; display: block; }
-    .adbk-left { border-right: none; border-bottom: 1px solid #ececf0; flex: none; padding: 14px 16px; }
-    .adbk-left h3 { margin-bottom: 10px; font-size: 17px; }
-    .adbk-left .row { margin-bottom: 9px; }
-    .adbk-main { overflow: visible; padding: 16px 16px 24px; }
+    .adbk { padding: 6px 16px 24px; }
     .adbk-timegrid { flex-direction: column; gap: 14px; }
-    .adbk-calwrap { max-width: none; }
-    .adbk-slots { flex: none; max-height: none; }
+    .adbk-calwrap { flex: none; }
+    .adbk-slotcol { flex: none; }
+    .adbk-slots { max-height: none; }
   }
 </style>
 <div id="adqOverlay" hidden>
@@ -2081,6 +2077,17 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   } catch (e) {}
   function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify({ token: token, A: A, step: step, finished: finished, cc: cc })); } catch (e) {} }
   function clearState() { try { localStorage.removeItem(STATE_KEY); } catch (e) {} }
+  // /dcal test entry (Peter 2026-07-17): automated.dating/dcal redirects here with ?dcal=1 —
+  // the popup opens DIRECTLY at the calendar with qualified answers prefilled and NO application
+  // submit (submitted=true), so booking can be tested end-to-end without junk form fills.
+  var DCAL = /[?&]dcal=1/.test(location.search);
+  if (DCAL) {
+    A = { q1: 'Yes', goals: ['Improve my dating life overall'], interest: ['I want a proven system that actually get results.'],
+      occupation: 'Test run', income: '200k+', problem: 'Testing the booking flow', start: 'ASAP',
+      first: 'Peter', last: 'Test', phone: '+13238404332', email: 'petertrai@gmail.com',
+      invest: "Yes. I'm willing and able to invest if this is a great fit.", commit: 'Yes - I will double-check my calendar and commit 100% to the time I choose' };
+    finished = 'cal'; submitted = true; partialSent = true;
+  }
   var ov = document.getElementById('adqOverlay'), body = document.getElementById('adqBody'), bar = document.getElementById('adqBarFill');
   var prevB = document.getElementById('adqPrev'), nextB = document.getElementById('adqNext');
 
@@ -2258,15 +2265,8 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       renderBooker();
     }).catch(function () { bk.err = 'Could not load times'; bk.loaded = true; renderBooker(); });
   }
-  function bkLeftPanel() {
-    return '<div class="adbk-left"><h3>Profile Audit</h3>' +
-      '<div class="row">' + IC.clock + ' ' + bk.mins + ' min</div>' +
-      (bk.slot ? '<div class="row">' + IC.cal + ' ' + esc(bkFmtWhen(bk.slot)) + '</div>' : '') +
-      '<div class="row">' + IC.globe + ' ' + esc(bk.tz.replace(/_/g, ' ')) + '</div>' +
-      (!bk.slot ? '<div class="row">' + IC.list + ' Pick the time that works best.</div>' : '') + '</div>';
-  }
   function bkTzSelHtml() {
-    return '<div class="adbk-tzwrap"><div class="adbk-tzlbl">Time zone</div><select id="bkTz">' +
+    return '<div class="adbk-tzwrap"><div class="adbk-tzlbl">Time zone</div>' + IC.globe + ' <select id="bkTz">' +
       BK_TZS.map(function (tz) { return '<option value="' + esc(tz) + '"' + (tz === bk.tz ? ' selected' : '') + '>' + esc(bkGmtLabel(tz)) + '</option>'; }).join('') +
       '</select></div>';
   }
@@ -2298,7 +2298,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     }).join('') + '</div>';
   }
   function bkDetailsHtml() {
-    return '<div class="adbk-details"><h4>Enter Details</h4>' +
+    return '<div class="adbk-details">' +
       '<label>First Name *</label><input type="text" id="bkFirst" value="' + esc(A.first || '') + '">' +
       '<label>Phone *</label><input type="tel" id="bkPhone" value="' + esc(A.phone ? phoneE164() : '') + '">' +
       '<label>Email *</label><input type="email" id="bkEmail" value="' + esc(A.email || '') + '">' +
@@ -2307,23 +2307,28 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       '<button type="button" class="adbk-newtime" id="bkNewTime">I won\'t be at a computer at this time - pick a new time</button>' +
       '<div class="adbk-err" id="bkErr">' + esc(bk.err || '') + '</div></div>';
   }
+  function bkDayLabel() { return bk.selDate ? new Date(bk.selDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''; }
   function renderBooker() {
     if (!bk.loaded) { body.innerHTML = '<div class="adbk-load">Loading available times…</div>'; if (!bk._fetching) { bk._fetching = true; bkFetch(); } return; }
-    var main;
-    if (bk.view === 'details') main = bkDetailsHtml();
-    else if (bkIsMob() && bk.mStep === 'slots') {
-      // Mobile step 2 (Typeform→Calendly style): the chosen day's times, with a back link to the days.
-      var dLbl = bk.selDate ? new Date(bk.selDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : '';
-      main = '<button type="button" class="adbk-back" id="bkBackDates">‹ Pick a different day</button>' +
-        '<h4>' + esc(dLbl) + '</h4>' + bkSlotsHtml();
+    var inner;
+    if (bk.view === 'details') {
+      inner = '<div class="adbk-title">Enter Details</div>' +
+        '<div class="adbk-when">' + IC.clock + ' ' + bk.mins + ' min &nbsp; ' + IC.cal + ' ' + esc(bkFmtWhen(bk.slot)) + '</div>' +
+        bkDetailsHtml();
+    } else if (bkIsMob() && bk.mStep === 'slots') {
+      inner = '<button type="button" class="adbk-back" id="bkBackDates">‹ Pick a different day</button>' +
+        '<div class="adbk-dayhead">' + esc(bkDayLabel()) + '</div>' + bkSlotsHtml() +
+        (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
     } else if (bkIsMob()) {
-      main = '<h4>Select a Day</h4><div class="adbk-timegrid">' + bkCalHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
+      inner = '<div class="adbk-title">Select a Date &amp; Time</div><div class="adbk-timegrid">' + bkCalHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
     } else {
-      main = '<h4>Select Date &amp; Time</h4><div class="adbk-timegrid">' + bkCalHtml() + bkSlotsHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
+      inner = '<div class="adbk-title">Select a Date &amp; Time</div><div class="adbk-timegrid">' + bkCalHtml() +
+        '<div class="adbk-slotcol"><div class="adbk-dayhead">' + esc(bkDayLabel()) + '</div>' + bkSlotsHtml() + '</div></div>' +
+        (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
     }
-    body.innerHTML = '<div class="adbk">' + bkLeftPanel() + '<div class="adbk-main">' + main + '</div></div>';
+    body.innerHTML = '<div class="adbk">' + inner + '</div>';
     body.scrollTop = 0;
-    var mainEl = body.querySelector('.adbk-main'); if (mainEl) mainEl.scrollTop = 0;
+    var scr = body.querySelector('.adbk'); if (scr) scr.scrollTop = 0;
     body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.armed = ''; if (bkIsMob()) bk.mStep = 'slots'; renderBooker(); }); });
     body.querySelectorAll('[data-bknav]').forEach(function (el) { el.addEventListener('click', function () { var m = bk.month || new Date(); bk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-bknav'), 10), 1); renderBooker(); }); });
     body.querySelectorAll('[data-bkarm]').forEach(function (el) { el.addEventListener('click', function () { bk.armed = el.getAttribute('data-bkarm'); renderBooker(); }); });
@@ -2467,6 +2472,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   }
   function closeModal() { ov.hidden = true; document.documentElement.style.overflow = ''; saveState(); }
   document.getElementById('adqClose').addEventListener('click', closeModal);
+  if (DCAL) setTimeout(openModal, 300);
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest && e.target.closest('[data-tf-popup]');
     if (t) { e.preventDefault(); openModal(); }
