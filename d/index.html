@@ -1977,6 +1977,50 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   #adqCal { display: flex; flex-direction: column; height: 100%; }
   #adqCal .adq-caltop { padding: 4px 8px 4px; }
   #adqCal iframe { flex: 1 1 auto; width: 100%; border: none; border-radius: 8px; background: #fff; }
+  /* ── native GHL-style booker (Peter 2026-07-17) ── */
+  .adbk { display: flex; height: 100%; font-size: 14px; color: #1A1A1A; }
+  .adbk-left { flex: 0 0 215px; border-right: 1px solid #ececf0; padding: 18px 16px; }
+  .adbk-left .ey { color: #8a8a90; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 6px; }
+  .adbk-left h3 { font-size: 16.5px; line-height: 1.35; margin: 0 0 14px; font-weight: 700; }
+  .adbk-left .row { display: flex; gap: 8px; align-items: flex-start; color: #55555c; font-size: 12.5px; margin: 0 0 10px; line-height: 1.35; }
+  .adbk-main { flex: 1 1 auto; padding: 14px 18px 12px; overflow-y: auto; }
+  .adbk-main h4 { font-size: 15.5px; margin: 0 0 12px; font-weight: 700; }
+  .adbk-timegrid { display: flex; gap: 18px; }
+  .adbk-calwrap { flex: 1 1 auto; min-width: 0; }
+  .adbk-monthrow { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 10px; font-weight: 600; font-size: 14px; }
+  .adbk-monthrow button { border: none; background: #fdeeee; color: #e03e3e; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+  .adbk-cal { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .adbk-cal th { color: #8a8a90; font-size: 11.5px; font-weight: 600; padding: 4px 0; text-align: center; }
+  .adbk-cal td { text-align: center; padding: 3px 0; }
+  .adbk-day { width: 34px; height: 34px; line-height: 34px; border-radius: 50%; display: inline-block; font-size: 13px; color: #c3c3c9; }
+  .adbk-day.av { color: #e03e3e; font-weight: 700; cursor: pointer; background: #fdeeee; }
+  .adbk-day.sel { background: #e03e3e; color: #fff; }
+  .adbk-slots { flex: 0 0 168px; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; max-height: 430px; padding: 2px; }
+  .adbk-slot { border: 1px solid #e03e3e; background: #fff; color: #e03e3e; font-weight: 700; font-size: 13.5px; border-radius: 6px; padding: 10px 0; cursor: pointer; font-family: inherit; width: 100%; }
+  .adbk-slot:hover { background: #fdeeee; }
+  .adbk-pair { display: flex; gap: 8px; }
+  .adbk-chip { flex: 1; border: none; background: #43434a; color: #fff; font-weight: 700; font-size: 13.5px; border-radius: 6px; padding: 10px 0; font-family: inherit; }
+  .adbk-go { flex: 1; border: none; background: #e03e3e; color: #fff; font-weight: 700; font-size: 13.5px; border-radius: 6px; padding: 10px 0; cursor: pointer; font-family: inherit; }
+  .adbk-tz { color: #55555c; font-size: 12.5px; margin-top: 12px; }
+  .adbk-details { max-width: 430px; }
+  .adbk-details label { display: block; color: #55555c; font-size: 12.5px; font-weight: 600; margin: 14px 0 5px; }
+  .adbk-details input[type=text], .adbk-details input[type=tel], .adbk-details input[type=email] { display: block; width: 100%; box-sizing: border-box; border: 1px solid #d9d9df; border-radius: 7px; padding: 10px 11px; font-size: 15px; font-family: inherit; outline: none; }
+  .adbk-details input:focus { border-color: #e03e3e; }
+  .adbk-confirm { display: flex; gap: 9px; align-items: flex-start; margin: 16px 0 0; font-size: 13px; color: #1A1A1A; line-height: 1.4; cursor: pointer; }
+  .adbk-confirm input { width: 17px; height: 17px; margin-top: 1px; accent-color: #e03e3e; flex: none; }
+  .adbk-sched { display: block; width: 100%; border: none; background: #e03e3e; color: #fff; font-weight: 700; font-size: 15.5px; border-radius: 8px; padding: 13px 0; margin-top: 18px; cursor: pointer; font-family: inherit; }
+  .adbk-sched:disabled { opacity: .55; cursor: default; }
+  .adbk-newtime { display: block; width: 100%; border: 1px solid #d9d9df; background: #fff; color: #55555c; font-weight: 600; font-size: 13.5px; border-radius: 8px; padding: 11px 0; margin-top: 10px; cursor: pointer; font-family: inherit; }
+  .adbk-err { color: #d64545; font-size: 13px; margin-top: 10px; min-height: 17px; }
+  .adbk-load { display: flex; align-items: center; justify-content: center; height: 100%; color: #8a8a90; font-size: 14.5px; }
+  @media (max-width: 768px) {
+    .adbk { flex-direction: column; overflow-y: auto; display: block; }
+    .adbk-left { border-right: none; border-bottom: 1px solid #ececf0; flex: none; padding: 12px 14px; }
+    .adbk-left h3 { margin-bottom: 8px; }
+    .adbk-main { overflow: visible; padding: 12px 14px 16px; }
+    .adbk-timegrid { flex-direction: column; gap: 12px; }
+    .adbk-slots { flex: none; max-height: none; }
+  }
 </style>
 <div id="adqOverlay" hidden>
   <div id="adqCard" role="dialog" aria-modal="true" aria-label="Automated Dating Application">
@@ -2112,10 +2156,9 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       return;
     }
     if (finished === 'cal') {
-      var qsp = '?first_name=' + encodeURIComponent(A.first || '') + '&last_name=' + encodeURIComponent(A.last || '') + '&email=' + encodeURIComponent(A.email || '') + '&phone=' + encodeURIComponent(A.phone ? phoneE164() : '');
-      body.style.padding = '8px 10px 10px';
-      body.innerHTML = '<div id="adqCal"><iframe src="' + CAL + qsp + '" allow="clipboard-write" title="Schedule your audit"></iframe></div>';
+      body.style.padding = '0';
       bar.style.width = '100%';
+      renderBooker();
       return;
     }
     var q = QS[step];
@@ -2164,6 +2207,109 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     }
     if (inp && window.matchMedia('(min-width: 769px)').matches) { try { inp.focus(); } catch (e) {} }
   }
+  // ── Native booker (Peter 2026-07-17): pick a time → Select → prefilled details → Schedule Meeting.
+  var API_SLOTS = 'https://admin.automated.dating/api/apply/slots';
+  var API_BOOK = 'https://admin.automated.dating/api/apply/book';
+  var bk = { loaded: false, dates: {}, mins: 45, month: null, selDate: '', armed: '', slot: '', view: 'time', err: '', busy: false };
+  function bkTzLabel() { try { return Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g, ' '); } catch (e) { return 'your local time'; } }
+  function bkFmtTime(iso) { return new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
+  function bkFmtWhen(iso) { var d = new Date(iso); return bkFmtTime(iso) + ' - ' + new Date(d.getTime() + bk.mins * 60000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' , ' + d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }); }
+  function bkFetch() {
+    fetch(API_SLOTS, { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j || !j.ok) { bk.err = (j && j.error) || 'Could not load times'; bk.loaded = true; renderBooker(); return; }
+      bk.dates = j.dates || {}; bk.mins = j.durationMins || 45; bk.loaded = true; bk.err = '';
+      var keys = Object.keys(bk.dates).filter(function (k) { return (bk.dates[k] || []).length; }).sort();
+      if (!bk.selDate || keys.indexOf(bk.selDate) < 0) bk.selDate = keys[0] || '';
+      bk.month = bk.selDate ? new Date(bk.selDate + 'T12:00:00') : new Date();
+      renderBooker();
+    }).catch(function () { bk.err = 'Could not load times'; bk.loaded = true; renderBooker(); });
+  }
+  function bkLeftPanel() {
+    return '<div class="adbk-left"><p class="ey">Consults</p><h3>Profile Audit | Automated Dating</h3>' +
+      '<div class="row">🕐 ' + bk.mins + ' min</div>' +
+      (bk.slot ? '<div class="row">📅 ' + esc(bkFmtWhen(bk.slot)) + '</div>' : '') +
+      '<div class="row">🌐 ' + esc(bkTzLabel()) + '</div>' +
+      (!bk.slot ? '<div class="row" style="color:#8a8a90">Pick the time that works best.</div>' : '') + '</div>';
+  }
+  function bkCalHtml() {
+    var m = bk.month || new Date();
+    var y = m.getFullYear(), mo = m.getMonth();
+    var first = new Date(y, mo, 1), startDow = first.getDay(), dim = new Date(y, mo + 1, 0).getDate();
+    var head = '<div class="adbk-monthrow"><button type="button" data-bknav="-1">‹</button><span>' + m.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) + '</span><button type="button" data-bknav="1">›</button></div>';
+    var h = '<table class="adbk-cal"><tr>' + ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(function (d) { return '<th>' + d + '</th>'; }).join('') + '</tr><tr>';
+    var cell = 0;
+    for (var i = 0; i < startDow; i++) { h += '<td></td>'; cell++; }
+    for (var day = 1; day <= dim; day++) {
+      var key = y + '-' + String(mo + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+      var av = (bk.dates[key] || []).length > 0;
+      var cls = 'adbk-day' + (av ? ' av' : '') + (key === bk.selDate ? ' sel' : '');
+      h += '<td><span class="' + cls + '"' + (av ? ' data-bkdate="' + key + '"' : '') + '>' + day + '</span></td>';
+      cell++;
+      if (cell % 7 === 0 && day < dim) h += '</tr><tr>';
+    }
+    h += '</tr></table>';
+    return '<div class="adbk-calwrap">' + head + h + '<div class="adbk-tz">Times shown in ' + esc(bkTzLabel()) + '</div></div>';
+  }
+  function bkSlotsHtml() {
+    var slots = (bk.dates[bk.selDate] || []);
+    if (!slots.length) return '<div class="adbk-slots"><div style="color:#8a8a90;font-size:13px">No times this day</div></div>';
+    return '<div class="adbk-slots">' + slots.map(function (iso) {
+      if (bk.armed === iso) return '<div class="adbk-pair"><button type="button" class="adbk-chip">' + bkFmtTime(iso) + '</button><button type="button" class="adbk-go" data-bksel="' + esc(iso) + '">Select</button></div>';
+      return '<button type="button" class="adbk-slot" data-bkarm="' + esc(iso) + '">' + bkFmtTime(iso) + '</button>';
+    }).join('') + '</div>';
+  }
+  function bkDetailsHtml() {
+    return '<div class="adbk-details"><h4>Enter Details</h4>' +
+      '<label>First Name *</label><input type="text" id="bkFirst" value="' + esc(A.first || '') + '">' +
+      '<label>Phone *</label><input type="tel" id="bkPhone" value="' + esc(A.phone ? phoneE164() : '') + '">' +
+      '<label>Email *</label><input type="email" id="bkEmail" value="' + esc(A.email || '') + '">' +
+      '<label class="adbk-confirm"><input type="checkbox" id="bkConfirm"><span>Please confirm you will 100% be ready at this time at a laptop with no distractions. *</span></label>' +
+      '<button type="button" class="adbk-sched" id="bkSched">Schedule Meeting</button>' +
+      '<button type="button" class="adbk-newtime" id="bkNewTime">I won\'t be at a computer at this time - pick a new time</button>' +
+      '<div class="adbk-err" id="bkErr">' + esc(bk.err || '') + '</div></div>';
+  }
+  function renderBooker() {
+    if (!bk.loaded) { body.innerHTML = '<div class="adbk-load">Loading available times…</div>'; if (!bk._fetching) { bk._fetching = true; bkFetch(); } return; }
+    var main;
+    if (bk.view === 'details') main = bkDetailsHtml();
+    else main = '<h4>Select Date &amp; Time</h4><div class="adbk-timegrid">' + bkCalHtml() + bkSlotsHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
+    body.innerHTML = '<div class="adbk">' + bkLeftPanel() + '<div class="adbk-main">' + main + '</div></div>';
+    body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.armed = ''; renderBooker(); }); });
+    body.querySelectorAll('[data-bknav]').forEach(function (el) { el.addEventListener('click', function () { var m = bk.month || new Date(); bk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-bknav'), 10), 1); renderBooker(); }); });
+    body.querySelectorAll('[data-bkarm]').forEach(function (el) { el.addEventListener('click', function () { bk.armed = el.getAttribute('data-bkarm'); renderBooker(); }); });
+    body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); bk.view = 'details'; bk.err = ''; renderBooker(); }); });
+    var nt = document.getElementById('bkNewTime');
+    if (nt) nt.addEventListener('click', function () { bk.view = 'time'; bk.armed = ''; bk.slot = ''; bk.err = ''; bk.loaded = false; bk._fetching = false; renderBooker(); });
+    var sb = document.getElementById('bkSched');
+    if (sb) sb.addEventListener('click', bkSchedule);
+  }
+  function bkSchedule() {
+    if (bk.busy) return;
+    var first = (document.getElementById('bkFirst') || {}).value || '';
+    var phone = (document.getElementById('bkPhone') || {}).value || '';
+    var email = (document.getElementById('bkEmail') || {}).value || '';
+    var conf = document.getElementById('bkConfirm');
+    var errEl = document.getElementById('bkErr');
+    var fail = function (m) { if (errEl) errEl.textContent = m; };
+    if (!first.trim()) return fail('Please enter your first name');
+    if (phone.replace(/\D/g, '').length < 8) return fail('Please enter a valid phone number');
+    if (!/.+@.+\..+/.test(email)) return fail('Please enter a valid email');
+    if (!conf || !conf.checked) return fail('Please check the confirmation box');
+    bk.busy = true;
+    var sb = document.getElementById('bkSched'); if (sb) { sb.disabled = true; sb.textContent = 'Scheduling…'; }
+    fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot }) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (j && j.ok) { if (sb) sb.textContent = 'Booked! One sec…'; try { clearState(); sessionStorage.removeItem('adq_token'); } catch (e) {} window.location.href = '/thankyou/'; return; }
+        bk.busy = false;
+        if (sb) { sb.disabled = false; sb.textContent = 'Schedule Meeting'; }
+        var msg = (j && j.error) || 'Booking failed - please try again';
+        if (/just taken|pick another/i.test(msg)) { bk.view = 'time'; bk.armed = ''; bk.slot = ''; bk.err = msg; bk.loaded = false; bk._fetching = false; renderBooker(); return; }
+        fail(msg);
+      })
+      .catch(function () { bk.busy = false; if (sb) { sb.disabled = false; sb.textContent = 'Schedule Meeting'; } fail('Network error - please try again'); });
+  }
+
   var _animBusy = false;
   function render(animate) {
     if (!animate || ov.hidden) { renderInner(); return; }
