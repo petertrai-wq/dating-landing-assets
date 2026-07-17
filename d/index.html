@@ -1926,7 +1926,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   #adqOverlay { position: fixed; inset: 0; z-index: 2147482000; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; }
   #adqOverlay[hidden] { display: none; }
   #adqCard { position: relative; background: #ffffff; width: 760px; height: min(92vh, 980px); max-width: 94vw; max-height: 94vh; border-radius: 20px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.5); display: flex; flex-direction: column; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-  @media (max-width: 768px) { #adqCard { width: 94vw; height: 92vh; max-height: 92vh; border-radius: 16px; } }
+  @media (max-width: 768px) { #adqCard { width: 92vw; height: 82vh; height: 86dvh; max-height: 86dvh; border-radius: 16px; } }
   #adqBar { height: 3px; background: #ececec; flex: 0 0 auto; }
   #adqBarFill { height: 100%; width: 0%; background: #1A1A1A; transition: width .25s ease; }
   #adqHead { flex: 0 0 auto; padding: 16px 22px 0; }
@@ -2008,7 +2008,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     { key: 'name', type: 'name', title: "What's your name?" },
     { key: 'email', type: 'email', title: "What's your email address?" },
     { key: 'invest', type: 'choice', title: 'Are you willing to invest if this makes sense for you?', opts: ["Yes. I'm willing and able to invest if this is a great fit.", "No. I'm not willing or able to invest at this time."] },
-    { key: 'commit', type: 'choice', title: 'Last Question - On the following page, you will be able to schedule a free profile audit with one of our specialists (you do not need current active profiles for this). After working with 300+ clients, we know with 100% certainty we can help you. But we can NOT help you if you do NOT show up to the scheduled call time. Will you commit to attending your selected time slot and showing up in a quiet place ready to work on your dating transformation?', opts: ['Yes - I will double-check my calendar and commit 100% to the time I choose', "Maybe - I'm not sure if I'm serious about this"] }
+    { key: 'commit', type: 'choice', title: 'Last Question - On the following page, you will be able to schedule a profile audit with one of our specialists (you do not need current active profiles for this). After working with 300+ clients, we know with 100% certainty we can help you. But we can NOT help you if you do NOT show up to the scheduled call time. Will you commit to attending your selected time slot and showing up in a quiet place ready to work on your dating transformation?', opts: ['Yes - I will double-check my calendar and commit 100% to the time I choose', "Maybe - I'm not sure if I'm serious about this"] }
   ];
   var COUNTRIES = [['US','+1','🇺🇸'],['CA','+1','🇨🇦'],['GB','+44','🇬🇧'],['AU','+61','🇦🇺'],['MX','+52','🇲🇽'],['BR','+55','🇧🇷'],['DE','+49','🇩🇪'],['FR','+33','🇫🇷'],['ES','+34','🇪🇸'],['IT','+39','🇮🇹'],['NL','+31','🇳🇱'],['IN','+91','🇮🇳'],['PH','+63','🇵🇭'],['CO','+57','🇨🇴'],['AR','+54','🇦🇷'],['CL','+56','🇨🇱'],['PE','+51','🇵🇪'],['NG','+234','🇳🇬'],['ZA','+27','🇿🇦'],['AE','+971','🇦🇪'],['SA','+966','🇸🇦'],['SG','+65','🇸🇬'],['HK','+852','🇭🇰'],['JP','+81','🇯🇵'],['KR','+82','🇰🇷'],['PL','+48','🇵🇱'],['SE','+46','🇸🇪'],['CH','+41','🇨🇭'],['IE','+353','🇮🇪'],['IL','+972','🇮🇱'],['NZ','+64','🇳🇿'],['PT','+351','🇵🇹'],['TR','+90','🇹🇷']];
   var TOTAL = QS.length + 1;
@@ -2113,10 +2113,8 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     }
     if (finished === 'cal') {
       var qsp = '?first_name=' + encodeURIComponent(A.first || '') + '&last_name=' + encodeURIComponent(A.last || '') + '&email=' + encodeURIComponent(A.email || '') + '&phone=' + encodeURIComponent(A.phone ? phoneE164() : '');
-      body.style.padding = '10px 14px 14px';
-      body.innerHTML = '<div id="adqCal"><div class="adq-caltop"><p class="adq-title" style="font-size:18px;margin:0">Schedule your audit here:<span class="adq-req">*</span></p>' +
-        '<p class="adq-desc" style="margin:2px 0 6px">(Please allow up to 30 seconds for the calendar to load)</p></div>' +
-        '<iframe src="' + CAL + qsp + '" allow="clipboard-write" title="Schedule your audit"></iframe></div>';
+      body.style.padding = '8px 10px 10px';
+      body.innerHTML = '<div id="adqCal"><iframe src="' + CAL + qsp + '" allow="clipboard-write" title="Schedule your audit"></iframe></div>';
       bar.style.width = '100%';
       return;
     }
@@ -2229,10 +2227,20 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     } else if (!A[q.key]) { return false; }
     return true;
   }
+  var phonePartialFired = false;
+  // The moment a valid phone lands, the lead is captured server-side as a partial and the texting
+  // automation fires (Peter 2026-07-17) — even if they never answer another question. The server
+  // dedups partials by token, and a later COMPLETE still processes fully.
+  function firePhonePartial() {
+    if (phonePartialFired || submitted) return;
+    phonePartialFired = true; partialSent = true;
+    try { fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload(false), keepalive: true }).catch(function () {}); } catch (e) {}
+  }
   function advance() {
     if (finished) return;
     if (!collect()) return;
     var q = QS[step];
+    if (q.key === 'phone') firePhonePartial();
     // Typeform-mirrored logic: DQ (Q1 No / income 0k-50k / invest No) evaluates at the INVEST
     // question; commit "Maybe" DQs; else calendar. Submission fires when an ENDING is reached —
     // before the calendar shows, so qualified non-bookers are never lost.
