@@ -1926,18 +1926,18 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   #adqOverlay { position: fixed; inset: 0; z-index: 2147482000; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; }
   #adqOverlay[hidden] { display: none; }
   #adqCard { position: relative; background: #ffffff; width: 760px; height: min(92vh, 980px); max-width: 94vw; max-height: 94vh; border-radius: 20px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.5); display: flex; flex-direction: column; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-  @media (max-width: 768px) { #adqCard { width: 92vw; height: 82vh; height: 86dvh; max-height: 86dvh; border-radius: 16px; } }
+  @media (max-width: 768px) { #adqCard { width: 100vw; height: 100vh; height: 100dvh; max-width: 100vw; max-height: 100dvh; border-radius: 0; } }
   #adqBar { height: 3px; background: #ececec; flex: 0 0 auto; }
   #adqBarFill { height: 100%; width: 0%; background: #1A1A1A; transition: width .25s ease; }
   #adqHead { flex: 0 0 auto; padding: 16px 22px 0; }
   #adqHead img { height: 38px; display: block; }
   #adqBody { flex: 1 1 auto; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; padding: 12px 60px 70px; -webkit-overflow-scrolling: touch; }
-  @media (max-width: 768px) { #adqBody { padding: 10px 22px 76px; } }
+  @media (max-width: 768px) { #adqBody { padding: 6px 22px 90px; justify-content: flex-start; } }
   #adqBody.anim-out { opacity: 0; transform: translateY(-10px); transition: opacity .13s ease, transform .13s ease; }
   #adqBody.anim-pre { opacity: 0; transform: translateY(16px); transition: none; }
   #adqBody.anim-in { opacity: 1; transform: translateY(0); transition: opacity .17s ease, transform .17s ease; }
   #adqClose { position: absolute; top: 24px; right: 24px; z-index: 2147483000; width: 36px; height: 36px; border: none; background: none; color: #ffffff; font-size: 34px; line-height: 36px; cursor: pointer; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.95)) drop-shadow(0 0 6px rgba(0,0,0,0.9)); }
-  @media (max-width: 768px) { #adqClose { top: 3vh; right: 3vw; } }
+  @media (max-width: 768px) { #adqClose { top: 6px; right: 8px; color: #1A1A1A; filter: none; } }
   .adq-qrow { display: flex; align-items: flex-start; gap: 10px; max-width: 560px; }
   .adq-qnum { flex: 0 0 auto; min-width: 22px; height: 22px; margin-top: 3px; padding: 0 4px; background: #1A1A1A; color: #ffffff; border-radius: 4px; font-size: 12.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
   .adq-title { color: #1A1A1A; font-size: 20px; line-height: 1.4; font-weight: 400; margin: 0; }
@@ -1964,6 +1964,8 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   .adq-ok { border: none; background: #60A5FA; color: #ffffff; font-size: 17px; font-weight: 600; padding: 9px 22px; border-radius: 4px; cursor: pointer; font-family: inherit; }
   .adq-ok:hover { background: #4b94f5; }
   .adq-hint { color: #9aa1ab; font-size: 12.5px; }
+  .adq-back { display: none; border: 1px solid #d5d9de; background: #fff; color: #55555c; font-size: 17px; font-weight: 600; padding: 8px 18px; border-radius: 4px; font-family: inherit; cursor: pointer; }
+  @media (max-width: 768px) { .adq-back { display: inline-block; } }
   @media (max-width: 768px) { .adq-hint { display: none; } }
   .adq-err { color: #d64545; font-size: 13.5px; margin-top: 10px; min-height: 18px; }
   #adqNav { position: absolute; bottom: 14px; right: 16px; display: flex; gap: 2px; }
@@ -1977,49 +1979,56 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   #adqCal { display: flex; flex-direction: column; height: 100%; }
   #adqCal .adq-caltop { padding: 4px 8px 4px; }
   #adqCal iframe { flex: 1 1 auto; width: 100%; border: none; border-radius: 8px; background: #fff; }
-  /* ── native GHL-style booker (Peter 2026-07-17) ── */
-  .adbk { display: flex; height: 100%; font-size: 14px; color: #1A1A1A; }
-  .adbk-left { flex: 0 0 215px; border-right: 1px solid #ececf0; padding: 18px 16px; }
-  .adbk-left .ey { color: #8a8a90; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 6px; }
-  .adbk-left h3 { font-size: 16.5px; line-height: 1.35; margin: 0 0 14px; font-weight: 700; }
-  .adbk-left .row { display: flex; gap: 8px; align-items: flex-start; color: #55555c; font-size: 12.5px; margin: 0 0 10px; line-height: 1.35; }
-  .adbk-main { flex: 1 1 auto; padding: 14px 18px 12px; overflow-y: auto; }
-  .adbk-main h4 { font-size: 15.5px; margin: 0 0 12px; font-weight: 700; }
-  .adbk-timegrid { display: flex; gap: 18px; }
-  .adbk-calwrap { flex: 1 1 auto; min-width: 0; }
-  .adbk-monthrow { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 10px; font-weight: 600; font-size: 14px; }
-  .adbk-monthrow button { border: none; background: #fdeeee; color: #e03e3e; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+  /* ── native GHL-style booker (Peter 2026-07-17, v2 scale-up) ── */
+  .adbk { display: flex; height: 100%; font-size: 14.5px; color: #1A1A1A; }
+  .adbk-left { flex: 0 0 265px; border-right: 1px solid #ececf0; padding: 30px 26px; }
+  .adbk-left h3 { font-size: 19px; line-height: 1.35; margin: 0 0 20px; font-weight: 700; }
+  .adbk-left .row { display: flex; gap: 11px; align-items: flex-start; color: #55555c; font-size: 13.5px; margin: 0 0 15px; line-height: 1.4; }
+  .adbk-left .row svg { flex: none; margin-top: 1px; }
+  .adbk-main { flex: 1 1 auto; padding: 28px 34px 22px; overflow-y: auto; }
+  .adbk-main h4 { font-size: 17px; margin: 0 0 18px; font-weight: 700; }
+  .adbk-timegrid { display: flex; gap: 34px; }
+  .adbk-calwrap { flex: 1 1 auto; min-width: 0; max-width: 420px; }
+  .adbk-monthrow { display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 14px; font-weight: 700; font-size: 15.5px; }
+  .adbk-monthrow button { border: none; background: #fdeeee; color: #e03e3e; width: 34px; height: 34px; border-radius: 50%; font-size: 17px; cursor: pointer; }
   .adbk-cal { width: 100%; border-collapse: collapse; table-layout: fixed; }
-  .adbk-cal th { color: #8a8a90; font-size: 11.5px; font-weight: 600; padding: 4px 0; text-align: center; }
-  .adbk-cal td { text-align: center; padding: 3px 0; }
-  .adbk-day { width: 34px; height: 34px; line-height: 34px; border-radius: 50%; display: inline-block; font-size: 13px; color: #c3c3c9; }
+  .adbk-cal th { color: #8a8a90; font-size: 12px; font-weight: 600; padding: 6px 0; text-align: center; }
+  .adbk-cal td { text-align: center; padding: 4px 0; }
+  .adbk-day { width: 40px; height: 40px; line-height: 40px; border-radius: 50%; display: inline-block; font-size: 14px; color: #c3c3c9; }
   .adbk-day.av { color: #e03e3e; font-weight: 700; cursor: pointer; background: #fdeeee; }
   .adbk-day.sel { background: #e03e3e; color: #fff; }
-  .adbk-slots { flex: 0 0 168px; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; max-height: 430px; padding: 2px; }
-  .adbk-slot { border: 1px solid #e03e3e; background: #fff; color: #e03e3e; font-weight: 700; font-size: 13.5px; border-radius: 6px; padding: 10px 0; cursor: pointer; font-family: inherit; width: 100%; }
+  .adbk-slots { flex: 0 0 195px; display: flex; flex-direction: column; gap: 11px; overflow-y: auto; max-height: 470px; padding: 2px; }
+  .adbk-slot { border: 1px solid #e03e3e; background: #fff; color: #e03e3e; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; width: 100%; }
   .adbk-slot:hover { background: #fdeeee; }
-  .adbk-pair { display: flex; gap: 8px; }
-  .adbk-chip { flex: 1; border: none; background: #43434a; color: #fff; font-weight: 700; font-size: 13.5px; border-radius: 6px; padding: 10px 0; font-family: inherit; }
-  .adbk-go { flex: 1; border: none; background: #e03e3e; color: #fff; font-weight: 700; font-size: 13.5px; border-radius: 6px; padding: 10px 0; cursor: pointer; font-family: inherit; }
-  .adbk-tz { color: #55555c; font-size: 12.5px; margin-top: 12px; }
-  .adbk-details { max-width: 430px; }
-  .adbk-details label { display: block; color: #55555c; font-size: 12.5px; font-weight: 600; margin: 14px 0 5px; }
-  .adbk-details input[type=text], .adbk-details input[type=tel], .adbk-details input[type=email] { display: block; width: 100%; box-sizing: border-box; border: 1px solid #d9d9df; border-radius: 7px; padding: 10px 11px; font-size: 15px; font-family: inherit; outline: none; }
+  .adbk-pair { display: flex; gap: 8px; overflow: hidden; }
+  .adbk-chip { flex: 1; border: none; background: #43434a; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; font-family: inherit; animation: adbkChip .3s ease; }
+  .adbk-go { flex: 1; border: none; background: #e03e3e; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; animation: adbkGo .3s ease; }
+  @keyframes adbkGo { from { opacity: 0; transform: translateX(22px); } to { opacity: 1; transform: none; } }
+  @keyframes adbkChip { from { transform: translateX(11px); } to { transform: none; } }
+  .adbk-tzwrap { margin-top: 18px; }
+  .adbk-tzlbl { color: #1A1A1A; font-size: 13.5px; font-weight: 700; margin-bottom: 7px; }
+  .adbk-tzwrap select { width: 100%; max-width: 320px; border: 1px solid #d9d9df; border-radius: 7px; padding: 9px 10px; font-size: 13.5px; font-family: inherit; color: #1A1A1A; background: #fff; outline: none; }
+  .adbk-back { display: inline-flex; align-items: center; gap: 6px; border: none; background: none; color: #e03e3e; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; padding: 0; margin-bottom: 14px; }
+  .adbk-details { max-width: 470px; }
+  .adbk-details label { display: block; color: #55555c; font-size: 13px; font-weight: 600; margin: 16px 0 6px; }
+  .adbk-details input[type=text], .adbk-details input[type=tel], .adbk-details input[type=email] { display: block; width: 100%; box-sizing: border-box; border: 1px solid #d9d9df; border-radius: 7px; padding: 12px 12px; font-size: 15.5px; font-family: inherit; outline: none; }
   .adbk-details input:focus { border-color: #e03e3e; }
-  .adbk-confirm { display: flex; gap: 9px; align-items: flex-start; margin: 16px 0 0; font-size: 13px; color: #1A1A1A; line-height: 1.4; cursor: pointer; }
-  .adbk-confirm input { width: 17px; height: 17px; margin-top: 1px; accent-color: #e03e3e; flex: none; }
-  .adbk-sched { display: block; width: 100%; border: none; background: #e03e3e; color: #fff; font-weight: 700; font-size: 15.5px; border-radius: 8px; padding: 13px 0; margin-top: 18px; cursor: pointer; font-family: inherit; }
+  .adbk-confirm { display: flex; gap: 12px; align-items: flex-start; margin: 18px 0 0; font-size: 13.5px; color: #1A1A1A; line-height: 1.45; cursor: pointer; }
+  .adbk-confirm input { width: 17px; height: 17px; margin-top: 3px; accent-color: #e03e3e; flex: none; }
+  .adbk-sched { display: block; width: 100%; border: none; background: #e03e3e; color: #fff; font-weight: 700; font-size: 15.5px; border-radius: 8px; padding: 14px 0; margin-top: 20px; cursor: pointer; font-family: inherit; }
   .adbk-sched:disabled { opacity: .55; cursor: default; }
   .adbk-sched.off { opacity: .45; }
-  .adbk-newtime { display: block; width: 100%; border: 1px solid #d9d9df; background: #fff; color: #55555c; font-weight: 600; font-size: 13.5px; border-radius: 8px; padding: 11px 0; margin-top: 10px; cursor: pointer; font-family: inherit; }
+  .adbk-newtime { display: block; width: 100%; border: 1px solid #d9d9df; background: #fff; color: #55555c; font-weight: 600; font-size: 13.5px; border-radius: 8px; padding: 12px 0; margin-top: 10px; cursor: pointer; font-family: inherit; }
   .adbk-err { color: #d64545; font-size: 13px; margin-top: 10px; min-height: 17px; }
   .adbk-load { display: flex; align-items: center; justify-content: center; height: 100%; color: #8a8a90; font-size: 14.5px; }
   @media (max-width: 768px) {
     .adbk { flex-direction: column; overflow-y: auto; display: block; }
-    .adbk-left { border-right: none; border-bottom: 1px solid #ececf0; flex: none; padding: 12px 14px; }
-    .adbk-left h3 { margin-bottom: 8px; }
-    .adbk-main { overflow: visible; padding: 12px 14px 16px; }
-    .adbk-timegrid { flex-direction: column; gap: 12px; }
+    .adbk-left { border-right: none; border-bottom: 1px solid #ececf0; flex: none; padding: 14px 16px; }
+    .adbk-left h3 { margin-bottom: 10px; font-size: 17px; }
+    .adbk-left .row { margin-bottom: 9px; }
+    .adbk-main { overflow: visible; padding: 16px 16px 24px; }
+    .adbk-timegrid { flex-direction: column; gap: 14px; }
+    .adbk-calwrap { max-width: none; }
     .adbk-slots { flex: none; max-height: none; }
   }
 </style>
@@ -2194,11 +2203,15 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     h += '<div class="adq-zone">' + z + '</div>';
     body.style.padding = '';
     body.innerHTML = h;
+    body.scrollTop = 0;   // long questions (multi-selects, Q12) load from the TOP on mobile
     body.querySelectorAll('.adq-opt').forEach(function (btn) {
       btn.addEventListener('click', function () { chooseOpt(parseInt(btn.getAttribute('data-i'), 10)); });
     });
     var ok = document.getElementById('adqOk');
     if (ok) ok.addEventListener('click', advance);
+    // Mobile: a Back button sits next to OK (the floating arrows are easy to miss full-screen)
+    var okr = body.querySelector('.adq-okrow');
+    if (okr && step > 0) { var bb = document.createElement('button'); bb.type = 'button'; bb.className = 'adq-back'; bb.textContent = 'Back'; okr.insertBefore(bb, okr.firstChild); bb.addEventListener('click', back); }
     var ccSel = document.getElementById('adqCc');
     if (ccSel) ccSel.addEventListener('change', function () { cc = ccSel.value; saveState(); });
     var inp = document.getElementById('adqIn') || document.getElementById('adqF');
@@ -2208,13 +2221,33 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     }
     if (inp && window.matchMedia('(min-width: 769px)').matches) { try { inp.focus(); } catch (e) {} }
   }
-  // ── Native booker (Peter 2026-07-17): pick a time → Select → prefilled details → Schedule Meeting.
+  // ── Native booker v2 (Peter 2026-07-17): GHL-look, tz selector, mobile days→times two-step.
   var API_SLOTS = 'https://admin.automated.dating/api/apply/slots';
   var API_BOOK = 'https://admin.automated.dating/api/apply/book';
-  var bk = { loaded: false, dates: {}, mins: 45, month: null, selDate: '', armed: '', slot: '', view: 'time', err: '', busy: false };
-  function bkTzLabel() { try { return Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g, ' '); } catch (e) { return 'your local time'; } }
-  function bkFmtTime(iso) { return new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
-  function bkFmtWhen(iso) { var d = new Date(iso); return bkFmtTime(iso) + ' - ' + new Date(d.getTime() + bk.mins * 60000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' , ' + d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }); }
+  var IC = {
+    clock: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#55555c" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    cal: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#55555c" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>',
+    globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#55555c" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9s1.3-6.4 3.8-9z"/></svg>',
+    list: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#55555c" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h13"/></svg>'
+  };
+  var bk = { loaded: false, dates: {}, mins: 45, month: null, selDate: '', armed: '', slot: '', view: 'time', mStep: 'date', err: '', busy: false, tz: '' };
+  try { bk.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/New_York'; } catch (e) { bk.tz = 'America/New_York'; }
+  var BK_TZS = ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Phoenix', 'America/Los_Angeles', 'America/Anchorage', 'Pacific/Honolulu', 'America/Toronto', 'America/Vancouver', 'Europe/London', 'Europe/Paris', 'Asia/Dubai', 'Asia/Singapore', 'Australia/Sydney'];
+  if (BK_TZS.indexOf(bk.tz) < 0) BK_TZS.unshift(bk.tz);
+  function bkIsMob() { return window.matchMedia('(max-width: 768px)').matches; }
+  function bkGmtLabel(tz) {
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'longOffset' }).formatToParts(new Date());
+      var off = (parts.find(function (p) { return p.type === 'timeZoneName'; }) || {}).value || '';
+      return off + ' ' + tz.replace(/_/g, ' ');
+    } catch (e) { return tz.replace(/_/g, ' '); }
+  }
+  function bkFmtTime(iso) { return new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: bk.tz }); }
+  function bkFmtWhen(iso) {
+    var d = new Date(iso);
+    return bkFmtTime(iso) + ' - ' + new Date(d.getTime() + bk.mins * 60000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: bk.tz }) +
+      ' , ' + d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: bk.tz });
+  }
   function bkFetch() {
     fetch(API_SLOTS, { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); }).then(function (j) {
       if (!j || !j.ok) { bk.err = (j && j.error) || 'Could not load times'; bk.loaded = true; renderBooker(); return; }
@@ -2226,11 +2259,16 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     }).catch(function () { bk.err = 'Could not load times'; bk.loaded = true; renderBooker(); });
   }
   function bkLeftPanel() {
-    return '<div class="adbk-left"><p class="ey">Consults</p><h3>Profile Audit | Automated Dating</h3>' +
-      '<div class="row">🕐 ' + bk.mins + ' min</div>' +
-      (bk.slot ? '<div class="row">📅 ' + esc(bkFmtWhen(bk.slot)) + '</div>' : '') +
-      '<div class="row">🌐 ' + esc(bkTzLabel()) + '</div>' +
-      (!bk.slot ? '<div class="row" style="color:#8a8a90">Pick the time that works best.</div>' : '') + '</div>';
+    return '<div class="adbk-left"><h3>Profile Audit</h3>' +
+      '<div class="row">' + IC.clock + ' ' + bk.mins + ' min</div>' +
+      (bk.slot ? '<div class="row">' + IC.cal + ' ' + esc(bkFmtWhen(bk.slot)) + '</div>' : '') +
+      '<div class="row">' + IC.globe + ' ' + esc(bk.tz.replace(/_/g, ' ')) + '</div>' +
+      (!bk.slot ? '<div class="row">' + IC.list + ' Pick the time that works best.</div>' : '') + '</div>';
+  }
+  function bkTzSelHtml() {
+    return '<div class="adbk-tzwrap"><div class="adbk-tzlbl">Time zone</div><select id="bkTz">' +
+      BK_TZS.map(function (tz) { return '<option value="' + esc(tz) + '"' + (tz === bk.tz ? ' selected' : '') + '>' + esc(bkGmtLabel(tz)) + '</option>'; }).join('') +
+      '</select></div>';
   }
   function bkCalHtml() {
     var m = bk.month || new Date();
@@ -2249,7 +2287,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       if (cell % 7 === 0 && day < dim) h += '</tr><tr>';
     }
     h += '</tr></table>';
-    return '<div class="adbk-calwrap">' + head + h + '<div class="adbk-tz">Times shown in ' + esc(bkTzLabel()) + '</div></div>';
+    return '<div class="adbk-calwrap">' + head + h + bkTzSelHtml() + '</div>';
   }
   function bkSlotsHtml() {
     var slots = (bk.dates[bk.selDate] || []);
@@ -2273,14 +2311,29 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     if (!bk.loaded) { body.innerHTML = '<div class="adbk-load">Loading available times…</div>'; if (!bk._fetching) { bk._fetching = true; bkFetch(); } return; }
     var main;
     if (bk.view === 'details') main = bkDetailsHtml();
-    else main = '<h4>Select Date &amp; Time</h4><div class="adbk-timegrid">' + bkCalHtml() + bkSlotsHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
+    else if (bkIsMob() && bk.mStep === 'slots') {
+      // Mobile step 2 (Typeform→Calendly style): the chosen day's times, with a back link to the days.
+      var dLbl = bk.selDate ? new Date(bk.selDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : '';
+      main = '<button type="button" class="adbk-back" id="bkBackDates">‹ Pick a different day</button>' +
+        '<h4>' + esc(dLbl) + '</h4>' + bkSlotsHtml();
+    } else if (bkIsMob()) {
+      main = '<h4>Select a Day</h4><div class="adbk-timegrid">' + bkCalHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
+    } else {
+      main = '<h4>Select Date &amp; Time</h4><div class="adbk-timegrid">' + bkCalHtml() + bkSlotsHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
+    }
     body.innerHTML = '<div class="adbk">' + bkLeftPanel() + '<div class="adbk-main">' + main + '</div></div>';
-    body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.armed = ''; renderBooker(); }); });
+    body.scrollTop = 0;
+    var mainEl = body.querySelector('.adbk-main'); if (mainEl) mainEl.scrollTop = 0;
+    body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.armed = ''; if (bkIsMob()) bk.mStep = 'slots'; renderBooker(); }); });
     body.querySelectorAll('[data-bknav]').forEach(function (el) { el.addEventListener('click', function () { var m = bk.month || new Date(); bk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-bknav'), 10), 1); renderBooker(); }); });
     body.querySelectorAll('[data-bkarm]').forEach(function (el) { el.addEventListener('click', function () { bk.armed = el.getAttribute('data-bkarm'); renderBooker(); }); });
     body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); bk.view = 'details'; bk.err = ''; renderBooker(); }); });
+    var tzSel = document.getElementById('bkTz');
+    if (tzSel) tzSel.addEventListener('change', function () { bk.tz = tzSel.value; renderBooker(); });
+    var bd = document.getElementById('bkBackDates');
+    if (bd) bd.addEventListener('click', function () { bk.mStep = 'date'; bk.armed = ''; renderBooker(); });
     var nt = document.getElementById('bkNewTime');
-    if (nt) nt.addEventListener('click', function () { bk.view = 'time'; bk.armed = ''; bk.slot = ''; bk.err = ''; bk.loaded = false; bk._fetching = false; renderBooker(); });
+    if (nt) nt.addEventListener('click', function () { bk.view = 'time'; bk.mStep = 'date'; bk.armed = ''; bk.slot = ''; bk.err = ''; bk.loaded = false; bk._fetching = false; renderBooker(); });
     var sb = document.getElementById('bkSched');
     if (sb) sb.addEventListener('click', bkSchedule);
     var cf = document.getElementById('bkConfirm');
@@ -2310,7 +2363,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
         bk.busy = false;
         if (sb) { sb.disabled = false; sb.textContent = 'Schedule Meeting'; }
         var msg = (j && j.error) || 'Booking failed - please try again';
-        if (/just taken|pick another/i.test(msg)) { bk.view = 'time'; bk.armed = ''; bk.slot = ''; bk.err = msg; bk.loaded = false; bk._fetching = false; renderBooker(); return; }
+        if (/just taken|pick another/i.test(msg)) { bk.view = 'time'; bk.mStep = 'date'; bk.armed = ''; bk.slot = ''; bk.err = msg; bk.loaded = false; bk._fetching = false; renderBooker(); return; }
         fail(msg);
       })
       .catch(function () { bk.busy = false; if (sb) { sb.disabled = false; sb.textContent = 'Schedule Meeting'; } fail('Network error - please try again'); });
