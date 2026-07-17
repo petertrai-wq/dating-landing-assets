@@ -2304,7 +2304,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       '<label>Email *</label><input type="email" id="bkEmail" value="' + esc(A.email || '') + '">' +
       '<label class="adbk-confirm"><input type="checkbox" id="bkConfirm"><span>Please confirm you will 100% be ready at this time at a laptop with no distractions. *</span></label>' +
       '<button type="button" class="adbk-sched off" id="bkSched">Schedule Meeting</button>' +
-      '<button type="button" class="adbk-newtime" id="bkNewTime">I won\'t be at a computer at this time - pick a new time</button>' +
+      '<button type="button" class="adbk-newtime" id="bkNewTime">Pick a new time</button>' +
       '<div class="adbk-err" id="bkErr">' + esc(bk.err || '') + '</div></div>';
   }
   function bkDayLabel() { return bk.selDate ? new Date(bk.selDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''; }
@@ -2312,8 +2312,10 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     if (!bk.loaded) { body.innerHTML = '<div class="adbk-load">Loading available times…</div>'; if (!bk._fetching) { bk._fetching = true; bkFetch(); } return; }
     var inner;
     if (bk.view === 'details') {
-      inner = '<div class="adbk-title">Enter Details</div>' +
+      inner = '<button type="button" class="adbk-back" id="bkBackTimes">‹ Back</button>' +
+        '<div class="adbk-title" style="margin-top:-30px">Enter Details</div>' +
         '<div class="adbk-when">' + IC.clock + ' ' + bk.mins + ' min &nbsp; ' + IC.cal + ' ' + esc(bkFmtWhen(bk.slot)) + '</div>' +
+        '<div class="adbk-when">' + IC.globe + ' ' + esc(bk.tz.replace(/_/g, ' ')) + '</div>' +
         bkDetailsHtml();
     } else if (bkIsMob() && bk.mStep === 'slots') {
       inner = '<button type="button" class="adbk-back" id="bkBackDates">‹ Pick a different day</button>' +
@@ -2335,6 +2337,8 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); bk.view = 'details'; bk.err = ''; renderBooker(); }); });
     var tzSel = document.getElementById('bkTz');
     if (tzSel) tzSel.addEventListener('change', function () { bk.tz = tzSel.value; renderBooker(); });
+    var bt = document.getElementById('bkBackTimes');
+    if (bt) bt.addEventListener('click', function () { bk.view = 'time'; bk.err = ''; renderBooker(); });
     var bd = document.getElementById('bkBackDates');
     if (bd) bd.addEventListener('click', function () { bk.mStep = 'date'; bk.armed = ''; renderBooker(); });
     var nt = document.getElementById('bkNewTime');
