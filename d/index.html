@@ -1954,7 +1954,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
   .adq-in { display: block; width: 100%; max-width: 460px; border: none; border-bottom: 1px solid #d5d9de; background: transparent; color: #000000; font-size: 20px; padding: 10px 2px 8px; outline: none; font-family: inherit; border-radius: 0; }
   .adq-in:focus { border-bottom: 2px solid #60A5FA; padding-bottom: 7px; }
   .adq-in::placeholder { color: #c3c9d1; }
-  textarea.adq-in { resize: none; min-height: 72px; font-size: 19px; line-height: 1.4; }
+  textarea.adq-in { resize: none; height: 42px; min-height: 42px; overflow: hidden; font-size: 20px; line-height: 1.4; }
   .adq-lbl { color: #7b7b7b; font-size: 13px; margin: 16px 0 0; max-width: 460px; }
   .adq-lbl:first-child { margin-top: 0; }
   .adq-phone { display: flex; align-items: flex-end; gap: 10px; max-width: 460px; }
@@ -2143,7 +2143,7 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
       z += '<input class="adq-in" id="adqIn" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" value="' + esc(A.email || '') + '">' +
            '<div class="adq-okrow"><button type="button" class="adq-ok" id="adqOk">OK</button><span class="adq-hint">press <b>Enter ↵</b></span></div><div class="adq-err" id="adqErr"></div>';
     } else if (q.type === 'long') {
-      z += '<textarea class="adq-in" id="adqIn" rows="3" placeholder="Type your answer here...">' + esc(A[q.key] || '') + '</textarea>' +
+      z += '<textarea class="adq-in" id="adqIn" rows="1" placeholder="Type your answer here...">' + esc(A[q.key] || '') + '</textarea>' +
            '<div class="adq-okrow"><button type="button" class="adq-ok" id="adqOk">OK</button><span class="adq-hint"><b>Shift ⇧ + Enter ↵</b> to make a line break</span></div><div class="adq-err" id="adqErr"></div>';
     } else {
       z += '<input class="adq-in" id="adqIn" type="text" placeholder="Type your answer here..." value="' + esc(A[q.key] || '') + '">' +
@@ -2160,6 +2160,10 @@ src="https://www.facebook.com/tr?id=997126436410749&ev=PageView&noscript=1"/></n
     var ccSel = document.getElementById('adqCc');
     if (ccSel) ccSel.addEventListener('change', function () { cc = ccSel.value; saveState(); });
     var inp = document.getElementById('adqIn') || document.getElementById('adqF');
+    if (inp && inp.tagName === 'TEXTAREA') {
+      var grow = function () { inp.style.height = '42px'; inp.style.height = Math.min(Math.max(inp.scrollHeight, 42), 220) + 'px'; };
+      inp.addEventListener('input', grow); grow();
+    }
     if (inp && window.matchMedia('(min-width: 769px)').matches) { try { inp.focus(); } catch (e) {} }
   }
   var _animBusy = false;
