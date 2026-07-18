@@ -362,6 +362,7 @@
     var fail = function (m) { if (errEl) errEl.textContent = m; };
     if (!first.trim()) return fail('Please enter your first name');
     if (phone.replace(/\D/g, '').length < 8) return fail('Please enter a valid phone number');
+    if (/^(\d)\1{6}$/.test(phone.replace(/\D/g, '').slice(-7))) return fail("That phone number doesn't look right. Please double-check it");
     if (!/.+@.+\..+/.test(email)) return fail('Please enter a valid email');
     if (!conf || !conf.checked) return fail('Please confirm above that you will be ready, or pick a new time below.');
     bk.busy = true;
