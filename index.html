@@ -14,8 +14,9 @@
     // 7/8 (the retired video test), so returning visitors could never flip to 'c' and the arms were
     // only 50/50 among brand-new visitors. New name = one clean re-flip for everyone.
     var m = document.cookie.match(/(?:^|;\s*)ab_vsl2=([abc])\b/);
+    if (m && m[1] === 'b') m = null;   // all-traffic-to-c: returning b visitors re-bucket to c (2026-07-18)
     var V = forced || (m && m[1]);
-    if (!V) { V = (Math.random() < 0.5) ? 'c' : 'b'; }   // 50/50 main vs concierge
+    if (!V) { V = 'c'; }   // 100% -> concierge (Peter 2026-07-18: 'start sending all traffic to the c page'); flip back to (Math.random() < 0.5) ? 'c' : 'b' to resume the split
     try { document.cookie = 'ab_vsl2=' + V + '; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax'; } catch (e) {}
     if (V === 'c') { location.replace('/concierge/' + location.search + location.hash); return; }
     window.__AB = V;
