@@ -67,6 +67,7 @@
     if (body.scrollHeight <= body.clientHeight + 2) body.classList.add('vfit');
   }
   try { window.addEventListener('resize', function () { setTimeout(fitAlign, 60); }); } catch (e) {}
+  try { if (window.visualViewport) window.visualViewport.addEventListener('resize', function () { setTimeout(fitAlign, 60); }); } catch (e) {}   // iOS keyboard fires this, not window.resize
   var prevB = document.getElementById('adqPrev'), nextB = document.getElementById('adqNext');
 
   function hiddenFields() {
