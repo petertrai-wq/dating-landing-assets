@@ -51,6 +51,16 @@
   // the popup opens DIRECTLY at the calendar with qualified answers prefilled and NO application
   // submit (submitted=true), so booking can be tested end-to-end without junk form fills.
   var DCAL = /[?&]dcal=1/.test(location.search);
+  // /book personal scheduler link (Peter 2026-07-18): automated.dating/book/#p=<b64url json> opens
+  // STRAIGHT into the native booker with the lead's details prefilled. Prefill rides the URL FRAGMENT
+  // (never sent to servers/logs). Books via the same /api/apply/book pipeline as the form's booker.
+  var BOOKPAGE = /^\/book(\/|$)/.test(location.pathname);
+  if (BOOKPAGE) {
+    var _pre = {};
+    try { var _mh = (location.hash || '').match(/[#&]p=([A-Za-z0-9_-]+)/); if (_mh) _pre = JSON.parse(decodeURIComponent(escape(atob(_mh[1].replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { _pre = {}; }
+    A = { first: String(_pre.f || ''), last: String(_pre.l || ''), phone: String(_pre.p || ''), email: String(_pre.e || '') };
+    finished = 'cal'; submitted = true; partialSent = true;
+  }
   if (DCAL) {
     A = { q1: 'Yes', goals: ['Improve my dating life overall'], interest: ['I want a proven system that actually get results.'],
       occupation: 'Test run', income: '200k+', problem: 'Testing the booking flow', start: 'ASAP',
@@ -486,7 +496,7 @@
   }
   function closeModal() { ov.hidden = true; document.documentElement.style.overflow = ''; saveState(); }
   document.getElementById('adqClose').addEventListener('click', closeModal);
-  if (DCAL) setTimeout(openModal, 300);
+  if (DCAL || BOOKPAGE) setTimeout(openModal, 300);
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest && e.target.closest('[data-tf-popup]');
     if (t) { e.preventDefault(); openModal(); }
