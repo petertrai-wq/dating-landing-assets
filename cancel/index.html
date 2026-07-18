@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Cancel your appointment — Automated Dating</title>
+<style>
+  body{margin:0;background:#f5f6f8;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh}
+  .card{background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.08);padding:36px 30px;max-width:420px;margin:16px;text-align:center}
+  .t{font-size:20px;font-weight:700;margin-bottom:10px}
+  .b{font-size:15px;color:#55555c;line-height:1.55}
+  .btn{display:block;width:100%;border:none;background:#d64545;color:#fff;font-weight:700;font-size:15.5px;border-radius:8px;padding:14px 0;margin-top:20px;cursor:pointer;font-family:inherit}
+  .btn[disabled]{opacity:.55}
+  a.go{color:#3b6ff5;font-weight:700}
+  .txt{margin-top:16px;font-size:13.5px;color:#777}
+  .txt a{color:#3b6ff5;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="t" id="t">Cancel your appointment?</div>
+  <div class="b" id="b">This stops the reminders too. If you just need a different time, use the reschedule link in your email instead.</div>
+  <button class="btn" id="go">Yes, cancel my appointment</button>
+  <div class="txt">or text us anytime: <a href="tel:+16465427136">+1&nbsp;(646)&nbsp;542-7136</a></div>
+</div>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var id = q.get('id') || '', s = q.get('s') || '';
+  var T = document.getElementById('t'), B = document.getElementById('b'), GO = document.getElementById('go');
+  if (!id || !s) { T.textContent = 'Link not valid'; B.textContent = 'This cancellation link is missing its code. Text us and we’ll take care of it.'; GO.style.display = 'none'; return; }
+  GO.addEventListener('click', function () {
+    GO.disabled = true; GO.textContent = 'Cancelling…';
+    fetch('https://admin.automated.dating/appt-cancel?json=1&id=' + encodeURIComponent(id) + '&s=' + encodeURIComponent(s))
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        T.textContent = j.title || 'Done';
+        B.innerHTML = (j.body || '') + (j.bookLink ? '<br><br><a class="go" href="' + j.bookLink + '">Changed your mind? Book a new time here</a>' : '');
+        GO.style.display = 'none';
+      })
+      .catch(function () { T.textContent = 'Something went wrong'; B.textContent = 'We couldn’t cancel automatically — just text us and we’ll handle it.'; GO.disabled = false; GO.textContent = 'Try again'; });
+  });
+})();
+</script>
+</body>
+</html>
