@@ -80,6 +80,17 @@
   try { if (window.visualViewport) window.visualViewport.addEventListener('resize', function () { setTimeout(fitAlign, 60); }); } catch (e) {}   // iOS keyboard fires this, not window.resize
   var prevB = document.getElementById('adqPrev'), nextB = document.getElementById('adqNext');
 
+  // /book standalone: the phone's back button/swipe must step BACK through the booker, not exit
+  // to a blank tab (Peter 2026-07-18 "hit back after picking a time and the screen went white").
+  var bkHist = 0;
+  function bkPush(tag) { if (!BOOKPAGE) return; try { history.pushState({ adbk: tag }, ''); bkHist++; } catch (e) {} }
+  function bkStepBack() {
+    if (bk.view === 'details') { bk.view = 'time'; bk.err = ''; }
+    else if (bkIsMob() && bk.mStep === 'slots') { bk.mStep = 'date'; bk.armed = ''; }
+    renderBooker();
+  }
+  try { window.addEventListener('popstate', function () { if (!BOOKPAGE) return; if (bkHist > 0) { bkHist--; bkStepBack(); } }); } catch (e) {}
+
   function hiddenFields() {
     var out = { ab: (window.__AB || 'd') };
     try {
@@ -321,16 +332,16 @@
     body.innerHTML = '<div class="adbk">' + inner + '</div>';
     body.scrollTop = 0;
     var scr = body.querySelector('.adbk'); if (scr) scr.scrollTop = 0;
-    body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.armed = ''; if (bkIsMob()) bk.mStep = 'slots'; renderBooker(); }); });
+    body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.armed = ''; if (bkIsMob()) { bk.mStep = 'slots'; bkPush('slots'); } renderBooker(); }); });
     body.querySelectorAll('[data-bknav]').forEach(function (el) { el.addEventListener('click', function () { var m = bk.month || new Date(); bk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-bknav'), 10), 1); renderBooker(); }); });
     body.querySelectorAll('[data-bkarm]').forEach(function (el) { el.addEventListener('click', function () { bk.armed = el.getAttribute('data-bkarm'); renderBooker(); }); });
-    body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); bk.view = 'details'; bk.err = ''; bk.confirmed = false; renderBooker(); }); });
+    body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); bk.view = 'details'; bk.err = ''; bk.confirmed = false; bkPush('details'); renderBooker(); }); });
     var tzSel = document.getElementById('bkTz');
     if (tzSel) tzSel.addEventListener('change', function () { bk.tz = tzSel.value; renderBooker(); });
     var bt = document.getElementById('bkBackTimes');
-    if (bt) bt.addEventListener('click', function () { bk.view = 'time'; bk.err = ''; renderBooker(); });
+    if (bt) bt.addEventListener('click', function () { if (BOOKPAGE && bkHist > 0) { history.back(); return; } bk.view = 'time'; bk.err = ''; renderBooker(); });
     var bd = document.getElementById('bkBackDates');
-    if (bd) bd.addEventListener('click', function () { bk.mStep = 'date'; bk.armed = ''; renderBooker(); });
+    if (bd) bd.addEventListener('click', function () { if (BOOKPAGE && bkHist > 0) { history.back(); return; } bk.mStep = 'date'; bk.armed = ''; renderBooker(); });
     var nt = document.getElementById('bkNewTime');
     if (nt) nt.addEventListener('click', function () { bk.view = 'time'; bk.mStep = 'date'; bk.armed = ''; bk.slot = ''; bk.err = ''; bk.loaded = false; bk._fetching = false; renderBooker(); });
     var sb = document.getElementById('bkSched');
