@@ -24,7 +24,7 @@
     { key: 'income', type: 'choice', title: "What's your annual income? (USD)", desc: 'This helps us determine the lifestyle and type of profile you can realistically showcase without it coming of as incongruent.', opts: ['0k to 50k', '50k to 100k', '100k to 150k', '150k-200k', '200k+'] },
     { key: 'problem', type: 'long', title: "What's the #1 problem with your dating apps / dating life?", desc: 'Be honest - the more detail, the better we can help.' },
     { key: 'start', type: 'choice', title: 'When do you want to start?', opts: ['ASAP', 'Next Week', 'Next Month'] },
-    { key: 'phone', type: 'phone', title: "What's your phone number?", desc: 'please put your real number. we will NOT spam you' },
+    { key: 'phone', type: 'phone', title: "What's your phone number?", descHtml: 'Please put your real number. We will <u>NOT</u> spam you.' },
     { key: 'name', type: 'name', title: "What's your name?" },
     { key: 'email', type: 'email', title: "What's your email address?" },
     { key: 'invest', type: 'choice', title: 'Are you willing to invest if this makes sense for you?', opts: ["Yes. I'm willing and able to invest if this is a great fit.", "No. I'm not willing or able to invest at this time."] },
@@ -180,7 +180,7 @@
     }
     var q = QS[step];
     var h = '<div class="adq-qrow"><span class="adq-qnum">' + (step + 1) + '</span><h2 class="adq-title">' + esc(q.title) + '<span class="adq-req">*</span></h2></div>' +
-            (q.desc ? '<p class="adq-desc">' + esc(q.desc) + '</p>' : '');
+            (q.descHtml ? '<p class="adq-desc">' + q.descHtml + '</p>' : q.desc ? '<p class="adq-desc">' + esc(q.desc) + '</p>' : '');
     var z = '';
     if (q.type === 'choice' || q.type === 'multi') {
       z += '<div class="adq-opts">' + q.opts.map(function (o, i) {
