@@ -104,7 +104,13 @@
     } catch (e) {}
     out.ab = (window.__AB || 'd');
     try { out.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    // Meta pixel cookies (EMQ 2026-07-22): the browser pixel is PageView-only by design, so the
+    // server-side conversion events need _fbp/_fbc forwarded from here to match this browser.
+    try { var p = pxCookie('_fbp'); if (p) out.fbp = p; var c = pxCookie('_fbc'); if (c) out.fbc = c; } catch (e) {}
     return out;
+  }
+  function pxCookie(name) {
+    try { var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]+)')); return m ? decodeURIComponent(m[1]).slice(0, 400) : ''; } catch (e) { return ''; }
   }
   // E.164 normalizer: honors a typed +country, the selected country code, US 10/11-digit styles,
   // and 00-prefixed international dialing — the relay fires automations off this exact string.
@@ -386,7 +392,7 @@
       var m = document.getElementById('bkPMsg'); if (m) m.textContent = BMSGS[mi];
     }, 2600);
     var done = function () { clearInterval(tick); clearInterval(mrot); };
-    fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot }) })
+    fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot, fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') }) })
       .then(function (r) { return r.json(); })
       .then(function (j) {
         done();
