@@ -112,6 +112,10 @@
   function pxCookie(name) {
     try { var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]+)')); return m ? decodeURIComponent(m[1]).slice(0, 400) : ''; } catch (e) { return ''; }
   }
+  // Red tier (Peter 2026-07-22): income 100k-150k OR "Next Month" start → 15-min slots that may
+  // triple-book (server mirrors this from the GHL contact; this is the low-latency hint). The
+  // standalone /book page has no answers → standard tier; the server still re-derives red there.
+  function redLead() { return (A.income === '100k to 150k') || (A.start === 'Next Month'); }
   // E.164 normalizer: honors a typed +country, the selected country code, US 10/11-digit styles,
   // and 00-prefixed international dialing — the relay fires automations off this exact string.
   function phoneE164() {
@@ -262,9 +266,9 @@
       ' , ' + d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: bk.tz });
   }
   function bkFetch() {
-    fetch(API_SLOTS, { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); }).then(function (j) {
+    fetch(API_SLOTS + (redLead() ? '?red=1' : ''), { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); }).then(function (j) {
       if (!j || !j.ok) { bk.err = (j && j.error) || 'Could not load times'; bk.loaded = true; renderBooker(); return; }
-      bk.dates = j.dates || {}; bk.mins = j.durationMins || 45; bk.loaded = true; bk.err = '';
+      bk.dates = j.dates || {}; bk.mins = j.durationMins || 30; bk.loaded = true; bk.err = '';
       var keys = Object.keys(bk.dates).filter(function (k) { return (bk.dates[k] || []).length; }).sort();
       if (!bk.selDate || keys.indexOf(bk.selDate) < 0) bk.selDate = keys[0] || '';
       bk.month = bk.selDate ? new Date(bk.selDate + 'T12:00:00') : new Date();
@@ -392,7 +396,7 @@
       var m = document.getElementById('bkPMsg'); if (m) m.textContent = BMSGS[mi];
     }, 2600);
     var done = function () { clearInterval(tick); clearInterval(mrot); };
-    fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot, fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') }) })
+    fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot, red: redLead() ? '1' : '', fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') }) })
       .then(function (r) { return r.json(); })
       .then(function (j) {
         done();
