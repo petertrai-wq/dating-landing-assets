@@ -6,7 +6,7 @@
   function boot() {
     if (document.getElementById('adqOverlay')) return;   // already injected
     var st = document.createElement('style'); st.textContent = "  #adqOverlay { position: fixed; inset: 0; z-index: 2147482000; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; }\n  #adqOverlay[hidden] { display: none; }\n  #adqCard { position: relative; background: #ffffff; width: 760px; height: min(92vh, 980px); max-width: 94vw; max-height: 94vh; border-radius: 20px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.5); display: flex; flex-direction: column; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }\n  @media (max-width: 768px) { #adqCard { width: 100vw; height: 100vh; height: 100dvh; max-width: 100vw; max-height: 100dvh; border-radius: 0; } }\n  #adqBar { height: 3px; background: #ececec; flex: 0 0 auto; }\n  #adqBarFill { height: 100%; width: 0%; background: #1A1A1A; transition: width .25s ease; }\n  #adqHead { flex: 0 0 auto; padding: 16px 22px 0; }\n  #adqHead img { height: 38px; display: block; }\n  #adqBody { flex: 1 1 auto; overflow-y: auto; display: flex; flex-direction: column; justify-content: flex-start; padding: 12px 60px 70px; -webkit-overflow-scrolling: touch; }\n  #adqBody.vfit { justify-content: center; }\n  @media (max-width: 768px) { #adqBody { padding: 6px 22px 90px; } }\n  #adqBody.anim-out { opacity: 0; transform: translateY(-10px); transition: opacity .13s ease, transform .13s ease; }\n  #adqBody.anim-pre { opacity: 0; transform: translateY(16px); transition: none; }\n  #adqBody.anim-in { opacity: 1; transform: translateY(0); transition: opacity .17s ease, transform .17s ease; }\n  #adqClose { position: absolute; top: 10px; right: 12px; z-index: 2147483000; width: 38px; height: 38px; border: none; background: none; color: #9aa1ab; font-size: 32px; line-height: 38px; cursor: pointer; border-radius: 50%; }\n  #adqClose:hover { color: #1A1A1A; background: #f2f2f5; }\n  .adq-qrow { display: flex; align-items: flex-start; gap: 10px; max-width: 560px; }\n  .adq-qnum { flex: 0 0 auto; min-width: 22px; height: 22px; margin-top: 3px; padding: 0 4px; background: #1A1A1A; color: #ffffff; border-radius: 4px; font-size: 12.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; }\n  .adq-title { color: #1A1A1A; font-size: 20px; line-height: 1.4; font-weight: 400; margin: 0; }\n  .adq-req { color: #1A1A1A; margin-left: 2px; }\n  .adq-desc { color: #7b7b7b; font-size: 14.5px; line-height: 1.45; margin: 8px 0 0 32px; }\n  .adq-zone { margin: 30px 0 0 32px; }\n  @media (max-width: 768px) { .adq-desc, .adq-zone { margin-left: 0; } }\n  .adq-opts { display: flex; flex-direction: column; gap: 8px; max-width: 460px; }\n  .adq-opt { display: flex; align-items: center; gap: 10px; text-align: left; border: 1px solid rgba(96,165,250,0.6); background: rgba(96,165,250,0.1); color: #000000; border-radius: 4px; padding: 9px 12px; font-size: 15.5px; line-height: 1.3; cursor: pointer; font-family: inherit; transition: background .12s; }\n  .adq-opt:hover { background: rgba(96,165,250,0.22); }\n  .adq-opt.sel { background: rgba(96,165,250,0.32); border-width: 2px; padding: 8px 11px; font-weight: 600; }\n  .adq-key { flex: 0 0 auto; width: 22px; height: 22px; border: 1px solid rgba(96,165,250,0.8); background: #ffffff; color: #1A1A1A; border-radius: 3px; font-size: 11.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; }\n  .adq-opt.sel .adq-key { background: #60A5FA; color: #ffffff; border-color: #60A5FA; }\n  .adq-in { display: block; width: 100%; max-width: 460px; border: none; border-bottom: 1px solid #d5d9de; background: transparent; color: #000000; font-size: 20px; padding: 10px 2px 8px; outline: none; font-family: inherit; border-radius: 0; }\n  .adq-in:focus { border-bottom: 2px solid #60A5FA; padding-bottom: 7px; }\n  .adq-in::placeholder { color: #c3c9d1; }\n  textarea.adq-in { resize: none; height: 42px; min-height: 42px; overflow: hidden; font-size: 20px; line-height: 1.4; }\n  .adq-lbl { color: #7b7b7b; font-size: 13px; margin: 16px 0 0; max-width: 460px; }\n  .adq-lbl:first-child { margin-top: 0; }\n  .adq-phone { display: flex; align-items: flex-end; gap: 10px; max-width: 460px; }\n  .adq-cc { border: none; border-bottom: 1px solid #d5d9de; background: transparent; font-size: 18px; padding: 10px 0 8px; outline: none; font-family: inherit; color: #1A1A1A; cursor: pointer; max-width: 118px; -webkit-appearance: none; appearance: none; border-radius: 0; }\n  .adq-phone .adq-in { flex: 1; }\n  .adq-okrow { display: flex; align-items: center; gap: 10px; margin-top: 24px; max-width: 460px; }\n  .adq-ok { flex: 1; border: none; background: #60A5FA; color: #ffffff; font-size: 17px; font-weight: 600; padding: 14px 22px; border-radius: 4px; cursor: pointer; font-family: inherit; }\n  .adq-ok:hover { background: #4b94f5; }\n  .adq-hint { color: #9aa1ab; font-size: 12.5px; flex: none; }\n  .adq-back { display: none; flex: none; width: 50px; height: 50px; align-items: center; justify-content: center; border: 1px solid #d5d9de; background: #fff; color: #55555c; font-size: 24px; line-height: 1; border-radius: 4px; font-family: inherit; cursor: pointer; }\n  .adq-back:hover { background: #f4f6f9; }\n  @media (max-width: 768px) { .adq-back { display: flex; } }\n  @media (max-width: 768px) { .adq-hint { display: none; } }\n  .adq-err { color: #d64545; font-size: 13.5px; margin-top: 10px; min-height: 18px; }\n  #adqNav { position: absolute; bottom: 14px; right: 16px; display: flex; gap: 2px; }\n  #adqNav button { width: 34px; height: 30px; border: none; background: #60A5FA; color: #fff; font-size: 15px; cursor: pointer; }\n  #adqNav button:first-child { border-radius: 4px 0 0 4px; }\n  #adqNav button:last-child { border-radius: 0 4px 4px 0; }\n  #adqNav button:disabled { background: rgba(96,165,250,0.4); cursor: default; }\n  .adq-end { text-align: center; padding: 0 12px; }\n  .adq-end .adq-title { font-size: 22px; }\n  .adq-end .adq-desc { margin: 10px 0 0; }\n  #adqCal { display: flex; flex-direction: column; height: 100%; }\n  #adqCal .adq-caltop { padding: 4px 8px 4px; }\n  #adqCal iframe { flex: 1 1 auto; width: 100%; border: none; border-radius: 8px; background: #fff; }\n  /* \u2500\u2500 native booker v3: Calendly-integration look (Peter 2026-07-17) \u2014 no left bar \u2500\u2500 */\n  .adbk { height: 100%; font-size: 14.5px; color: #1A1A1A; overflow-y: auto; padding: 10px 30px 24px; box-sizing: border-box; }\n  .adbk-title { text-align: center; font-size: 19px; font-weight: 700; margin: 6px 0 22px; }\n  .adbk-sub { text-align: center; color: #55555c; font-size: 13.5px; line-height: 1.5; max-width: 560px; margin: -14px auto 20px; }\n  .adbk-timegrid { display: flex; gap: 44px; justify-content: center; }\n  .adbk-calwrap { flex: 0 1 430px; min-width: 0; }\n  .adbk-monthrow { display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 14px; font-weight: 700; font-size: 15.5px; }\n  .adbk-monthrow button { border: none; background: #eef2fb; color: #3b6ff5; width: 34px; height: 34px; border-radius: 50%; font-size: 17px; cursor: pointer; }\n  .adbk-cal { width: 100%; border-collapse: collapse; table-layout: fixed; }\n  .adbk-cal th { color: #8a8a90; font-size: 12px; font-weight: 600; padding: 6px 0; text-align: center; }\n  .adbk-cal td { text-align: center; padding: 4px 0; }\n  .adbk-day { width: 40px; height: 40px; line-height: 40px; border-radius: 50%; display: inline-block; font-size: 14px; color: #c3c3c9; position: relative; }\n  .adbk-day.av { color: #3b6ff5; font-weight: 700; cursor: pointer; background: #eef2fb; }\n  .adbk-day.sel { background: #3b6ff5; color: #fff; }\n  .adbk-slotcol { flex: 0 0 205px; }\n  .adbk-dayhead { font-size: 14.5px; font-weight: 600; color: #1A1A1A; margin: 4px 0 14px; text-align: center; }\n  .adbk-slots { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; max-height: 430px; padding: 2px; }\n  .adbk-slot { flex: none; border: 1px solid #9db6f2; background: #fff; color: #3b6ff5; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; width: 100%; }\n  .adbk-slot:hover { border-color: #3b6ff5; background: #eef2fb; }\n  .adbk-pair { display: flex; gap: 8px; flex: none; }   /* overflow:hidden removed - in the height-capped flex column it zeroed the pair's min-size and the whole row collapsed to 0px (Peter's dead Select click) */\n  .adbk-chip { flex: 1; border: none; background: #43434a; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; font-family: inherit; animation: adbkChip .3s ease; }\n  .adbk-go { flex: 1; border: none; background: #3b6ff5; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 12px 0; cursor: pointer; font-family: inherit; animation: adbkGo .3s ease; }\n  @keyframes adbkGo { from { opacity: 0; transform: translateX(22px); } to { opacity: 1; transform: none; } }\n  @keyframes adbkChip { from { transform: translateX(11px); } to { transform: none; } }\n  .adbk-tzwrap { margin-top: 18px; }\n  .adbk-tzlbl { color: #1A1A1A; font-size: 13.5px; font-weight: 700; margin-bottom: 7px; }\n  .adbk-tzwrap select { width: 100%; max-width: 320px; border: none; background: transparent; font-size: 13.5px; font-family: inherit; color: #55555c; outline: none; cursor: pointer; }\n  .adbk-back { display: inline-flex; align-items: center; gap: 6px; border: none; background: none; color: #3b6ff5; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; padding: 0; margin-bottom: 14px; }\n  .adbk-when { display: flex; align-items: center; justify-content: center; gap: 8px; color: #55555c; font-size: 13.5px; margin: -10px 0 18px; }\n  .adbk-details { max-width: 470px; margin: 0 auto; }\n  .adbk-details h4 { font-size: 17px; margin: 0 0 6px; font-weight: 700; text-align: center; }\n  .adbk-details label { display: block; color: #55555c; font-size: 13px; font-weight: 600; margin: 16px 0 6px; }\n  .adbk-details input[type=text], .adbk-details input[type=tel], .adbk-details input[type=email] { display: block; width: 100%; box-sizing: border-box; border: 1px solid #d9d9df; border-radius: 7px; padding: 12px 12px; font-size: 15.5px; font-family: inherit; outline: none; }\n  .adbk-details input:focus { border-color: #3b6ff5; }\n  .adbk-confirm { display: flex; gap: 12px; align-items: flex-start; margin: 18px 0 0; font-size: 13.5px; color: #1A1A1A; line-height: 1.45; cursor: pointer; }\n  .adbk-confirm input { width: 17px; height: 17px; margin-top: 3px; accent-color: #3b6ff5; flex: none; }\n  .adbk-sched { display: block; width: 100%; border: none; background: #3b6ff5; color: #fff; font-weight: 700; font-size: 15.5px; border-radius: 8px; padding: 14px 0; margin-top: 20px; cursor: pointer; font-family: inherit; }\n  .adbk-sched:disabled { opacity: .55; cursor: default; }\n  .adbk-sched.off { opacity: .45; }\n  .adbk-newtime { display: block; width: 100%; border: 1px solid #d9d9df; background: #fff; color: #55555c; font-weight: 600; font-size: 13.5px; border-radius: 8px; padding: 12px 0; margin-top: 10px; cursor: pointer; font-family: inherit; }\n  .adbk-err { color: #d64545; font-size: 13px; margin-top: 10px; min-height: 17px; text-align: center; }\n  .adbk-load { display: flex; align-items: center; justify-content: center; height: 100%; color: #8a8a90; font-size: 14.5px; }\n  .adbk-prog { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 320px; height: 100%; text-align: center; padding: 24px 16px; box-sizing: border-box; }\n  .adbk-spin { width: 42px; height: 42px; border: 4px solid #e6ebf9; border-top-color: #3b6ff5; border-radius: 50%; animation: adbkSpin .8s linear infinite; }\n  @keyframes adbkSpin { to { transform: rotate(360deg); } }\n  .adbk-prog-msg { font-size: 15.5px; font-weight: 700; color: #1A1A1A; min-height: 22px; }\n  .adbk-prog-bar { width: min(320px, 82%); height: 6px; background: #ececf2; border-radius: 99px; overflow: hidden; }\n  .adbk-prog-bar i { display: block; height: 100%; width: 0%; background: #3b6ff5; border-radius: 99px; transition: width .35s ease; }\n  .adbk-prog-pct { font-size: 13px; font-weight: 600; color: #8a8a90; }\n  @media (max-width: 768px) {\n    .adbk { padding: 6px 16px 24px; }\n    .adbk-timegrid { flex-direction: column; gap: 14px; }\n    .adbk-calwrap { flex: none; }\n    .adbk-slotcol { flex: none; }\n    .adbk-slots { max-height: none; }\n  }"; document.head.appendChild(st);
-    var st2 = document.createElement('style'); st2.textContent = "#adqBody.vfit{justify-content:safe center}\n.adq-wheelwrap{position:relative;max-width:200px;margin-top:6px}\n.adq-wheel{height:220px;overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;padding:88px 0;scrollbar-width:none;outline:none}\n.adq-wheel::-webkit-scrollbar{display:none}\n.adq-witem{height:44px;line-height:44px;text-align:center;font-size:22px;color:#9aa1ab;scroll-snap-align:center;cursor:pointer}\n.adq-witem.cur{color:#1A1A1A;font-weight:700;font-size:26px}\n.adq-whl{position:absolute;left:0;right:0;top:88px;height:44px;border-top:2px solid #60A5FA;border-bottom:2px solid #60A5FA;pointer-events:none;border-radius:6px}"; document.head.appendChild(st2);
+    var st2 = document.createElement('style'); st2.textContent = "#adqBody.vfit{justify-content:safe center}\n.adq-wheelwrap{position:relative;max-width:260px;margin:10px auto 0;width:100%}\n.adq-wheel{height:220px;overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;padding:88px 0;scrollbar-width:none;outline:none;touch-action:pan-y;overscroll-behavior:contain}\n.adq-wheel::-webkit-scrollbar{display:none}\n.adq-witem{height:44px;line-height:44px;text-align:center;font-size:22px;color:#b9bfc9;scroll-snap-align:center;cursor:pointer;border-radius:10px}\n.adq-witem.cur{color:#1A1A1A;font-weight:700;font-size:26px;background:#eef2fb;border:2px solid #60A5FA;line-height:40px}\n.adq-whl{display:none}\n.adq-zone-wheel{margin:24px auto 0;text-align:center}"; document.head.appendChild(st2);
     var holder = document.createElement('div'); holder.innerHTML = "<div id=\"adqOverlay\" hidden>\n  <div id=\"adqCard\" role=\"dialog\" aria-modal=\"true\" aria-label=\"Automated Dating Application\">\n    <div id=\"adqBar\"><div id=\"adqBarFill\"></div></div>\n    <div id=\"adqHead\"><img src=\"https://images.typeform.com/images/dykrmwJHQJhy\" alt=\"Automated Dating Logo\" onerror=\"this.remove()\"></div>\n    <div id=\"adqBody\"></div>\n    <div id=\"adqNav\"><button id=\"adqPrev\" type=\"button\" aria-label=\"Previous\">\u25b2</button><button id=\"adqNext\" type=\"button\" aria-label=\"Next\">\u25bc</button></div>\n    <button id=\"adqClose\" type=\"button\" aria-label=\"Close\">\u00d7</button>\n  </div>\n</div>".trim();
     var node = holder.firstElementChild; if (node) document.body.appendChild(node);
     (function () {
@@ -21,12 +21,12 @@
     { key: 'q1', type: 'choice', title: 'Are you a man (aged 27-55) looking to date high quality women?', opts: ['Yes', 'No'] },
     // 3 intake questions + conditional follow-up (Peter 2026-07-23). No DQ logic on any of these —
     // pure intel, synced to GHL for Brando. methow only shows when dates30 > 0 (skipIf).
-    { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 30 },
-    { key: 'time_week', type: 'choice', title: 'How much time are you spending each week texting, swiping/thinking about, and meeting women?', opts: ['Under 2 hours', '2-5 hours', '5-10 hours', '10+ hours'] },
+    { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },
+    { key: 'time_week', type: 'short', title: 'How much time are you spending each week texting, swiping, thinking about, or meeting women?' },
     { key: 'dates30', type: 'choice', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'] },
-    { key: 'methow', type: 'multi', title: "How'd you meet them?", desc: 'Check all that apply.', opts: ['Dating apps', 'Instagram or social', 'Through friends', 'Out in person', 'Other'], skipIf: function (ans) { return (ans.dates30 || '') === '0'; } },
+    { key: 'methow', type: 'multi', title: "How'd you meet them?", desc: 'Check all that apply.', opts: ['Dating apps', 'Instagram / Social Media', 'Social Circle', 'Approaching', 'Other'], skipIf: function (ans) { return (ans.dates30 || '') === '0'; } },
     { key: 'goals', type: 'multi', title: 'What are your biggest goals in your dating life?', desc: 'Select all that apply', opts: ['Get quality dates put directly onto my calendar with zero effort on my part', 'Find a high-quality girlfriend/relationship', 'Get back into the dating game', 'Improve my dating life overall'] },
-    { key: 'interest', type: 'multi', title: 'What makes you interested in us specifically? What is it about our program that stands out?', desc: 'Check all that apply.', opts: ['I want a team to run my dating apps and put quality dates directly on my calendar', "I've seen your client results & transformations", "I'm tired of putting in so much effort to get dates.", 'I want a proven system that actually get results.', 'I want to add an extra funnel for landing high quality dates.'] },
+    { key: 'interest', type: 'long', title: 'Why do you want us to run your dating apps for you?' },
     { key: 'occupation', type: 'short', title: 'What is your current occupation and how long have you been doing it?' },
     { key: 'income', type: 'choice', title: "What's your annual income? (USD)", desc: 'This helps us determine the lifestyle and type of profile you can realistically showcase without it coming of as incongruent.', opts: ['0k to 50k', '50k to 100k', '100k to 150k', '150k-200k', '200k+'] },
     { key: 'problem', type: 'long', title: "What's the #1 problem with your dating apps / dating life?", desc: 'Be honest - the more detail, the better we can help.' },
@@ -69,7 +69,7 @@
     finished = 'cal'; submitted = true; partialSent = true;
   }
   if (DCAL) {
-    A = { q1: 'Yes', goals: ['Improve my dating life overall'], interest: ['I want a proven system that actually get results.'],
+    A = { q1: 'Yes', goals: ['Improve my dating life overall'], interest: 'Testing the booking flow',
       occupation: 'Test run', income: '200k+', problem: 'Testing the booking flow', start: 'ASAP',
       first: 'Peter', last: 'Test', phone: '+13238404332', email: 'petertrai@gmail.com',
       invest: "Yes. I'm willing and able to invest if this is a great fit.", commit: 'Yes - I will double-check my calendar and commit 100% to the time I choose' };
@@ -140,7 +140,8 @@
     return JSON.stringify({ token: token, complete: !!complete, hp: '', hidden: hiddenFields(), answers: {
       q1: A.q1 || '', age: A.age || '', time_week: A.time_week || '', dates30: A.dates30 || '',
       methow: ((A.dates30 || '') === '0') ? [] : (A.methow || []),
-      goals: A.goals || [], interest: A.interest || [], occupation: A.occupation || '',
+      methow_other: ((A.dates30 || '') === '0') ? '' : (A.methow_other || ''),
+      goals: A.goals || [], interest: A.interest || '', occupation: A.occupation || '',
       income: A.income || '', problem: A.problem || '', start: A.start || '',
       first: A.first || '', last: A.last || '', phone: (A.phone ? phoneE164() : ''), email: A.email || '',
       invest: A.invest || '', commit: A.commit || ''
@@ -206,6 +207,7 @@
         var sel = q.type === 'multi' ? (A[q.key] || []).indexOf(o) >= 0 : A[q.key] === o;
         return '<button type="button" class="adq-opt' + (sel ? ' sel' : '') + '" data-i="' + i + '"><span class="adq-key">' + LETTERS[i] + '</span><span>' + esc(o) + '</span></button>';
       }).join('') + '</div>';
+      if (q.key === 'methow' && (A.methow || []).indexOf('Other') >= 0) z += '<input class="adq-in" id="adqOtherIn" placeholder="Type how you met them…" value="' + esc(A.methow_other || '') + '" style="margin-top:12px">';
       if (q.type === 'multi') z += '<div class="adq-okrow"><button type="button" class="adq-ok" id="adqOk">OK</button><span class="adq-hint">press <b>Enter ↵</b></span></div>';
     } else if (q.type === 'name') {
       z += '<div class="adq-lbl">First name<span class="adq-req">*</span></div><input class="adq-in" id="adqF" autocomplete="given-name" placeholder="Jane" value="' + esc(A.first || '') + '">' +
@@ -248,6 +250,8 @@
     if (okr && step > 0) { var bb = document.createElement('button'); bb.type = 'button'; bb.className = 'adq-back'; bb.setAttribute('aria-label', 'Back'); bb.innerHTML = '&#8592;'; okr.insertBefore(bb, okr.firstChild); bb.addEventListener('click', back); }
     var ccSel = document.getElementById('adqCc');
     if (ccSel) ccSel.addEventListener('change', function () { cc = ccSel.value; saveState(); });
+    var oi = document.getElementById('adqOtherIn');
+    if (oi) oi.addEventListener('input', function () { A.methow_other = oi.value; saveState(); });
     var wh = document.getElementById('adqWheel');
     if (wh) {
       var IH = 44, wMin = q.min || 18, wMax = q.max || 65;
@@ -279,8 +283,30 @@
       var grow = function () { inp.style.height = '42px'; inp.style.height = Math.min(Math.max(inp.scrollHeight, 42), 220) + 'px'; };
       inp.addEventListener('input', grow); grow();
     }
-    if (inp && window.matchMedia('(min-width: 769px)').matches) { try { inp.focus(); } catch (e) {} }
+    // Autofocus EVERY typed question (Peter 2026-07-23: "we dont have to click on it... it takes
+    // too long") — mobile included. The keyboard primer in advance()/back() keeps iOS willing to
+    // show the keyboard even though this render happens after the tap's gesture window.
+    if (inp) { try { inp.focus({ preventScroll: true }); } catch (e) { try { inp.focus(); } catch (e2) {} } }
+    else if (_kbPrime) { try { _kbPrime.blur(); } catch (e) {} }
   }
+  // Offscreen input focused SYNCHRONOUSLY inside the tap that advances to a typed question — iOS
+  // only opens the keyboard from a user gesture, and the step animation renders 330ms later.
+  var _kbPrime = null;
+  var TYPED_Q = { short: 1, long: 1, phone: 1, email: 1, name: 1 };
+  function primeKeyboard() {
+    try {
+      if (!_kbPrime) {
+        _kbPrime = document.createElement('input');
+        _kbPrime.type = 'text';
+        _kbPrime.setAttribute('aria-hidden', 'true');
+        _kbPrime.style.cssText = 'position:fixed;top:-100px;left:0;width:1px;height:1px;opacity:0;border:none;padding:0;font-size:16px';
+        document.body.appendChild(_kbPrime);
+      }
+      _kbPrime.focus({ preventScroll: true });
+    } catch (e) {}
+  }
+  function nextIdx(from) { var s = from + 1; while (s < QS.length - 1 && QS[s].skipIf && QS[s].skipIf(A)) s++; return s; }
+  function prevIdx(from) { var s = from - 1; while (s > 0 && QS[s].skipIf && QS[s].skipIf(A)) s--; return s; }
   // ── Native booker v2 (Peter 2026-07-17): GHL-look, tz selector, mobile days→times two-step.
   var API_SLOTS = 'https://admin.automated.dating/api/apply/slots';
   var API_BOOK = 'https://admin.automated.dating/api/apply/book';
@@ -499,10 +525,11 @@
       body.scrollTop = st0;
     } else {
       A[q.key] = o;
-      if (q.key === 'dates30' && o === '0') { delete A.methow; }   // stale follow-up answers die with the skip
+      if (q.key === 'dates30' && o === '0') { delete A.methow; delete A.methow_other; }   // stale follow-up answers die with the skip
       saveState();
       renderInner();
       body.scrollTop = st0;
+      if (TYPED_Q[(QS[nextIdx(step)] || {}).type]) primeKeyboard();   // keyboard primes inside THIS tap's gesture
       setTimeout(advance, 250);
     }
   }
@@ -557,15 +584,15 @@
       submit(); finished = 'cal'; saveState(); render(true); return;
     }
     if (step < QS.length - 1) {
-      step++;
-      while (step < QS.length - 1 && QS[step].skipIf && QS[step].skipIf(A)) step++;   // conditional questions (methow when dates30 = 0)
+      step = nextIdx(step);   // skipIf-aware (methow when dates30 = 0)
+      if (TYPED_Q[QS[step].type]) primeKeyboard();
       saveState(); render(true);
     }
   }
   function back() {
     if (step > 0 && !finished) {
-      step--;
-      while (step > 0 && QS[step].skipIf && QS[step].skipIf(A)) step--;
+      step = prevIdx(step);
+      if (TYPED_Q[QS[step].type]) primeKeyboard();
       saveState(); render(true);
     }
   }
