@@ -158,7 +158,7 @@
     try { navigator.sendBeacon(API, new Blob([payload(false)], { type: 'text/plain' })); } catch (e) {}
   });
 
-  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || /^No\./.test(A.invest || ''); }
+  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || ''); }   // 50-100k DQ added 2026-07-22 (Peter: train the pixel on 100k+ only) — keep in sync with relay tfLeadDisqualified/tfQualified
   function hasAnswer(q) {
     if (q.type === 'multi') return (A[q.key] || []).length > 0;
     if (q.type === 'name') return !!(A.first && A.first.trim() && A.last && A.last.trim());
