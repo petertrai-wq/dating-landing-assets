@@ -402,9 +402,9 @@
         '<div class="adbk-dayhead">' + esc(bkDayLabel()) + '</div>' + bkSlotsHtml() +
         (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
     } else if (bkIsMob()) {
-      inner = '<div class="adbk-title">Select a Date &amp; Time for Your Profile Audit</div><div class="adbk-sub">30-45 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div><div class="adbk-timegrid">' + bkCalHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
+      inner = (BOOKPAGE ? '' : '<button type="button" class="adbk-back" id="bkBackForm">\u2039 Back</button>') + '<div class="adbk-title">Select a Date &amp; Time for Your Profile Audit</div><div class="adbk-sub">30 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div><div class="adbk-timegrid">' + bkCalHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
     } else {
-      inner = '<div class="adbk-title">Select a Date &amp; Time for Your Profile Audit</div><div class="adbk-sub">30-45 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div><div class="adbk-timegrid">' + bkCalHtml() +
+      inner = (BOOKPAGE ? '' : '<button type="button" class="adbk-back" id="bkBackForm">\u2039 Back</button>') + '<div class="adbk-title">Select a Date &amp; Time for Your Profile Audit</div><div class="adbk-sub">30 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div><div class="adbk-timegrid">' + bkCalHtml() +
         '<div class="adbk-slotcol"><div class="adbk-dayhead">' + esc(bkDayLabel()) + '</div>' + bkSlotsHtml() + '</div></div>' +
         (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
     }
@@ -421,6 +421,11 @@
     if (bt) bt.addEventListener('click', function () { if (BOOKPAGE && bkHist > 0) { history.back(); return; } bk.view = 'time'; bk.err = ''; renderBooker(); });
     var bd = document.getElementById('bkBackDates');
     if (bd) bd.addEventListener('click', function () { if (BOOKPAGE && bkHist > 0) { history.back(); return; } bk.mStep = 'date'; bk.armed = ''; renderBooker(); });
+    // Date-view "‹ Back" (Peter 2026-07-23): from the calendar back into the form's last question.
+    // The application already submitted (submitted=true guards a double-fire) — re-answering commit
+    // just returns here.
+    var bf = document.getElementById('bkBackForm');
+    if (bf) bf.addEventListener('click', function () { finished = ''; saveState(); render(true); });
     var nt = document.getElementById('bkNewTime');
     if (nt) nt.addEventListener('click', function () { bk.view = 'time'; bk.mStep = 'date'; bk.armed = ''; bk.slot = ''; bk.err = ''; bk.loaded = false; bk._fetching = false; renderBooker(); });
     var sb = document.getElementById('bkSched');
