@@ -732,7 +732,7 @@
     if (INLINE_HOST) { try { INLINE_HOST.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { INLINE_HOST.scrollIntoView(); } return; }
     ov.hidden = false;
     document.documentElement.style.overflow = 'hidden';
-    pingStep('form_open');
+    if (!stepPinged.form_open) { stepPinged.form_open = 1; pingEv('form_open', 'open'); }
     render(false);
   }
   function closeModal() {
@@ -753,7 +753,7 @@
       document.documentElement.className += ' adq-inline-mode';
       var _cb = document.getElementById('adqClose'); if (_cb) _cb.style.display = 'none';
       ov.hidden = true;
-      pingStep('form_open');
+      if (!stepPinged.form_open) { stepPinged.form_open = 1; pingEv('form_open', 'open'); }
       render(false);
     } catch (e) {}
   }
