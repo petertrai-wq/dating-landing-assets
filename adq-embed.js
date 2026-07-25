@@ -26,7 +26,12 @@
     { key: 'dates30', type: 'choice', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'] },
     { key: 'methow', type: 'multi', title: "How'd you meet those dates?", desc: 'Check all that apply.', opts: ['Dating apps', 'Instagram / Social Media', 'Social Circle', 'Approaching', 'Other'], skipIf: function (ans) { return (ans.dates30 || '') === '0'; } },
     { key: 'interest', type: 'multi', title: 'Why do you want us to run your dating apps for you?', desc: 'Select all that apply', opts: ['I want a professional team to manage my apps for me and put dates on my calendar', 'I\'m tired of putting in so much effort to get dates', 'I\'ve seen your client results and transformations', 'I want to add an extra funnel on top of what I\'m already doing', 'I literally have no time to swipe, text, or meet women, but I want dates'] },
-    { key: 'occupation', type: 'short', title: 'What is your current occupation and how long have you been doing it?' },
+    { key: 'occupation', type: 'short', title: "What's your occupation?" },
+    { key: 'occ_years', type: 'wheel', min: 1, max: 99, def: 8, title: function (ans) {
+      var occ = String((ans && ans.occupation) || '').trim().replace(/[.?!,;]+$/, '');
+      if (!occ || occ.split(/\s+/).length > 4 || !/^[a-z]/i.test(occ)) return 'How many years have you been doing this?';
+      return 'How many years have you been ' + (/^[aeiou]/i.test(occ) ? 'an' : 'a') + ' ' + occ + '?';
+    } },
     { key: 'income', type: 'choice', title: "What's your annual income? (USD)", desc: 'This helps us determine the lifestyle and type of profile you can realistically showcase without it coming of as incongruent.', opts: ['0k to 50k', '50k to 100k', '100k to 150k', '150k-200k', '200k+'] },
     { key: 'problem', type: 'long', title: "What's the #1 problem with your dating apps / dating life?", desc: 'Be honest - the more detail, the better we can help.' },
     { key: 'start', type: 'choice', title: 'When do you want to start?', opts: ['ASAP', 'Next Week', 'Next Month'] },
@@ -175,7 +180,7 @@
       q1: A.q1 || '', age: A.age || '', time_week: A.time_week || '', dates30: A.dates30 || '',
       methow: ((A.dates30 || '') === '0') ? [] : (A.methow || []),
       methow_other: ((A.dates30 || '') === '0') ? '' : (A.methow_other || ''),
-      goals: A.goals || [], interest: A.interest || [], occupation: A.occupation || '',
+      goals: A.goals || [], interest: A.interest || [], occupation: A.occupation || '', occ_years: A.occ_years || '',
       income: A.income || '', problem: A.problem || '', start: A.start || '',
       first: A.first || '', last: A.last || '', phone: (A.phone ? phoneE164() : ''), email: A.email || '',
       invest: A.invest || '', commit: A.commit || ''
@@ -248,7 +253,8 @@
       return;
     }
     var q = QS[step];
-    var h = '<div class="adq-qrow"><span class="adq-qnum">' + (step + 1) + '</span><h2 class="adq-title">' + esc(q.title) + '<span class="adq-req">*</span></h2></div>' +
+    var _qt = (typeof q.title === 'function') ? q.title(A) : q.title;
+    var h = '<div class="adq-qrow"><span class="adq-qnum">' + (step + 1) + '</span><h2 class="adq-title">' + esc(_qt) + '<span class="adq-req">*</span></h2></div>' +
             (q.descHtml ? '<p class="adq-desc">' + q.descHtml + '</p>' : q.desc ? '<p class="adq-desc">' + esc(q.desc) + '</p>' : '');
     var z = '';
     if (q.type === 'choice' || q.type === 'multi') {
