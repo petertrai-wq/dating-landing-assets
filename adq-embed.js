@@ -334,7 +334,7 @@
     // Autofocus EVERY typed question (Peter 2026-07-23: "we dont have to click on it... it takes
     // too long") — mobile included. The keyboard primer in advance()/back() keeps iOS willing to
     // show the keyboard even though this render happens after the tap's gesture window.
-    if (inp) { try { inp.focus({ preventScroll: true }); } catch (e) { try { inp.focus(); } catch (e2) {} } }
+    if (inp) { try { inp.focus({ preventScroll: true }); } catch (e) { try { inp.focus(); } catch (e2) {} } inlinePin(); }
     else if (_kbPrime) { try { _kbPrime.blur(); } catch (e) {} }
   }
   // Offscreen input focused SYNCHRONOUSLY inside the tap that advances to a typed question — iOS
@@ -350,8 +350,30 @@
         _kbPrime.style.cssText = 'position:fixed;top:-100px;left:0;width:1px;height:1px;opacity:0;border:none;padding:0;font-size:16px';
         document.body.appendChild(_kbPrime);
       }
+      // Inline mode: iOS ignores preventScroll when the KEYBOARD opens — it scrolls to reveal
+      // the focused element. An off-screen prime input made every OK yank the page up (Peter
+      // 2026-07-25). Park the prime input at the CARD'S TOP EDGE instead, so iOS's reveal
+      // lands the question title + number in view — the exact spot we want anyway.
+      if (INLINE_HOST) {
+        var cardEl = document.getElementById('adqCard');
+        if (cardEl && _kbPrime.parentNode !== cardEl) {
+          _kbPrime.style.cssText = 'position:absolute;top:6px;left:6px;width:1px;height:1px;opacity:0;border:none;padding:0;font-size:16px;z-index:-1';
+          cardEl.appendChild(_kbPrime);
+        }
+      }
       _kbPrime.focus({ preventScroll: true });
     } catch (e) {}
+  }
+  // Pin the card top just under the viewport top after each inline-mode question change —
+  // corrects any focus/keyboard scroll so the question number and title always start readable.
+  function inlinePin() {
+    if (!INLINE_HOST) return;
+    setTimeout(function () {
+      try {
+        var r = INLINE_HOST.getBoundingClientRect();
+        if (Math.abs(r.top - 8) > 6) window.scrollTo(0, Math.max(0, window.pageYOffset + r.top - 8));
+      } catch (e) {}
+    }, 140);
   }
   function nextIdx(from) { var s = from + 1; while (s < QS.length - 1 && QS[s].skipIf && QS[s].skipIf(A)) s++; return s; }
   function prevIdx(from) { var s = from - 1; while (s > 0 && QS[s].skipIf && QS[s].skipIf(A)) s--; return s; }
@@ -666,6 +688,7 @@
       step = nextIdx(step);   // skipIf-aware (methow when dates30 = 0)
       if (TYPED_Q[QS[step].type]) primeKeyboard();
       saveState(); render(true);
+      inlinePin();
     }
   }
   function back() {
