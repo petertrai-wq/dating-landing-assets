@@ -222,6 +222,7 @@
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
   function renderInner() {
+    inlinePin();
     setBar();
     prevB.disabled = step === 0 || !!finished;
     nextB.disabled = !!finished || !hasAnswer(QS[step]);
@@ -367,13 +368,17 @@
   // Pin the card top just under the viewport top after each inline-mode question change —
   // corrects any focus/keyboard scroll so the question number and title always start readable.
   function inlinePin() {
+    // Universal (all OS/browsers, Peter 2026-07-25): after any question change, force the card
+    // top back under the viewport top. Three delayed shots outlast every browser's async
+    // focus-reveal / keyboard viewport shift (iOS Safari, Chrome desktop+Android alike).
     if (!INLINE_HOST) return;
-    setTimeout(function () {
+    var shot = function () {
       try {
         var r = INLINE_HOST.getBoundingClientRect();
         if (Math.abs(r.top - 8) > 6) window.scrollTo(0, Math.max(0, window.pageYOffset + r.top - 8));
       } catch (e) {}
-    }, 140);
+    };
+    setTimeout(shot, 60); setTimeout(shot, 240); setTimeout(shot, 480);
   }
   function nextIdx(from) { var s = from + 1; while (s < QS.length - 1 && QS[s].skipIf && QS[s].skipIf(A)) s++; return s; }
   function prevIdx(from) { var s = from - 1; while (s > 0 && QS[s].skipIf && QS[s].skipIf(A)) s--; return s; }
