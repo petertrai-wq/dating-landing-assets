@@ -611,10 +611,24 @@
     phonePartialFired = true; partialSent = true;
     try { fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload(false), keepalive: true }).catch(function () {}); } catch (e) {}
   }
+  // Per-question drop-off beacons (Peter 2026-07-25: "see what the drop off might be on the
+  // questions"): one fire-and-forget hit per ANSWERED step + one on open, into the existing
+  // unauthenticated /api/analytics/track log (event=form_step, page=question key, sid=form
+  // token). Aggregating sid-counts per step yields the true per-question funnel — partials
+  // only surface post-phone, this covers the whole form. Dedupe per token+step per session.
+  var stepPinged = {};
+  function pingStep(key) {
+    if (stepPinged[key]) return; stepPinged[key] = 1;
+    try {
+      navigator.sendBeacon('https://admin.automated.dating/api/analytics/track',
+        new Blob([JSON.stringify({ event: 'form_step', page: key, sid: token, ab: (window.__AB || 'd') })], { type: 'text/plain' }));
+    } catch (e) {}
+  }
   function advance() {
     if (finished) return;
     if (!collect()) return;
     var q = QS[step];
+    pingStep(q.key);
     if (q.key === 'phone') firePhonePartial();
     // Typeform-mirrored logic: DQ (Q1 No / income 0k-50k / invest No) evaluates at the INVEST
     // question; commit "Maybe" DQs; else calendar. Submission fires when an ENDING is reached —
@@ -643,6 +657,7 @@
   function openModal() {
     ov.hidden = false;
     document.documentElement.style.overflow = 'hidden';
+    pingStep('form_open');
     render(false);
   }
   function closeModal() {
