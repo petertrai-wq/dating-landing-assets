@@ -25,7 +25,7 @@
     { key: 'time_week', type: 'choice', title: 'How many hours are you spending each week texting, swiping, thinking about, or meeting women?', opts: ['Under 3 hours', '3-7 hours', '8-15 hours', '15+ hours'] },
     { key: 'dates30', type: 'choice', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'] },
     { key: 'methow', type: 'multi', title: "How'd you meet those dates?", desc: 'Check all that apply.', opts: ['Dating apps', 'Instagram / Social Media', 'Social Circle', 'Approaching', 'Other'], skipIf: function (ans) { return (ans.dates30 || '') === '0'; } },
-    { key: 'interest', type: 'multi', title: 'Why do you want us to run your dating apps for you?', desc: 'Select all that apply', opts: ['I want a professional team to manage my apps for me and put dates on my calendar', 'I\'m tired of putting in so much effort to get dates', 'I\'ve seen your client results and transformations', 'I want to add an extra funnel on top of what I\'m already doing', 'I literally have no time to swipe, text, or meet women, but I want dates'] },
+    { key: 'interest', type: 'multi', title: 'Why do you want us to run your dating apps for you?', desc: 'Select all that apply', opts: ['I just do', 'I\'m tired of putting in so much effort to get dates', 'I\'ve seen your client results and transformations', 'I want to add an extra funnel on top of what I\'m already doing', 'I literally have no time to swipe, text, or meet women, but I want dates'] },
     { key: 'occupation', type: 'short', title: "What's your occupation?" },
     { key: 'occ_years', type: 'wheel', min: 1, max: 99, def: 8, title: function (ans) {
       var occ = String((ans && ans.occupation) || '').trim().replace(/[.?!,;]+$/, '');
