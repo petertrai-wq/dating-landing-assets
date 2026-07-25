@@ -85,6 +85,33 @@
   }
   try { window.addEventListener('resize', function () { setTimeout(fitAlign, 60); }); } catch (e) {}
   try { if (window.visualViewport) window.visualViewport.addEventListener('resize', function () { setTimeout(fitAlign, 60); }); } catch (e) {}   // iOS keyboard fires this, not window.resize
+  // Keyboard-aware recenter (Peter 2026-07-24): with the keyboard up, the card still centers
+  // against the FULL screen height, so the question rides low and the OK bar sinks under the
+  // keyboard. Whenever a typed input is focused and the visual viewport shrinks (keyboard),
+  // scroll the body so the whole question+input+OK block is CENTERED in the strip that stays
+  // visible above the keyboard. Runs on focus and on keyboard open/close; never fights manual
+  // scrolling in between.
+  var _kbRaf = 0;
+  function kbRecenter() {
+    _kbRaf = 0;
+    var vv = window.visualViewport; if (!vv || !body) return;
+    var ae = document.activeElement;
+    if (!ae || !body.contains(ae) || !/^(INPUT|TEXTAREA)$/.test(ae.tagName)) return;
+    if (vv.height > window.innerHeight - 140) return;   // keyboard not actually up
+    var q = body.querySelector('.adq-qrow'); if (!q) return;
+    var ok = body.querySelector('.adq-okrow');
+    var last = ok || ae;
+    var br = body.getBoundingClientRect();
+    var qr = q.getBoundingClientRect(), lr = last.getBoundingClientRect();
+    var blockTop = qr.top - br.top + body.scrollTop;
+    var blockH = lr.bottom - qr.top;
+    var availH = (vv.offsetTop + vv.height) - br.top;   // visible body strip above the keyboard
+    if (availH < 80) return;
+    body.scrollTop = Math.max(0, Math.round(blockTop - Math.max(10, (availH - blockH) / 2)));
+  }
+  function kbQueue() { if (!_kbRaf) _kbRaf = (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(kbRecenter); }
+  try { if (window.visualViewport) window.visualViewport.addEventListener('resize', function () { setTimeout(kbQueue, 80); }); } catch (e) {}
+  try { body.addEventListener('focusin', function (e) { if (/^(INPUT|TEXTAREA)$/.test(((e.target || {}).tagName) || '')) { setTimeout(kbQueue, 80); setTimeout(kbQueue, 400); } }); } catch (e) {}
   var prevB = document.getElementById('adqPrev'), nextB = document.getElementById('adqNext');
 
   // /book standalone: the phone's back button/swipe must step BACK through the booker, not exit
