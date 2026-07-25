@@ -81,6 +81,7 @@
   // every [data-tf-popup] CTA scrolls back up to it instead of opening a popup.
   var INLINE_HOST = null;
   try { INLINE_HOST = window.__ADQ_INLINE ? document.getElementById(window.__ADQ_INLINE) : null; } catch (e) {}
+  var _pinArmed = false;   // pin only AFTER the visitor interacts — never on page load (Peter 2026-07-25: page was auto-scrolling to the form)
   // Small/medium questions sit vertically CENTERED; anything that overflows aligns top and scrolls
   // (Peter 2026-07-17 — centered overflow clips the first line, top-aligned short ones look empty).
   function fitAlign() {
@@ -371,7 +372,7 @@
     // Universal (all OS/browsers, Peter 2026-07-25): after any question change, force the card
     // top back under the viewport top. Three delayed shots outlast every browser's async
     // focus-reveal / keyboard viewport shift (iOS Safari, Chrome desktop+Android alike).
-    if (!INLINE_HOST) return;
+    if (!INLINE_HOST || !_pinArmed) return;
     var shot = function () {
       try {
         var r = INLINE_HOST.getBoundingClientRect();
@@ -677,6 +678,7 @@
   }
   function advance() {
     if (finished) return;
+    _pinArmed = true;
     if (!collect()) return;
     var q = QS[step];
     pingStep(q.key);
@@ -697,6 +699,7 @@
     }
   }
   function back() {
+    _pinArmed = true;
     if (step > 0 && !finished) {
       step = prevIdx(step);
       if (TYPED_Q[QS[step].type]) primeKeyboard();
