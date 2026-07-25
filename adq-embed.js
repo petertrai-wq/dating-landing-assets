@@ -194,7 +194,7 @@
           .catch(function () { if (left > 0) setTimeout(function () { attempt(left - 1); }, 1500); else submitted = false; });
       } catch (e) { if (left > 0) setTimeout(function () { attempt(left - 1); }, 1500); else submitted = false; }
     };
-    attempt(2);
+    attempt(5);   // survives the relay's deploy-restart window (Peter 2026-07-25)
   }
   window.addEventListener('pagehide', function () {
     if (submitted || partialSent) return;
@@ -377,7 +377,11 @@
       ' , ' + d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: bk.tz });
   }
   function bkFetch() {
-    fetch(API_SLOTS + (redLead() ? '?red=1' : ''), { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); }).then(function (j) {
+    var slotsFetch = function (left) {
+      return fetch(API_SLOTS + (redLead() ? '?red=1' : ''), { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); })
+        .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 2500); }).then(function () { return slotsFetch(left - 1); }); throw e; });
+    };
+    slotsFetch(3).then(function (j) {
       if (!j || !j.ok) { bk.err = (j && j.error) || 'Could not load times'; bk.loaded = true; renderBooker(); return; }
       bk.dates = j.dates || {}; bk.mins = j.durationMins || 30; bk.loaded = true; bk.err = '';
       var keys = Object.keys(bk.dates).filter(function (k) { return (bk.dates[k] || []).length; }).sort();
@@ -512,8 +516,12 @@
       var m = document.getElementById('bkPMsg'); if (m) m.textContent = BMSGS[mi];
     }, 2600);
     var done = function () { clearInterval(tick); clearInterval(mrot); };
-    fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot, red: redLead() ? '1' : '', fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') }) })
-      .then(function (r) { return r.json(); })
+    var bookBody = JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot, red: redLead() ? '1' : '', fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') });
+    var bookFetch = function (left) {
+      return fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: bookBody }).then(function (r) { return r.json(); })
+        .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 3000); }).then(function () { return bookFetch(left - 1); }); throw e; });
+    };
+    bookFetch(2)
       .then(function (j) {
         done();
         if (j && j.ok) {
