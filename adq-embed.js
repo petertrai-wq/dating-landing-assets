@@ -729,7 +729,17 @@
   nextB.addEventListener('click', advance);
 
   function openModal() {
-    if (INLINE_HOST) { try { INLINE_HOST.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { INLINE_HOST.scrollIntoView(); } return; }
+    if (INLINE_HOST) {
+      // Land the question's top just under the sticky nav — same offset math as inlinePin —
+      // so a CTA tap drops you exactly where you start answering (Peter 2026-07-26).
+      try {
+        var nv = document.querySelector('.nav');
+        var noff = ((nv && nv.offsetHeight) || 0) + 12;
+        var rr = INLINE_HOST.getBoundingClientRect();
+        window.scrollTo({ top: Math.max(0, window.pageYOffset + rr.top - noff), behavior: 'smooth' });
+      } catch (e) { INLINE_HOST.scrollIntoView(); }
+      return;
+    }
     ov.hidden = false;
     document.documentElement.style.overflow = 'hidden';
     if (!stepPinged.form_open) { stepPinged.form_open = 1; pingEv('form_open', 'open'); }
