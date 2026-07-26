@@ -28,9 +28,21 @@
     { key: 'interest', type: 'multi', title: 'Why do you want us to run your dating apps for you?', desc: 'Select all that apply', opts: ['I want a team of experts to do everything for me according to my exact preferences', 'I\'m tired of putting in so much effort to get dates', 'I\'ve seen your client results and transformations', 'I want to add an extra funnel on top of what I\'m already doing', 'I literally have no time to swipe, text, or meet women, but I want dates'] },
     { key: 'occupation', type: 'short', title: "What's your occupation?" },
     { key: 'occ_years', type: 'wheel', min: 1, max: 99, def: 8, title: function (ans) {
+      // Role noun ("lawyer") → "been a lawyer" · field/industry ("Finance") → "been in finance"
+      // (Peter 2026-07-26: a guy typed "Finance" and got "been a Finance") · unsure → generic.
       var occ = String((ans && ans.occupation) || '').trim().replace(/[.?!,;]+$/, '');
       if (!occ || occ.split(/\s+/).length > 4 || !/^[a-z]/i.test(occ)) return 'How many years have you been doing this?';
-      return 'How many years have you been ' + (/^[aeiou]/i.test(occ) ? 'an' : 'a') + ' ' + occ + '?';
+      var low = occ.toLowerCase();
+      if (/^self[- ]?employed$/.test(low)) return 'How many years have you been self-employed?';
+      var FIELDS = /^(finance|financial services|banking|investment banking|insurance|real estate|construction|sales|marketing|advertising|tech|it|software|healthcare|medicine|law|education|hospitality|retail|e-?commerce|logistics|transportation|trucking|manufacturing|oil and gas|energy|crypto|aviation|automotive|security|consulting|recruiting|hr|government|the military|military|the trades|trades|design|media|entertainment|fitness|wellness|agriculture|pharma|biotech|telecom|accounting|nursing|management|business|corporate|swe)$/;
+      var last = low.split(/\s+/).pop();
+      if (FIELDS.test(low) || /ing$/.test(last)) return 'How many years have you been in ' + low + '?';
+      var ROLEW = /^(ceo|cfo|coo|cto|cmo|vp|svp|evp|exec|president|owner|founder|cofounder|co-founder|attorney|coach|chef|judge|marine|medic|nurse|pilot|rep|veteran|salesman|businessman|handyman|principal|agent|consultant|analyst|architect|therapist|dentist|surgeon|vet|dj|cop|guard|paralegal|associate|assistant|clerk|electrician|plumber|mechanic|physician|executive|representative|detective)$/;
+      if (/(er|or|ist|ian|eur|man)$/.test(last) || ROLEW.test(last)) {
+        var an = /^[aeiou]/i.test(occ) && !/^(uni|use|u\.s|us[a-z]|eu)/i.test(occ);
+        return 'How many years have you been ' + (an ? 'an' : 'a') + ' ' + occ + '?';
+      }
+      return 'How many years have you been doing this?';
     } },
     { key: 'income', type: 'choice', title: "What's your annual income? (USD)", desc: 'This helps us determine the lifestyle and type of profile you can realistically showcase without it coming of as incongruent.', opts: ['0k to 50k', '50k to 100k', '100k to 150k', '150k-200k', '200k+'] },
     { key: 'problem', type: 'long', title: "What's the #1 problem with your dating apps / dating life?", desc: 'Be honest - the more detail, the better we can help.' },
