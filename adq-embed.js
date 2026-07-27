@@ -79,7 +79,19 @@
   // STRAIGHT into the native booker with the lead's details prefilled. Prefill rides the URL FRAGMENT
   // (never sent to servers/logs). Books via the same /api/apply/book pipeline as the form's booker.
   var BOOKPAGE = /^\/book(\/|$)/.test(location.pathname);
-  if (BOOKPAGE) {
+  // 📸 /photo-consult (Peter 2026-07-27): 15-min Brando consult for DQ'd leads ($500 AI-photos
+  // offer). Same booker, native photo-consult endpoints, phone/Zoom choice, no thankyou redirect.
+  var PHOTOPAGE = /^\/photo-consult(\/|$)/.test(location.pathname);
+  if (PHOTOPAGE) {
+    var _pp = {};
+    try { var _mh2 = (location.hash || '').match(/[#&]p=([A-Za-z0-9_-]+)/); if (_mh2) _pp = JSON.parse(decodeURIComponent(escape(atob(_mh2[1].replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { _pp = {}; }
+    A = { first: String(_pp.f || ''), last: String(_pp.l || ''), phone: String(_pp.p || ''), email: String(_pp.e || '') };
+    finished = 'cal'; submitted = true; partialSent = true;
+  }
+  // DQ-offer preview (Peter 2026-07-27: approve before it goes live): any page /#dqpreview renders
+  // the new DQ screen immediately. The offer replaces live DQ copy only when __ADQ_DQ_OFFER is on.
+  if (/dqpreview/.test(location.hash || '')) { window.__ADQ_DQ_OFFER = 1; finished = 'dq'; submitted = true; partialSent = true; }
+  if (BOOKPAGE && !/dqpreview/.test(location.hash || '')) {
     var _pre = {};
     try { var _mh = (location.hash || '').match(/[#&]p=([A-Za-z0-9_-]+)/); if (_mh) _pre = JSON.parse(decodeURIComponent(escape(atob(_mh[1].replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { _pre = {}; }
     A = { first: String(_pre.f || ''), last: String(_pre.l || ''), phone: String(_pre.p || ''), email: String(_pre.e || '') };
@@ -255,6 +267,17 @@
     if (navEl) navEl.style.display = finished ? 'none' : '';
     if (finished === 'dq') {
       body.style.padding = '';
+      if (window.__ADQ_DQ_OFFER) {
+        var _pcp = '';
+        try { _pcp = btoa(unescape(encodeURIComponent(JSON.stringify({ f: A.first || '', l: A.last || '', p: A.phone ? phoneE164() : '', e: A.email || '' })))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); } catch (e) {}
+        body.innerHTML = '<div class="adq-end">' +
+          '<p class="adq-title">Sorry, it looks like our fully done-for-you dating app management service won\'t be the best fit right now based on your answers.</p>' +
+          '<p class="adq-desc" style="margin-top:14px">What we can still do: create your <b>AI photos and profile</b> for you, plus consulting on the best pictures to use.</p>' +
+          '<p class="adq-desc" style="margin-top:12px"><b>$500</b> \u00b7 20 realistic, usable photo variations for dating apps \u00b7 turnaround within <b>24 hours</b> on weekdays, 48 hours on weekends.</p>' +
+          '<a href="/photo-consult/' + (_pcp ? ('#p=' + _pcp) : '') + '" style="display:inline-block;margin-top:26px;background:#60A5FA;color:#fff;font-weight:700;font-size:16px;padding:14px 26px;border-radius:8px;text-decoration:none;font-family:inherit">Book a free 15-minute photo consultation \u2192</a>' +
+          '</div>';
+        return;
+      }
       body.innerHTML = '<div class="adq-end"><p class="adq-title">Unfortunately it seems like we aren\'t a great fit right now.</p><p class="adq-desc">Feel free to check back if things change!</p></div>';
       return;
     }
@@ -442,7 +465,7 @@
   }
   function bkFetch() {
     var slotsFetch = function (left) {
-      return fetch(API_SLOTS + (redLead() ? '?red=1' : ''), { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); })
+      return fetch(PHOTOPAGE ? 'https://admin.automated.dating/api/photo-consult/slots' : (API_SLOTS + (redLead() ? '?red=1' : '')), { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); })
         .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 2500); }).then(function () { return slotsFetch(left - 1); }); throw e; });
     };
     slotsFetch(3).then(function (j) {
@@ -492,7 +515,8 @@
       '<label>First Name *</label><input type="text" id="bkFirst" value="' + esc(v.first != null ? v.first : (A.first || '')) + '">' +
       '<label>Phone *</label><input type="tel" id="bkPhone" value="' + esc(v.phone != null ? v.phone : (A.phone ? phoneE164() : '')) + '">' +
       '<label>Email *</label><input type="email" id="bkEmail" value="' + esc(v.email != null ? v.email : (A.email || '')) + '">' +
-      '<label class="adbk-confirm"><input type="checkbox" id="bkConfirm"' + (bk.confirmed ? ' checked' : '') + '><span>Please confirm you will 100% be ready at this time at a laptop with no distractions. *</span></label>' +
+      (PHOTOPAGE ? '<label>How should we do the call? *</label><div style="display:flex;gap:10px;margin-top:6px"><button type="button" class="adbk-slot" id="bkModePhone" style="' + (bk.mode !== 'zoom' ? 'background:#eef2fb;border-color:#3b6ff5' : '') + '">\ud83d\udcde Phone call</button><button type="button" class="adbk-slot" id="bkModeZoom" style="' + (bk.mode === 'zoom' ? 'background:#eef2fb;border-color:#3b6ff5' : '') + '">\ud83d\udcbb Zoom</button></div>' : '') +
+      '<label class="adbk-confirm"><input type="checkbox" id="bkConfirm"' + (bk.confirmed ? ' checked' : '') + '><span>' + (PHOTOPAGE ? 'Please confirm you will be available and ready at this time. *' : 'Please confirm you will 100% be ready at this time at a laptop with no distractions. *') + '</span></label>' +
       '<button type="button" class="adbk-sched' + (bk.confirmed ? '' : ' off') + '" id="bkSched">Schedule Meeting</button>' +
       '<button type="button" class="adbk-newtime" id="bkNewTime">Pick a new time</button>' +
       '<div class="adbk-err" id="bkErr">' + esc(bk.err || '') + '</div></div>';
@@ -512,7 +536,7 @@
         '<div class="adbk-dayhead">' + esc(bkDayLabel()) + '</div>' + bkSlotsHtml() +
         (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
     } else if (bkIsMob()) {
-      inner = (BOOKPAGE ? '' : '<button type="button" class="adbk-back" id="bkBackForm">\u2039 Back</button>') + '<div class="adbk-title">Select a Date &amp; Time for Your Profile Audit</div><div class="adbk-sub">30 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div><div class="adbk-timegrid">' + bkCalHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
+      inner = (BOOKPAGE ? '' : '<button type="button" class="adbk-back" id="bkBackForm">\u2039 Back</button>') + (PHOTOPAGE ? '<div class="adbk-title">Select a Date &amp; Time for Your Photo Consultation</div><div class="adbk-sub">15 min - Phone or Zoom, your pick. We walk through your photos and how the $500 AI photo set works.</div>' : '<div class="adbk-title">Select a Date &amp; Time for Your Profile Audit</div><div class="adbk-sub">30 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div>') + '<div class="adbk-timegrid">' + bkCalHtml() + '</div>' + (bk.err ? '<div class="adbk-err">' + esc(bk.err) + '</div>' : '');
     } else {
       inner = (BOOKPAGE ? '' : '<button type="button" class="adbk-back" id="bkBackForm">\u2039 Back</button>') + '<div class="adbk-title">Select a Date &amp; Time for Your Profile Audit</div><div class="adbk-sub">30 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div><div class="adbk-timegrid">' + bkCalHtml() +
         '<div class="adbk-slotcol"><div class="adbk-dayhead">' + esc(bkDayLabel()) + '</div>' + bkSlotsHtml() + '</div></div>' +
@@ -540,6 +564,9 @@
     if (nt) nt.addEventListener('click', function () { bk.view = 'time'; bk.mStep = 'date'; bk.armed = ''; bk.slot = ''; bk.err = ''; bk.loaded = false; bk._fetching = false; renderBooker(); });
     var sb = document.getElementById('bkSched');
     if (sb) sb.addEventListener('click', bkSchedule);
+    var _mp = document.getElementById('bkModePhone'), _mz = document.getElementById('bkModeZoom');
+    if (_mp) _mp.addEventListener('click', function () { bk.mode = 'phone'; renderBooker(); });
+    if (_mz) _mz.addEventListener('click', function () { bk.mode = 'zoom'; renderBooker(); });
     var cf = document.getElementById('bkConfirm');
     if (cf) cf.addEventListener('change', function () {
       if (sb) sb.classList.toggle('off', !cf.checked);
@@ -580,9 +607,11 @@
       var m = document.getElementById('bkPMsg'); if (m) m.textContent = BMSGS[mi];
     }, 2600);
     var done = function () { clearInterval(tick); clearInterval(mrot); };
-    var bookBody = JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot, red: redLead() ? '1' : '', fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') });
+    var bookBody = PHOTOPAGE
+      ? JSON.stringify({ name: (first.trim() + ' ' + (A.last || '')).trim(), email: email.trim(), phone: phone.trim(), mode: bk.mode === 'zoom' ? 'zoom' : 'phone', start: bk.slot })
+      : JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot, red: redLead() ? '1' : '', fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') });
     var bookFetch = function (left) {
-      return fetch(API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: bookBody }).then(function (r) { return r.json(); })
+      return fetch(PHOTOPAGE ? 'https://admin.automated.dating/api/photo-consult/book' : API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: bookBody }).then(function (r) { return r.json(); })
         .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 3000); }).then(function () { return bookFetch(left - 1); }); throw e; });
     };
     bookFetch(2)
@@ -595,6 +624,12 @@
           if (pct) pct.textContent = '100%';
           if (m) m.textContent = 'Booked! Loading your confirmation...';
           try { clearState(); sessionStorage.removeItem('adq_token'); } catch (e) {}
+          if (PHOTOPAGE) {
+            setTimeout(function () {
+              body.innerHTML = '<div class="adq-end" style="padding-top:60px"><p class="adq-title">\u2705 You\'re booked!</p><p class="adq-desc" style="margin-top:14px">A calendar invite is on its way to your email. ' + (bk.mode === 'zoom' ? 'The Zoom link will be in the invite and texted before the call.' : 'We\'ll call you at the number you entered.') + '</p></div>';
+            }, 500);
+            return;
+          }
           setTimeout(function () { window.location.href = '/thankyou/'; }, 400);
           return;
         }
