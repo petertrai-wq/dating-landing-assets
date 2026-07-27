@@ -344,7 +344,7 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
     </div>
   </div>
   <div class="center-cta">
-    <a href="#" class="btn" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Land Quality Dates <span class="chev">&rsaquo;</span></a>
+    <a href="#" class="btn" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Automate Your Dating <span class="chev">&rsaquo;</span></a>
   </div>
 </div></section>
 
@@ -428,7 +428,7 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
     <div class="im" id="fcardIm"><img src="cta-woman.jpg" alt="" onerror="document.getElementById('fcardIm').classList.remove('on')" onload="document.getElementById('fcardIm').classList.add('on')"></div>
     <h2>Find your ideal woman.</h2>
     <p>We'll search for her, but first we need to know exactly what you want, so we can see if she's even out there for you.</p>
-    <a href="#" class="btn" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Land Quality Dates <span class="chev">&rsaquo;</span></a>
+    <a href="#" class="btn" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Automate Your Dating <span class="chev">&rsaquo;</span></a>
     <div class="trustrow">
       <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>100% Confidential</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>No Obligation</span>
@@ -464,7 +464,7 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
 <section class="closer"><div class="wrap">
   <h2>Ready to go on dates with women you actually like?</h2>
   <p>Your first date lands within 7 days, or you don't pay.</p>
-  <a href="#" class="btn inv" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Land Quality Dates <span class="chev">&rsaquo;</span></a>
+  <a href="#" class="btn inv" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Automate Your Dating <span class="chev">&rsaquo;</span></a>
   <p class="ctext">Questions? <a href="sms:+13478732187">Text us: (347) 873-2187</a></p>
 </div></section>
 
@@ -665,4 +665,18 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
 })();
 </script>
 <script src="/adq-embed.js?v=20260727g" defer></script>
+<script>
+// CTA copy test (Peter 2026-07-27): half the buttons say "Automate Your Dating" — every CTA click
+// beacons its label + position so the copy comparison is in the funnel log (event cta_label).
+document.addEventListener('click', function (e) {
+  var t = e.target && e.target.closest && e.target.closest('[data-tf-popup]');
+  if (!t) return;
+  try {
+    var lbl = (t.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40);
+    var all = [].slice.call(document.querySelectorAll('[data-tf-popup]'));
+    navigator.sendBeacon('https://admin.automated.dating/api/analytics/track',
+      new Blob([JSON.stringify({ event: 'cta_label', page: lbl + ' #' + (all.indexOf(t) + 1), sid: 'cta' + Date.now().toString(36), ab: (window.__ADQ_AB || 'c') })], { type: 'text/plain' }));
+  } catch (err) {}
+}, true);
+</script>
 </body></html>
