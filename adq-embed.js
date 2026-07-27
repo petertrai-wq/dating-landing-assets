@@ -795,10 +795,10 @@
   function closeModal() {
     // /book standalone page: hiding the overlay leaves a blank white page (Peter 2026-07-18
     // "hit back and the screen just went white") — leave to the homepage instead.
-    if (typeof BOOKPAGE !== 'undefined' && BOOKPAGE) { location.href = 'https://automated.dating/'; return; }
+    if ((typeof BOOKPAGE !== 'undefined' && BOOKPAGE) || (typeof PHOTOPAGE !== 'undefined' && PHOTOPAGE)) { location.href = 'https://automated.dating/'; return; }
     ov.hidden = true; document.documentElement.style.overflow = ''; saveState(); }
   document.getElementById('adqClose').addEventListener('click', closeModal);
-  if (DCAL || BOOKPAGE) setTimeout(openModal, 300);
+  if (DCAL || BOOKPAGE || PHOTOPAGE || /dqpreview/.test(location.hash || '')) setTimeout(openModal, 300);
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest && e.target.closest('[data-tf-popup]');
     if (t) { e.preventDefault(); openModal(); }
