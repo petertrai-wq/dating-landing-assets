@@ -24,7 +24,7 @@
     { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },
     { key: 'time_week', type: 'choice', title: 'How many hours are you spending each week texting, swiping, thinking about, or meeting women?', opts: ['Under 3 hours', '3-7 hours', '8-15 hours', '15+ hours'] },
     { key: 'dates30', type: 'choice', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'] },
-    { key: 'methow', type: 'multi', title: "How'd you meet those dates?", desc: 'Check all that apply.', opts: ['Dating apps', 'Instagram / Social Media', 'Social Circle', 'Approaching', 'Other'], skipIf: function (ans) { return (ans.dates30 || '') === '0'; } },
+    { key: 'methow', type: 'multi', title: "How'd you meet those dates?", desc: 'Check all that apply.', opts: ['Dating apps', 'Instagram / Social Media', 'Social Circle', 'Approaching', 'Matchmaker', 'Other'], skipIf: function (ans) { return (ans.dates30 || '') === '0'; } },
     { key: 'interest', type: 'multi', title: 'Why do you want us to run your dating apps for you?', desc: 'Select all that apply', opts: ['I want a team of experts to do everything for me according to my exact preferences', 'I\'m tired of putting in so much effort to get dates', 'I\'ve seen your client results and transformations', 'I want to add an extra funnel on top of what I\'m already doing', 'I literally have no time to swipe, text, or meet women, but I want dates'] },
     { key: 'occupation', type: 'short', title: "What's your occupation?" },
     { key: 'occ_years', type: 'wheel', min: 1, max: 99, def: 8, title: function (ans) {
@@ -345,7 +345,12 @@
     // box shrinks to its content, so a fixed-width desc centers 20-40px off. Match widths at render.
     try {
       var _tEl = body.querySelector('.adq-qrow .adq-title'), _dEl = body.querySelector('.adq-desc');
-      if (_tEl && _dEl) _dEl.style.width = Math.round(_tEl.getBoundingClientRect().width) + 'px';
+      if (_tEl && _dEl && _dEl.parentElement) {
+        var _tr = _tEl.getBoundingClientRect(), _pr = _dEl.parentElement.getBoundingClientRect();
+        var _pl = parseFloat(getComputedStyle(_dEl.parentElement).paddingLeft) || 0;
+        _dEl.style.width = Math.round(_tr.width) + 'px';
+        _dEl.style.marginLeft = Math.max(0, Math.round(_tr.left - _pr.left - _pl)) + 'px';
+      }
     } catch (e) {}
     body.scrollTop = 0;   // long questions (multi-selects, Q12) load from the TOP on mobile
     body.querySelectorAll('.adq-opt').forEach(function (btn) {
