@@ -341,6 +341,12 @@
     h += '<div class="adq-zone">' + z + '</div>';
     body.style.padding = '';
     body.innerHTML = h;
+    // Center the description EXACTLY under the question text (Peter 2026-07-27): the title's flex
+    // box shrinks to its content, so a fixed-width desc centers 20-40px off. Match widths at render.
+    try {
+      var _tEl = body.querySelector('.adq-qrow .adq-title'), _dEl = body.querySelector('.adq-desc');
+      if (_tEl && _dEl) _dEl.style.width = Math.round(_tEl.getBoundingClientRect().width) + 'px';
+    } catch (e) {}
     body.scrollTop = 0;   // long questions (multi-selects, Q12) load from the TOP on mobile
     body.querySelectorAll('.adq-opt').forEach(function (btn) {
       btn.addEventListener('click', function () { chooseOpt(parseInt(btn.getAttribute('data-i'), 10)); });
