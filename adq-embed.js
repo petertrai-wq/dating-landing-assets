@@ -267,7 +267,7 @@
     if (navEl) navEl.style.display = finished ? 'none' : '';
     if (finished === 'dq') {
       body.style.padding = '';
-      if (window.__ADQ_DQ_OFFER) {
+      if (true) {   // DQ offer LIVE (Peter 2026-07-27 "put it live if they get DQ'd")
         var _pcp = '';
         try { _pcp = btoa(unescape(encodeURIComponent(JSON.stringify({ f: A.first || '', l: A.last || '', p: A.phone ? phoneE164() : '', e: A.email || '' })))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); } catch (e) {}
         body.innerHTML = '<div class="adq-end">' +
