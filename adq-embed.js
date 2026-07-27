@@ -618,13 +618,13 @@
       .then(function (j) {
         done();
         if (j && j.ok) {
-          try { pingEv('booked_ok', 'booked'); } catch (e) {}
+          try { pingEv(PHOTOPAGE ? 'pc_booked_ok' : 'booked_ok', 'booked'); } catch (e) {}   // photo consults tracked separately — never mix with sales booking analytics (Peter 2026-07-27)
           var bar = document.getElementById('bkPBar'), pct = document.getElementById('bkPPct'), m = document.getElementById('bkPMsg');
           if (bar) bar.style.width = '100%';
           if (pct) pct.textContent = '100%';
           if (m) m.textContent = 'Booked! Loading your confirmation...';
           try { clearState(); sessionStorage.removeItem('adq_token'); } catch (e) {}
-          setTimeout(function () { window.location.href = '/thankyou/'; }, 400);   // photo-consult rides the same thank-you page (Peter 2026-07-27)
+          setTimeout(function () { window.location.href = PHOTOPAGE ? '/photo-thankyou/' : '/thankyou/'; }, 400);   // photo consults land on the PIXEL-FREE twin — no Meta URL rule can ever see them (Peter 2026-07-27)
           return;
         }
         bk.busy = false;

@@ -1,0 +1,527 @@
+<!DOCTYPE html><html  lang="en"><head><meta charset="utf-8"><script>
+/* Frame-buster (2026-07-17): the GHL booking widget inside the /d popup redirects HERE after a
+   booking — inside its iframe. Break out to the full-page thankyou BEFORE the pixels load, so the
+   PageView fires exactly once at top level. No-op on normal visits. */
+if (window.self !== window.top) { try { window.top.location.href = window.location.href; } catch (e) {} }
+</script><meta name="viewport" content="width=device-width, initial-scale=1"><title>Thank You</title><!-- Meta Pixel 997126436410749 — PageView only; the Booked Call (Schedule) is fired SERVER-SIDE from the Calendly webhook (with the invitee id), so we don't also fire it here and double-count. --><!-- End Meta Pixel --><!-- TikTok Pixel D94PJOBC77U0A0PAN09G — Automated Dating · PageView only (mirrors Meta); Lead + Booked Call fired SERVER-SIDE via the relay TikTok Events API to avoid double-count. --><script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+  ttq.load('D94PJOBC77U0A0PAN09G');
+  ttq.page();
+}(window, document, 'ttq');
+</script><!-- End TikTok Pixel Code --><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="anonymous"><link rel="preconnect" href="https://backend.leadconnectorhq.com" crossorigin="anonymous"><link rel="preconnect" href="https://images.leadconnectorhq.com" crossorigin="anonymous"><link rel="preconnect" href="https://cdn.filesafe.space" crossorigin="anonymous"><style> 
+
+ :root{ --transparent: transparent;
+--primary: #37ca37;
+--secondary: #188bf6;
+--white: #ffffff;
+--gray: #cbd5e0;
+--black: #000000;
+--red: #e93d3d;
+--orange: #f6ad55;
+--yellow: #faf089;
+--green: #9ae6b4;
+--teal: #81e6d9;
+--malibu: #63b3ed;
+--indigo: #757BBD;
+--purple: #d6bcfa;
+--pink: #fbb6ce;
+--cobalt: #155eef;
+--smoke: #f5f5f5;
+--overlay: rgba(0, 0, 0, 0.5);
+--headlinefont: 'Inter';
+--contentfont: 'Inter';
+--text-color: #000000;
+--link-color: #188bf6; } .bg-fixed{bottom:0;top:0;left:0;right:0;position:fixed;overflow:auto;background-color:var(--white)} 
+            
+            .drop-zone-draggable .hl_main_popup{box-shadow:none;padding:20px;margin-top:0;border-color:var(--gray);border-width:10px;border-style:solid;border-radius:0;background-color:var(--white);width:720px}
+            
+          
+#hl_main_popup.popup-body{position:absolute!important;left:50%!important;bottom:auto!important;transform:translate(-50%,0)!important;right:auto!important;box-shadow:none;padding:20px;margin-top:0;border-color:var(--gray);border-width:10px;border-style:solid;border-radius:0;background-color:var(--white);width:720px}.--mobile #hl_main_popup.popup-body{width:380px!important}@media screen and (min-width:0px) and (max-width:480px){#hl_main_popup.popup-body{width:380px!important}} 
+            
+            .drop-zone-draggable .hl_main_popup-yHJ07Zbtk-{box-shadow:none;padding:20px;margin-top:0;border-color:var(--gray);border-width:10px;border-style:solid;border-radius:0;background-color:var(--white);width:720px}
+            
+          
+#hl_main_popup-yHJ07Zbtk-.popup-body{position:absolute!important;left:50%!important;bottom:auto!important;transform:translate(-50%,0)!important;right:auto!important;box-shadow:none;padding:20px;margin-top:0;border-color:var(--gray);border-width:10px;border-style:solid;border-radius:0;background-color:var(--white);width:720px}.--mobile #hl_main_popup-yHJ07Zbtk-.popup-body{width:380px!important}@media screen and (min-width:0px) and (max-width:480px){#hl_main_popup-yHJ07Zbtk-.popup-body{width:380px!important}}  
+ /* ---- Section styles ----- */ 
+:root{--transparent:transparent;--black:#000000}.hl_page-preview--content .col-_z4edEaoCo,.hl_page-preview--content .row-BgACfqJDWH,.hl_page-preview--content .section-r7vtYe6RqU{box-shadow:none;padding:20px 0;margin:0;background-color:var(--transparent);backdrop-filter:none;border-color:var(--black);border-width:0;border-style:none;border-radius:0}.hl_page-preview--content .col-_z4edEaoCo,.hl_page-preview--content .row-BgACfqJDWH{margin:0 auto;padding:10px 5px;width:100%}.hl_page-preview--content .col-_z4edEaoCo{margin:0}.hl_page-preview--content .custom-code-zQmssDVdsy{margin:0;width:auto;height:auto}#section-r7vtYe6RqU>.inner{max-width:1170px}#col-_z4edEaoCo>.inner{flex-direction:column;justify-content:center;align-items:inherit;flex-wrap:nowrap}
+
+</style><link rel="stylesheet" href media="print" onload="this.media='all'"><style>.testimonial-modal-overlay{align-items:center;background:#0000004d;display:flex;height:100vh;justify-content:center;left:0;position:fixed;top:0;width:100vw;z-index:10000}.testimonial-modal-content{align-items:stretch;background:none;display:flex;flex-direction:column;max-height:600px;max-width:540px;width:100%}.testimonial-modal-close{align-items:center;background:#fff;border:none;border-radius:50%;cursor:pointer;display:flex;height:36px;justify-content:center;position:absolute;right:20px;top:20px;transition:background .15s;width:36px;z-index:2}.testimonial-modal-close-icon{color:#222;height:22px;width:22px}@media(max-width:768px){.testimonial-modal-content{border-radius:10px;max-width:98vw}.testimonial-modal-close{right:10px;top:10px}}</style><link rel="stylesheet" href="https://stcdn.leadconnectorhq.com/_preview/entry.iSOF46tA.css" crossorigin><link rel="preload" as="style" href><link  as="script" crossorigin href="https://stcdn.leadconnectorhq.com/_preview/DXsl4ri-.js"><link  as="script" crossorigin href="https://stcdn.leadconnectorhq.com/_preview/faa-nldr.js"><link  as="script" crossorigin href="https://stcdn.leadconnectorhq.com/_preview/DKWeKghG.js"><link  as="script" crossorigin href="https://stcdn.leadconnectorhq.com/_preview/CtkYeJLl.js"><link  as="script" crossorigin href="https://stcdn.leadconnectorhq.com/_preview/Bc8mIi2a.js"><script type="module" src="https://stcdn.leadconnectorhq.com/_preview/DXsl4ri-.js" crossorigin></script><link rel="dns-prefetch" href="https://services.leadconnectorhq.com"><link rel="icon" href="https://stcdn.leadconnectorhq.com/funnel/icon/favicon.ico"><meta name="title" content="Thank You"><meta property="og:title" content="Thank You"><meta property="og:type" content="website"><meta property="twitter:type" content="website"></head><body><div id="__nuxt"><!--[--><div></div><!--[--><div class="bgCover bg-fixed"></div><div><!--[--><div><!----><!----><div><div id="nav-menu-popup" style="display:none;" class="hide"><div class="nav-menu-body"><i class="close-menu fas fa-times"></i><ul class="nav-menu"><!--[--><!--]--></ul></div></div></div><!----><!--[--><!----><!--]--><div id="preview-container" class="preview-container hl_page-preview--content"><div><!----><!--[--><!--[--><div class="fullSection c-section c-wrapper section-r7vtYe6RqU" style="" id="section-r7vtYe6RqU"><!----><!----><div class="inner"><!----><!--[--><!--[--><div class="row-align-center c-row c-wrapper row-BgACfqJDWH" id="row-BgACfqJDWH"><!----><!----><div class="inner"><!----><!--[--><!--[--><div class="c-column c-wrapper col-_z4edEaoCo" id="col-_z4edEaoCo"><!----><!----><div class="vertical inner"><!----><!--[--><!--[--><div id="custom-code-zQmssDVdsy" class="c-custom-code c-wrapper custom-code-zQmssDVdsy"><!----><!----><!----><!----><!----><!----><!----><span></span><div id="custom-code-zQmssDVdsy" class="custom-code-container ccustom-code-zQmssDVdsy"><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile Audit Pending &mdash; Automated Dating</title>
+<meta name="description" content="Your strategy call is booked. Watch the videos below so we can spend our time on you, not the basics.">
+
+<!-- Favicons (same as landing page) -->
+<link rel="icon" type="image/png" sizes="32x32"  href="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/apple-touch-icon.png">
+<meta name="theme-color" content="#a78bfa">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600;1,700;1,800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background-color: #000000;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-attachment: fixed;
+    color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ‚îÄ‚îÄ HEADER (sticky, full viewport width) ‚îÄ‚îÄ */
+  .site-header {
+    padding: 14px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+  .site-logo {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+  .site-logo span {
+    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ‚îÄ‚îÄ PAGE WRAP ‚îÄ‚îÄ */
+  .page-wrapper {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ‚îÄ‚îÄ SECTION TITLE (shared style: teal eyebrow + large headline with italic gradient) ‚îÄ‚îÄ */
+  .section-head {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+  .section-head .eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #5eead4;
+    margin-bottom: 14px;
+  }
+  .section-head h1,
+  .section-head h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+  }
+  .section-head .gradient {
+    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+  }
+  .section-head--top { margin-bottom: 52px; }
+
+  /* ‚îÄ‚îÄ INTRO TWO-COL (Warning + Welcome) ‚îÄ‚îÄ */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr) 1fr;
+    gap: 40px;
+    margin-bottom: 64px;
+    align-items: start;
+  }
+  .warning-card {
+    background: linear-gradient(135deg, rgba(248, 113, 113, 0.10), rgba(248, 113, 113, 0.03));
+    border: 1px solid rgba(248, 113, 113, 0.45);
+    border-radius: 16px;
+    padding: 26px 28px;
+    box-shadow: 0 0 40px rgba(248, 113, 113, 0.10);
+  }
+  .warning-card p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 500;
+  }
+  .warning-card .warning-label {
+    color: #fca5a5;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+  .warning-card .accent {
+    color: #fca5a5;
+    font-weight: 700;
+  }
+  .welcome-text p {
+    font-size: 17px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 16px;
+  }
+  .welcome-text p:last-child { margin-bottom: 0; }
+  .welcome-text strong {
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: rgba(167, 139, 250, 0.6);
+    text-underline-offset: 4px;
+  }
+
+  /* ‚îÄ‚îÄ FEATURED VIDEO ‚îÄ "Watch this First" ‚îÄ‚îÄ */
+  .featured {
+    margin-bottom: 80px;
+  }
+  .video-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 40px rgba(167, 139, 250, 0.08);
+  }
+  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  /* ‚îÄ‚îÄ VIDEO GRID (#2 through #7) ‚îÄ‚îÄ */
+  .video-grid-section {
+    margin-bottom: 80px;
+  }
+  .video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px 28px;
+    align-items: stretch;
+  }
+  .video-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Push label + frame to the bottom so labels sit just above their frames,
+       which aligns all frames at the row's bottom edge even when titles wrap differently */
+    justify-content: flex-end;
+  }
+  .video-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .video-label .num {
+    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    margin-right: 8px;
+  }
+
+  /* ‚îÄ‚îÄ TESTIMONIALS ‚îÄ‚îÄ */
+  .testimonials {
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .testimonials-grid {
+    columns: 3;
+    column-gap: 18px;
+    column-fill: balance;
+  }
+  .testimonial-card {
+    break-inside: avoid;
+    margin-bottom: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .testimonial-card:hover {
+    border-color: rgba(167, 139, 250, 0.3);
+    transform: translateY(-2px);
+  }
+  .testimonial-card img { width: 100%; height: auto; display: block; }
+  .quote-callout {
+    break-inside: avoid;
+    margin-bottom: 18px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .quote-callout p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #ffffff;
+  }
+  .testimonials-note {
+    text-align: center;
+    margin-top: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* ‚îÄ‚îÄ FOOTER ‚îÄ‚îÄ */
+  .site-footer {
+    text-align: center;
+    padding: 32px 24px 24px;
+    margin-top: 64px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.45);
+    font-size: 13px;
+  }
+  .footer-logo {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+  }
+  .footer-logo span {
+    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ‚îÄ‚îÄ MOBILE ‚îÄ‚îÄ */
+  @media (max-width: 720px) {
+    .page-wrapper { padding: 28px 16px 60px; }
+    .section-head { margin-bottom: 32px; }
+    .section-head--top { margin-bottom: 40px; }
+    .section-head h1, .section-head h2 { font-size: 28px; }
+    .intro-grid { grid-template-columns: 1fr; gap: 24px; margin-bottom: 44px; }
+    .warning-card { padding: 22px 20px; }
+    .warning-card p, .welcome-text p { font-size: 15px; }
+    .video-grid { grid-template-columns: 1fr; gap: 28px; }
+    .video-label { font-size: 17px; }
+    .testimonials-grid { columns: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ‚ïê‚ïê‚ïê HEADER ‚ïê‚ïê‚ïê -->
+<header class="site-header">
+  <div class="site-logo">Automated <span>Dating</span></div>
+</header>
+
+<div class="page-wrapper">
+
+  <!-- ‚ïê‚ïê‚ïê CONGRATULATIONS HEADER ‚ïê‚ïê‚ïê -->
+  <div class="section-head section-head--top">
+    <h1>Congratulations &mdash; <span class="gradient">your profile audit is pending</span></h1>
+  </div>
+
+  <!-- ‚ïê‚ïê‚ïê WARNING + WELCOME ‚ïê‚ïê‚ïê -->
+  <div class="intro-grid">
+
+    <div class="warning-card">
+      <p>
+        <span class="warning-label">WARNING:</span> Successful people value their time more than anything else.
+        Therefore, <span class="accent">we do not reschedule.</span>
+        I'll never ask myself or my team to work with anyone who doesn't feel the same level of honor &amp; commitment.
+      </p>
+    </div>
+
+    <div class="welcome-text">
+      <p>We look forward to speaking with you at your scheduled appointment time. Please be in a quiet spot where we can talk about your goals.</p>
+      <p><strong>We will not take calls</strong> when you're on the go or can't devote your full attention. This is important &mdash; please treat it that way.</p>
+      <p>If you feel we're a good fit and we can help you, please be ready to come on board. We'll answer any and all questions you have.</p>
+    </div>
+
+  </div>
+
+  <!-- ‚ïê‚ïê‚ïê FEATURED VIDEO ‚ïê‚ïê‚ïê -->
+  <div class="featured">
+    <div class="section-head">
+      <p class="eyebrow">Start here</p>
+      <h2>Watch <span class="gradient">this first</span></h2>
+    </div>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/36kh1HX_5rg" title="Watch this First" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- ‚ïê‚ïê‚ïê 6 NUMBERED VIDEOS ‚ïê‚ïê‚ïê -->
+  <div class="video-grid-section">
+
+    <div class="section-head">
+      <p class="eyebrow">Then watch these</p>
+      <h2>Most-asked <span class="gradient">questions, answered</span></h2>
+    </div>
+
+    <div class="video-grid">
+
+      <div class="video-cell">
+        <h3 class="video-label"><span class="num">#1</span>What if this doesn't work?</h3>
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/enDhLLbjNPw" title="Video 1" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="video-cell">
+        <h3 class="video-label"><span class="num">#2</span>What are the different options you offer?</h3>
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/7bj2oPAmBtw" title="Video 2" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="video-cell">
+        <h3 class="video-label"><span class="num">#3</span>Who is this actually for?</h3>
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/ksvTUBDUq48" title="Video 3" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="video-cell">
+        <h3 class="video-label"><span class="num">#4</span>How do we know the dates will be high quality?</h3>
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/1WAeDFNlyig" title="Video 4" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="video-cell">
+        <h3 class="video-label"><span class="num">#5</span>How are we different from automation software?</h3>
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/_tzY4U2J1vE" title="Video 5" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="video-cell">
+        <h3 class="video-label"><span class="num">#6</span>Get insane Hinge results with AI and VAs</h3>
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/zcG1nmwr41A" title="Video 6" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ TESTIMONIAL WALL (ported from /concierge, Peter 2026-07-17) ═══ -->
+<div class="adwall-sec">
+  <div class="adwall-wrap">
+    <div class="adwall-sh">
+      <h2>Real Results from Real Clients</h2>
+      <p>Join hundreds of men who transformed their dating lives.</p>
+    </div>
+    <div class="adwall" id="adwall"><div class="wcol"></div><div class="wcol"></div><div class="wcol"></div></div>
+  </div>
+</div>
+<style>
+  .adwall-sec{background:#f7f5f1;padding:72px 0}
+  .adwall-wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+  .adwall-sh{text-align:center;margin-bottom:34px}
+  .adwall-sh h2{color:#131210;font-size:34px;line-height:1.2;margin:0 0 10px;font-weight:800}
+  .adwall-sh p{color:#6d6a63;font-size:16.5px;margin:0}
+  .adwall{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;height:780px;overflow:hidden;position:relative;
+    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 7%,#000 93%,transparent);
+    mask-image:linear-gradient(to bottom,transparent,#000 7%,#000 93%,transparent)}
+  .adwall .wcol{display:flex;flex-direction:column;gap:20px;will-change:transform}
+  .adwall .tcard{background:#fff;border:1px solid #eceae4;border-radius:16px;padding:22px 22px;box-shadow:0 2px 14px rgba(0,0,0,.04);flex:none}
+  .adwall .tcard .qq{font-size:15.5px;line-height:1.5;color:#131210;margin:0}
+  .adwall .tcard .who{display:flex;align-items:center;gap:12px;margin-top:16px}
+  .adwall .tcard .av{position:relative;overflow:hidden;width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;background:linear-gradient(140deg,#3a352c,#141210)}
+  .adwall .tcard .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+  .adwall .tcard .who b{display:block;font-size:14.5px;color:#131210}
+  .adwall .tcard .who span{font-size:12.5px;color:#6d6a63}
+  @media(max-width:860px){.adwall{grid-template-columns:repeat(2,1fr);gap:12px;height:620px}.adwall .wcol:nth-child(3){display:none}.adwall .wcol{gap:12px}.adwall .tcard{padding:14px 15px}.adwall .tcard .qq{font-size:14px}.adwall .tcard .who{gap:8px;margin-top:12px}.adwall .tcard .av{width:34px;height:34px;font-size:13px}.adwall .tcard .who b{font-size:12.5px}.adwall .tcard .who span{font-size:11px;line-height:1.3}.adwall-sh h2{font-size:26px}}
+</style>
+<script>
+(function () {
+  var P = '/concierge/';
+  var quotes = [
+    { q: "Getting a shit load of matches on hinge tho", n: "Tony", loc: "Info Business Owner · Austin, TX", img: P + "tw-tony.jpg" },
+    { q: "It's been approx 36 hours, I'm definitely seeing an uptick in quality matches on Bumble", n: "David", loc: "$5m/mo Ecom Founder · Miami, FL", img: P + "tw-david.jpg" },
+    { q: "The new profile is fire. Matching with half the girls I swipe on", n: "Mike", loc: "Attorney · Chicago, IL", img: P + "tw-mike.jpg" },
+    { q: "the hinge/raya is firing btw, thanks a lot for the pics. game changer actually haha", n: "Jonathan", loc: "Product Manager · New York, NY", img: P + "tw-jonathan.jpg" },
+    { q: "Three dates, three nights in a row this past Sunday, Monday and Tuesday. All at my place.", n: "Shaun", loc: "Finance Executive · London, UK", img: P + "tw-shaun2.jpg" },
+    { q: "I went to a bar with all of them. Also going to her house Wednesday", n: "Anthony", loc: "Physician · London, UK", img: P + "tw-anthony.jpg" },
+    { q: "If I just put in the time, I'd be fine. But I just don't want to put in the time. I'd rather just pay somebody.", n: "Grayson", loc: "Marketing Agency Owner · New York, NY", img: P + "tw-grayson.jpg" },
+    { q: "I don't have trouble with women. I just don't want to spend the time. It's like a full-time job.", n: "Marco", loc: "$500k+ FAANG Exec · San Francisco, CA", img: P + "tw-marco2.jpg" },
+    { q: "On Hinge I actually just don't get matches. Like, I don't get any. This fixed that completely.", n: "Asang", loc: "$1m/mo SaaS Owner · Sydney, Australia", img: P + "tw-asang.jpg" },
+    { q: "The likes you do get aren't women you're attracted to. I wanted fewer, better dates. That's exactly what this is.", n: "Casey", loc: "Contracting Officer · Ogden, UT", img: P + "tw-casey.jpg" },
+    { q: "You guys have literally changed my life", n: "Derek", loc: "Startup Founder · Seattle, WA", img: P + "tw-derek.jpg" },
+    { q: "She wants to see me again", n: "Nathan", loc: "Private Equity · Chicago, IL", img: P + "tw-nathan2.jpg" },
+    { q: "Had a great time with her", n: "Ryan", loc: "Real Estate Investor · Scottsdale, AZ", img: P + "tw-ryan2.jpg" },
+    { q: "You've got a stellar thing set up here", n: "Chris", loc: "Restaurant Group Owner · Nashville, TN", img: P + "tw-chris.jpg" },
+    { q: "She was exactly my type", n: "James", loc: "M&A Attorney · Boston, MA", img: P + "tw-james2.jpg" },
+    { q: "we met and had a good time", n: "Victor", loc: "Crypto Fund Manager · Miami, FL", img: P + "tw-victor.jpg" },
+    { q: "closed. she was rly cool", n: "Brett", loc: "Med Device Sales · Denver, CO", img: P + "tw-brett.jpg" }
+  ];
+  function card(o) {
+    var av = o.img
+      ? '<div class="av"><img loading="lazy" src="' + o.img + '" alt="" onerror="this.remove()">' + o.n.charAt(0) + '</div>'
+      : '<div class="av">' + o.n.charAt(0) + '</div>';
+    return '<div class="tcard"><p class="qq">\u201C' + o.q + '\u201D</p>' +
+           '<div class="who">' + av + '<div><b>' + o.n + '</b><span>' + o.loc + '</span></div></div></div>';
+  }
+  var cols = document.querySelectorAll('#adwall .wcol');
+  if (!cols.length) return;
+  var split = [[0, 3, 10, 13, 16, 4], [1, 7, 11, 14, 2, 9], [5, 8, 12, 6, 15]];
+  split.forEach(function (idxs, ci) {
+    var html = idxs.map(function (i) { return card(quotes[i]); }).join('');
+    cols[ci].innerHTML = html + html;
+  });
+  var speeds = [30, 38, 26], offs = [0, 0, 0], last = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    requestAnimationFrame(function tick(ts) {
+      if (last != null) {
+        var dt = Math.min((ts - last) / 1000, 0.1);
+        for (var i = 0; i < cols.length; i++) {
+          var kids = cols[i].children, n = kids.length >> 1;
+          if (!n) continue;
+          var loop = kids[n].getBoundingClientRect().top - kids[0].getBoundingClientRect().top;
+          if (loop > 0) { offs[i] = (offs[i] + speeds[i] * dt) % loop; cols[i].style.transform = 'translate3d(0,' + (-offs[i]) + 'px,0)'; }
+        }
+      }
+      last = ts;
+      requestAnimationFrame(tick);
+    });
+  }
+  // Guard: if the page runtime ever re-inserts the old screenshot-grid testimonials, hide it — the wall replaces it.
+  function hideOld() { try { document.querySelectorAll('.testimonials').forEach(function (el) { el.style.display = 'none'; }); } catch (e) {} }
+  hideOld(); setTimeout(hideOld, 1500); setTimeout(hideOld, 4000);
+})();
+</script>
+
+</div>
+
+<!-- ‚ïê‚ïê‚ïê FOOTER ‚ïê‚ïê‚ïê -->
+<footer class="site-footer">
+  <div class="footer-logo">Automated <span>Dating</span></div>
+  <p>&copy; 2026 Automated Dating. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
+</div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--]--></div><!----><!----><!----><!----><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--]--></div><!----><!----><!----><!----><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--]--></div><!----><!----><!----><!----><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--]--></div></div><!----><!----><!----></div><!--]--></div><!--]--><!--]--></div><div id="teleports"></div><script>window.__NUXT__={};window.__NUXT__.config={public:{baseUrl:"https://apisystem.tech",newBaseURL:"https://backend.leadconnectorhq.com/appengine",serverBaseUrl:"https://apisystem.tech",NODE_ENV:"production",OLD_STORAGE_API_URL1_CDN:"https://cdn.msgsndr.com",OLD_STORAGE_API_URL2_CDN:"https://assets.cdn.msgsndr.com",STORAGE_API_URL1_CDN:"https://cdn.filesafe.space",STORAGE_API_URL2_CDN:"https://assets.cdn.filesafe.space",REVIEW_WIDGET_URL:"https://backend.leadconnectorhq.com/appengine/reviews/get_widget/",REST_API_URLS:"https://backend.leadconnectorhq.com",STATS_API_URL:"https://backend.leadconnectorhq.com",paymentsServiceUrl:"https://backend.leadconnectorhq.com",HLS_URL:"https://content.apisystem.tech",IMAGE_CDN:"https://images.leadconnectorhq.com",IMAGE_CDN_WHITELIST:["assets.cdn.msgsndr.com","cdn.msgsndr.com","cdn.filesafe.space","assets.cdn.filesafe.space","storage.googleapis.com","firebasestorage.googleapis.com"],authorizeAcceptJsUrlTestMode:"https://jstest.authorize.net/v1/Accept.js",authorizeAcceptJsUrlLiveMode:"https://js.authorize.net/v1/Accept.js",nmiPaymentProviderScriptUrl:"https://secure.safewebservices.com/token/Collect.js",FORMS_SERVICE_URL:"https://backend.leadconnectorhq.com",SURVEYS_SERVICE_URL:"https://backend.leadconnectorhq.com",QR_CODE_SERVICE_URL:"https://backend.leadconnectorhq.com",GOOGLE_API_SERVICE_URL:"https://services.leadconnectorhq.com/common-google",ECOMMERCE_SERVICE_URL:"https://backend.leadconnectorhq.com/ecommerce",HL_HOMEPAGE_STEPID:"6dcfb06b-9734-44bd-bbcc-8bd4b7fec976",STRIPE_BNPL_CONFIGURATION_TEST:"pmc_1OaAR1FpU9DlKp7RH0HHU4xH",STRIPE_BNPL_CONFIGURATION_LIVE:"pmc_1OlnyOFpU9DlKp7R4tTHuihw",STRIPE_PMC_KEY_TEST:"pmc_1Ps2bTFpU9DlKp7RmgTzmJUL",STRIPE_PMC_KEY_LIVE:"pmc_1PzYYpFpU9DlKp7RcgxVmcvS",STRIPE_DEFAULT_CONFIGURATION_TEST:"pmc_1M95aRFpU9DlKp7ReIqqY0PP",STRIPE_DEFAULT_CONFIGURATION_LIVE:"pmc_1NYilsFpU9DlKp7RkMiUNrKE",STRIPE_DEFAULT_CONFIGURATION_TEST_SURVEY:"pmc_1QrvB7FpU9DlKp7RcL9L2idV",STRIPE_DEFAULT_CONFIGURATION_LIVE_SURVEY:"pmc_1Qwds7FpU9DlKp7RMCBlclQ0",STRIPE_DEFAULT_CONFIGURATION_TEST_FORM:"pmc_1Qodu1FpU9DlKp7RoWHB8Txx",STRIPE_DEFAULT_CONFIGURATION_LIVE_FORM:"pmc_1QwcV0FpU9DlKp7RORUHPK8B",STRIPE_CARD_ONLY_TEST_PMC:"pmc_1PVvmcFpU9DlKp7RFsjX5G7G",STRIPE_CARD_ONLY_LIVE_PMC:"pmc_1PVvogFpU9DlKp7Rj8F0ITLV",ENTERPRISE_RECAPTCHA_SITE_KEY:"6LeDBFwpAAAAAJe8ux9-imrqZ2ueRsEtdiWoDDpX",ENTERPRISE_RECAPTCHA_CHECKBOX_SITE_KEY:"6Lfjxx4sAAAAAIsnmlR5mKNS7QwIWqDjABW2SUu7",STRIPE_ONE_STEP_PMC_ID_TEST:"pmc_1QodqYFpU9DlKp7R8EIapiwE",STRIPE_TWO_STEP_PMC_ID_TEST:"pmc_1QodsEFpU9DlKp7RHRyay2KC",STRIPE_ONE_STEP_PMC_ID_LIVE:"pmc_1QwcLrFpU9DlKp7Rl9zb07x1",STRIPE_TWO_STEP_PMC_ID_LIVE:"pmc_1QwcP4FpU9DlKp7R4L0ytWkJ",RECAPTCHA_SITE_KEY:"6LfcbMseAAAAAI-EJoB-lUh7_TJaYloLbcbmnhEO",i18n:{baseUrl:"",defaultLocale:"en",defaultDirection:"ltr",strategy:"no_prefix",lazy:true,rootRedirect:"",routesNameSeparator:"___",defaultLocaleRouteNameSuffix:"default",skipSettingLocaleOnNavigate:true,differentDomains:false,trailingSlash:false,detectBrowserLanguage:{alwaysRedirect:false,cookieCrossOrigin:false,cookieDomain:"",cookieKey:"i18n_redirected",cookieSecure:false,fallbackLocale:"",redirectOn:"root",useCookie:true},experimental:{localeDetector:"",switchLocalePathLinkSSR:false,autoImportTranslationFunctions:false,typedPages:true,typedOptionsAndMessages:false,generatedLocaleFilePathFormat:"absolute",alternateLinkCanonicalQueries:false,hmr:true},multiDomainLocales:false,domainLocales:{da:{domain:""},de:{domain:""},en:{domain:""},es:{domain:""},fi:{domain:""},"fr-ca":{domain:""},fr:{domain:""},hu:{domain:""},it:{domain:""},nl:{domain:""},no:{domain:""},pl:{domain:""},"pt-br":{domain:""},pt:{domain:""},sv:{domain:""}}}},app:{baseURL:"/",buildId:"827ca52b-ed7d-49bd-b975-3a80b1b4646c",buildAssetsDir:"/_preview/",cdnURL:"https://stcdn.leadconnectorhq.com/"}}</script><script type="application/json" data-nuxt-data="nuxt-app" data-ssr="true" id="__NUXT_DATA__">[["ShallowReactive",1],{"data":2,"state":146,"once":266,"_errors":267,"serverRendered":32},["ShallowReactive",3],{"pageData":4},{"elements":5,"popup":100,"fontsToLoad":29,"customFonts":101,"meta":102,"domainName":107,"pageUrl":108,"pageId":109,"pageName":106,"locationId":110,"headerCode":29,"footerCode":29,"popupsList":111,"favicon":140,"globalHeadTrackingCode":29,"globalBodyTrackingCode":29,"funnelId":141,"funnelName":142,"stepId":143,"affiliateId":-1,"cookieConsent":-1,"disablePageLevelCookieConsent":25,"pixelToInit":144,"isOptimisePageLoad":32,"backgroundSettingsClass":31,"schemaMarkup":145,"isGeolocationNeeded":25},[6,10,40,61,87],{"id":7,"child":8},"hl_main",[9],"section-r7vtYe6RqU",{"id":9,"type":11,"child":12,"class":14,"styles":17,"extra":20,"meta":11,"tagName":38,"title":39,"_id":9},"section",[13],"row-BgACfqJDWH",{"width":15},{"value":16},"fullSection",{"borderWidth":18},{"value":19},"0px",{"sticky":21,"visibility":23,"bgImage":26,"allowRowMaxWidth":33,"customClass":34,"elementScreenshot":36},{"value":22},"noneSticky",{"value":24},{"hideDesktop":25,"hideMobile":25},false,{"value":27},{"mediaType":28,"url":29,"opacity":30,"options":31,"svgCode":29,"videoUrl":29,"videoThumbnail":29,"videoLoop":32},"image","","1","bgCover",true,{"value":25},{"value":35},[],{"value":37},[],"c-section","Section",{"id":13,"type":41,"child":42,"class":44,"styles":47,"extra":49,"tagName":59,"meta":41,"title":60},"row",[43],"col-_z4edEaoCo",{"alignRow":45},{"value":46},"row-align-center",{"borderWidth":48},{"value":19},{"visibility":50,"bgImage":52,"rowWidth":54,"customClass":57},{"value":51},{"hideDesktop":25,"hideMobile":25},{"value":53},{"mediaType":28,"url":29,"opacity":30,"options":31,"svgCode":29,"videoUrl":29,"videoThumbnail":29,"videoLoop":32},{"value":55,"unit":56},100,"%",{"value":58},[],"c-row","1 Column Row",{"id":43,"type":62,"child":63,"class":65,"styles":66,"extra":68,"tagName":84,"meta":62,"title":85,"noOfColumns":86},"col",[64],"custom-code-zQmssDVdsy",{},{"borderWidth":67},{"value":19},{"visibility":69,"bgImage":71,"columnLayout":73,"justifyContentColumnLayout":75,"alignContentColumnLayout":77,"forceColumnLayoutForMobile":79,"customClass":80,"elementVersion":82},{"value":70},{"hideDesktop":25,"hideMobile":25},{"value":72},{"mediaType":28,"url":29,"opacity":30,"options":31,"svgCode":29,"videoUrl":29,"videoThumbnail":29,"videoLoop":32},{"value":74},"column",{"value":76},"center",{"value":78},"inherit",{"value":32},{"value":81},[],{"value":83},2,"c-column","1st Column",1,{"extra":88,"id":64,"meta":97,"tagName":98,"class":99},{"visibility":89,"customCode":91,"customClass":94,"nodeId":96},{"value":90},{"hideMobile":29,"hideDesktop":29},{"value":92},{"rawCustomCode":93},"\u003C!DOCTYPE html>\n\u003Chtml lang=\"en\">\n\u003Chead>\n\u003Cmeta charset=\"UTF-8\">\n\u003Cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\u003Ctitle>Profile Audit Pending &mdash; Automated Dating\u003C/title>\n\u003Cmeta name=\"description\" content=\"Your strategy call is booked. Watch the videos below so we can spend our time on you, not the basics.\">\n\n\u003C!-- Favicons (same as landing page) -->\n\u003Clink rel=\"icon\" type=\"image/png\" sizes=\"32x32\"  href=\"https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/favicon-32.png\">\n\u003Clink rel=\"icon\" type=\"image/png\" sizes=\"192x192\" href=\"https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/favicon-192.png\">\n\u003Clink rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/apple-touch-icon.png\">\n\u003Cmeta name=\"theme-color\" content=\"#a78bfa\">\n\n\u003Cstyle>\n  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600;1,700;1,800&family=JetBrains+Mono:wght@400;500;600&display=swap');\n\n  * { margin: 0; padding: 0; box-sizing: border-box; }\n\n  html, body {\n    background-color: #000000;\n    background-image:\n      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),\n      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);\n    background-size: 60px 60px;\n    background-attachment: fixed;\n    color: #ffffff;\n    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;\n    -webkit-font-smoothing: antialiased;\n  }\n\n  /* ‚îÄ‚îÄ HEADER (sticky, full viewport width) ‚îÄ‚îÄ */\n  .site-header {\n    padding: 14px 24px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n    position: sticky;\n    top: 0;\n    z-index: 100;\n    background: rgba(0, 0, 0, 0.72);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n    width: 100vw;\n    margin-left: calc(50% - 50vw);\n    margin-right: calc(50% - 50vw);\n  }\n  .site-logo {\n    font-family: 'Inter', sans-serif;\n    font-size: 18px;\n    font-weight: 700;\n    letter-spacing: -0.02em;\n    color: #ffffff;\n  }\n  .site-logo span {\n    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);\n    -webkit-background-clip: text;\n    background-clip: text;\n    -webkit-text-fill-color: transparent;\n  }\n\n  /* ‚îÄ‚îÄ PAGE WRAP ‚îÄ‚îÄ */\n  .page-wrapper {\n    max-width: 1180px;\n    margin: 0 auto;\n    padding: 48px 24px 80px;\n  }\n\n  /* ‚îÄ‚îÄ SECTION TITLE (shared style: teal eyebrow + large headline with italic gradient) ‚îÄ‚îÄ */\n  .section-head {\n    text-align: center;\n    margin-bottom: 44px;\n  }\n  .section-head .eyebrow {\n    font-family: 'JetBrains Mono', ui-monospace, monospace;\n    font-size: 13px;\n    letter-spacing: 0.22em;\n    text-transform: uppercase;\n    color: #5eead4;\n    margin-bottom: 14px;\n  }\n  .section-head h1,\n  .section-head h2 {\n    font-family: 'Inter', sans-serif;\n    font-size: 46px;\n    font-weight: 700;\n    line-height: 1.1;\n    letter-spacing: -0.025em;\n    color: #ffffff;\n  }\n  .section-head .gradient {\n    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);\n    -webkit-background-clip: text;\n    background-clip: text;\n    -webkit-text-fill-color: transparent;\n    font-style: italic;\n    font-family: 'Playfair Display', serif;\n  }\n  .section-head--top { margin-bottom: 52px; }\n\n  /* ‚îÄ‚îÄ INTRO TWO-COL (Warning + Welcome) ‚îÄ‚îÄ */\n  .intro-grid {\n    display: grid;\n    grid-template-columns: minmax(320px, 1fr) 1fr;\n    gap: 40px;\n    margin-bottom: 64px;\n    align-items: start;\n  }\n  .warning-card {\n    background: linear-gradient(135deg, rgba(248, 113, 113, 0.10), rgba(248, 113, 113, 0.03));\n    border: 1px solid rgba(248, 113, 113, 0.45);\n    border-radius: 16px;\n    padding: 26px 28px;\n    box-shadow: 0 0 40px rgba(248, 113, 113, 0.10);\n  }\n  .warning-card p {\n    font-size: 17px;\n    line-height: 1.55;\n    color: rgba(255, 255, 255, 0.92);\n    font-weight: 500;\n  }\n  .warning-card .warning-label {\n    color: #fca5a5;\n    font-weight: 800;\n    letter-spacing: 0.02em;\n  }\n  .warning-card .accent {\n    color: #fca5a5;\n    font-weight: 700;\n  }\n  .welcome-text p {\n    font-size: 17px;\n    line-height: 1.65;\n    color: rgba(255, 255, 255, 0.75);\n    margin-bottom: 16px;\n  }\n  .welcome-text p:last-child { margin-bottom: 0; }\n  .welcome-text strong {\n    color: #ffffff;\n    font-weight: 700;\n    text-decoration: underline;\n    text-decoration-color: rgba(167, 139, 250, 0.6);\n    text-underline-offset: 4px;\n  }\n\n  /* ‚îÄ‚îÄ FEATURED VIDEO ‚îÄ \"Watch this First\" ‚îÄ‚îÄ */\n  .featured {\n    margin-bottom: 80px;\n  }\n  .video-frame {\n    position: relative;\n    aspect-ratio: 16 / 9;\n    border-radius: 16px;\n    overflow: hidden;\n    background: rgba(255,255,255,0.02);\n    border: 1px solid rgba(255,255,255,0.08);\n    box-shadow: 0 0 40px rgba(167, 139, 250, 0.08);\n  }\n  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }\n\n  /* ‚îÄ‚îÄ VIDEO GRID (#2 through #7) ‚îÄ‚îÄ */\n  .video-grid-section {\n    margin-bottom: 80px;\n  }\n  .video-grid {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 36px 28px;\n    align-items: stretch;\n  }\n  .video-cell {\n    display: flex;\n    flex-direction: column;\n    gap: 12px;\n    /* Push label + frame to the bottom so labels sit just above their frames,\n       which aligns all frames at the row's bottom edge even when titles wrap differently */\n    justify-content: flex-end;\n  }\n  .video-label {\n    font-family: 'Inter', sans-serif;\n    font-size: 20px;\n    font-weight: 700;\n    color: #ffffff;\n    letter-spacing: -0.01em;\n    line-height: 1.3;\n  }\n  .video-label .num {\n    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);\n    -webkit-background-clip: text;\n    background-clip: text;\n    -webkit-text-fill-color: transparent;\n    font-weight: 800;\n    margin-right: 8px;\n  }\n\n  /* ‚îÄ‚îÄ TESTIMONIALS ‚îÄ‚îÄ */\n  .testimonials {\n    padding-top: 40px;\n    border-top: 1px solid rgba(255,255,255,0.08);\n  }\n  .testimonials-grid {\n    columns: 3;\n    column-gap: 18px;\n    column-fill: balance;\n  }\n  .testimonial-card {\n    break-inside: avoid;\n    margin-bottom: 18px;\n    background: rgba(255, 255, 255, 0.03);\n    border: 1px solid rgba(255, 255, 255, 0.08);\n    border-radius: 16px;\n    overflow: hidden;\n    transition: border-color 0.2s ease, transform 0.2s ease;\n  }\n  .testimonial-card:hover {\n    border-color: rgba(167, 139, 250, 0.3);\n    transform: translateY(-2px);\n  }\n  .testimonial-card img { width: 100%; height: auto; display: block; }\n  .quote-callout {\n    break-inside: avoid;\n    margin-bottom: 18px;\n    padding: 20px 16px;\n    text-align: center;\n  }\n  .quote-callout p {\n    font-family: 'Playfair Display', serif;\n    font-style: italic;\n    font-size: 20px;\n    font-weight: 600;\n    line-height: 1.4;\n    color: #ffffff;\n  }\n  .testimonials-note {\n    text-align: center;\n    margin-top: 28px;\n    font-family: 'JetBrains Mono', monospace;\n    font-size: 12px;\n    letter-spacing: 0.08em;\n    color: rgba(255, 255, 255, 0.35);\n  }\n\n  /* ‚îÄ‚îÄ FOOTER ‚îÄ‚îÄ */\n  .site-footer {\n    text-align: center;\n    padding: 32px 24px 24px;\n    margin-top: 64px;\n    border-top: 1px solid rgba(255,255,255,0.08);\n    color: rgba(255,255,255,0.45);\n    font-size: 13px;\n  }\n  .footer-logo {\n    font-family: 'Inter', sans-serif;\n    font-size: 16px;\n    font-weight: 700;\n    color: #ffffff;\n    margin-bottom: 6px;\n  }\n  .footer-logo span {\n    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);\n    -webkit-background-clip: text;\n    background-clip: text;\n    -webkit-text-fill-color: transparent;\n  }\n\n  /* ‚îÄ‚îÄ MOBILE ‚îÄ‚îÄ */\n  @media (max-width: 720px) {\n    .page-wrapper { padding: 28px 16px 60px; }\n    .section-head { margin-bottom: 32px; }\n    .section-head--top { margin-bottom: 40px; }\n    .section-head h1, .section-head h2 { font-size: 28px; }\n    .intro-grid { grid-template-columns: 1fr; gap: 24px; margin-bottom: 44px; }\n    .warning-card { padding: 22px 20px; }\n    .warning-card p, .welcome-text p { font-size: 15px; }\n    .video-grid { grid-template-columns: 1fr; gap: 28px; }\n    .video-label { font-size: 17px; }\n    .testimonials-grid { columns: 1; }\n  }\n\u003C/style>\n\u003C/head>\n\u003Cbody>\n\n\u003C!-- ‚ïê‚ïê‚ïê HEADER ‚ïê‚ïê‚ïê -->\n\u003Cheader class=\"site-header\">\n  \u003Cdiv class=\"site-logo\">Automated \u003Cspan>Dating\u003C/span>\u003C/div>\n\u003C/header>\n\n\u003Cdiv class=\"page-wrapper\">\n\n  \u003C!-- ‚ïê‚ïê‚ïê CONGRATULATIONS HEADER ‚ïê‚ïê‚ïê -->\n  \u003Cdiv class=\"section-head section-head--top\">\n    \u003Ch1>Congratulations &mdash; \u003Cspan class=\"gradient\">your profile audit is pending\u003C/span>\u003C/h1>\n  \u003C/div>\n\n  \u003C!-- ‚ïê‚ïê‚ïê WARNING + WELCOME ‚ïê‚ïê‚ïê -->\n  \u003Cdiv class=\"intro-grid\">\n\n    \u003Cdiv class=\"warning-card\">\n      \u003Cp>\n        \u003Cspan class=\"warning-label\">WARNING:\u003C/span> Successful people value their time more than anything else.\n        Therefore, \u003Cspan class=\"accent\">we do not reschedule.\u003C/span>\n        I'll never ask myself or my team to work with anyone who doesn't feel the same level of honor &amp; commitment.\n      \u003C/p>\n    \u003C/div>\n\n    \u003Cdiv class=\"welcome-text\">\n      \u003Cp>We look forward to speaking with you at your scheduled appointment time. Please be in a quiet spot where we can talk about your goals.\u003C/p>\n      \u003Cp>\u003Cstrong>We will not take calls\u003C/strong> when you're on the go or can't devote your full attention. This is important &mdash; please treat it that way.\u003C/p>\n      \u003Cp>If you feel we're a good fit and we can help you, please be ready to come on board. We'll answer any and all questions you have.\u003C/p>\n    \u003C/div>\n\n  \u003C/div>\n\n  \u003C!-- ‚ïê‚ïê‚ïê FEATURED VIDEO ‚ïê‚ïê‚ïê -->\n  \u003Cdiv class=\"featured\">\n    \u003Cdiv class=\"section-head\">\n      \u003Cp class=\"eyebrow\">Start here\u003C/p>\n      \u003Ch2>Watch \u003Cspan class=\"gradient\">this first\u003C/span>\u003C/h2>\n    \u003C/div>\n    \u003Cdiv class=\"video-frame\">\n      \u003Ciframe src=\"https://www.youtube.com/embed/36kh1HX_5rg\" title=\"Watch this First\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen loading=\"lazy\">\u003C/iframe>\n    \u003C/div>\n  \u003C/div>\n\n  \u003C!-- ‚ïê‚ïê‚ïê 6 NUMBERED VIDEOS ‚ïê‚ïê‚ïê -->\n  \u003Cdiv class=\"video-grid-section\">\n\n    \u003Cdiv class=\"section-head\">\n      \u003Cp class=\"eyebrow\">Then watch these\u003C/p>\n      \u003Ch2>Most-asked \u003Cspan class=\"gradient\">questions, answered\u003C/span>\u003C/h2>\n    \u003C/div>\n\n    \u003Cdiv class=\"video-grid\">\n\n      \u003Cdiv class=\"video-cell\">\n        \u003Ch3 class=\"video-label\">\u003Cspan class=\"num\">#1\u003C/span>What if this doesn't work?\u003C/h3>\n        \u003Cdiv class=\"video-frame\">\n          \u003Ciframe src=\"https://www.youtube.com/embed/enDhLLbjNPw\" title=\"Video 1\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen loading=\"lazy\">\u003C/iframe>\n        \u003C/div>\n      \u003C/div>\n\n      \u003Cdiv class=\"video-cell\">\n        \u003Ch3 class=\"video-label\">\u003Cspan class=\"num\">#2\u003C/span>What are the different options you offer?\u003C/h3>\n        \u003Cdiv class=\"video-frame\">\n          \u003Ciframe src=\"https://www.youtube.com/embed/7bj2oPAmBtw\" title=\"Video 2\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen loading=\"lazy\">\u003C/iframe>\n        \u003C/div>\n      \u003C/div>\n\n      \u003Cdiv class=\"video-cell\">\n        \u003Ch3 class=\"video-label\">\u003Cspan class=\"num\">#3\u003C/span>Who is this actually for?\u003C/h3>\n        \u003Cdiv class=\"video-frame\">\n          \u003Ciframe src=\"https://www.youtube.com/embed/ksvTUBDUq48\" title=\"Video 3\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen loading=\"lazy\">\u003C/iframe>\n        \u003C/div>\n      \u003C/div>\n\n      \u003Cdiv class=\"video-cell\">\n        \u003Ch3 class=\"video-label\">\u003Cspan class=\"num\">#4\u003C/span>How do we know the dates will be high quality?\u003C/h3>\n        \u003Cdiv class=\"video-frame\">\n          \u003Ciframe src=\"https://www.youtube.com/embed/1WAeDFNlyig\" title=\"Video 4\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen loading=\"lazy\">\u003C/iframe>\n        \u003C/div>\n      \u003C/div>\n\n      \u003Cdiv class=\"video-cell\">\n        \u003Ch3 class=\"video-label\">\u003Cspan class=\"num\">#5\u003C/span>How are we different from automation software?\u003C/h3>\n        \u003Cdiv class=\"video-frame\">\n          \u003Ciframe src=\"https://www.youtube.com/embed/_tzY4U2J1vE\" title=\"Video 5\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen loading=\"lazy\">\u003C/iframe>\n        \u003C/div>\n      \u003C/div>\n\n      \u003Cdiv class=\"video-cell\">\n        \u003Ch3 class=\"video-label\">\u003Cspan class=\"num\">#6\u003C/span>Get insane Hinge results with AI and VAs\u003C/h3>\n        \u003Cdiv class=\"video-frame\">\n          \u003Ciframe src=\"https://www.youtube.com/embed/zcG1nmwr41A\" title=\"Video 6\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen loading=\"lazy\">\u003C/iframe>\n        \u003C/div>\n      \u003C/div>\n\n    \u003C/div>\n  \u003C/div>\n\n  \u003C!-- ‚ïê‚ïê‚ïê TESTIMONIALS ‚ïê‚ïê‚ïê -->\n  \u003Cdiv class=\"testimonials\">\n    \u003Cdiv class=\"section-head\">\n      \u003Cp class=\"eyebrow\">Real results\u003C/p>\n      \u003Ch2>What Automated Dating \u003Cspan class=\"gradient\">clients are saying\u003C/span>\u003C/h2>\n    \u003C/div>\n\n    \u003Cdiv class=\"testimonials-grid\">\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-three-dates.jpg\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-david-bumble.png\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6302.jpg\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"quote-callout\">\n        \u003Cp>\"You guys have literally changed my life\"\u003C/p>\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-new-profile-fire.png\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-hinge-raya.png\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-my-type.jpg\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-jenny-cropped.png\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-hinge-matches.png\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-another-day.png\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"quote-callout\">\n        \u003Cp>\"The Hinge &amp; Raya are Firing!\"\u003C/p>\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-tiffany-new.png\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"quote-callout\">\n        \u003Cp>\"Had a great time with her\"\u003C/p>\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/petertrai-wq/dating-landing-assets/main/img/testimonial-ai-pics-difference.png\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-6232.jpg\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-gray.jpg\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"quote-callout\">\n        \u003Cp>\"You've got a stellar thing set up here\"\u003C/p>\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-good-time.jpg\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"quote-callout\">\n        \u003Cp>\"She's exactly my type\"\u003C/p>\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-closed.jpg\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n      \u003Cdiv class=\"quote-callout\">\n        \u003Cp>\"All at my place\"\u003C/p>\n      \u003C/div>\n\n      \u003Cdiv class=\"testimonial-card\">\n        \u003Cimg src=\"https://raw.githubusercontent.com/boshaffer/transcript-tool/claude/add-remotion-video-editing-HPm2n/img/testimonial-bar.jpg\" alt=\"Client testimonial\" loading=\"lazy\">\n      \u003C/div>\n\n    \u003C/div>\n\n    \u003Cp class=\"testimonials-note\">Actual screenshots from Telegram, group chats, and DMs. Unedited.\u003C/p>\n  \u003C/div>\n\n\u003C/div>\n\n\u003C!-- ‚ïê‚ïê‚ïê FOOTER ‚ïê‚ïê‚ïê -->\n\u003Cfooter class=\"site-footer\">\n  \u003Cdiv class=\"footer-logo\">Automated \u003Cspan>Dating\u003C/span>\u003C/div>\n  \u003Cp>&copy; 2026 Automated Dating. All rights reserved.\u003C/p>\n\u003C/footer>\n\n\u003C/body>\n\u003C/html>\n",{"value":95},[],"ccustom-code-zQmssDVdsy","custom-code","c-custom-code",{},[],[],{"author":29,"canonicalMeta":103,"customMeta":104,"description":29,"imageUrl":29,"keywords":29,"language":105,"title":106,"isPreviewUrl":25},[],[],"en","Thank You","automated.dating","/thankyou","SHh8Z0EpDDl5fYbhbtDS","L6IWiHz9EMYLczwwtF1D",[112],{"id":113,"elements":114,"activeElementId":113},"hl_main_popup-yHJ07Zbtk-",[115],{"extra":116,"class":132,"styles":133,"customCss":136,"id":113,"child":137,"meta":138,"title":139,"tag":29},{"bgImage":117,"overlayColor":119,"left":121,"popupDisabled":123,"popupHide":124,"minWidth":125,"showPopupOnMouseOut":127,"customClass":129,"position":131},{"value":118},{"mediaType":28,"url":29,"opacity":30,"options":31,"svgCode":29,"videoUrl":29,"videoThumbnail":29,"videoLoop":32},{"value":120},"var(--overlay)",{"value":122,"unit":56},50,{"value":25},{"value":25},{"value":126},"medium-page",{"value":128,"delay":86},"exit",{"value":130},[],{"value":76},{},{"borderWidth":134},{"value":135},"10px",[],[],"hl_main_popup","Popup","https://stcdn.leadconnectorhq.com/funnel/icon/favicon.ico","pbw1E2MuPHx3k8GHAael","Book Call","bf3e91c0-14f5-4a75-a9e4-4fba8a025651",[],null,["Reactive",147],{"$snuxt-i18n-meta":148,"$spreviewState":149,"$smetaPixelOptions":262},{},{"defaultSettings":150,"mobileDevice":25,"funnelId":141,"funnelDomain":107,"stepId":143,"locationId":110,"funnelPageId":109,"locationCode":234,"funnelNextStep":29,"fingerprint":29,"funnelNextPageId":29,"stripePublishableKey":235,"enablePaymentElement":25,"merchantLoginId":29,"paypalPublishableKey":29,"merchantAccountId":-1,"stripeAccountId":236,"isLivePaymentMode":32,"version":237,"funnelSteps":238,"cartItems":246,"funnelName":142,"orderFormVersion":83,"currency":247,"businessCurrency":247,"blogSlug":29,"domain":107,"pageUrl":108,"pageName":106,"pageSeo":248,"affiliateId":-1,"videoExistsInPage":25,"pageType":249,"contactId":-1,"email":-1,"phone":-1,"categoryId":29,"blogSearchTerm":29,"categoryUrlSlug":29,"authorSlug":29,"tagSlug":29,"authorId":29,"defaultPaymentProvider":29,"productCollections":250,"ecomSelectedCollection":29,"imageOptimizationEnabled":32,"nmiMerchantGatewayId":29,"squareMerchantGatewayId":29,"mercadoPagoUserId":29,"fontsToLoad":251,"ecomProductId":29,"isGdprCompliant":25,"isOptimisePageLoad":32,"ecommercePage":86,"isBlogActive":25,"blogData":252,"blogPaths":-1,"blogId":141,"allowedCookies":253,"paymentProviderDetails":-1,"events":254,"searchTerm":29,"countryList":255,"pixelToInit":144,"formAction":29,"ecomProduct":256,"requireCreditCard":32,"haveBlogWidget":25,"isFacebookIAB":25,"userAgent":29,"companyId":257,"customerLoginToken":29,"cookieConsentList":258,"cookieConsentExpiry":259,"mediaFormats":260,"adyenMerchantGatewayId":29,"webinarProperties":145,"webinarSession":145,"userWebinarSession":145,"geoCountry":145,"isCurrencyFormattingEnabled":25},{"typography":151,"background":172,"percentWidth":177,"offsetColor":211,"progressBarSize":224},{"fonts":152,"colors":163},{"headlineFont":153,"contentFont":159},{"id":154,"text":155,"value":156},"headlinefont","Headline Font",{"text":157,"value":158},"Inter","var(--inter)",{"id":160,"text":161,"value":162},"contentfont","Content Font",{"text":157,"value":158},{"textColor":164,"linkColor":168},{"value":165},{"label":166,"value":167},"var(--black)","#000000",{"value":169},{"label":170,"value":171},"var(--blue)","#188bf6",{"bgImage":173,"backgroundColor":175},{"value":174},{"url":29,"options":31},{"value":176},"var(--white)",[178,181,184,187,190,193,196,199,202,205,208],{"text":179,"value":180},"0 Percent","progress0",{"text":182,"value":183},"10 Percent","progress10",{"text":185,"value":186},"20 Percent","progress20",{"text":188,"value":189},"30 Percent","progress30",{"text":191,"value":192},"40 Percent","progress40",{"text":194,"value":195},"50 Percent","progress50",{"text":197,"value":198},"60 Percent","progress60",{"text":200,"value":201},"70 Percent","progress70",{"text":203,"value":204},"80 Percent","progress80",{"text":206,"value":207},"90 Percent","progress90",{"text":209,"value":210},"100 Percent","progress100",[212,215,218,221],{"text":213,"value":214},"White","progressbarOffsetWhite",{"text":216,"value":217},"Transparent White","progressbarOffsetTransparentWhite",{"text":219,"value":220},"Black","progressbarOffsetBlack",{"text":222,"value":223},"Transparent Black","progressbarOffsetTransparentBlack",[225,228,231],{"text":226,"value":227},"Small","progressbarSmall",{"text":229,"value":230},"Medium","progressbarMedium",{"text":232,"value":233},"Large","progressbarLarge","US","pk_live_MtxwO3obi7pfD7UZlGkfR2yj","acct_1Ni0NTJGqN2AiNiP",4,[239,245],{"url":240,"value":241,"type":242,"sequence":86,"id":243,"name":244,"split":25},"/video","c7757d6c-9e69-49e7-8b4f-50444e045f8d","optin_funnel_page","hmAnX1O2X40rVF6uG5M4","VSL + Book",{"url":108,"value":143,"type":242,"sequence":83,"id":109,"name":106,"split":25},[],"USD",{"title":106,"description":29,"imageUrl":29},"funnel",[],[],{},[],[],[],{},"IHtcSsdTuXC8lzF9FsEl",[],["Date","2026-05-29T19:57:34.024Z"],{"formats":261},[],{"pixelID":145,"disabled":25,"track":263,"version":264,"isEnabled":32,"pixelLoaded":25,"manualMode":32,"userData":145,"eventsQueue":265},"PageView","2.0",[],["Set"],["ShallowReactive",268],{"pageData":-1}]</script></body></html>
