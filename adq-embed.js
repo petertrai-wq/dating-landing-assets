@@ -624,13 +624,7 @@
           if (pct) pct.textContent = '100%';
           if (m) m.textContent = 'Booked! Loading your confirmation...';
           try { clearState(); sessionStorage.removeItem('adq_token'); } catch (e) {}
-          if (PHOTOPAGE) {
-            setTimeout(function () {
-              body.innerHTML = '<div class="adq-end" style="padding-top:60px"><p class="adq-title">\u2705 You\'re booked!</p><p class="adq-desc" style="margin-top:14px">A calendar invite is on its way to your email. ' + (bk.mode === 'zoom' ? 'The Zoom link will be in the invite and texted before the call.' : 'We\'ll call you at the number you entered.') + '</p></div>';
-            }, 500);
-            return;
-          }
-          setTimeout(function () { window.location.href = '/thankyou/'; }, 400);
+          setTimeout(function () { window.location.href = '/thankyou/'; }, 400);   // photo-consult rides the same thank-you page (Peter 2026-07-27)
           return;
         }
         bk.busy = false;
