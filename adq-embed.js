@@ -50,13 +50,22 @@
     { key: 'phone', type: 'phone', title: "What's your phone number?", descHtml: 'Please put your real number. We will <u>NOT</u> spam you.' },
     { key: 'name', type: 'name', title: "What's your name?" },
     { key: 'email', type: 'email', title: "What's your email address?" },
-    { key: 'invest', type: 'choice', title: 'Are you willing to invest if this makes sense for you?', opts: ["Yes. I'm willing and able to invest if this is a great fit.", "No. I'm not willing or able to invest at this time."] },
+    { key: 'invest', type: 'choice', title: function () { return (invqHi() && INVQ === 'qb') ? 'Our minimum investment to get started is $3000 for a month. $6000 for 3 months. Are you able to invest if this is a great fit?' : 'Are you willing to invest if this makes sense for you?'; }, descHtml: function () { return (invqHi() && INVQ === 'qb') ? '<span style="color:#d92d20;font-weight:600">We\'re scheduled to increase price $500 on Aug 5th so we can maintain high quality results for clients.</span>' : ''; }, opts: ["Yes. I'm willing and able to invest if this is a great fit.", "No. I'm not willing or able to invest at this time."] },
     { key: 'commit', type: 'choice', title: 'Last Question - On the following page, you will be able to schedule a profile audit with one of our specialists (you do not need current active profiles for this). After working with 300+ clients, we know with 100% certainty we can help you. But we can NOT help you if you do NOT show up to the scheduled call time. Will you commit to attending your selected time slot and showing up in a quiet place ready to work on your dating transformation?', opts: ['Yes - I will double-check my calendar and commit 100% to the time I choose', "Maybe - I'm not sure if I'm serious about this"] }
   ];
   var COUNTRIES = [['US','+1','🇺🇸'],['CA','+1','🇨🇦'],['GB','+44','🇬🇧'],['AU','+61','🇦🇺'],['MX','+52','🇲🇽'],['BR','+55','🇧🇷'],['DE','+49','🇩🇪'],['FR','+33','🇫🇷'],['ES','+34','🇪🇸'],['IT','+39','🇮🇹'],['NL','+31','🇳🇱'],['IN','+91','🇮🇳'],['PH','+63','🇵🇭'],['CO','+57','🇨🇴'],['AR','+54','🇦🇷'],['CL','+56','🇨🇱'],['PE','+51','🇵🇪'],['NG','+234','🇳🇬'],['ZA','+27','🇿🇦'],['AE','+971','🇦🇪'],['SA','+966','🇸🇦'],['SG','+65','🇸🇬'],['HK','+852','🇭🇰'],['JP','+81','🇯🇵'],['KR','+82','🇰🇷'],['PL','+48','🇵🇱'],['SE','+46','🇸🇪'],['CH','+41','🇨🇭'],['IE','+353','🇮🇪'],['IL','+972','🇮🇱'],['NZ','+64','🇳🇿'],['PT','+351','🇵🇹'],['TR','+90','🇹🇷']];
   var TOTAL = QS.length + 1;
   var A = {};
   var step = 0, cc = '+1';
+  // SPLIT TEST 5 (Peter 2026-07-27): invest-question wording A/B for 100k+ leads only. Cookie-
+  // persisted 50/50 so refreshes never flip an assigned arm; sub-100k always sees Question A.
+  var INVQ = 'qa', _invqPinged = false;
+  try {
+    var m5 = document.cookie.match(/(?:^|;\s*)adq_invq=(qa|qb)/);
+    INVQ = m5 ? m5[1] : (Math.random() < 0.5 ? 'qa' : 'qb');
+    if (!m5) document.cookie = 'adq_invq=' + INVQ + ';max-age=15552000;path=/;domain=.automated.dating';
+  } catch (e) {}
+  function invqHi() { return A.income === '100k to 150k' || A.income === '150k-200k' || A.income === '200k+'; }
   var submitted = false, partialSent = false, finished = '';
   var token = '';
   function newToken() { return 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12); }
@@ -173,6 +182,7 @@
       });
     } catch (e) {}
     out.ab = (window.__ADQ_AB || window.__AB || 'd');
+    try { if (invqHi()) out.invq = INVQ; } catch (e) {}
     try { out.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
     // Meta pixel cookies (EMQ 2026-07-22): the browser pixel is PageView-only by design, so the
     // server-side conversion events need _fbp/_fbc forwarded from here to match this browser.
@@ -289,8 +299,10 @@
     }
     var q = QS[step];
     var _qt = (typeof q.title === 'function') ? q.title(A) : q.title;
+    var _qd = (typeof q.descHtml === 'function') ? q.descHtml(A) : q.descHtml;
+    if (q.key === 'invest' && invqHi() && !_invqPinged) { _invqPinged = true; try { pingEv('invq_view', INVQ); } catch (e) {} }
     var h = '<div class="adq-qrow"><span class="adq-qnum">' + (step + 1) + '</span><h2 class="adq-title">' + esc(_qt) + '<span class="adq-req">*</span></h2></div>' +
-            (q.descHtml ? '<p class="adq-desc">' + q.descHtml + '</p>' : q.desc ? '<p class="adq-desc">' + esc(q.desc) + '</p>' : '');
+            (_qd ? '<p class="adq-desc">' + _qd + '</p>' : q.desc ? '<p class="adq-desc">' + esc(q.desc) + '</p>' : '');
     var z = '';
     if (q.type === 'choice' || q.type === 'multi') {
       z += '<div class="adq-opts">' + q.opts.map(function (o, i) {
