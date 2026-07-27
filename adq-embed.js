@@ -445,7 +445,7 @@
     globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#55555c" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9s1.3-6.4 3.8-9z"/></svg>',
     list: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#55555c" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h13"/></svg>'
   };
-  var bk = { loaded: false, dates: {}, mins: 45, month: null, selDate: '', armed: '', slot: '', view: 'time', mStep: 'date', err: '', busy: false, tz: '' };
+  var bk = { loaded: false, dates: {}, mins: 45, month: null, selDate: '', armed: '', slot: '', view: 'time', mStep: 'date', err: '', busy: false, tz: '', mode: 'zoom' };   // photo consults default to Zoom (Peter 2026-07-27)
   try { bk.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/New_York'; } catch (e) { bk.tz = 'America/New_York'; }
   var BK_TZS = ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Phoenix', 'America/Los_Angeles', 'America/Anchorage', 'Pacific/Honolulu', 'America/Toronto', 'America/Vancouver', 'Europe/London', 'Europe/Paris', 'Asia/Dubai', 'Asia/Singapore', 'Australia/Sydney'];
   if (BK_TZS.indexOf(bk.tz) < 0) BK_TZS.unshift(bk.tz);
