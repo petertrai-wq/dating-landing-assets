@@ -110,7 +110,7 @@
   /* stylized dark hero (Peter 2026-07-28 pm: "make it stylized more like the athena one, use our colors") */
   'html.athena-arm .nav{background:#141210;border-bottom:1px solid rgba(255,255,255,.08)}' +
   'html.athena-arm .nav .brand{background:#F5F1E6;color:#141210}' +
-  'html.athena-arm .nav .btn.sm{color:#F5F1E6;border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.05)}' +
+  'html.athena-arm .nav .btn.sm{display:none}' +   /* Sign In hidden on the B test (Peter 2026-07-28 pm) */
   'html.athena-arm header.hero{background:radial-gradient(1100px 540px at 50% -10%,#2c2822 0%,#141210 62%),#141210;padding-bottom:70px}' +
   '.athEyebrow{color:#B9AE93;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;text-align:left;margin:10px 0 22px}' +
   'html.athena-arm .hero .wrap{text-align:left}' +
