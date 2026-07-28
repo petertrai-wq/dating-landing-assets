@@ -115,6 +115,7 @@
   'html.athena-arm .hero .wrap{text-align:left}' +
   'html.athena-arm .hero h1{font-family:"Playfair Display",Georgia,serif;color:#F5F1E6;font-weight:500;letter-spacing:-.005em;font-size:clamp(44px,5.8vw,72px);line-height:1.08;text-align:left;max-width:1000px;margin:0 0 30px}' +
   'html.athena-arm .hero h1 .l{white-space:normal;display:block}' +
+  '@media (max-width:1080px){html.athena-arm .poly{display:none !important}}' +
   'html.athena-arm .hero h1 em{font-style:italic}' +
   'html.athena-arm .hero .sub{color:#E7E2D4;text-align:left;font-size:clamp(17px,2vw,21px);line-height:1.55;max-width:640px;margin:0 0 26px}' +
   'html.athena-arm .hero .sub b{color:#fff}' +
