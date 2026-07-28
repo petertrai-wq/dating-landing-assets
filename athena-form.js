@@ -759,7 +759,7 @@
         var tq = document.createElement('div');
         tq.id = 'athHeroQuote';
         tq.innerHTML = '"If I just put in the time, I\'d be fine. But I can\'t afford to with my schedule. Landing dates is literally a full time job nowadays."' +
-          '<div class="who"><div class="av"><img src="' + PIC + 'tw-grayson.jpg" alt="Grayson"></div><div><div class="nm">Grayson C.</div><div class="rl">Marketing Agency Owner, NYC</div></div></div>';
+          '<div class="who"><div class="av"><img src="' + PIC + 'tw-grayson.jpg" alt="Grayson"></div><div><div class="nm">Grayson C.</div><div class="rl">Founder, NYC</div></div></div>';
         // testimonial goes UNDER the form card (Peter 2026-07-28 pm)
         var host0 = document.getElementById('adqInlineHost');
         if (host0 && host0.parentNode) host0.parentNode.insertBefore(tq, host0.nextSibling);
