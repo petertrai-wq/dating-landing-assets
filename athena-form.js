@@ -41,15 +41,15 @@
   '.athwm{font-size:18px;letter-spacing:.1em;font-weight:600;color:#111}' +
   '#athBody{max-width:1180px;width:100%;margin:0 auto;padding:38px 22px 80px;display:flex;gap:70px;align-items:flex-start;justify-content:center;flex:1 1 auto}' +
   '#athCol{flex:0 1 620px;min-width:0}' +
-  '.athq{font-size:21px;font-weight:600;line-height:1.45;color:#2f3a2f}' +
-  '.athd{font-size:14px;color:#5C665C;margin-top:8px}' +
-  '.athops{margin-top:26px;display:flex;flex-direction:column;gap:16px}' +
-  '.athop{display:flex;align-items:center;gap:15px;cursor:pointer;font-size:17px;color:#333d33;-webkit-tap-highlight-color:transparent}' +
-  '.athop .r{flex:none;width:26px;height:26px;border-radius:50%;border:1.6px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
-  '.athop .c{flex:none;width:25px;height:25px;border-radius:6px;border:1.6px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
-  '.athop.on .r{border-color:#24352B;background:#24352B;box-shadow:inset 0 0 0 5px #fff}' +
+  '.athq{font-size:31px;font-weight:600;line-height:1.35;color:#2f3a2f}' +
+  '.athd{font-size:18px;color:#5C665C;margin-top:12px}' +
+  '.athops{margin-top:34px;display:flex;flex-direction:column;gap:24px}' +
+  '.athop{display:flex;align-items:center;gap:20px;cursor:pointer;font-size:23px;color:#333d33;-webkit-tap-highlight-color:transparent}' +
+  '.athop .r{flex:none;width:46px;height:46px;border-radius:50%;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
+  '.athop .c{flex:none;width:44px;height:44px;border-radius:9px;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
+  '.athop.on .r{border-color:#24352B;background:#24352B;box-shadow:inset 0 0 0 8px #fff}' +
   '.athop.on .c{border-color:#24352B;background:#24352B}' +
-  '.athop.on .c::after{content:"\\2713";position:absolute;inset:0;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center}' +
+  '.athop.on .c::after{content:"\\2713";position:absolute;inset:0;color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center}' +
   '@keyframes athCd{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}' +
   '.athgo{display:none;margin-top:34px;width:100%;border:none;background:#24352B;color:#fff;font-family:inherit;font-size:18px;font-weight:600;padding:19px 0;border-radius:9px;cursor:pointer}' +
   '.athgo:hover{background:#1c2a22}' +
