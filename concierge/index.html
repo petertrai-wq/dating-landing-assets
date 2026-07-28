@@ -40,10 +40,10 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
 <script>
 (function () {
   try {
-    var f = (location.search.match(/[?&]abh=([fp])\b/) || [])[1];
-    var m = document.cookie.match(/(?:^|;\s*)ab_hero=([fp])\b/);
-    var V = f || (m && m[1]) || ((Math.random() < 0.5) ? 'f' : 'p');
-    try { document.cookie = 'ab_hero=' + V + '; path=/; max-age=' + (60 * 60 * 24 * 120) + '; SameSite=Lax'; } catch (e) {}
+    // EMBED PERMANENT (Peter 2026-07-28 "lets make the embed form permanent now"): the hero test
+    // concluded — embed won 2x booked at equal traffic. Everyone gets the inline form; funnel rows
+    // keep the cf tag for attribution continuity.
+    var V = 'f';
     window.__ABH = V;
     window.__ADQ_AB = (V === 'f') ? 'cf' : 'cp';
     if (V === 'f') { document.documentElement.className += ' hero-form'; window.__ADQ_INLINE = 'adqInlineHost'; }
@@ -658,9 +658,8 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
       } catch (e) {}
     }
     send('page_view');
-    document.addEventListener('click', function (e) {
-      try { var t = e.target && e.target.closest && e.target.closest('[data-tf-popup],[data-tf-slider],[href*="qoQwwZI5"]'); if (t) send('cta_click'); } catch (_) {}
-    }, true);
+    // cta_click tracking retired 2026-07-28 (Peter): the form is embedded in the hero — a "click"
+    // no longer marks intent, form_open/form_step beacons carry the funnel now.
   } catch (e) {}
 })();
 </script>
