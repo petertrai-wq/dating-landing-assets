@@ -758,7 +758,7 @@
         sub.textContent = 'We run your dating apps, matching you with women who fit your criteria, then schedule dates for you according to your preferences around your busy schedule.';
         var tq = document.createElement('div');
         tq.id = 'athHeroQuote';
-        tq.innerHTML = '"If I just put in the time, I\'d be fine. But I just don\'t want to put in the time. Landing dates is literally a full time job nowadays."' +
+        tq.innerHTML = '"If I just put in the time, I\'d be fine. But I can\'t afford to with my schedule. Landing dates is literally a full time job nowadays."' +
           '<div class="who"><div class="av"><img src="' + PIC + 'tw-grayson.jpg" alt="Grayson"></div><div><div class="nm">Grayson C.</div><div class="rl">Marketing Agency Owner, NYC</div></div></div>';
         // testimonial goes UNDER the form card (Peter 2026-07-28 pm)
         var host0 = document.getElementById('adqInlineHost');
