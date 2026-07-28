@@ -138,7 +138,51 @@
   '#athHeroQuote .av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex:none}' +
   '#athHeroQuote .av img{width:100%;height:100%;object-fit:cover;display:block}' +
   '#athHeroQuote .nm{font-weight:700;color:#141210;font-size:13.5px}' +
-  '#athHeroQuote .rl{font-size:11.5px;font-style:italic;color:#8a9288}';
+  '#athHeroQuote .rl{font-size:11.5px;font-style:italic;color:#8a9288}' +
+  /* inline native booker (Peter 2026-07-28 pm: embedded in the takeover, not the popup) */
+  '.abk{max-width:860px;text-align:left}' +
+  '.abk-back{background:none;border:none;color:#556055;font-size:14px;cursor:pointer;padding:0 0 14px;font-family:inherit}' +
+  '.abk-title{font-family:"Playfair Display",Georgia,serif;font-size:clamp(26px,3vw,34px);font-weight:500;color:#1e2820;margin:0 0 10px}' +
+  '.abk-sub{font-size:14.5px;color:#4c564c;line-height:1.6;margin:0 0 26px;max-width:640px}' +
+  '.abk-grid{display:flex;gap:38px;align-items:flex-start}' +
+  '.abk-calwrap{flex:none;width:340px}' +
+  '.abk-monthrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-weight:600;color:#1e2820}' +
+  '.abk-monthrow button{background:#fff;border:1px solid #DDDAD0;border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;color:#1e2820}' +
+  '.abk-cal{width:100%;border-collapse:collapse}' +
+  '.abk-cal th{font-size:11px;font-weight:600;color:#8a9288;padding:6px 0;text-transform:uppercase;letter-spacing:.06em}' +
+  '.abk-cal td{text-align:center;padding:3px 0}' +
+  '.abk-day{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;font-size:14px;color:#b6bdb4}' +
+  '.abk-day.av{background:#E3E8DF;color:#1e2820;font-weight:600;cursor:pointer}' +
+  '.abk-day.av:hover{background:#d6ddd1}' +
+  '.abk-day.sel{background:#24352B;color:#fff}' +
+  '.abk-tzwrap{margin-top:18px;font-size:13px;color:#4c564c;display:flex;align-items:center;gap:8px;flex-wrap:wrap}' +
+  '.abk-tzlbl{width:100%;font-weight:600;font-size:12px;color:#556055}' +
+  '.abk-tzwrap select{border:1px solid #DDDAD0;border-radius:8px;background:#fff;padding:8px 10px;font-size:13px;font-family:inherit;color:#1e2820;max-width:280px}' +
+  '.abk-slotcol{flex:1;min-width:0;max-width:340px}' +
+  '.abk-dayhead{font-weight:600;color:#1e2820;margin-bottom:12px}' +
+  '.abk-slots{display:flex;flex-direction:column;gap:10px;max-height:430px;overflow-y:auto;padding-right:4px}' +
+  '.abk-slot{display:block;width:100%;background:#fff;border:1.5px solid #C4CDC0;border-radius:9px;padding:12px 0;font-size:15px;font-weight:600;color:#24352B;cursor:pointer;font-family:inherit;transition:all .12s;text-align:center}' +
+  '.abk-slot:hover{border-color:#24352B}' +
+  '.abk-pair{display:flex;gap:8px}' +
+  '.abk-chip{flex:1;background:#8f978c;border:none;border-radius:9px;color:#fff;font-weight:600;font-size:15px;font-family:inherit;text-align:center}' +
+  '.abk-go{flex:1;background:#24352B;border:none;border-radius:9px;color:#fff;font-weight:600;font-size:15px;padding:12px 0;cursor:pointer;font-family:inherit;text-align:center}' +
+  '.abk-when{display:flex;align-items:center;gap:8px;font-size:14px;color:#4c564c;margin-top:8px}' +
+  '.abk-details{max-width:430px;margin-top:6px}' +
+  '.abk-confirm{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:#3c463c;margin-top:18px;line-height:1.5;cursor:pointer}' +
+  '.abk-confirm input{margin-top:3px;accent-color:#24352B;width:17px;height:17px}' +
+  '.abk-sched{display:block;width:100%;margin-top:20px;background:#24352B;color:#F5F1E6;border:none;border-radius:10px;padding:16px 0;font-size:16.5px;font-weight:600;cursor:pointer;font-family:inherit}' +
+  '.abk-sched.off{opacity:.45;cursor:not-allowed}' +
+  '.abk-newtime{display:block;width:100%;margin-top:10px;background:none;border:none;color:#556055;font-size:14px;cursor:pointer;text-decoration:underline;font-family:inherit;padding:8px 0}' +
+  '.abk-err{color:#d64545;font-size:13.5px;margin-top:12px;min-height:18px}' +
+  '.abk-load{padding:40px 0;color:#4c564c}' +
+  '.abk-prog{max-width:430px;margin:60px auto;text-align:center}' +
+  '.abk-spin{width:34px;height:34px;border:3px solid #DDDAD0;border-top-color:#24352B;border-radius:50%;margin:0 auto 18px;animation:abkSpin .8s linear infinite}' +
+  '@keyframes abkSpin{to{transform:rotate(360deg)}}' +
+  '.abk-prog-msg{font-size:15px;color:#1e2820;font-weight:600;margin-bottom:14px}' +
+  '.abk-prog-bar{height:6px;background:#E3E8DF;border-radius:3px;overflow:hidden}' +
+  '.abk-prog-bar i{display:block;height:100%;width:0;background:#24352B;transition:width .35s}' +
+  '.abk-prog-pct{font-size:12.5px;color:#8a9288;margin-top:8px}' +
+  '@media (max-width:760px){.abk-grid{display:block}.abk-calwrap{width:100%;max-width:360px;margin:0 auto}.abk-slotcol{max-width:none}}';
   try { var stl = document.createElement('style'); stl.textContent = css; document.head.appendChild(stl); } catch (e) {}
 
   // ── questions (final wording approved on /athenatest, 2026-07-28) ──
@@ -488,18 +532,214 @@
       ov.scrollTop = 0;
       return;
     }
-    finishedView = 'booked';
+    finishedView = 'booker';
     try { pingEv('cal_shown', 'cal'); } catch (e) {}
-    // Same native scheduler as the Original Form — adq-embed bridge opens its booker overlay
-    // (slots/red-tier/booking/thankyou identical for both forms).
-    var openBk = function (tries) {
-      if (window.__ADQ_OPEN_BOOKER) {
-        closeTakeover();
-        window.__ADQ_OPEN_BOOKER({ first: A.first, last: A.last, email: A.email, phone: phoneE164(), income: incomeOut(), start: A.start });
-      } else if (tries > 0) setTimeout(function () { openBk(tries - 1); }, 300);
-      else { col.innerHTML = '<div class="athend"><p class="t">Almost there — loading the scheduler…</p><p class="d">If nothing loads, refresh this page and click any button to pick your time.</p></div>'; }
+    openInlineBooker();
+  }
+
+
+  // ── inline native booker (Peter 2026-07-28 pm: "go in line with the form... same backend as
+  //    the popup native one"). Ported 1:1 from the adq-embed popup booker — same /api/apply/slots
+  //    + /api/apply/book pipeline, retries, mobile two-step, slot-taken recovery and /thankyou
+  //    redirect — rendered inside the takeover in the Athena skin. Athena leads are never
+  //    red-tier (non-ASAP and Under-150k DQ before booking), so slots are always standard.
+  var ABK_SLOTS = 'https://admin.automated.dating/api/apply/slots';
+  var ABK_BOOK = 'https://admin.automated.dating/api/apply/book';
+  var ABK_IC = {
+    clock: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#556055" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    cal: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#556055" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>',
+    globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#556055" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9s1.3-6.4 3.8-9z"/></svg>'
+  };
+  var abk = { loaded: false, fetching: false, dates: {}, mins: 30, month: null, selDate: '', armed: '', slot: '', view: 'time', mStep: 'date', err: '', busy: false, tz: '', confirmed: false, vals: null };
+  try { abk.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/New_York'; } catch (e) { abk.tz = 'America/New_York'; }
+  var ABK_TZS = ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Phoenix', 'America/Los_Angeles', 'America/Anchorage', 'Pacific/Honolulu', 'America/Toronto', 'America/Vancouver', 'Europe/London', 'Europe/Paris', 'Asia/Dubai', 'Asia/Singapore', 'Australia/Sydney'];
+  if (ABK_TZS.indexOf(abk.tz) < 0) ABK_TZS.unshift(abk.tz);
+  function abkMob() { return window.matchMedia('(max-width: 760px)').matches; }
+  function abkGmt(tz) {
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'longOffset' }).formatToParts(new Date());
+      var off = (parts.find(function (p) { return p.type === 'timeZoneName'; }) || {}).value || '';
+      return off + ' ' + tz.replace(/_/g, ' ');
+    } catch (e) { return tz.replace(/_/g, ' '); }
+  }
+  function abkTime(iso) { return new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: abk.tz }); }
+  function abkWhen(iso) {
+    var d = new Date(iso);
+    return abkTime(iso) + ' - ' + new Date(d.getTime() + abk.mins * 60000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: abk.tz }) +
+      ' , ' + d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: abk.tz });
+  }
+  function abkFetch() {
+    var f = function (left) {
+      return fetch(ABK_SLOTS, { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); })
+        .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 2500); }).then(function () { return f(left - 1); }); throw e; });
     };
-    openBk(20);
+    f(3).then(function (j) {
+      if (!j || !j.ok) { abk.err = (j && j.error) || 'Could not load times'; abk.loaded = true; abkRender(); return; }
+      abk.dates = j.dates || {}; abk.mins = j.durationMins || 30; abk.loaded = true; abk.err = '';
+      var keys = Object.keys(abk.dates).filter(function (k) { return (abk.dates[k] || []).length; }).sort();
+      if (!abk.selDate || keys.indexOf(abk.selDate) < 0) abk.selDate = keys[0] || '';
+      abk.month = abk.selDate ? new Date(abk.selDate + 'T12:00:00') : new Date();
+      abkRender();
+    }).catch(function () { abk.err = 'Could not load times'; abk.loaded = true; abkRender(); });
+  }
+  function abkTzHtml() {
+    return '<div class="abk-tzwrap"><div class="abk-tzlbl">Time zone</div>' + ABK_IC.globe + ' <select id="abkTz">' +
+      ABK_TZS.map(function (tz) { return '<option value="' + esc(tz) + '"' + (tz === abk.tz ? ' selected' : '') + '>' + esc(abkGmt(tz)) + '</option>'; }).join('') +
+      '</select></div>';
+  }
+  function abkCalHtml() {
+    var m = abk.month || new Date();
+    var y = m.getFullYear(), mo = m.getMonth();
+    var first = new Date(y, mo, 1), startDow = first.getDay(), dim = new Date(y, mo + 1, 0).getDate();
+    var head = '<div class="abk-monthrow"><button type="button" data-abknav="-1">&lsaquo;</button><span>' + m.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) + '</span><button type="button" data-abknav="1">&rsaquo;</button></div>';
+    var h = '<table class="abk-cal"><tr>' + ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(function (d) { return '<th>' + d + '</th>'; }).join('') + '</tr><tr>';
+    var cell = 0;
+    for (var i = 0; i < startDow; i++) { h += '<td></td>'; cell++; }
+    for (var day = 1; day <= dim; day++) {
+      var key = y + '-' + String(mo + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+      var av = (abk.dates[key] || []).length > 0;
+      var cls = 'abk-day' + (av ? ' av' : '') + (key === abk.selDate ? ' sel' : '');
+      h += '<td><span class="' + cls + '"' + (av ? ' data-abkdate="' + key + '"' : '') + '>' + day + '</span></td>';
+      cell++;
+      if (cell % 7 === 0 && day < dim) h += '</tr><tr>';
+    }
+    h += '</tr></table>';
+    return '<div class="abk-calwrap">' + head + h + abkTzHtml() + '</div>';
+  }
+  function abkSlotsHtml() {
+    var slots = (abk.dates[abk.selDate] || []);
+    if (!slots.length) return '<div class="abk-slots"><div style="color:#8a9288;font-size:13px">No times this day</div></div>';
+    return '<div class="abk-slots">' + slots.map(function (iso) {
+      if (abk.armed === iso) return '<div class="abk-pair"><button type="button" class="abk-chip">' + abkTime(iso) + '</button><button type="button" class="abk-go" data-abksel="' + esc(iso) + '">Select</button></div>';
+      return '<button type="button" class="abk-slot" data-abkarm="' + esc(iso) + '">' + abkTime(iso) + '</button>';
+    }).join('') + '</div>';
+  }
+  function abkDetailsHtml() {
+    var v = abk.vals || {};
+    return '<div class="abk-details">' +
+      '<label class="athlbl">First Name *</label><input class="athin" type="text" id="abkFirst" value="' + esc(v.first != null ? v.first : (A.first || '')) + '">' +
+      '<label class="athlbl">Phone *</label><input class="athin" type="tel" id="abkPhone" value="' + esc(v.phone != null ? v.phone : (A.phone ? phoneE164() : '')) + '">' +
+      '<label class="athlbl">Email *</label><input class="athin" type="email" id="abkEmail" value="' + esc(v.email != null ? v.email : (A.email || '')) + '">' +
+      '<label class="abk-confirm"><input type="checkbox" id="abkConfirm"' + (abk.confirmed ? ' checked' : '') + '><span>Please confirm you will 100% be ready at this time at a laptop with no distractions. *</span></label>' +
+      '<button type="button" class="abk-sched' + (abk.confirmed ? '' : ' off') + '" id="abkSched">Schedule Meeting</button>' +
+      '<button type="button" class="abk-newtime" id="abkNewTime">Pick a new time</button>' +
+      '<div class="abk-err" id="abkErr">' + esc(abk.err || '') + '</div></div>';
+  }
+  function abkDayLabel() { return abk.selDate ? new Date(abk.selDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''; }
+  var ABK_HEAD = '<div class="abk-title">Select a Date &amp; Time for Your Profile Audit</div><div class="abk-sub">30 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div>';
+  function abkRender() {
+    if (!abk.loaded) { col.innerHTML = '<div class="abk"><div class="abk-load">Loading available times…</div></div>'; if (!abk.fetching) { abk.fetching = true; abkFetch(); } return; }
+    var inner;
+    if (abk.view === 'details') {
+      inner = '<button type="button" class="abk-back" id="abkBackTimes">&lsaquo; Back</button>' +
+        '<div class="abk-title">Enter Details</div>' +
+        '<div class="abk-when">' + ABK_IC.clock + ' ' + abk.mins + ' min &nbsp; ' + ABK_IC.cal + ' ' + esc(abkWhen(abk.slot)) + '</div>' +
+        '<div class="abk-when">' + ABK_IC.globe + ' ' + esc(abk.tz.replace(/_/g, ' ')) + '</div>' +
+        abkDetailsHtml();
+    } else if (abkMob() && abk.mStep === 'slots') {
+      inner = '<button type="button" class="abk-back" id="abkBackDates">&lsaquo; Pick a different day</button>' +
+        '<div class="abk-dayhead">' + esc(abkDayLabel()) + '</div>' + abkSlotsHtml() +
+        (abk.err ? '<div class="abk-err">' + esc(abk.err) + '</div>' : '');
+    } else if (abkMob()) {
+      inner = '<button type="button" class="abk-back" id="abkBackForm">&lsaquo; Back</button>' + ABK_HEAD + abkCalHtml() +
+        (abk.err ? '<div class="abk-err">' + esc(abk.err) + '</div>' : '');
+    } else {
+      inner = '<button type="button" class="abk-back" id="abkBackForm">&lsaquo; Back</button>' + ABK_HEAD +
+        '<div class="abk-grid">' + abkCalHtml() +
+        '<div class="abk-slotcol"><div class="abk-dayhead">' + esc(abkDayLabel()) + '</div>' + abkSlotsHtml() + '</div></div>' +
+        (abk.err ? '<div class="abk-err">' + esc(abk.err) + '</div>' : '');
+    }
+    col.innerHTML = '<div class="abk">' + inner + '</div>';
+    ov.scrollTop = 0;
+    col.querySelectorAll('[data-abkdate]').forEach(function (el) { el.addEventListener('click', function () { abk.selDate = el.getAttribute('data-abkdate'); abk.armed = ''; if (abkMob()) abk.mStep = 'slots'; abkRender(); }); });
+    col.querySelectorAll('[data-abknav]').forEach(function (el) { el.addEventListener('click', function () { var m = abk.month || new Date(); abk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-abknav'), 10), 1); abkRender(); }); });
+    col.querySelectorAll('[data-abkarm]').forEach(function (el) { el.addEventListener('click', function () { abk.armed = el.getAttribute('data-abkarm'); abkRender(); }); });
+    col.querySelectorAll('[data-abksel]').forEach(function (el) { el.addEventListener('click', function () { abk.slot = el.getAttribute('data-abksel'); abk.view = 'details'; abk.err = ''; abk.confirmed = false; abkRender(); }); });
+    var tzSel = document.getElementById('abkTz');
+    if (tzSel) tzSel.addEventListener('change', function () { abk.tz = tzSel.value; abkRender(); });
+    var bt = document.getElementById('abkBackTimes');
+    if (bt) bt.addEventListener('click', function () { abk.view = 'time'; abk.err = ''; abkRender(); });
+    var bd = document.getElementById('abkBackDates');
+    if (bd) bd.addEventListener('click', function () { abk.mStep = 'date'; abk.armed = ''; abkRender(); });
+    // "‹ Back" from the calendar returns to the contact step (already submitted — the submitted
+    // flag guards a double-fire; Continue just reopens the booker).
+    var bf = document.getElementById('abkBackForm');
+    if (bf) bf.addEventListener('click', function () { finishedView = ''; backBtn.hidden = false; render('back'); });
+    var nt = document.getElementById('abkNewTime');
+    if (nt) nt.addEventListener('click', function () { abk.view = 'time'; abk.mStep = 'date'; abk.armed = ''; abk.slot = ''; abk.err = ''; abk.loaded = false; abk.fetching = false; abkRender(); });
+    var sb = document.getElementById('abkSched');
+    if (sb) sb.addEventListener('click', abkSchedule);
+    var cf = document.getElementById('abkConfirm');
+    if (cf) cf.addEventListener('change', function () {
+      if (sb) sb.classList.toggle('off', !cf.checked);
+      if (cf.checked) { var e = document.getElementById('abkErr'); if (e) e.textContent = ''; }
+    });
+  }
+  function abkSchedule() {
+    if (abk.busy) return;
+    var first = (document.getElementById('abkFirst') || {}).value || '';
+    var phone = (document.getElementById('abkPhone') || {}).value || '';
+    var email = (document.getElementById('abkEmail') || {}).value || '';
+    var conf = document.getElementById('abkConfirm');
+    var errEl = document.getElementById('abkErr');
+    var fail = function (m) { if (errEl) errEl.textContent = m; };
+    if (!first.trim()) return fail('Please enter your first name');
+    if (phone.replace(/\D/g, '').length < 8) return fail('Please enter a valid phone number');
+    if (/^(\d)\1{6}$/.test(phone.replace(/\D/g, '').slice(-7))) return fail("That phone number doesn't look right. Please double-check it");
+    if (!/.+@.+\..+/.test(email)) return fail('Please enter a valid email');
+    if (!conf || !conf.checked) return fail('Please confirm above that you will be ready, or pick a new time below.');
+    abk.busy = true;
+    abk.err = '';
+    abk.vals = { first: first, phone: phone, email: email };
+    abk.confirmed = true;
+    var MSGS = ['Locking in your time slot...', 'Confirming with our calendar...', 'Finalizing your booking...'];
+    col.innerHTML = '<div class="abk"><div class="abk-prog"><div class="abk-spin"></div>' +
+      '<div class="abk-prog-msg" id="abkPMsg">' + MSGS[0] + '</div>' +
+      '<div class="abk-prog-bar"><i id="abkPBar"></i></div>' +
+      '<div class="abk-prog-pct" id="abkPPct">0%</div></div></div>';
+    var w = 0, mi = 0;
+    var tick = setInterval(function () {
+      w += (93 - w) * 0.08;
+      var bar = document.getElementById('abkPBar'), pct = document.getElementById('abkPPct');
+      if (bar) bar.style.width = w + '%';
+      if (pct) pct.textContent = Math.round(w) + '%';
+    }, 350);
+    var mrot = setInterval(function () {
+      mi = Math.min(mi + 1, MSGS.length - 1);
+      var m = document.getElementById('abkPMsg'); if (m) m.textContent = MSGS[mi];
+    }, 2600);
+    var done = function () { clearInterval(tick); clearInterval(mrot); };
+    var body = JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: abk.slot, red: '', fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') });
+    var bookFetch = function (left) {
+      return fetch(ABK_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: body }).then(function (r) { return r.json(); })
+        .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 3000); }).then(function () { return bookFetch(left - 1); }); throw e; });
+    };
+    bookFetch(2)
+      .then(function (j) {
+        done();
+        if (j && j.ok) {
+          try { pingEv('booked_ok', 'booked'); } catch (e) {}
+          var bar = document.getElementById('abkPBar'), pct = document.getElementById('abkPPct'), m = document.getElementById('abkPMsg');
+          if (bar) bar.style.width = '100%';
+          if (pct) pct.textContent = '100%';
+          if (m) m.textContent = 'Booked! Loading your confirmation...';
+          try { clearState(); sessionStorage.removeItem('ath_token'); } catch (e) {}
+          try { if (email) localStorage.setItem('adq_em', String(email).toLowerCase().trim().slice(0, 120)); } catch (e) {}
+          setTimeout(function () { window.location.href = '/thankyou/'; }, 400);
+          return;
+        }
+        abk.busy = false;
+        var msg = (j && j.error) || 'Booking failed - please try again';
+        if (/just taken|pick another/i.test(msg)) { abk.view = 'time'; abk.mStep = 'date'; abk.armed = ''; abk.slot = ''; abk.err = msg; abk.loaded = false; abk.fetching = false; abkRender(); return; }
+        abk.err = msg; abkRender();
+      })
+      .catch(function () { done(); abk.busy = false; abk.err = 'Network error - please try again'; abkRender(); });
+  }
+  function openInlineBooker() {
+    backBtn.hidden = true;
+    railEl.style.display = 'none';
+    col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
+    abkRender();
   }
 
   // ── hero variant (arm B page changes) ──
