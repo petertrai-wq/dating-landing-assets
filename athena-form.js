@@ -210,8 +210,7 @@
       card: qi('✓', 'Discretion is built in — everything sounds like you, and nothing goes out without your approval.') },
     { key: 'wantmore', type: 'radio',
       title: 'What do you want more of right now?',
-      opts: ['Time', 'Dates', 'Focus', 'A quality relationship', 'All four'],
-      card: qi('✦', "Most clients pick all four. That's the point of a full team.") },
+      opts: ['Time', 'Dates', 'Focus', 'A quality relationship', 'All four'] },
     { key: 'ninety', type: 'radio',
       title: "If nothing changes in the next 90 days, what's most likely to happen?",
       opts: ["I'll keep grinding the apps with nothing to show", "I'll probably just stop trying again", "I'll still be the guy who has everything but the relationship", "Honestly, I'll be saying this same thing in 90 days"],
@@ -226,7 +225,7 @@
 
   // ── state / token / attribution ──
   var A = {};
-  var step = -1, moving = false, submitted = false, partialSent = false, autoT = null, fsAcc = 0, fsLast = 0;
+  var step = -1, moving = false, locked = false, submitted = false, partialSent = false, autoT = null, fsAcc = 0, fsLast = 0;
   function newToken() { return 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12); }
   var token = '';
   try { token = sessionStorage.getItem('ath_token') || ''; if (!token) { token = newToken(); sessionStorage.setItem('ath_token', token); } } catch (e) { token = newToken(); }
@@ -408,11 +407,13 @@
     if (go) go.addEventListener('click', function () { (s.type === 'contact') ? contactDone() : next(); });
     col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth;
     col.classList.add(dir === 'back' ? 'animL' : 'anim');
+    locked = false;
     ov.scrollTop = 0;
     saveState();
   }
 
   function pick(i) {
+    if (moving || locked) return;   // taps during auto-advance/transition were re-selecting (Peter 2026-07-28)
     var s = STEPS[step];
     fsBump();
     var els = col.querySelectorAll('.athop');
@@ -423,7 +424,7 @@
       A[s.key] = s.opts[i];
       clearTimeout(autoT);
       if (revisit) document.getElementById('athGo').classList.add('show');
-      else autoT = setTimeout(function () { if (STEPS[step] === s) next(); }, 320);
+      else { locked = true; autoT = setTimeout(function () { if (STEPS[step] === s) next(); }, 320); }
     } else {
       var isAll = /^All of the above|^All four/.test(s.opts[i]);
       if (isAll) { els.forEach(function (e, j) { e.classList.toggle('on', j === i); }); }
