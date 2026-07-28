@@ -113,7 +113,8 @@
   'html.athena-arm header.hero{background:radial-gradient(1100px 540px at 50% -10%,#2c2822 0%,#141210 62%),#141210;padding-bottom:70px}' +
   '.athEyebrow{color:#B9AE93;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;text-align:left;margin:10px 0 22px}' +
   'html.athena-arm .hero .wrap{text-align:left}' +
-  'html.athena-arm .hero h1{font-family:"Playfair Display",Georgia,serif;color:#F5F1E6;font-weight:500;letter-spacing:-.005em;font-size:clamp(46px,7.2vw,84px);line-height:1.07;text-align:left;max-width:1000px;margin:0 0 30px}' +
+  'html.athena-arm .hero h1{font-family:"Playfair Display",Georgia,serif;color:#F5F1E6;font-weight:500;letter-spacing:-.005em;font-size:clamp(44px,5.8vw,72px);line-height:1.08;text-align:left;max-width:1000px;margin:0 0 30px}' +
+  'html.athena-arm .hero h1 .l{white-space:normal;display:block}' +
   'html.athena-arm .hero h1 em{font-style:italic}' +
   'html.athena-arm .hero .sub{color:#E7E2D4;text-align:left;font-size:clamp(17px,2vw,21px);line-height:1.55;max-width:640px;margin:0 0 26px}' +
   'html.athena-arm .hero .sub b{color:#fff}' +
@@ -127,7 +128,7 @@
   'html.athena-arm #athHeroQuote{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.16);color:#D9D6CB}' +
   'html.athena-arm #athHeroQuote .nm{color:#fff}' +
   'html.athena-arm #athHeroQuote .rl{color:#9a958a}' +
-  '@media (max-width:760px){html.athena-arm .hero h1{font-size:clamp(38px,10.5vw,46px)}html.athena-arm #adqInlineHost{margin-top:34px}}' +
+  '@media (max-width:760px){html.athena-arm .hero h1{font-size:clamp(34px,10vw,42px);line-height:1.12}html.athena-arm #adqInlineHost{margin-top:34px}}' +
   /* desktop: Athena-scale card — double-size option bubbles + text (Peter 2026-07-28 pm) */
   '@media (min-width:761px){html.athena-arm #adqInlineHost{max-width:640px}html.athena-arm #athRole{padding:36px 38px 38px;border-radius:20px}html.athena-arm #athRole h3{font-size:32px;margin-bottom:12px}html.athena-arm #athRole .sub2{font-size:16px;margin-bottom:30px}html.athena-arm .athro{font-size:20px;padding:21px 26px;border-radius:10px;margin-bottom:14px}html.athena-arm .athro b{font-size:20px}html.athena-arm #athHeroQuote{max-width:640px;font-size:14.5px}}' +
   '#athHeroQuote{max-width:430px;margin:18px auto 0;background:#fff;border:1px solid #e7e3da;border-radius:13px;padding:16px 18px;font-size:13.5px;line-height:1.6;color:#3c463c;text-align:left}' +
