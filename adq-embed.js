@@ -294,17 +294,8 @@
     if (navEl) navEl.style.display = finished ? 'none' : '';
     if (finished === 'dq') {
       body.style.padding = '';
-      if (true) {   // DQ offer LIVE (Peter 2026-07-27 "put it live if they get DQ'd")
-        var _pcp = '';
-        try { _pcp = btoa(unescape(encodeURIComponent(JSON.stringify({ f: A.first || '', l: A.last || '', p: A.phone ? phoneE164() : '', e: A.email || '' })))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); } catch (e) {}
-        body.innerHTML = '<div class="adq-end">' +
-          '<p class="adq-title">Sorry, it looks like our fully done-for-you dating app management service won\'t be the best fit right now based on your answers.</p>' +
-          '<p class="adq-desc" style="margin-top:14px">What we can still do: create your <b>AI photos and profile</b> for you, plus consulting on the best pictures to use.</p>' +
-          '<p class="adq-desc" style="margin-top:12px"><b>$500</b> \u00b7 20 realistic, usable photo variations for dating apps \u00b7 turnaround within <b>24 hours</b> on weekdays, 48 hours on weekends.</p>' +
-          '<a href="/photo-consult/' + (_pcp ? ('#p=' + _pcp) : '') + '" style="display:inline-block;margin-top:26px;background:#60A5FA;color:#fff;font-weight:700;font-size:16px;padding:14px 26px;border-radius:8px;text-decoration:none;font-family:inherit">Book a free 15-minute photo consultation \u2192</a>' +
-          '</div>';
-        return;
-      }
+      // Photo-consult DQ offer RETIRED (Peter 2026-07-28 "just DQ all future ones") — back to the
+      // original soft no from before the $500 photo pitch existed.
       body.innerHTML = '<div class="adq-end"><p class="adq-title">Unfortunately it seems like we aren\'t a great fit right now.</p><p class="adq-desc">Feel free to check back if things change!</p></div>';
       return;
     }
