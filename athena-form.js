@@ -51,14 +51,14 @@
   '.athop.on .c{border-color:#24352B;background:#24352B}' +
   '.athop.on .c::after{content:"\\2713";position:absolute;inset:0;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center}' +
   '@keyframes athCd{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}' +
-  '.athgo{display:none;margin-top:28px;width:100%;border:none;background:#24352B;color:#fff;font-family:inherit;font-size:15.5px;font-weight:600;padding:16px 0;border-radius:8px;cursor:pointer}' +
+  '.athgo{display:none;margin-top:34px;width:100%;border:none;background:#24352B;color:#fff;font-family:inherit;font-size:18px;font-weight:600;padding:19px 0;border-radius:9px;cursor:pointer}' +
   '.athgo:hover{background:#1c2a22}' +
   '.athgo.show{display:block;animation:athCd .6s cubic-bezier(.25,.7,.3,1) both}' +
   '.athcard{margin-top:40px;background:#DBE2D7;border-radius:13px;padding:22px 26px}' +
   '.athcard.info{display:flex;gap:14px;align-items:flex-start;font-size:14.5px;line-height:1.5;color:#2f3a2f}' +
   '.athcard.info .ic{flex:none;width:30px;height:30px;border-radius:50%;background:#1F2A20;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px}' +
   '.athcard.quote{text-align:center}' +
-  '.athcard.quote .qt{font-family:"Playfair Display",serif;font-size:15.5px;line-height:1.55;color:#26302a;max-width:400px;margin:0 auto}' +
+  '.athcard.quote .qt{font-family:"Playfair Display",serif;font-size:17.5px;line-height:1.55;color:#26302a;max-width:460px;margin:0 auto}' +
   '.athcard.quote .who{margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:3px}' +
   '.athcard.quote .av{width:52px;height:52px;border-radius:50%;background:#1F2A20;color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",serif;font-size:18px;margin-bottom:5px;overflow:hidden}' +
   '.athcard.quote .av img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}' +
@@ -97,7 +97,7 @@
   '#athCol.outR{animation:athOutR .4s ease both}' +
   '#athCol.anim{animation:athIn .6s cubic-bezier(.25,.7,.3,1) both}' +
   '#athCol.animL{animation:athInL .6s cubic-bezier(.25,.7,.3,1) both}' +
-  '@media (max-width:760px){#athBody{padding:18px 16px 56px}#athRail{display:none !important}.athq{font-size:17.5px}.athops{margin-top:16px;gap:9px}.athop{font-size:14.5px}.athcard{margin-top:24px;padding:18px 20px}.athwm{font-size:15px}#athHead{padding:12px 0}}' +
+  '@media (max-width:760px){#athBody{padding:20px 16px 56px}#athRail{display:none !important}.athq{font-size:26px}.athd{font-size:16.5px}.athops{margin-top:26px;gap:20px}.athop{font-size:21px;gap:16px}.athop .r{width:42px;height:42px}.athop .c{width:40px;height:40px}.athcard{margin-top:28px;padding:20px 22px}.athwm{font-size:15px}#athHead{padding:12px 0}}' +
   /* hero variant (arm B, before the takeover) */
   'html.athena-arm #heroCta,html.athena-arm #applyNowHdr{display:none !important}' +
   'html.athena-arm #adqInlineHost{display:block;width:100%;max-width:430px;margin:26px auto 0}' +
@@ -334,7 +334,7 @@
     if (ov) return;
     ov = document.createElement('div');
     ov.id = 'athOv';
-    ov.innerHTML = '<div id="athHead"><div class="inr"><button id="athBack">←</button><div class="athwm">AUTOMATED DATING</div></div></div>' +
+    ov.innerHTML = '<div id="athBnrSlot"></div><div id="athHead"><div class="inr"><button id="athBack">←</button><div class="athwm">AUTOMATED DATING</div></div></div>' +
       '<div id="athBody"><div id="athCol"></div>' +
       '<div id="athRail"><div class="lbl">Match progress</div><div class="athring"><div class="pc"><b>6%</b><span>Complete</span></div></div><div class="note">Each answer helps us build your exact dating profile plan</div></div></div>';
     document.body.appendChild(ov);
@@ -352,6 +352,8 @@
   function openTakeover(role) {
     if (role) A.role = role;
     mountOverlay();
+    // keep the July-31 banner at the top of the takeover (Peter 2026-07-28 pm "keep the banner at the top")
+    try { var bnr = document.getElementById('adBnr'); var slot = document.getElementById('athBnrSlot'); if (bnr && slot && bnr.parentNode !== slot) slot.appendChild(bnr); } catch (e) {}
     ov.classList.add('on');
     ov.classList.remove('enter'); void ov.offsetWidth; ov.classList.add('enter');
     document.documentElement.style.overflow = 'hidden';
@@ -365,6 +367,7 @@
     if (!ov) return;
     ov.classList.remove('on');
     document.documentElement.style.overflow = '';
+    try { var bnr = document.getElementById('adBnr'); if (bnr && ov.contains(bnr) && document.body) document.body.insertBefore(bnr, document.body.firstChild); } catch (e) {}
   }
 
   function render(dir) {
