@@ -106,7 +106,8 @@
   '#athRole .sub2{font-size:12.5px;color:#8a9288;line-height:1.6;margin:0 0 22px}' +
   '.athro{display:flex;align-items:center;justify-content:space-between;border:1px solid #DCDCDC;border-radius:9px;padding:12px 15px;font-size:14.5px;color:#222;cursor:pointer;margin-bottom:10px;transition:border .12s,background .12s;background:#fff}' +
   '.athro:hover{border-color:#24352B;background:#F6F8F5}' +
-  '.ath-hl{display:inline-block;background:#141210;color:#fff;padding:3px 18px;border-radius:10px}' +
+  '.ath-hl{display:inline-block;background:#141210;color:#fff;padding:3px 18px;border-radius:10px;max-width:100%}' +
+  '@media (max-width:760px){.ath-hl{display:inline;padding:2px 8px;border-radius:7px;-webkit-box-decoration-break:clone;box-decoration-break:clone;line-height:1.5}html.athena-arm .hero h1{text-align:center}html.athena-arm .hero .sub,html.athena-arm .hero .nopay{text-align:center}html.athena-arm #adqInlineHost,html.athena-arm #athHeroQuote{margin-left:auto;margin-right:auto}}' +
   '#athHeroQuote{max-width:430px;margin:18px auto 0;background:#fff;border:1px solid #e7e3da;border-radius:13px;padding:16px 18px;font-size:13.5px;line-height:1.6;color:#3c463c;text-align:left}' +
   '#athHeroQuote .who{display:flex;align-items:center;gap:10px;margin-top:12px}' +
   '#athHeroQuote .av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex:none}' +
