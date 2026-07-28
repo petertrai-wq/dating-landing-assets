@@ -155,7 +155,7 @@
       card: qq('"I don\'t have trouble with women. I just don\'t want to spend the time. It\'s like a full-time job."', 'M', 'Marco C.', 'Exec, SF', 'tw-marco2.jpg') },
     { key: 'tried', type: 'radio',
       title: 'What have you tried so far to improve your dating life?',
-      opts: ['AI photos or a real photo shoot', 'Dating coaching', 'Matchmakers', 'Deleting dating apps', 'Hiring someone', 'A mix of the above', "Haven't tried anything systematically"],
+      opts: ['AI photos or a real photo shoot', 'Matchmakers', 'Deleting dating apps', 'Hiring someone', 'A mix of the above', "Haven't tried anything systematically"],
       card: qi('⚙', 'Apps are great for landing high-quality dates, but someone still has to run them every single day.') },
     { key: 'datinglife', type: 'radio',
       title: 'Which best describes your current dating situation?', desc: 'Choose the closest match.',
