@@ -128,6 +128,8 @@
   'html.athena-arm #athHeroQuote .nm{color:#fff}' +
   'html.athena-arm #athHeroQuote .rl{color:#9a958a}' +
   '@media (max-width:760px){html.athena-arm .hero h1{font-size:clamp(38px,10.5vw,46px)}html.athena-arm #adqInlineHost{margin-top:34px}}' +
+  /* desktop: Athena-scale card — double-size option bubbles + text (Peter 2026-07-28 pm) */
+  '@media (min-width:761px){html.athena-arm #adqInlineHost{max-width:640px}html.athena-arm #athRole{padding:36px 38px 38px;border-radius:20px}html.athena-arm #athRole h3{font-size:32px;margin-bottom:12px}html.athena-arm #athRole .sub2{font-size:16px;margin-bottom:30px}html.athena-arm .athro{font-size:20px;padding:21px 26px;border-radius:10px;margin-bottom:14px}html.athena-arm .athro b{font-size:20px}html.athena-arm #athHeroQuote{max-width:640px;font-size:14.5px}}' +
   '#athHeroQuote{max-width:430px;margin:18px auto 0;background:#fff;border:1px solid #e7e3da;border-radius:13px;padding:16px 18px;font-size:13.5px;line-height:1.6;color:#3c463c;text-align:left}' +
   '#athHeroQuote .who{display:flex;align-items:center;gap:10px;margin-top:12px}' +
   '#athHeroQuote .av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex:none}' +
