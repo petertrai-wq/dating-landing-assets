@@ -195,6 +195,7 @@
       });
     } catch (e) {}
     out.ab = (window.__ADQ_AB || window.__AB || 'd');
+    out.form = 'original';   // form split test (2026-07-28): this engine IS the Original Form; the Athena arm posts form=athena from athena-form.js
     try { if (invqTest()) out.invq = INVQ; } catch (e) {}
     try { var mb = document.cookie.match(/(?:^|;\s*)adq_bnr=([ynp])\b/); if (mb) out.bnr = mb[1]; } catch (e) {}   // banner split test arm (ST7 y/n → ST9 y/p, 2026-07-28)
     try { if (fsAcc >= 1) out.form_secs = String(Math.round(fsAcc)); } catch (e) {}
@@ -263,7 +264,7 @@
     try { navigator.sendBeacon(API, new Blob([payload(false)], { type: 'text/plain' })); } catch (e) {}
   });
 
-  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || ''); }   // 50-100k DQ added 2026-07-22 (Peter: train the pixel on 100k+ only) — keep in sync with relay tfLeadDisqualified/tfQualified
+  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || '') || (!!A.start && !/^ASAP/.test(A.start)); }   // 50-100k DQ added 2026-07-22; ASAP-only start rule added 2026-07-28 (Peter: "dequeue anyone that doesn't say asap" — Next Week/Next Month now DQ) — keep in sync with relay tfLeadDisqualified/tfQualified
   function hasAnswer(q) {
     if (q.type === 'multi') return (A[q.key] || []).length > 0;
     if (q.type === 'name') return !!(A.first && A.first.trim() && A.last && A.last.trim());
@@ -761,7 +762,7 @@
   function pingEv(ev, pg) {
     try {
       navigator.sendBeacon('https://admin.automated.dating/api/analytics/track',
-        new Blob([JSON.stringify({ event: ev, page: pg || '', sid: token, ab: (window.__ADQ_AB || window.__AB || 'd') })], { type: 'text/plain' }));
+        new Blob([JSON.stringify({ event: ev, page: pg || '', sid: token, ab: (window.__ADQ_AB || window.__AB || 'd'), form: (window.__ADQ_FORM === 'athena') ? 'athena' : 'original' })], { type: 'text/plain' }));
     } catch (e) {}
   }
   function pingStep(key) {
@@ -827,6 +828,19 @@
     ov.hidden = true; document.documentElement.style.overflow = ''; saveState(); }
   document.getElementById('adqClose').addEventListener('click', closeModal);
   try { var _fsCard = document.getElementById('adqCard'); ['pointerdown', 'keydown'].forEach(function (evn) { _fsCard.addEventListener(evn, function () { if (!fsLast) fsLast = Date.now(); }, true); }); } catch (e) {}
+  // ── Athena Form bridge (2026-07-28): arm B submits through its own engine (athena-form.js) and
+  // then books through THIS booker so both forms share one native scheduler + booking pipeline.
+  // The bridge mirrors the DCAL path: answers prefilled, no re-submit (submitted=true), straight
+  // to the calendar in the popup overlay. Athena never passes DQ'd leads here.
+  window.__ADQ_OPEN_BOOKER = function (ans) {
+    try {
+      ans = ans || {};
+      A = { first: String(ans.first || ''), last: String(ans.last || ''), email: String(ans.email || ''), phone: String(ans.phone || ''), income: String(ans.income || ''), start: String(ans.start || '') };
+      finished = 'cal'; submitted = true; partialSent = true;
+      try { if (INLINE_HOST) { INLINE_HOST = null; } } catch (e) {}   // athena arm never mounts inline — force the overlay popup
+      openModal();
+    } catch (e) {}
+  };
   if (DCAL || BOOKPAGE || PHOTOPAGE || /dqpreview/.test(location.hash || '')) setTimeout(openModal, 300);
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest && e.target.closest('[data-tf-popup]');

@@ -34,6 +34,25 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
     if (location.pathname.indexOf('/concierge') === 0) { try { history.replaceState({}, '', '/' + location.search + location.hash); } catch (e) {} }
   } catch (e) { window.__AB = 'c'; }
 </script>
+<!-- ═══ FORM SPLIT TEST (Peter 2026-07-28): ORIGINAL FORM vs ATHENA FORM, 50/50 sticky cookie
+     adq_form o|a. /athenatest ALWAYS shows the Athena arm (permalink for Peter — URL untouched,
+     never writes the cookie); ?form=athena|original forces AND pins the cookie (QA). The arm rides
+     into /api/apply as hidden.form → web_funnel_events.form → the sheet's ORIGINAL vs ATHENA
+     split-test block. This same document serves /, /athenatest and /concierge (base href keeps
+     assets working) — keep all three copies in sync via the sync command in the repo README. -->
+<script>
+(function () {
+  try {
+    var onAth = location.pathname.indexOf('/athenatest') === 0;
+    var f = (location.search.match(/[?&]form=(athena|original)\b/) || [])[1];
+    var m = document.cookie.match(/(?:^|;\s*)adq_form=([oa])\b/);
+    var arm = f ? f.charAt(0) : (onAth ? 'a' : ((m && m[1]) || (Math.random() < 0.5 ? 'o' : 'a')));
+    if (!onAth && (f || !m)) document.cookie = 'adq_form=' + arm + '; path=/; max-age=15552000; SameSite=Lax; domain=.automated.dating';
+    window.__ADQ_FORM = (arm === 'a') ? 'athena' : 'original';
+    if (arm === 'a') document.documentElement.className += ' athena-arm';
+  } catch (e) { window.__ADQ_FORM = 'original'; }
+})();
+</script>
 <!-- ═══ HERO FORM A/B (2026-07-26): f = application form embedded in the hero (no popup, other
      CTAs scroll back up to it) vs p = today's popup. Sticky cookie ab_hero; ?abh=f|p forces.
      Funnel rows tag ab=cf/cp so the A/B Test tab splits qualified→scheduler→booked per arm. -->
@@ -46,7 +65,9 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
     var V = 'f';
     window.__ABH = V;
     window.__ADQ_AB = (V === 'f') ? 'cf' : 'cp';
-    if (V === 'f') { document.documentElement.className += ' hero-form'; window.__ADQ_INLINE = 'adqInlineHost'; }
+    // Athena arm: the hero hosts the ROLE CARD instead of the inline Original Form — never set
+    // __ADQ_INLINE there (adq-embed stays in popup mode so its native booker can overlay for both forms).
+    if (V === 'f' && window.__ADQ_FORM !== 'athena') { document.documentElement.className += ' hero-form'; window.__ADQ_INLINE = 'adqInlineHost'; }
     try {
       navigator.sendBeacon('https://admin.automated.dating/api/analytics/track',
         new Blob([JSON.stringify({ event: 'hero_view', sid: 'hv' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), ab: window.__ADQ_AB })], { type: 'text/plain' }));
@@ -647,7 +668,8 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
       utm_source: p('utm_source'), utm_medium: p('utm_medium'), utm_campaign: p('utm_campaign'),
       utm_content: p('utm_content'), utm_term: p('utm_term'), fbclid: p('fbclid'), ttclid: p('ttclid'),
       referrer: (document.referrer || '').slice(0, 200),
-      ab: (window.__AB || 'c')
+      ab: (window.__AB || 'c'),
+      form: (window.__ADQ_FORM === 'athena') ? 'athena' : 'original'
     };
     function send(ev, extra) {
       try {
@@ -663,8 +685,9 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   } catch (e) {}
 })();
 </script>
-<script src="/adq-embed.js?v=20260728d" defer></script>
-<script src="/bnr.js?v=20260728d" defer></script>
+<script src="/athena-form.js?v=20260728a" defer></script>
+<script src="/adq-embed.js?v=20260728e" defer></script>
+<script src="/bnr.js?v=20260728e" defer></script>
 <script>
 // CTA copy test (Peter 2026-07-27): half the buttons say "Automate Your Dating" — every CTA click
 // beacons its label + position so the copy comparison is in the funnel log (event cta_label).
