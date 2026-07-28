@@ -748,7 +748,7 @@
         h1.innerHTML = '<span class="l">You’re losing 10+ hours a week</span><span class="l"><em>to work someone else should do.</em></span>';
         var eb = document.createElement('div');
         eb.className = 'athEyebrow';
-        eb.textContent = '300+ founders, execs and high level professionals';
+        eb.textContent = 'Trusted by 300+ founders, execs and high level professionals';
         h1.parentNode.insertBefore(eb, h1);
       }
     } catch (e) {}
