@@ -219,7 +219,6 @@
       title: 'What is your timeline for getting help?', desc: 'No pressure, this just helps us recommend next steps.',
       opts: ['ASAP - this is a priority', 'Within the next month', 'In the next 2-3 months', 'Just exploring for now'],
       card: qi('✓', 'Clients get their first date on the calendar within 7 days.') },
-    { type: 'loader' },
     { type: 'contact' }
   ];
 
@@ -277,7 +276,18 @@
     if (d.length === 10) return '+1' + d;
     return '+1' + d;
   }
-  function phoneValid() { var e = phoneE164().replace(/\D/g, ''); return e.length >= 8 && e.length <= 15; }
+  function phoneValid() {
+    var raw = String(A.phone || '').trim();
+    if (!raw || /[^\d+().\-\s]/.test(raw)) return false;      // letters or stray chars = invalid
+    if (raw.lastIndexOf('+') > 0) return false;                 // '+' only allowed at the front
+    var d = raw.replace(/\D/g, '');
+    if (raw.charAt(0) === '+' || raw.indexOf('00') === 0) {     // international
+      if (raw.indexOf('00') === 0) d = d.slice(2);
+      return d.length >= 8 && d.length <= 15;
+    }
+    if (d.length === 11 && d.charAt(0) === '1') d = d.slice(1);
+    return d.length === 10 && d.charAt(0) !== '0' && d.charAt(0) !== '1';
+  }
 
   // income maps onto the Original Form's GHL buckets; timeline posts verbatim as `start`.
   function incomeOut() { return A.income === '150k to 200k' ? '150k-200k' : (A.income || ''); }
@@ -462,7 +472,7 @@
     A.first = g('athF'); A.last = g('athL'); A.email = g('athE'); A.phone = g('athP');
     var err = document.getElementById('athErr');
     if (!A.first || !A.last) { err.textContent = 'Please fill in your first and last name.'; return; }
-    if (!/.+@.+\..+/.test(A.email)) { err.textContent = 'Please enter a valid email.'; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(A.email)) { err.textContent = 'Please enter a valid email.'; return; }
     if (!phoneValid()) { err.textContent = 'Please enter a valid phone number.'; return; }
     err.textContent = '';
     pingStep('contact');
