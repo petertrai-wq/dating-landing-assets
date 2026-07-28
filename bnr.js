@@ -9,7 +9,7 @@
 (function () {
   try {
     var EP = 'https://admin.automated.dating/api/analytics/track';
-    var DEADLINE = new Date('2026-08-05T00:00:00-04:00').getTime();   // Aug 5, midnight ET
+    var DEADLINE = new Date('2026-07-31T00:00:00-04:00').getTime();   // July 31, midnight ET (Peter 2026-07-28: pulled in from Aug 5)
     var TY = location.pathname.indexOf('thankyou') >= 0;
     var CK = TY ? 'adq_tybnr' : 'adq_bnr';
     var sid;
@@ -28,18 +28,28 @@
       } catch (e) {}
     }
     // ── arm assignment (sticky 180d; ?bnr= forces for QA) ──
+    // Landing = SPLIT TEST 9 (Peter 2026-07-28): y (red price banner) vs p (free Photo & Profile
+    // Optimization banner). The old no-banner arm 'n' is RETIRED on landing — legacy n cookies
+    // re-roll into y|p; ?bnr=n still forces bannerless for QA. Thank-you keeps its own y/n test
+    // (ST8 measures banner-vs-none engagement) — only the y copy/date changed there.
     var ARM;
     try {
-      var f = (location.search.match(/[?&]bnr=([yn])\b/) || [])[1];
-      var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + CK + '=([yn])\\b'));
-      ARM = f || (m && m[1]) || ((Math.random() < 0.5) ? 'y' : 'n');
-      if (f || !m) document.cookie = CK + '=' + ARM + '; path=/; max-age=15552000; SameSite=Lax; domain=.automated.dating';
+      var f = (location.search.match(/[?&]bnr=([ynp])\b/) || [])[1];
+      var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + CK + '=([ynp])\\b'));
+      ARM = f || (m && m[1]) || '';
+      if (!f) {
+        if (TY) { if (ARM !== 'y' && ARM !== 'n') ARM = (Math.random() < 0.5) ? 'y' : 'n'; }
+        else if (ARM !== 'y' && ARM !== 'p') ARM = (Math.random() < 0.5) ? 'y' : 'p';
+      }
+      if (f || !m || (m && m[1] !== ARM)) document.cookie = CK + '=' + ARM + '; path=/; max-age=15552000; SameSite=Lax; domain=.automated.dating';
     } catch (e) { ARM = 'n'; }
     var live = Date.now() < DEADLINE;
 
-    // ── the banner (arm y only, until the deadline) ──
-    if (ARM === 'y' && live) {
-      var MSG = 'Due to increased demand, our prices are increasing by $500 on August 5th so we can maintain high quality results for clients.';
+    // ── the banner (arms y/p, until the deadline) ──
+    if ((ARM === 'y' || ARM === 'p') && live) {
+      var MSG = ARM === 'p'
+        ? 'Onboard by July 31 to get Photo & Profile Optimization included for FREE.'
+        : 'Due to increased demand, our prices are increasing by $500 on July 31st so we can maintain high quality results for clients.';
       var st = document.createElement('style');
       st.textContent = '#adBnr{position:relative;z-index:70;background:#c81e1e;color:#fff;height:42px;display:flex;align-items:center;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}' +
         '#adBnrTrack{display:flex;white-space:nowrap;animation:adBnrScroll 28s linear infinite;will-change:transform}' +

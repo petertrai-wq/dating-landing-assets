@@ -196,7 +196,7 @@
     } catch (e) {}
     out.ab = (window.__ADQ_AB || window.__AB || 'd');
     try { if (invqTest()) out.invq = INVQ; } catch (e) {}
-    try { var mb = document.cookie.match(/(?:^|;\s*)adq_bnr=([yn])\b/); if (mb) out.bnr = mb[1]; } catch (e) {}   // price-banner split test arm (Split Test 7, 2026-07-28)
+    try { var mb = document.cookie.match(/(?:^|;\s*)adq_bnr=([ynp])\b/); if (mb) out.bnr = mb[1]; } catch (e) {}   // banner split test arm (ST7 y/n → ST9 y/p, 2026-07-28)
     try { if (fsAcc >= 1) out.form_secs = String(Math.round(fsAcc)); } catch (e) {}
     try { out.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
     // Meta pixel cookies (EMQ 2026-07-22): the browser pixel is PageView-only by design, so the
