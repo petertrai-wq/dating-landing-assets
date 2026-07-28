@@ -11,6 +11,17 @@
     var node = holder.firstElementChild; if (node) document.body.appendChild(node);
     (function () {
   var API = 'https://admin.automated.dating/api/apply';
+  // Form-time tracking (Peter 2026-07-28 "tag the contacts for how long they spend on the form"):
+  // ACTIVE seconds from first interaction to submit. Gaps over 5 min don't count (walked away),
+  // total capped at 60 min; survives resume via saved-state `fs`. Rides as hidden.form_secs.
+  var fsAcc = 0, fsLast = 0;
+  function fsBump() {
+    try {
+      var now = Date.now();
+      if (fsLast) fsAcc = Math.min(3600, fsAcc + Math.min(300, (now - fsLast) / 1000));
+      fsLast = now;
+    } catch (e) {}
+  }
   var CAL = 'https://links.petertraidating.com/widget/bookings/automateddating8eh9hv';
   var LETTERS = 'ABCDEFGH';
   var STATE_KEY = 'adq_state_v1';
@@ -75,11 +86,12 @@
   // must not lose progress). Cleared when a submission succeeds (token rotates with it).
   try {
     var saved = JSON.parse(localStorage.getItem(STATE_KEY) || 'null');
+    if (saved && saved.fs > 0) fsAcc = Math.min(Number(saved.fs) || 0, 3600);
     if (saved && saved.token === token && saved.A && typeof saved.step === 'number') { A = saved.A; step = Math.min(Math.max(0, saved.step), QS.length - 1); finished = saved.finished || ''; cc = saved.cc || '+1'; }
     else if (saved && saved.token !== token && saved.A && !saved.done) { A = saved.A; step = Math.min(Math.max(0, saved.step || 0), QS.length - 1); finished = saved.finished || ''; cc = saved.cc || '+1'; try { sessionStorage.setItem('adq_token', saved.token); } catch (e) {} token = saved.token; }
   } catch (e) {}
   try { if (A && !Array.isArray(A.interest)) delete A.interest; if (A && A.goals) delete A.goals; if (A && A.time_week && !/hours/.test(String(A.time_week))) delete A.time_week; } catch (e) {}   // 2026-07-25 form rework: old-format saved answers reset
-  function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify({ token: token, A: A, step: step, finished: finished, cc: cc })); } catch (e) {} }
+  function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify({ token: token, A: A, step: step, finished: finished, cc: cc, fs: fsAcc })); } catch (e) {} }
   function clearState() { try { localStorage.removeItem(STATE_KEY); } catch (e) {} }
   // /dcal test entry (Peter 2026-07-17): automated.dating/dcal redirects here with ?dcal=1 —
   // the popup opens DIRECTLY at the calendar with qualified answers prefilled and NO application
@@ -184,6 +196,8 @@
     } catch (e) {}
     out.ab = (window.__ADQ_AB || window.__AB || 'd');
     try { if (invqTest()) out.invq = INVQ; } catch (e) {}
+    try { var mb = document.cookie.match(/(?:^|;\s*)adq_bnr=([yn])\b/); if (mb) out.bnr = mb[1]; } catch (e) {}   // price-banner split test arm (Split Test 7, 2026-07-28)
+    try { if (fsAcc >= 1) out.form_secs = String(Math.round(fsAcc)); } catch (e) {}
     try { out.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
     // Meta pixel cookies (EMQ 2026-07-22): the browser pixel is PageView-only by design, so the
     // server-side conversion events need _fbp/_fbc forwarded from here to match this browser.
@@ -211,6 +225,7 @@
   }
   function phoneValid() { var e = phoneE164().replace(/\D/g, ''); return e.length >= 8 && e.length <= 15; }
   function payload(complete) {
+    fsBump();
     return JSON.stringify({ token: token, complete: !!complete, hp: '', hidden: hiddenFields(), answers: {
       q1: A.q1 || '', age: A.age || '', time_week: A.time_week || '', dates30: A.dates30 || '',
       methow: ((A.dates30 || '') === '0') ? [] : (A.methow || []),
@@ -229,6 +244,7 @@
           .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
           .then(function (j) {
             try { pingEv(isDq() ? 'form_done_dq' : 'form_done_q', 'done'); } catch (e) {}
+            try { if (A.email) localStorage.setItem('adq_em', String(A.email).toLowerCase().slice(0, 120)); } catch (e) {}
             try { sessionStorage.removeItem('adq_token'); } catch (e) {}
             clearState();
             try { console.log('[adq] submitted', j); } catch (e) {}
@@ -648,6 +664,7 @@
           if (pct) pct.textContent = '100%';
           if (m) m.textContent = 'Booked! Loading your confirmation...';
           try { clearState(); sessionStorage.removeItem('adq_token'); } catch (e) {}
+          try { if (email) localStorage.setItem('adq_em', String(email).toLowerCase().trim().slice(0, 120)); } catch (e) {}   // /thankyou engagement tracking joins by this (Split Test 8)
           setTimeout(function () { window.location.href = PHOTOPAGE ? '/photo-thankyou/' : '/thankyou/'; }, 400);   // photo consults land on the PIXEL-FREE twin — no Meta URL rule can ever see them (Peter 2026-07-27)
           return;
         }
@@ -763,6 +780,7 @@
   function advance() {
     if (finished) return;
     _pinArmed = true;
+    fsBump();
     if (!collect()) return;
     var q = QS[step];
     pingStep(q.key);
@@ -784,6 +802,7 @@
   }
   function back() {
     _pinArmed = true;
+    fsBump();
     if (step > 0 && !finished) {
       step = prevIdx(step);
       if (TYPED_Q[QS[step].type]) primeKeyboard();
@@ -816,6 +835,7 @@
     if ((typeof BOOKPAGE !== 'undefined' && BOOKPAGE) || (typeof PHOTOPAGE !== 'undefined' && PHOTOPAGE)) { location.href = 'https://automated.dating/'; return; }
     ov.hidden = true; document.documentElement.style.overflow = ''; saveState(); }
   document.getElementById('adqClose').addEventListener('click', closeModal);
+  try { var _fsCard = document.getElementById('adqCard'); ['pointerdown', 'keydown'].forEach(function (evn) { _fsCard.addEventListener(evn, function () { if (!fsLast) fsLast = Date.now(); }, true); }); } catch (e) {}
   if (DCAL || BOOKPAGE || PHOTOPAGE || /dqpreview/.test(location.hash || '')) setTimeout(openModal, 300);
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest && e.target.closest('[data-tf-popup]');
