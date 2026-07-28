@@ -204,7 +204,7 @@
       desc: 'This helps us build a profile congruent with the lifestyle you can realistically showcase.',
       opts: ['Under 150k', '150k to 200k', '200k+'] },
     { key: 'concerns', type: 'multi',
-      title: 'Do you have any concerns about hiring Automated Dating?',
+      title: 'Do you have any concerns about hiring a team to manage your dating apps?',
       desc: 'Understanding your concerns helps us address them early.',
       opts: ['Texting in my voice and style', 'AI photos not matching me or my life', 'Privacy and data security', 'Poor experiences with matchmakers', 'Fear of trusting a team with swiping and texting for me', "Worried you won't be able to find matches who fit my criteria", 'Other'],
       card: qi('✓', 'Discretion is built in — everything sounds like you, and nothing goes out without your approval.') },
