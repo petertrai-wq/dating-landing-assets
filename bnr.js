@@ -10,7 +10,7 @@
     var EP = 'https://admin.automated.dating/api/analytics/track';
     var DEADLINE = new Date('2026-07-31T00:00:00-04:00').getTime();   // July 31, midnight ET
     var TY = location.pathname.indexOf('thankyou') >= 0;
-    var MSG = 'Onboard by July 31 to get your photo optimization, AI photos, and profile optimization included for free.';
+    var MSG = 'Onboard by July 31 to get AI photos and profile optimization for free.';
     var sid;
     try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } }
     catch (e) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
