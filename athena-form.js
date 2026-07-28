@@ -101,11 +101,18 @@
   /* hero variant (arm B, before the takeover) */
   'html.athena-arm #heroCta,html.athena-arm #applyNowHdr{display:none !important}' +
   'html.athena-arm #adqInlineHost{display:block;width:100%;max-width:430px;margin:26px auto 0}' +
-  '#athRole{background:#fff;border:1px solid #e5e2d9;border-radius:16px;padding:22px 24px 24px;box-shadow:0 18px 44px rgba(20,28,21,.10);text-align:left}' +
+  '#athRole{background:#f7f5f1;border:1px solid #e7e3da;border-radius:16px;padding:22px 24px 24px;box-shadow:0 18px 44px rgba(20,28,21,.10);text-align:left}' +
   '#athRole h3{font-family:"Playfair Display",Georgia,serif;font-size:22px;font-weight:600;color:#182018;margin:2px 0 10px}' +
   '#athRole .sub2{font-size:12.5px;color:#8a9288;line-height:1.6;margin:0 0 22px}' +
   '.athro{display:flex;align-items:center;justify-content:space-between;border:1px solid #DCDCDC;border-radius:9px;padding:12px 15px;font-size:14.5px;color:#222;cursor:pointer;margin-bottom:10px;transition:border .12s,background .12s;background:#fff}' +
-  '.athro:hover{border-color:#24352B;background:#F6F8F5}';
+  '.athro:hover{border-color:#24352B;background:#F6F8F5}' +
+  '.ath-hl{display:inline-block;background:#141210;color:#fff;padding:3px 18px;border-radius:10px}' +
+  '#athHeroQuote{max-width:430px;margin:18px auto 0;background:#fff;border:1px solid #e7e3da;border-radius:13px;padding:16px 18px;font-size:13.5px;line-height:1.6;color:#3c463c;text-align:left}' +
+  '#athHeroQuote .who{display:flex;align-items:center;gap:10px;margin-top:12px}' +
+  '#athHeroQuote .av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex:none}' +
+  '#athHeroQuote .av img{width:100%;height:100%;object-fit:cover;display:block}' +
+  '#athHeroQuote .nm{font-weight:700;color:#141210;font-size:13.5px}' +
+  '#athHeroQuote .rl{font-size:11.5px;font-style:italic;color:#8a9288}';
   try { var stl = document.createElement('style'); stl.textContent = css; document.head.appendChild(stl); } catch (e) {}
 
   // ── questions (final wording approved on /athenatest, 2026-07-28) ──
@@ -467,12 +474,23 @@
   function heroVariant() {
     try {
       var h1 = document.querySelector('.hero h1');
-      if (h1) h1.innerHTML = '<span class="l">You’re losing <em>10+ hours a week</em></span><span class="l">to work someone else should do</span>';
+      if (h1) h1.innerHTML = '<span class="l"><span class="ath-hl">You’re losing 10+ hours a week</span></span><span class="l">to work someone else should do</span>';
+    } catch (e) {}
+    try {
+      var sub = document.querySelector('.hero .sub');
+      if (sub) {
+        sub.textContent = 'We run your dating apps, matching you with women who fit your criteria, then schedule dates for you according to your preferences.';
+        var tq = document.createElement('div');
+        tq.id = 'athHeroQuote';
+        tq.innerHTML = '"If I just put in the time, I\'d be fine. But I just don\'t want to put in the time. I\'d rather just pay somebody."' +
+          '<div class="who"><div class="av"><img src="' + PIC + 'tw-grayson.jpg" alt="Grayson"></div><div><div class="nm">Grayson C.</div><div class="rl">Marketing Agency Owner, NYC</div></div></div>';
+        sub.parentNode.insertBefore(tq, sub.nextSibling);
+      }
     } catch (e) {}
     try {
       var host = document.getElementById('adqInlineHost');
       if (host) {
-        host.innerHTML = '<div id="athRole"><h3>What best describes your role?</h3><p class="sub2">Get matched with a done-for-you dating team that pays for itself in time and results.</p>' +
+        host.innerHTML = '<div id="athRole"><h3>What best describes your role?</h3><p class="sub2">Apply for our professional dating app management team that pays for itself in time and results.</p>' +
           ['Entrepreneur/founder', 'Business owner', 'VP/Executive/C-Suite', 'Established professional', 'Other'].map(function (r) {
             return '<div class="athro" data-role="' + r + '"><span>' + r + '</span><b>→</b></div>';
           }).join('') + '</div>';
