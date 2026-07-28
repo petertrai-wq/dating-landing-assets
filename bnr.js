@@ -5,7 +5,7 @@
 // plus first-party engagement tracking: ty_view / ty_hb (15s heartbeats = time on page) / ty_click,
 // each carrying the arm in `page` and the booker's email (localStorage adq_em, set by adq-embed at
 // submit/booking — same-origin only, POSTed in the body, NEVER in a URL) → SPLIT TEST 8.
-// Banner auto-retires at the Aug 5 deadline: past it nothing renders and no bnr_view fires.
+// Banner auto-retires at the July 31 deadline: past it nothing renders and no bnr_view fires.
 (function () {
   try {
     var EP = 'https://admin.automated.dating/api/analytics/track';
@@ -48,7 +48,7 @@
     // ── the banner (arms y/p, until the deadline) ──
     if ((ARM === 'y' || ARM === 'p') && live) {
       var MSG = ARM === 'p'
-        ? 'Onboard by July 31 to get Photo & Profile Optimization included for FREE.'
+        ? 'Onboard by July 31 to get AI Photo & Profile Optimization included for FREE.'
         : 'Due to increased demand, our prices are increasing by $500 on July 31st so we can maintain high quality results for clients.';
       var st = document.createElement('style');
       st.textContent = '#adBnr{position:relative;z-index:70;background:#c81e1e;color:#fff;height:42px;display:flex;align-items:center;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}' +
