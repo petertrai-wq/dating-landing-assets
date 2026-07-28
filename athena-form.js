@@ -31,6 +31,7 @@
 
   // ── styles (ported from the approved athenatest page) ──
   var css = '' +
+  'html{-webkit-text-size-adjust:100%;text-size-adjust:100%}' +   /* large-font accessibility settings must scale, not shatter, the layout (John 2026-07-28) */
   '#athOv{position:fixed;inset:0;z-index:2147481000;background:#F7F4ED;color:#2E3A30;font-family:Figtree,Inter,-apple-system,sans-serif;display:none;flex-direction:column;overflow-y:auto}' +
   '#athOv.on{display:flex}' +
   '.athserif{font-family:"Playfair Display",Georgia,serif}' +
@@ -397,7 +398,6 @@
         '<label class="athlbl">Last name *</label><input class="athin" id="athL" autocomplete="family-name" value="' + esc(A.last || '') + '">' +
         '<label class="athlbl">Email *</label><input class="athin" id="athE" type="email" autocomplete="email" placeholder="you@email.com" value="' + esc(A.email || '') + '">' +
         '<label class="athlbl">Phone *</label><input class="athin" id="athP" type="tel" autocomplete="tel" placeholder="(201) 555-0123" value="' + esc(A.phone || '') + '">' +
-        '<label class="athlbl">How did you hear about us? *</label><select class="athin" id="athH"><option value="">Please select</option>' + ['TikTok', 'Instagram', 'Facebook', 'Google', 'Referral', 'Podcast', 'Other'].map(function (o) { return '<option' + (A.heard === o ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select>' +
         '<button class="athgo show" id="athGo" style="margin-top:24px">Continue&nbsp;&nbsp;→</button><div class="atherr" id="athErr"></div></div>';
     }
     col.innerHTML = h;
@@ -464,12 +464,11 @@
   var finishedView = '';
   function contactDone() {
     var g = function (id) { var e = document.getElementById(id); return e ? e.value.trim() : ''; };
-    A.first = g('athF'); A.last = g('athL'); A.email = g('athE'); A.phone = g('athP'); A.heard = g('athH');
+    A.first = g('athF'); A.last = g('athL'); A.email = g('athE'); A.phone = g('athP');
     var err = document.getElementById('athErr');
     if (!A.first || !A.last) { err.textContent = 'Please fill in your first and last name.'; return; }
     if (!/.+@.+\..+/.test(A.email)) { err.textContent = 'Please enter a valid email.'; return; }
     if (!phoneValid()) { err.textContent = 'Please enter a valid phone number.'; return; }
-    if (!A.heard) { err.textContent = 'Please select how you heard about us.'; return; }
     err.textContent = '';
     pingStep('contact');
     saveState();
