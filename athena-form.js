@@ -242,7 +242,6 @@
       card: qi('👥', 'We work with professional men at every stage.') },
     { key: 'income', type: 'radio',
       title: "What's your annual income? (USD)",
-      desc: 'This helps us build a profile congruent with the lifestyle you can realistically showcase.',
       opts: ['Under 150k', '150k to 200k', '200k+'] },
     { key: 'concerns', type: 'multi',
       title: 'Do you have any concerns about hiring a team to manage your dating apps?',
@@ -422,7 +421,7 @@
     railEl.style.display = (s.rail ? 'flex' : 'none');
     backBtn.hidden = (s.type === 'loader' || finishedView === 'dq' || finishedView === 'booked');
     var h = '';
-    if (s.almost) h += '<div class="athalmost"><div class="athbar"><i style="width:55%"></i></div><h1 class="athserif">You’re almost there!</h1><p>Just a few more questions to help us build your exact dating profile plan.</p><hr></div>';
+    if (s.almost) h += '<div class="athalmost"><div class="athbar"><i style="width:55%"></i></div><h1 class="athserif">You’re almost there!</h1><p>Just a few more questions to help us build your exact done-for-you dating app strategy.</p><hr></div>';
     if (s.type === 'radio' || s.type === 'multi') {
       h += '<div class="athq">' + esc(s.title) + '</div>';
       if (s.desc) h += '<div class="athd">' + esc(s.desc) + '</div>';
