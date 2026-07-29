@@ -10,7 +10,7 @@
     var EP = 'https://admin.automated.dating/api/analytics/track';
     var DEADLINE = new Date('2026-08-02T00:00:00-04:00').getTime();   // increase hits after Aug 1 = end of Aug 1 ET
     var TY = location.pathname.indexOf('thankyou') >= 0;
-    var MSG = 'Price Increase After Aug 1';
+    var MSG = '$500 Price Increase After Aug 1';
     var sid;
     try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } }
     catch (e) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
