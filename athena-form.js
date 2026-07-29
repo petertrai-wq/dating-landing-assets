@@ -234,7 +234,7 @@
     { key: 'matters', type: 'multi',
       title: 'What matters most to you in your team?',
       desc: 'These are strengths of Automated Dating. Select those that matter most to you.',
-      opts: ['Experts running everything to my exact preferences', 'A team that learns my type and gets sharper every week', 'Discretion and privacy', 'Photos and a profile that represent my real life', "Experts who've scheduled thousands of dates and know what works", 'Results driven. High quality dates I approve directly on my calendar.', 'All of the above'],
+      opts: ['Experts running everything to my exact preferences', 'Discretion and privacy', 'Photos and a profile that represent my real life', "Experts who've scheduled thousands of dates and know what works", 'Results driven. High quality dates I approve directly on my calendar.', 'All of the above'],
       card: qi('❋', 'Everything runs to your exact preferences — you approve every match with a thumbs up.') },
     { key: 'age', type: 'radio', almost: true,
       title: 'How old are you?',
