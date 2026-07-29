@@ -772,6 +772,8 @@
   function advance() {
     if (finished) return;
     _pinArmed = true;
+    // Banner disappears once they're into the form (Peter 2026-07-29) — idempotent, first advance kills it.
+    try { var _bnr = document.getElementById('adBnr'); if (_bnr) _bnr.remove(); } catch (e) {}
     fsBump();
     if (!collect()) return;
     var q = QS[step];

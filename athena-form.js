@@ -45,12 +45,12 @@
   '.athq{font-size:31px;font-weight:600;line-height:1.35;color:#2f3a2f}' +
   '.athd{font-size:18px;color:#5C665C;margin-top:12px}' +
   '.athops{margin-top:34px;display:flex;flex-direction:column;gap:24px}' +
-  '.athop{display:flex;align-items:center;gap:20px;cursor:pointer;font-size:23px;color:#333d33;-webkit-tap-highlight-color:transparent}' +
-  '.athop .r{flex:none;width:41px;height:41px;border-radius:50%;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
-  '.athop .c{flex:none;width:40px;height:40px;border-radius:9px;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
-  '.athop.on .r{border-color:#24352B;background:#24352B;box-shadow:inset 0 0 0 7px #fff}' +
+  '.athop{display:flex;align-items:center;gap:16px;cursor:pointer;font-size:21px;color:#333d33;-webkit-tap-highlight-color:transparent}' +
+  '.athop .r{flex:none;width:35px;height:35px;border-radius:50%;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
+  '.athop .c{flex:none;width:34px;height:34px;border-radius:8px;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
+  '.athop.on .r{border-color:#24352B;background:#24352B;box-shadow:inset 0 0 0 6px #fff}' +
   '.athop.on .c{border-color:#24352B;background:#24352B}' +
-  '.athop.on .c::after{content:"\\2713";position:absolute;inset:0;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center}' +
+  '.athop.on .c::after{content:"\\2713";position:absolute;inset:0;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center}' +
   '@keyframes athCd{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}' +
   '.athgo{display:none;margin-top:34px;width:100%;border:none;background:#24352B;color:#fff;font-family:inherit;font-size:18px;font-weight:600;padding:19px 0;border-radius:9px;cursor:pointer}' +
   '.athgo:hover{background:#1c2a22}' +
@@ -398,8 +398,9 @@
   function openTakeover(role) {
     if (role) A.role = role;
     mountOverlay();
-    // keep the July-31 banner at the top of the takeover (Peter 2026-07-28 pm "keep the banner at the top")
-    try { var bnr = document.getElementById('adBnr'); var slot = document.getElementById('athBnrSlot'); if (bnr && slot && bnr.parentNode !== slot) slot.appendChild(bnr); } catch (e) {}
+    // banner GONE once they pick a role and enter the form (Peter 2026-07-29 — supersedes 7/28's
+    // "keep the banner at the top"; the countdown did its job on the landing, the form needs room)
+    try { var bnr = document.getElementById('adBnr'); if (bnr) bnr.remove(); } catch (e) {}
     ov.classList.add('on');
     ov.classList.remove('enter'); void ov.offsetWidth; ov.classList.add('enter');
     document.documentElement.style.overflow = 'hidden';
