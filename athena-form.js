@@ -800,15 +800,4 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', heroVariant); else heroVariant();
 
-  // TEMP QA (Peter 2026-07-28 pm): /athenatest drops straight into the LAST question (contact)
-  // with qualifying answers prefilled so the inline booker can be tested instantly.
-  // Remove this block once booker QA is done — /athenatest then behaves like the apex again.
-  if (/athenatest/.test(location.pathname)) {
-    A.role = A.role || 'Entrepreneur/founder';
-    A.start = 'ASAP - this is a priority';
-    A.income = A.income || '200k+';
-    step = STEPS.length - 1;
-    var qaOpen = function () { setTimeout(function () { openTakeover(null); }, 350); };
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', qaOpen); else qaOpen();
-  }
 })();
