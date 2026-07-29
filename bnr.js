@@ -1,16 +1,16 @@
 // ═══ SITE BANNER + THANK-YOU PAGE TRACKING ═══
 // Banner split tests 7/9 CONCLUDED (Peter 2026-07-28 "remove the banner split test"): every visitor
-// now sees ONE static banner — the July-31 free photo/profile-optimization offer. No arms, no
-// adq_bnr cookie writes (adq-embed's hidden.bnr simply stays absent going forward; old cookies
-// are ignored). The banner self-retires at the July-31 deadline exactly like before.
+// now sees ONE static banner. Copy swapped 2026-07-29 (Peter "Price Increase After Aug 1 then show
+// an accurate timer") — counts down to the increase moment (end of Aug 1 ET) and self-retires there.
+// No arms, no adq_bnr cookie writes (adq-embed's hidden.bnr simply stays absent; old cookies ignored).
 // Thank-you page engagement tracking (ty_view / ty_hb / ty_click → Split Test 8 analytics) is
 // UNCHANGED — that measures the page, not the banner.
 (function () {
   try {
     var EP = 'https://admin.automated.dating/api/analytics/track';
-    var DEADLINE = new Date('2026-07-31T00:00:00-04:00').getTime();   // July 31, midnight ET
+    var DEADLINE = new Date('2026-08-02T00:00:00-04:00').getTime();   // increase hits after Aug 1 = end of Aug 1 ET
     var TY = location.pathname.indexOf('thankyou') >= 0;
-    var MSG = 'Onboard by July 31 to get AI photos and profile optimization for free.';
+    var MSG = 'Price Increase After Aug 1';
     var sid;
     try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } }
     catch (e) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
