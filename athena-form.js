@@ -197,6 +197,9 @@
       title: "In a typical week, how much of your time goes to dating-related things that don't actually require you to do them?",
       opts: ['Less than 2 hours', '2–6 hours', '6–10 hours', '10+ hours', "Honestly, I've never counted"],
       card: qq('"I don\'t have too much trouble with women, I just can\'t afford to spend the hours it takes to land even one decent date now. It\'s almost like a full time job."', 'M', 'Marco C.', 'Exec, SF', 'tw-marco2.jpg') },
+    { key: 'lastweek', type: 'radio',
+      title: 'How many high quality dates did you go on last week?',
+      opts: ['0', '1', '2', '3+'] },
     { key: 'tried', type: 'radio',
       title: 'What have you tried so far to improve your dating life?',
       opts: ['AI photos or a real photo shoot', 'Matchmakers', 'Deleting dating apps', 'Hiring someone', 'A mix of the above', "Haven't tried anything systematically"],
@@ -339,7 +342,7 @@
     fsBump();
     return JSON.stringify({ token: token, complete: !!complete, hp: '', hidden: hiddenFields(), answers: {
       role: A.role || '', usedApps: A.usedApps || '', hours: A.hours || '', tried: A.tried || '',
-      datinglife: A.datinglife || '', effort: A.effort || '', interrupt: A.interrupt || '',
+      datinglife: A.datinglife || '', effort: A.effort || '', lastweek: A.lastweek || '', interrupt: A.interrupt || '',
       win: A.win || '', timesinks: A.timesinks || [], support: A.support || [],
       handled: A.handled || [], cost: A.cost || [], matters: A.matters || [],
       age_bucket: A.age || '', concerns: A.concerns || [], wantmore: A.wantmore || '', ninety: A.ninety || '',
