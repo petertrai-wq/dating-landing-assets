@@ -250,7 +250,7 @@
       card: qi('✓', 'Discretion is built in — everything sounds like you, and nothing goes out without your approval.') },
     { key: 'wantmore', type: 'radio',
       title: 'What do you want more of right now?',
-      opts: ['Time', 'Dates', 'Focus', 'A quality relationship', 'All four'] },
+      opts: ['More time for high-leverage work', 'Higher quality dates', 'Peace of mind', 'A long-term quality relationship', 'All four'] },
     { key: 'ninety', type: 'radio',
       title: "If nothing changes in the next 90 days, what's most likely to happen?",
       opts: ["I'll keep grinding the apps with nothing to show", "I'll probably just stop trying again", "I'll still be the guy who has everything but the relationship", "Honestly, I'll be saying this same thing in 90 days"],
