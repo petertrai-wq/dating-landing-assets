@@ -218,7 +218,7 @@
     { key: 'win', type: 'radio',
       title: 'If a team of experts ran your dating apps starting next Monday, what would be the biggest win?',
       desc: 'Most clients have their first date on the calendar within 7 days.',
-      opts: ['10+ hours a week back for high-leverage work', 'Never having to deal with swiping, texting or flaking again', 'A proactive team who anticipates needs before I ask', 'Real time back for family, health or personal priorities', '1 quality date ASAP with a woman who meets my standards'],
+      opts: ['10+ hours a week back for high-leverage work', 'Never having to deal with swiping, texting or flaking again', 'Increasing the quality of the women I date', 'Real time back for family, health or personal priorities', '1 quality date ASAP with a woman who meets my standards'],
       card: qq('"I\'m so tired of handling and managing my own stuff."', 'D', 'Derek M.', 'Startup Founder, Seattle', 'tw-derek.jpg') },
     { key: 'timesinks', type: 'multi',
       title: 'Which of these dating tasks eat up the most time in your week?', desc: 'Select at least one.',
