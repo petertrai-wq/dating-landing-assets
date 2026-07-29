@@ -229,7 +229,7 @@
       opts: ['A profile that matches the lifestyle I built', 'Photos that look like my best self', 'Wardrobe & style', 'Figuring out how to attract my ideal type of woman', 'Date planning & logistics', 'First date strategy', 'Texting help', 'Getting into a long-term relationship', 'Traveling with a goal of meeting the right woman', 'All of the above (most popular)'] },
     { key: 'handled', type: 'multi',
       title: 'Which of these would you want handled for you?', desc: 'Select at least one.',
-      opts: ['Date spot picks & reservations', 'Reminders & prep before each date', "Scheduling dates in cities you're headed to", 'Constant photo optimization & profile upkeep', 'Weekly report of your matches & pipeline', 'All of the above (most popular)'],
+      opts: ['Fast follow up with warm leads', 'High volume of outreach to your exact type', "Scheduling dates in cities you're headed to", 'Constant photo optimization', 'Data backed messaging best practices', 'Weekly report of your matches, dates and pipeline', 'All of the above (most popular)'],
       card: qi('✓', 'Your team runs it end to end. You just show up.') },
     { key: 'cost', type: 'multi',
       title: "When you're stuck doing low-value dating-related tasks, how does it cost you?", desc: 'Choose the ones that resonate most.',
