@@ -206,7 +206,7 @@
       card: qq('"I don\'t have too much trouble with women, I just can\'t afford to spend the hours it takes to land even one decent date now. It\'s almost like a full time job."', 'M', 'Marco C.', 'Exec, SF', 'tw-marco2.jpg') },
     { key: 'lastweek', type: 'radio',
       title: 'How many high quality dates did you go on in the last 30 days?',
-      opts: ['0', '1-3', '3-5', '5+'] },
+      opts: ['0', '1-2', '3-4', '5+'] },
     { key: 'tried', type: 'radio',
       title: 'What have you tried so far to improve your dating life?',
       opts: ['AI photos or a real photo shoot', 'Matchmakers', 'Deleting dating apps', 'Hiring someone', 'A mix of the above', "Haven't tried anything systematically"],
