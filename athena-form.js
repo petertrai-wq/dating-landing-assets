@@ -441,7 +441,7 @@
         '<label class="athlbl">First name *</label><input class="athin" id="athF" autocomplete="given-name" value="' + esc(A.first || '') + '">' +
         '<label class="athlbl">Last name *</label><input class="athin" id="athL" autocomplete="family-name" value="' + esc(A.last || '') + '">' +
         '<label class="athlbl">Email *</label><input class="athin" id="athE" type="email" autocomplete="email" placeholder="you@email.com" value="' + esc(A.email || '') + '">' +
-        '<label class="athlbl">Phone *</label><input class="athin" id="athP" type="tel" autocomplete="tel" placeholder="(201) 555-0123" value="' + esc(A.phone || '') + '">' +
+        '<label class="athlbl">Phone *</label><div style="margin:2px 0 6px;font-size:13px;color:#4c564c">Please input your real number - we require a text confirmation for your appointment. We will not spam you.</div><input class="athin" id="athP" type="tel" autocomplete="tel" placeholder="(201) 555-0123" value="' + esc(A.phone || '') + '">' +
         '<button class="athgo show" id="athGo" style="margin-top:24px">Continue&nbsp;&nbsp;→</button><div class="atherr" id="athErr"></div></div>';
     }
     col.innerHTML = h;

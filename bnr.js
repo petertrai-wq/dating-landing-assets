@@ -107,8 +107,8 @@
     // works', url:'…'}] — every play fires ty_vid with the video key, so the sheet's per-video
     // table fills itself the moment videos exist. url = YouTube embed URL or hosted mp4.
     try {
-      var vids = window.__TY_VIDEOS || [];
-      if (vids.length) {
+      var renderTyVids = function (vids) {
+        if (!vids || !vids.length || document.getElementById('tyVids')) return;
         var vhost = document.createElement('div'); vhost.id = 'tyVids';
         var vs = document.createElement('style');
         vs.textContent = '#tyVids{max-width:860px;margin:26px auto;padding:0 18px}#tyVids h3{font-size:19px;margin:0 0 12px}#tyVids .tyv{display:block;width:100%;text-align:left;background:#101012;color:#fff;border:1px solid #2c2c30;border-radius:12px;padding:13px 15px;margin:8px 0;font-size:15px;cursor:pointer;font-family:inherit}#tyVids .tyv:hover{border-color:#e0655a}#tyVids .tyvPlayer{margin:8px 0 14px}#tyVids iframe,#tyVids video{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}';
@@ -133,7 +133,12 @@
         var anchor = document.querySelector('.intro-grid');
         if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(vhost, anchor.nextSibling);
         else if (document.body) document.body.appendChild(vhost);
-      }
+      };
+      // Dynamic list (Peter 2026-07-30 "update as I change and add videos"): the Drive-folder CMS
+      // syncs to /api/ty/videos every ~5 min. window.__TY_VIDEOS stays as a QA override.
+      var ovVids = window.__TY_VIDEOS || [];
+      if (ovVids.length) renderTyVids(ovVids);
+      else fetch('https://admin.automated.dating/api/ty/videos').then(function (r) { return r.json(); }).then(function (j) { try { renderTyVids((j && j.videos) || []); } catch (e) {} }).catch(function () {});
     } catch (e) {}
   } catch (e) {}
 })();

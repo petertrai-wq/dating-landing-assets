@@ -58,7 +58,7 @@
     { key: 'income', type: 'choice', title: "What's your annual income? (USD)", desc: 'This helps us determine the lifestyle and type of profile you can realistically showcase without it coming off as incongruent.', opts: ['0k to 50k', '50k to 100k', '100k to 150k', '150k-200k', '200k+'] },
     { key: 'problem', type: 'long', title: "What's the #1 problem with your dating apps / dating life?", desc: 'Be honest - the more detail, the better we can help.' },
     { key: 'start', type: 'choice', title: 'When do you want to start?', opts: ['ASAP', 'Next Week', 'Next Month'] },
-    { key: 'phone', type: 'phone', title: "What's your phone number?", descHtml: 'Please put your real number. We will <u>NOT</u> spam you.' },
+    { key: 'phone', type: 'phone', title: "What's your phone number?", descHtml: 'Please input your real number - we require a text confirmation for your appointment. We will not spam you.' },
     { key: 'name', type: 'name', title: "What's your name?" },
     { key: 'email', type: 'email', title: "What's your email address?" },
     { key: 'invest', type: 'choice', title: function () { return invqPriceShown() ? 'Our minimum investment to get started is $3000 for a month. $6000 for 3 months. Are you able to invest if this is a great fit?' : 'Are you willing to invest if this makes sense for you?'; }, descHtml: function () { return invqPriceShown() ? '<span style="color:#d92d20;font-weight:600">We\'re scheduled to increase price $500 on July 31st so we can maintain high quality results for clients.</span>' : ''; }, opts: ["Yes. I'm willing and able to invest if this is a great fit.", "No. I'm not willing or able to invest at this time."] },
