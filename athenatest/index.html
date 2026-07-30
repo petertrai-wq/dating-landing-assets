@@ -304,8 +304,31 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
 
 <nav class="nav"><div class="wrap">
   <span class="brand">Automated Dating</span>
-  <a class="btn sm" href="https://admin.automated.dating/app">Sign In</a>
+  <div style="display:flex;align-items:center;gap:18px">
+    <a href="/how-it-works/" style="font-size:14.5px;font-weight:600;color:var(--ink);text-decoration:none;opacity:.85">How it works</a>
+    <a class="btn sm" href="https://admin.automated.dating/app">Sign In</a>
+  </div>
 </div></nav>
+<script>
+/* #apply deep link (How It Works page CTA, Peter 2026-07-30): scroll the visitor to the application
+   entry for WHICHEVER split-test arm their sticky cookie shows — Athena arm renders the "what role
+   are you" block (#athRole) inside #adqInlineHost; Original hero-form uses #adqInlineHost; popup-mode
+   Original falls back to the Apply Now header. Retries until the arm's form has mounted. */
+(function () {
+  if (location.hash !== '#apply') return;
+  var tries = 0;
+  var t = setInterval(function () {
+    tries++;
+    var el = document.getElementById('athRole');
+    if (!el || el.offsetHeight < 10) { var h = document.getElementById('adqInlineHost'); if (h && h.offsetHeight > 10) el = h; }
+    if ((!el || el.offsetHeight < 10) && tries > 20) el = document.getElementById('applyNowHdr');
+    if ((el && el.offsetHeight > 10) || tries > 40) {
+      clearInterval(t);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 150);
+})();
+</script>
 
 <header class="hero"><div class="wrap">
   <!-- Polaroids: drop date-1.jpg ... date-4.jpg into /concierge (images we own the rights to) and they fade in automatically. -->
