@@ -45,12 +45,12 @@
   '.athq{font-size:31px;font-weight:600;line-height:1.35;color:#2f3a2f}' +
   '.athd{font-size:18px;color:#5C665C;margin-top:12px}' +
   '.athops{margin-top:34px;display:flex;flex-direction:column;gap:24px}' +
-  '.athop{display:flex;align-items:center;gap:16px;cursor:pointer;font-size:21px;color:#333d33;-webkit-tap-highlight-color:transparent}' +
-  '.athop .r{flex:none;width:35px;height:35px;border-radius:50%;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
-  '.athop .c{flex:none;width:34px;height:34px;border-radius:8px;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
-  '.athop.on .r{border-color:#24352B;background:#24352B;box-shadow:inset 0 0 0 6px #fff}' +
+  '.athop{display:flex;align-items:center;gap:16px;cursor:pointer;font-size:19px;color:#333d33;-webkit-tap-highlight-color:transparent}' +
+  '.athop .r{flex:none;width:31px;height:31px;border-radius:50%;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
+  '.athop .c{flex:none;width:31px;height:31px;border-radius:8px;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
+  '.athop.on .r{border-color:#24352B;background:#24352B;box-shadow:inset 0 0 0 5px #fff}' +
   '.athop.on .c{border-color:#24352B;background:#24352B}' +
-  '.athop.on .c::after{content:"\\2713";position:absolute;inset:0;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center}' +
+  '.athop.on .c::after{content:"\\2713";position:absolute;inset:0;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center}' +
   '@keyframes athCd{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}' +
   '.athgo{display:none;margin-top:34px;width:100%;border:none;background:#24352B;color:#fff;font-family:inherit;font-size:18px;font-weight:600;padding:19px 0;border-radius:9px;cursor:pointer}' +
   '.athgo:hover{background:#1c2a22}' +
@@ -98,7 +98,7 @@
   '#athCol.outR{animation:athOutR .4s ease both}' +
   '#athCol.anim{animation:athIn .6s cubic-bezier(.25,.7,.3,1) both}' +
   '#athCol.animL{animation:athInL .6s cubic-bezier(.25,.7,.3,1) both}' +
-  '@media (max-width:760px){#athBody{padding:20px 16px 56px}#athRail{display:none !important}.athq{font-size:26px}.athd{font-size:16.5px}.athops{margin-top:26px;gap:20px}.athop{font-size:21px;gap:16px}.athop .r{width:42px;height:42px}.athop .c{width:40px;height:40px}.athcard{margin-top:28px;padding:20px 22px}.athwm{font-size:15px}#athHead{padding:12px 0}}' +
+  '@media (max-width:760px){#athBody{padding:20px 16px 56px}#athRail{display:none !important}.athq{font-size:26px}.athd{font-size:16.5px}.athops{margin-top:26px;gap:20px}.athop{font-size:19px;gap:16px}.athop .r{width:38px;height:38px}.athop .c{width:36px;height:36px}.athcard{margin-top:28px;padding:20px 22px}.athwm{font-size:15px}#athHead{padding:12px 0}}' +
   /* hero variant (arm B, before the takeover) */
   'html.athena-arm #heroCta,html.athena-arm #applyNowHdr{display:none !important}' +
   'html.athena-arm #adqInlineHost{display:block;width:100%;max-width:430px;margin:26px auto 0}' +
