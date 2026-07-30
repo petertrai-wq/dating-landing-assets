@@ -189,6 +189,7 @@
   '.abk-prog-bar{height:6px;background:#E3E8DF;border-radius:3px;overflow:hidden}' +
   '.abk-prog-bar i{display:block;height:100%;width:0;background:#24352B;transition:width .35s}' +
   '.abk-prog-pct{font-size:12.5px;color:#8a9288;margin-top:8px}' +
+  '.abk-prog-note{font-size:12.5px;color:#8a9288;margin-top:12px;line-height:1.45;max-width:340px;margin-left:auto;margin-right:auto}' +
   '@media (max-width:760px){.abk-grid{display:block}.abk-calwrap{width:100%;max-width:360px;margin:0 auto}.abk-slotcol{max-width:none}}';
   try { var stl = document.createElement('style'); stl.textContent = css; document.head.appendChild(stl); } catch (e) {}
 
@@ -701,7 +702,8 @@
     col.innerHTML = '<div class="abk"><div class="abk-prog"><div class="abk-spin"></div>' +
       '<div class="abk-prog-msg" id="abkPMsg">' + MSGS[0] + '</div>' +
       '<div class="abk-prog-bar"><i id="abkPBar"></i></div>' +
-      '<div class="abk-prog-pct" id="abkPPct">0%</div></div></div>';
+      '<div class="abk-prog-pct" id="abkPPct">0%</div>' +
+      '<div class="abk-prog-note">Please allow up to 30 seconds for your booking to go through &amp; redirect.</div></div></div>';
     var w = 0, mi = 0;
     var tick = setInterval(function () {
       w += (93 - w) * 0.08;
