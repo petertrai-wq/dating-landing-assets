@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real Results — Automated Dating</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/img/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#131210;--muted:#6d6a63;--bg:#ffffff;--soft:#f7f5f1;--line:#eceae4;--black:#141210;--green:#16a34a;--greenbg:#dcfce7}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Onest',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+  h1,h2{font-weight:700;letter-spacing:-0.02em;line-height:1.1}
+  .nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{display:inline-flex;background:var(--black);color:#fff;font-weight:700;font-size:14px;padding:8px 15px;border-radius:99px;text-decoration:none}
+  .head{text-align:center;padding:46px 0 10px}
+  .head h1{font-size:40px}
+  .head p{color:var(--muted);margin-top:10px;font-size:16.5px}
+  .claims{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .claim{font-size:13px;font-weight:700;background:var(--greenbg);color:var(--green);padding:6px 14px;border-radius:99px}
+  .pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:26px 0 8px;position:sticky;top:62px;background:rgba(255,255,255,.95);z-index:50}
+  .pill{border:1px solid var(--line);background:#fff;color:var(--ink);font-family:inherit;font-size:14px;font-weight:600;padding:9px 18px;border-radius:99px;cursor:pointer;transition:all .12s}
+  .pill.on{background:var(--black);color:#fff;border-color:var(--black)}
+  section.wall{display:none;padding:26px 0 60px}
+  section.wall.on{display:block}
+  .whead{max-width:640px;margin:0 auto 26px;text-align:center}
+  .whead h2{font-size:26px}
+  .whead p{color:var(--muted);margin-top:8px;font-size:15.5px}
+  .grid{columns:3 300px;column-gap:16px}
+  .card{break-inside:avoid;margin-bottom:16px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.05)}
+  .card img{width:100%;display:block}
+  .card .cap{padding:10px 14px;font-size:12.5px;color:var(--muted)}
+  .factcard{break-inside:avoid;margin-bottom:16px;background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .factcard .fh{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+  .factcard p{font-size:15.5px}
+  .factcard p b{color:var(--ink)}
+  .ba2{display:flex;gap:10px;padding:14px}
+  .ba2 .c{flex:1}
+  .ba2 img{border-radius:10px;aspect-ratio:3/4;object-fit:cover}
+  .ba2 .l{text-align:center;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+  footer{border-top:1px solid var(--line);padding:24px 0;text-align:center;color:var(--muted);font-size:13px}
+  @media(max-width:700px){.head h1{font-size:30px}.pills{top:62px}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="https://automated.dating/">Automated Dating</a>
+  <a class="brand" style="background:var(--soft);color:var(--ink);border:1px solid var(--line)" href="https://automated.dating/how-it-works/">How it works</a>
+</div></nav>
+
+<header class="head"><div class="wrap">
+  <h1>Real clients. Real texts. Real dates.</h1>
+  <p>Every screenshot below is a real message from a client — unedited, names covered.</p>
+  <div class="claims"><span class="claim">✓ 2x more matches with our photos</span><span class="claim">✓ First date in ~7 days</span><span class="claim">✓ You approve everything</span></div>
+</div></header>
+
+<div class="pills wrap" id="pills">
+  <button class="pill on" data-w="all">All wins</button>
+  <button class="pill" data-w="pro">Busy professionals</button>
+  <button class="pill" data-w="sa">South Asian professionals</button>
+  <button class="pill" data-w="45">45 and up</button>
+  <button class="pill" data-w="city">Smaller cities</button>
+  <button class="pill" data-w="dad">Dads</button>
+</div>
+
+<section class="wall on" data-w="all"><div class="wrap">
+  <div class="whead"><h2>The wins, straight from clients' phones</h2></div>
+  <div class="grid">
+    <div class="card"><img src="/img/step3-1.png" alt="" loading="lazy"><div class="cap">Client text — unprompted</div></div>
+    <div class="card"><img src="/img/testimonial-6232.jpg" alt="" loading="lazy"><div class="cap">Date in week two — better than a year of solo Hinge</div></div>
+    <div class="card"><img src="/img/testimonial-david-bumble.png" alt="" loading="lazy"><div class="cap">36 hours in</div></div>
+    <div class="card"><img src="/img/testimonial-three-dates.jpg" alt="" loading="lazy"><div class="cap">Three dates, three days</div></div>
+    <div class="card"><img src="/img/testimonial-new-profile-fire.png" alt="" loading="lazy"><div class="cap">After the photo upgrade</div></div>
+    <div class="card"><img src="/img/testimonial-ai-pics-difference.png" alt="" loading="lazy"><div class="cap">On the photo quality</div></div>
+    <div class="card"><img src="/img/step2-a.jpg" alt="" loading="lazy"><div class="cap">A date booked for a client — zero effort on his side</div></div>
+    <div class="card"><img src="/img/testimonial-hinge-matches.png" alt="" loading="lazy"><div class="cap">Match volume</div></div>
+    <div class="card"><img src="/img/testimonial-tiffany-new.png" alt="" loading="lazy"><div class="cap">Two dates lined up back-to-back</div></div>
+    <div class="card"><img src="/img/testimonial-good-time.jpg" alt="" loading="lazy"><div class="cap">Post-date check-in</div></div>
+  </div>
+</div></section>
+
+<section class="wall" data-w="pro"><div class="wrap">
+  <div class="whead"><h2>For guys whose time is the whole problem</h2><p>You could figure the apps out. You just can't afford the 10 hours a week it takes.</p></div>
+  <div class="grid">
+    <div class="card"><div class="ba2"><div class="c"><img src="/img/step1-before.jpg" alt=""><div class="l">Before</div></div><div class="c"><img src="/img/step1-after.jpg" alt=""><div class="l">After</div></div></div><div class="cap">Same client, our photo team</div></div>
+    <div class="card"><img src="/img/testimonial-hinge-raya.png" alt="" loading="lazy"><div class="cap">Hinge AND Raya firing after new photos</div></div>
+    <div class="card"><img src="/img/step3-2.png" alt="" loading="lazy"><div class="cap">A client renewing — "you delivered on our agreement"</div></div>
+    <div class="card"><img src="/img/testimonial-6302.jpg" alt="" loading="lazy"><div class="cap">Your concierge confirms venues around YOUR week</div></div>
+    <div class="factcard"><div class="fh">How it fits your calendar</div><p>Dates only land in windows <b>you</b> set. Travel weeks, deal crunches, gym schedule — we book around it, and you get a confirm text before anything is locked.</p></div>
+  </div>
+</div></section>
+
+<section class="wall" data-w="sa"><div class="wrap">
+  <div class="whead"><h2>South Asian professionals are our biggest client group</h2><p>Not a niche we dabble in — the majority of accounts we run right now.</p></div>
+  <div class="grid">
+    <div class="factcard"><div class="fh">Right now, on our phones</div><p><b>Five active South Asian professional accounts</b> are being run by our team as you read this — engineers, founders, and finance guys across the US and Canada. Ask on your call and we'll open live results.</p></div>
+    <div class="factcard"><div class="fh">Why photos matter most here</div><p>The single biggest lift we see for South Asian clients comes from the photo set. Better photos = the algorithm shows you to more women = everything downstream doubles.</p></div>
+    <div class="card"><img src="/img/testimonial-6232.jpg" alt="" loading="lazy"><div class="cap">Week-two date after joining</div></div>
+    <div class="card"><img src="/img/step2-a.jpg" alt="" loading="lazy"><div class="cap">Booked for a client, start to finish</div></div>
+  </div>
+</div></section>
+
+<section class="wall" data-w="45"><div class="wrap">
+  <div class="whead"><h2>45+ works. Ask our longest-running client.</h2><p>Age changes the strategy, not the outcome — different apps, different targeting, same result: dates on your calendar.</p></div>
+  <div class="grid">
+    <div class="factcard"><div class="fh">Talk to a client, not a sales page</div><p><b>Edward — 50, Miami</b> — is one of our longest-running clients and takes reference calls. Ask on your call and we'll connect you.</p></div>
+    <div class="factcard"><div class="fh">What changes at 45+</div><p>We shift app mix and age targeting to where your matches actually are, keep venues low-key, and screen hard for what <b>you</b> want — no "liabilities," your words honored.</p></div>
+    <div class="card"><img src="/img/testimonial-good-time.jpg" alt="" loading="lazy"><div class="cap">Post-date: "we met and had a good time"</div></div>
+    <div class="card"><img src="/img/step3-2.png" alt="" loading="lazy"><div class="cap">Delivered-as-agreed renewal</div></div>
+  </div>
+</div></section>
+
+<section class="wall" data-w="city"><div class="wrap">
+  <div class="whead"><h2>You don't need to live in New York</h2><p>Smaller market = less competition for a great profile. That math works in your favor.</p></div>
+  <div class="grid">
+    <div class="factcard"><div class="fh">Active accounts outside the big metros</div><p>We're running clients right now in <b>Cleveland, Kansas City, Greensboro, and Toronto</b> — plus the majors. Smaller pools respond faster to a professional profile, not slower.</p></div>
+    <div class="card"><img src="/img/testimonial-david-bumble.png" alt="" loading="lazy"><div class="cap">Quality uptick in 36 hours</div></div>
+    <div class="card"><img src="/img/testimonial-hinge-matches.png" alt="" loading="lazy"><div class="cap">Volume after relaunch</div></div>
+    <div class="factcard"><div class="fh">If your town is tight-knit</div><p>Discretion options: exclude your zip, target the next metro over, and your photos are always <b>you</b> — approved by you before anything goes live.</p></div>
+  </div>
+</div></section>
+
+<section class="wall" data-w="dad"><div class="wrap">
+  <div class="whead"><h2>Dating again, with kids in the picture</h2><p>Custody weeks, limited evenings, zero appetite for games — that's a scheduling problem, and scheduling is literally what we do.</p></div>
+  <div class="grid">
+    <div class="factcard"><div class="fh">Built around your weeks</div><p>Tell us your custody schedule once — dates only get booked on <b>your</b> free evenings, near home, at venues you pick. Nothing to remember, nothing double-booked.</p></div>
+    <div class="factcard"><div class="fh">Serious matches only</div><p>We qualify intent early in every conversation, in your voice — so the women who reach your calendar already know what they're looking for.</p></div>
+    <div class="card"><img src="/img/step3-1.png" alt="" loading="lazy"><div class="cap">Client text — unprompted</div></div>
+    <div class="card"><img src="/img/testimonial-good-time.jpg" alt="" loading="lazy"><div class="cap">The point of all of it</div></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">© Automated Dating · <a href="https://automated.dating/">automated.dating</a></div></footer>
+
+<script>
+document.getElementById('pills').addEventListener('click', function (e) {
+  var b = e.target.closest('.pill'); if (!b) return;
+  document.querySelectorAll('.pill').forEach(function (p) { p.classList.toggle('on', p === b); });
+  document.querySelectorAll('.wall').forEach(function (w) { w.classList.toggle('on', w.dataset.w === b.dataset.w); });
+  window.scrollTo({ top: 0 });
+});
+// deep link: /proof/#45 opens that wall
+(function () { var h = location.hash.replace('#', ''); if (!h) return; var b = document.querySelector('.pill[data-w="' + h + '"]'); if (b) b.click(); })();
+</script>
+</body>
+</html>
