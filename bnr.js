@@ -102,5 +102,38 @@
         }
       } catch (err) {}
     });
+    // ── "Before your call" video grid (SOP-28 confirmation videos, Peter 2026-07-30). Renders only
+    // when the page defines window.__TY_VIDEOS = [{key:'how-it-works', title:'How this actually
+    // works', url:'…'}] — every play fires ty_vid with the video key, so the sheet's per-video
+    // table fills itself the moment videos exist. url = YouTube embed URL or hosted mp4.
+    try {
+      var vids = window.__TY_VIDEOS || [];
+      if (vids.length) {
+        var vhost = document.createElement('div'); vhost.id = 'tyVids';
+        var vs = document.createElement('style');
+        vs.textContent = '#tyVids{max-width:860px;margin:26px auto;padding:0 18px}#tyVids h3{font-size:19px;margin:0 0 12px}#tyVids .tyv{display:block;width:100%;text-align:left;background:#101012;color:#fff;border:1px solid #2c2c30;border-radius:12px;padding:13px 15px;margin:8px 0;font-size:15px;cursor:pointer;font-family:inherit}#tyVids .tyv:hover{border-color:#e0655a}#tyVids .tyvPlayer{margin:8px 0 14px}#tyVids iframe,#tyVids video{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}';
+        document.head.appendChild(vs);
+        var h3v = document.createElement('h3'); h3v.textContent = 'Before your call: watch these';
+        vhost.appendChild(h3v);
+        vids.forEach(function (v) {
+          var vb = document.createElement('button'); vb.className = 'tyv'; vb.textContent = '▶ ' + v.title;
+          var holder = document.createElement('div'); holder.className = 'tyvPlayer'; holder.style.display = 'none';
+          vb.addEventListener('click', function () {
+            beacon('ty_vid', { utm_content: (v.key || v.title || '').slice(0, 60) });
+            if (holder.style.display === 'none') {
+              if (!holder.firstChild) {
+                if (/\.(mp4|mov|webm)/i.test(String(v.url))) { var ve = document.createElement('video'); ve.src = v.url; ve.controls = true; ve.autoplay = true; ve.playsInline = true; holder.appendChild(ve); }
+                else { var fr = document.createElement('iframe'); fr.src = v.url; fr.title = v.title; fr.allow = 'autoplay; fullscreen'; fr.allowFullscreen = true; holder.appendChild(fr); }
+              }
+              holder.style.display = '';
+            } else holder.style.display = 'none';
+          });
+          vhost.appendChild(vb); vhost.appendChild(holder);
+        });
+        var anchor = document.querySelector('.intro-grid');
+        if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(vhost, anchor.nextSibling);
+        else if (document.body) document.body.appendChild(vhost);
+      }
+    } catch (e) {}
   } catch (e) {}
 })();
