@@ -538,7 +538,7 @@
       return;
     }
     finishedView = 'booker';
-    try { pingEv('cal_shown', 'cal'); } catch (e) {}
+    try { navigator.sendBeacon(EP, new Blob([JSON.stringify({ event: 'cal_shown', page: 'cal', sid: sid, ab: (window.__ADQ_AB || 'c'), form: 'athena', email: (A.email || '') })], { type: 'text/plain' })); } catch (e) {}
     openInlineBooker();
   }
 
