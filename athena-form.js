@@ -37,6 +37,8 @@
   '.athserif{font-family:"Playfair Display",Georgia,serif}' +
   '#athHead{background:#F7F4ED;border-bottom:1px solid #E5E2D9;padding:16px 0;flex:0 0 auto}' +
   '#athHead .inr{max-width:1180px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:18px}' +
+  '.athtxtus{margin-left:auto;font-size:13.5px;font-weight:600;color:#3c463c;text-decoration:none;white-space:nowrap;opacity:.9}' +
+  '.athtxtus:hover{opacity:1}' +
   '#athBack{width:30px;height:30px;border-radius:7px;border:none;background:#CDD9CC;color:#2E3A30;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}' +
   '#athBack[hidden]{visibility:hidden;display:flex}' +
   '.athwm{font-size:18px;letter-spacing:.1em;font-weight:600;color:#111}' +
@@ -105,7 +107,7 @@
   '#athCol.outR{animation:athOutR .4s ease both}' +
   '#athCol.anim{animation:athIn .6s cubic-bezier(.25,.7,.3,1) both}' +
   '#athCol.animL{animation:athInL .6s cubic-bezier(.25,.7,.3,1) both}' +
-  '@media (max-width:760px){#athBody{padding:20px 16px 56px}#athRail{display:none !important}.athq{font-size:26px}.athd{font-size:16.5px}.athops{margin-top:26px;gap:20px}.athop{font-size:16px;gap:14px}.athop .r{width:32px;height:32px}.athop .c{width:31px;height:31px}.athcard{margin-top:28px;padding:20px 22px}.athwm{font-size:15px}#athHead{padding:12px 0}}' +
+  '@media (max-width:760px){#athBody{padding:20px 16px 56px}#athRail{display:none !important}.athq{font-size:26px}.athd{font-size:16.5px}.athops{margin-top:26px;gap:20px}.athop{font-size:16px;gap:14px}.athop .r{width:32px;height:32px}.athop .c{width:31px;height:31px}.athcard{margin-top:28px;padding:20px 22px}.athwm{font-size:15px}#athHead{padding:12px 0}.athtxtus{font-size:11.5px}}' +
   /* hero variant (arm B, before the takeover) */
   'html.athena-arm #heroCta,html.athena-arm #applyNowHdr{display:none !important}' +
   'html.athena-arm #adqInlineHost{display:block;width:100%;max-width:430px;margin:26px auto 0}' +
@@ -387,7 +389,7 @@
     if (ov) return;
     ov = document.createElement('div');
     ov.id = 'athOv';
-    ov.innerHTML = '<div id="athBnrSlot"></div><div id="athHead"><div class="inr"><button id="athBack">←</button><div class="athwm">AUTOMATED DATING</div></div></div>' +
+    ov.innerHTML = '<div id="athBnrSlot"></div><div id="athHead"><div class="inr"><button id="athBack">←</button><div class="athwm">AUTOMATED DATING</div><a class="athtxtus" href="sms:+13478732187">Questions? Text us: (347) 873-2187</a></div></div>' +
       '<div id="athBody"><div id="athCol"></div>' +
       '<div id="athRail"><div class="lbl">Match progress</div><div class="athring"><div class="pc"><b>6%</b><span>Complete</span></div></div><div class="note">Each answer helps us build your exact dating profile plan</div></div></div>';
     document.body.appendChild(ov);
