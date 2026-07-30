@@ -264,7 +264,7 @@
     try { navigator.sendBeacon(API, new Blob([payload(false)], { type: 'text/plain' })); } catch (e) {}
   });
 
-  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || '') || (!!A.start && !/^ASAP/.test(A.start)); }   // 50-100k DQ added 2026-07-22; ASAP-only start rule added 2026-07-28 (Peter: "dequeue anyone that doesn't say asap" — Next Week/Next Month now DQ) — keep in sync with relay tfLeadDisqualified/tfQualified
+  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || '') || (!!A.start && !/^(ASAP|Next Week)/i.test(A.start)); }   // 50-100k DQ added 2026-07-22; ASAP or Next Week qualify since 2026-07-30 (Peter: "allow... next week guys through"), Next Month still DQs — keep in sync with relay tfLeadDisqualified/tfQualified
   function hasAnswer(q) {
     if (q.type === 'multi') return (A[q.key] || []).length > 0;
     if (q.type === 'name') return !!(A.first && A.first.trim() && A.last && A.last.trim());

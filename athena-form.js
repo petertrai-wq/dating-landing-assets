@@ -249,7 +249,7 @@
       card: qi('👥', 'We work with professional men at every stage.') },
     { key: 'income', type: 'radio',
       title: "What's your annual income? (USD)",
-      opts: ['Under 150k', '150k to 200k', '200k+'] },
+      opts: ['Under 100k', '100k to 150k', '150k to 200k', '200k+'] },   // split 2026-07-30: 100-150k qualifies (red tier) — only sub-100k DQs
     { key: 'concerns', type: 'multi',
       title: 'Do you have any concerns about hiring a team to manage your dating apps?',
       desc: 'Understanding your concerns helps us address them early.',
@@ -264,7 +264,7 @@
       card: qq('"The likes you do get aren\'t women you\'re attracted to. I wanted fewer, better dates. That\'s exactly what this is."', 'C', 'Casey H.', 'CRO of a Series C company, Ogden UT', 'tw-casey.jpg') },
     { key: 'start', type: 'radio',
       title: 'What is your timeline for getting help?', desc: 'No pressure, this just helps us recommend next steps.',
-      opts: ['ASAP - this is a priority', 'Within the next month', 'In the next 2-3 months', 'Just exploring for now'],
+      opts: ['ASAP - this is a priority', 'Next week', 'Within the next month', 'In the next 2-3 months', 'Just exploring for now'],
       card: qi('✓', 'Clients get their first date on the calendar within 7 days.') },
     { type: 'contact' }
   ];
@@ -338,7 +338,7 @@
 
   // income maps onto the Original Form's GHL buckets; timeline posts verbatim as `start`.
   function incomeOut() { return A.income === '150k to 200k' ? '150k-200k' : (A.income || ''); }
-  function isDq() { return A.income === 'Under 150k' || !/^ASAP/.test(A.start || ''); }
+  function isDq() { return A.income === 'Under 100k' || A.income === 'Under 150k' /* legacy pre-2026-07-30 saved state */ || !/^(ASAP|Next week)/i.test(A.start || ''); }
 
   function payload(complete) {
     fsBump();
