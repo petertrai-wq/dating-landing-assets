@@ -211,7 +211,7 @@
   // Red tier (Peter 2026-07-22): income 100k-150k OR "Next Month" start → 15-min slots that may
   // triple-book (server mirrors this from the GHL contact; this is the low-latency hint). The
   // standalone /book page has no answers → standard tier; the server still re-derives red there.
-  function redLead() { return (A.income === '100k to 150k') || (A.start === 'Next Month') || (A.start === 'Next Week'); }   // Next Week added 2026-07-27 (16.7% show — red 15-min slots)
+  function redLead() { return (A.start === 'Next Month') || (A.start === 'Next Week'); }   // Next Week added 2026-07-27 (16.7% show — red 15-min slots); income 100-150k left the red tier 2026-07-30 (standard 30-min slot + normal double-booking rules)
   // E.164 normalizer: honors a typed +country, the selected country code, US 10/11-digit styles,
   // and 00-prefixed international dialing — the relay fires automations off this exact string.
   function phoneE164() {
