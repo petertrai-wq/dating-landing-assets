@@ -45,7 +45,7 @@
   '.athq{font-size:31px;font-weight:600;line-height:1.35;color:#2f3a2f}' +
   '.athd{font-size:18px;color:#5C665C;margin-top:12px}' +
   '.athops{margin-top:34px;display:flex;flex-direction:column;gap:24px}' +
-  '.athop{display:flex;align-items:center;gap:14px;cursor:pointer;font-size:16px;color:#333d33;-webkit-tap-highlight-color:transparent}' +
+  '.athop{display:flex;align-items:center;gap:14px;cursor:pointer;font-size:17.5px;color:#333d33;-webkit-tap-highlight-color:transparent}' +
   '.athop .r{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
   '.athop .c{flex:none;width:26px;height:26px;border-radius:8px;border:2px solid #C4CDC0;background:#fff;transition:all .12s;position:relative}' +
   '.athop.on .r{border-color:#24352B;background:#24352B;box-shadow:inset 0 0 0 4px #fff}' +
@@ -105,7 +105,7 @@
   '#athCol.outR{animation:athOutR .4s ease both}' +
   '#athCol.anim{animation:athIn .6s cubic-bezier(.25,.7,.3,1) both}' +
   '#athCol.animL{animation:athInL .6s cubic-bezier(.25,.7,.3,1) both}' +
-  '@media (max-width:760px){#athBody{padding:20px 16px 56px}#athRail{display:none !important}.athqual{display:flex}.athq{font-size:26px}.athd{font-size:16.5px}.athops{margin-top:26px;gap:20px}.athop{font-size:16px;gap:14px}.athop .r{width:32px;height:32px}.athop .c{width:31px;height:31px}.athcard{margin-top:28px;padding:20px 22px}.athwm{font-size:15px}#athHead{padding:12px 0}}' +
+  '@media (max-width:760px){#athBody{padding:20px 16px 56px}#athRail{display:none !important}.athqual{display:flex}.athq{font-size:26px}.athd{font-size:16.5px}.athops{margin-top:26px;gap:20px}.athop{font-size:17.5px;gap:14px}.athop .r{width:32px;height:32px}.athop .c{width:31px;height:31px}.athcard{margin-top:28px;padding:20px 22px}.athwm{font-size:15px}#athHead{padding:12px 0}}' +
   /* hero variant (arm B, before the takeover) */
   'html.athena-arm #heroCta,html.athena-arm #applyNowHdr{display:none !important}' +
   'html.athena-arm #adqInlineHost{display:block;width:100%;max-width:430px;margin:26px auto 0}' +
@@ -198,9 +198,8 @@
   var qq = function (quote, initial, name, role, img) { return { kind: 'quote', quote: quote, initial: initial, name: name, role: role, img: img ? PIC + img : null }; };
   var STEPS = [
     { key: 'usedApps', type: 'radio', rail: true,
-      title: 'Have you ever worked with a dating app management team?',
-      desc: 'Many of our clients are getting real help for the first time.',
-      opts: ['No, never', 'Yes, I have one now', 'Yes, but not currently'] },
+      title: 'Have you ever used any dating apps?',
+      opts: ['No, never', 'Yes, I have them now', 'Yes, but not currently'] },
     { key: 'hours', type: 'radio',
       title: "In a typical week, how much of your time goes to dating-related things that don't actually require you to do them?",
       opts: ['Less than 2 hours', '2–6 hours', '6–10 hours', '10+ hours', "Honestly, I've never counted"],
@@ -210,7 +209,7 @@
       opts: ['0', '1-2', '3-4', '5+'] },
     { key: 'tried', type: 'radio',
       title: 'What have you tried so far to improve your dating life?',
-      opts: ['AI photos or a real photo shoot', 'Matchmakers', 'Deleting dating apps', 'Hiring someone', 'A mix of the above', "Haven't tried anything systematically"],
+      opts: ['AI photos or a real photo shoot', 'Matchmakers', 'Deleting dating apps', 'Coaching', 'A mix of the above', "Haven't tried anything systematically"],
       card: qi('⚙', 'Apps are great for landing high-quality dates, but someone still has to run them every single day.') },
     { key: 'datinglife', type: 'radio',
       title: 'Which best describes your current dating situation?', desc: 'Choose the closest match.',
