@@ -73,7 +73,7 @@
   '.athring .pc b{font-size:19px;color:#222c22}' +
   '.athring .pc span{font-size:8px;letter-spacing:.1em;color:#778076;text-transform:uppercase}' +
   // Inline qualify card on the FIRST question (Peter 2026-07-30, styled off Athena's "Finding your EA match")
-  '.athqual{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #E3E0D5;border-radius:14px;padding:13px 16px;margin-bottom:24px;box-shadow:0 1px 8px rgba(0,0,0,.04)}' +
+  '.athqual{display:none;align-items:center;gap:14px;background:#fff;border:1px solid #E3E0D5;border-radius:14px;padding:13px 16px;margin-bottom:24px;box-shadow:0 1px 8px rgba(0,0,0,.04)}' +
   '.athqual .ring{flex:none;width:46px;height:46px;border-radius:50%;position:relative;background:conic-gradient(#24352B 0deg 22deg,#E3E0D5 22deg 360deg)}' +
   '.athqual .ring::after{content:"";position:absolute;inset:5px;background:#fff;border-radius:50%}' +
   '.athqual .ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#222c22;z-index:1}' +
@@ -105,7 +105,7 @@
   '#athCol.outR{animation:athOutR .4s ease both}' +
   '#athCol.anim{animation:athIn .6s cubic-bezier(.25,.7,.3,1) both}' +
   '#athCol.animL{animation:athInL .6s cubic-bezier(.25,.7,.3,1) both}' +
-  '@media (max-width:760px){#athBody{padding:20px 16px 56px}#athRail{display:none !important}.athq{font-size:26px}.athd{font-size:16.5px}.athops{margin-top:26px;gap:20px}.athop{font-size:16px;gap:14px}.athop .r{width:32px;height:32px}.athop .c{width:31px;height:31px}.athcard{margin-top:28px;padding:20px 22px}.athwm{font-size:15px}#athHead{padding:12px 0}}' +
+  '@media (max-width:760px){#athBody{padding:20px 16px 56px}#athRail{display:none !important}.athqual{display:flex}.athq{font-size:26px}.athd{font-size:16.5px}.athops{margin-top:26px;gap:20px}.athop{font-size:16px;gap:14px}.athop .r{width:32px;height:32px}.athop .c{width:31px;height:31px}.athcard{margin-top:28px;padding:20px 22px}.athwm{font-size:15px}#athHead{padding:12px 0}}' +
   /* hero variant (arm B, before the takeover) */
   'html.athena-arm #heroCta,html.athena-arm #applyNowHdr{display:none !important}' +
   'html.athena-arm #adqInlineHost{display:block;width:100%;max-width:430px;margin:26px auto 0}' +
@@ -432,7 +432,7 @@
     var h = '';
     if (s.almost) h += '<div class="athalmost"><div class="athbar"><i style="width:55%"></i></div><h1 class="athserif">You’re almost there!</h1><p>Just a few more questions to help us build your exact done-for-you dating app strategy.</p><hr></div>';
     if (s.type === 'radio' || s.type === 'multi') {
-      if (step === 0) h += '<div class="athqual"><div class="ring"><b>6%</b></div><div><div class="tt">Seeing if you qualify</div><div class="ss">Each answer helps us know if this will work for you.</div></div></div>';
+      if (step === 0) h += '<div class="athqual"><div class="ring"><b>6%</b></div><div><div class="ss">Each answer helps us build your exact dating profile plan.</div></div></div>';
       h += '<div class="athq">' + esc(s.title) + '</div>';
       if (s.desc) h += '<div class="athd">' + esc(s.desc) + '</div>';
       h += '<div class="athops">' + s.opts.map(function (o, i) {
