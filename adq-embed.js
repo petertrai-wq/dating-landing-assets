@@ -77,7 +77,7 @@
     if (!m5) document.cookie = 'adq_invq=' + INVQ + ';max-age=15552000;path=/;domain=.automated.dating';
   } catch (e) {}
   function invqTest() { return A.income === '150k-200k' || A.income === '200k+'; }   // the 50/50 price test cohort (Peter 2026-07-27: keep clean data on 150k+)
-  function invqPriceShown() { return A.income === '100k to 150k' || (invqTest() && INVQ === 'qb'); }   // 100-150k ALWAYS sees the price (self-DQ filter); still books on Yes
+  function invqPriceShown() { return A.income === '100k to 150k'; }   // 100-150k ALWAYS sees the price (self-DQ filter); ST5 price arm for 150k+ KILLED 2026-07-30 (Peter: 17.6% vs 52.4% Yes — the price line suppressed bookings and confounded ST10)
   var submitted = false, partialSent = false, finished = '';
   var token = '';
   function newToken() { return 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12); }
