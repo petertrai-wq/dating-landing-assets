@@ -722,6 +722,7 @@
           if (m) m.textContent = 'Booked! Loading your confirmation...';
           try { clearState(); sessionStorage.removeItem('ath_token'); } catch (e) {}
           try { if (email) localStorage.setItem('adq_em', String(email).toLowerCase().trim().slice(0, 120)); } catch (e) {}
+          try { localStorage.setItem('adq_book', JSON.stringify({ iso: abk.slot, f: first.trim(), l: A.last || '', p: phone.trim(), e: String(email).toLowerCase().trim(), ts: Date.now() })); } catch (e) {}   // /thankyou reschedule popup reads this (Peter 2026-07-30)
           setTimeout(function () { window.location.href = '/thankyou/'; }, 400);
           return;
         }

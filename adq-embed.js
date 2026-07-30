@@ -657,6 +657,7 @@
           if (m) m.textContent = 'Booked! Loading your confirmation...';
           try { clearState(); sessionStorage.removeItem('adq_token'); } catch (e) {}
           try { if (email) localStorage.setItem('adq_em', String(email).toLowerCase().trim().slice(0, 120)); } catch (e) {}   // /thankyou engagement tracking joins by this (Split Test 8)
+          try { if (!PHOTOPAGE) localStorage.setItem('adq_book', JSON.stringify({ iso: bk.slot, f: first.trim(), l: A.last || '', p: phone.trim(), e: String(email).toLowerCase().trim(), ts: Date.now() })); } catch (e) {}   // /thankyou reschedule popup reads this (Peter 2026-07-30)
           setTimeout(function () { window.location.href = PHOTOPAGE ? '/photo-thankyou/' : '/thankyou/'; }, 400);   // photo consults land on the PIXEL-FREE twin — no Meta URL rule can ever see them (Peter 2026-07-27)
           return;
         }
