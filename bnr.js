@@ -14,8 +14,18 @@
     var sid;
     try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } }
     catch (e) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
+    // Identity for thank-you engagement (Peter 2026-07-31 "attribute watch time to contacts"):
+    // adq_em is written by BOTH forms at submit, but a lead who lands on /thankyou from the GHL
+    // calendar hop (or a fresh tab) has no adq_em — fall back to the booking stash the resched
+    // popup already keeps, then to an ?email= param. Without one of these the watch time is
+    // anonymous and can never reach a contact or revenue.
     var em = '';
-    if (TY) { try { em = (localStorage.getItem('adq_em') || '').slice(0, 120); } catch (e) {} }
+    if (TY) {
+      try { em = (localStorage.getItem('adq_em') || '').slice(0, 120); } catch (e) {}
+      if (!em) { try { var _bk = JSON.parse(localStorage.getItem('adq_book') || 'null'); if (_bk && _bk.e) em = String(_bk.e).toLowerCase().slice(0, 120); } catch (e) {} }
+      if (!em) { try { var _qe = new URLSearchParams(location.search).get('email'); if (_qe && /^.+@.+\..+$/.test(_qe)) em = _qe.toLowerCase().slice(0, 120); } catch (e) {} }
+      if (em) { try { localStorage.setItem('adq_em', em); } catch (e) {} }
+    }
     function beacon(ev, extra) {
       try {
         var d = { event: ev, sid: sid, page: 's' };   // s = static banner (post-split-test)
