@@ -233,7 +233,7 @@
       card: qi('✓', 'Our clients gain an average of 10 hours a week back after delegating.') },
     { key: 'handled', type: 'multi',
       title: 'Which of these would you want handled for you?', desc: 'Select at least one.',
-      opts: ['Fast follow up with warm leads', 'High volume of outreach to your exact type', "Scheduling dates in cities you're headed to", 'Constant photo optimization', 'Data backed messaging best practices', 'Weekly report of your matches, dates and pipeline', 'All of the above (most popular)'],
+      opts: ['Fast follow up with warm leads', 'High volume of outreach to your exact type', "Scheduling dates in cities I'm headed to", 'Constant photo optimization', 'Data backed messaging best practices', 'Weekly report of your matches, dates and pipeline', 'All of the above (most popular)'],
       card: qi('✓', 'Your team runs it end to end. You just show up.') },
     { key: 'age', type: 'radio', almost: true,
       title: 'How old are you?',
