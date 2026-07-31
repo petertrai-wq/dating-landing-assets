@@ -375,34 +375,12 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
       });
       return entry;
     }
+    // Hero autoplay REMOVED (Peter 2026-07-31 "leave it as a thumbnail like the rest of them") —
+    // every card, hero included, sits as its facade until tapped.
     document.querySelectorAll('.video-frame[data-yt]').forEach(function (w) {
       var btn = w.querySelector('.vfac'); if (!btn) return;
       btn.addEventListener('click', function () { activate(w, false); });
     });
-    var hero = document.querySelector('.featured .video-frame[data-yt]');
-    if (hero) {
-      var heroEntry = activate(hero, true);
-      // YouTube defers autoplay while the tab is hidden (background-tab open, app switcher) —
-      // kick it the moment the page becomes visible so "refresh → it's playing" always holds.
-      document.addEventListener('visibilitychange', function () {
-        try {
-          if (!document.hidden && heroEntry && current === heroEntry && heroEntry.auto && heroEntry.player
-              && heroEntry.player.getPlayerState && heroEntry.player.getPlayerState() !== 1) heroEntry.player.playVideo();
-        } catch (e) {}
-      });
-      // Unmuting the autoplaying hero (YouTube's own volume button lives inside the iframe, so
-      // poll) = real engagement: from then on its watch time counts like a clicked video.
-      var unmutePoll = setInterval(function () {
-        try {
-          if (!heroEntry || current !== heroEntry) { clearInterval(unmutePoll); return; }
-          if (heroEntry.auto && heroEntry.player && heroEntry.player.isMuted && !heroEntry.player.isMuted()) {
-            heroEntry.auto = false;
-            emit(hero, { playing: heroEntry.player.getPlayerState() === 1, engaged: true });
-            clearInterval(unmutePoll);
-          }
-        } catch (e) {}
-      }, 2000);
-    }
   })();
   </script>
 
