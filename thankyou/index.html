@@ -336,19 +336,16 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
       // referrer-less embeds with Error 153) and autoplay rides in the src — playback never
       // waits on the API. The API then attaches to the EXISTING iframe purely for control
       // (one-tap playVideo on iOS) and real state events.
-      // auto === true → muted autoplay; auto === 'sound' → attempt UNMUTED autoplay (hero:
-      // Peter 2026-07-31 "unmute it upon load") — the hero verifier below falls back to
-      // muted + a tap-for-sound pill when the browser's autoplay policy refuses sound.
       var fr = document.createElement('iframe');
       fr.src = 'https://www.youtube.com/embed/' + w.getAttribute('data-yt')
-        + '?enablejsapi=1&autoplay=1&rel=0&playsinline=1' + (auto === true ? '&mute=1' : '')
+        + '?enablejsapi=1&autoplay=1&rel=0&playsinline=1' + (auto ? '&mute=1' : '')
         + '&origin=' + encodeURIComponent(location.origin);
       fr.title = w.getAttribute('data-vtitle') || '';
       fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       fr.referrerPolicy = 'strict-origin-when-cross-origin';
       fr.allowFullscreen = true;
       w.replaceChild(fr, btn);
-      var entry = { w: w, btn: btn, player: null, auto: auto === true };
+      var entry = { w: w, btn: btn, player: null, auto: !!auto };
       current = entry;
       withYT(function () {
         if (current !== entry) return;
@@ -384,47 +381,12 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     });
     var hero = document.querySelector('.featured .video-frame[data-yt]');
     if (hero) {
-      // Try autoplay WITH SOUND first (Peter 2026-07-31). Browsers allow it only for sites the
-      // visitor has engaged with before (Chrome MEI) — when the policy refuses, the verifier
-      // below drops to muted autoplay + a tap-for-sound pill (one tap restores audio).
-      var heroEntry = activate(hero, 'sound');
-      var heroPill = function () {
-        if (!hero.querySelector('iframe') || document.getElementById('tyHeroSnd')) return;
-        var b = document.createElement('button');
-        b.id = 'tyHeroSnd'; b.type = 'button';
-        b.textContent = '🔊 Tap for sound';
-        b.style.cssText = 'position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:5;background:rgba(20,18,16,.88);color:#F5F1E6;border:1.5px solid #C9A85C;border-radius:999px;padding:10px 18px;font:600 14px Figtree,sans-serif;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.35)';
-        b.addEventListener('click', function (e) {
-          e.stopPropagation();
-          try { heroEntry.player.unMute(); heroEntry.player.playVideo(); } catch (err) {}
-          b.remove();
-        });
-        hero.appendChild(b);
-      };
-      // Sound verifier: give the unmuted attempt a beat after the API attaches; if it never
-      // reached PLAYING/BUFFERING, the policy blocked it — restart muted so the "plays on
-      // load" behavior survives, and offer the pill.
-      var soundChecks = 0;
-      var soundPoll = setInterval(function () {
-        try {
-          if (!heroEntry || current !== heroEntry) { clearInterval(soundPoll); return; }
-          if (!heroEntry.player || !heroEntry.player.getPlayerState) return;   // API not attached yet
-          var st = heroEntry.player.getPlayerState();
-          if (st === 1 || st === 3) { clearInterval(soundPoll); return; }      // playing with sound — done
-          if (document.hidden) return;                                         // hidden tab defers autoplay; judge only while visible
-          if (++soundChecks >= 3) {
-            clearInterval(soundPoll);
-            heroEntry.auto = true;                                             // muted autoplay = not engaged (tracking)
-            heroEntry.player.mute(); heroEntry.player.playVideo();
-            heroPill();
-          }
-        } catch (e) {}
-      }, 900);
+      var heroEntry = activate(hero, true);
       // YouTube defers autoplay while the tab is hidden (background-tab open, app switcher) —
       // kick it the moment the page becomes visible so "refresh → it's playing" always holds.
       document.addEventListener('visibilitychange', function () {
         try {
-          if (!document.hidden && heroEntry && current === heroEntry && heroEntry.player
+          if (!document.hidden && heroEntry && current === heroEntry && heroEntry.auto && heroEntry.player
               && heroEntry.player.getPlayerState && heroEntry.player.getPlayerState() !== 1) heroEntry.player.playVideo();
         } catch (e) {}
       });
@@ -436,7 +398,6 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
           if (heroEntry.auto && heroEntry.player && heroEntry.player.isMuted && !heroEntry.player.isMuted()) {
             heroEntry.auto = false;
             emit(hero, { playing: heroEntry.player.getPlayerState() === 1, engaged: true });
-            var pl = document.getElementById('tyHeroSnd'); if (pl) pl.remove();
             clearInterval(unmutePoll);
           }
         } catch (e) {}
