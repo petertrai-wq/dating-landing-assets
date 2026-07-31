@@ -86,10 +86,14 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     -webkit-font-smoothing: antialiased;
   }
   .bgCover { display: none !important; }
+  /* Banner retired on this page (2026-07-31): the GHL wrapper paddings left a ~40px dark gap
+     above the header — collapse them so the header sits at the very top. */
+  .hl_page-preview--content .section-r7vtYe6RqU, .hl_page-preview--content .row-BgACfqJDWH,
+  .hl_page-preview--content .col-_z4edEaoCo { padding-top: 0 !important; }
 
-  /* ── HEADER ── */
+  /* ── HEADER (Peter 2026-07-31: no bubble, wordmark matches the page's serif) ── */
   .site-header {
-    padding: 16px 24px;
+    padding: 18px 24px 14px;
     display: flex; justify-content: center; align-items: center;
     border-bottom: 1px solid var(--line);
     position: sticky; top: 0; z-index: 100;
@@ -97,8 +101,8 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
   }
-  .site-logo { display: inline-block; background: var(--cream); color: var(--ink); font-weight: 700; font-size: 14.5px; letter-spacing: -0.01em; padding: 8px 16px; border-radius: 99px; }
-  .site-logo span { color: var(--gold-deep); }
+  .site-logo { display: inline-block; background: none; color: var(--cream); font-family: 'Playfair Display', Georgia, serif; font-weight: 500; font-size: 21px; letter-spacing: -.005em; padding: 0; border-radius: 0; }
+  .site-logo span { color: var(--gold); font-style: italic; }
 
   /* ── PAGE WRAP ── */
   .page-wrapper { max-width: 1060px; margin: 0 auto; padding: 54px 22px 90px; }
@@ -211,7 +215,7 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     </div>
 
     <div class="welcome-text">
-      <p>We look forward to speaking with you at your scheduled appointment time. Please be in a quiet spot where we can talk about your goals.</p>
+      <p id="tyWhen">We look forward to speaking with you at your scheduled appointment time. Please be in a quiet spot where we can talk about your goals.</p>
       <p id="tyResched"></p>
     </div>
 
@@ -362,7 +366,13 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
         if (current !== entry) return;
         entry.player = new YT.Player(fr, {
           events: {
-            onReady: function (ev) { try { if (entry.auto) ev.target.mute(); ev.target.playVideo(); } catch (e) {} },
+            onReady: function (ev) {
+              try { if (entry.auto) ev.target.mute(); ev.target.playVideo(); } catch (e) {}
+              // iOS sometimes swallows the first play command right at ready — nudge once more
+              // so the facade tap always starts playback (no second press on YouTube's button).
+              setTimeout(function () { try { if (current === entry && entry.player && entry.player.getPlayerState() !== 1) entry.player.playVideo(); } catch (e) {} }, 650);
+              setTimeout(function () { try { if (current === entry && entry.player && entry.player.getPlayerState() !== 1) entry.player.playVideo(); } catch (e) {} }, 1600);
+            },
             onStateChange: function (ev) {
               var playing = ev.data === YT.PlayerState.PLAYING;
               var muted = false; try { muted = !!ev.target.isMuted(); } catch (e) {}
@@ -392,6 +402,10 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
       var btn = w.querySelector('.vfac'); if (!btn) return;
       btn.addEventListener('click', function () { activate(w, false); });
     });
+    // Pre-warm the IFrame API at page load. When it loaded lazily on the FIRST tap, the tap's
+    // user-activation window expired before onReady→playVideo() ran — that's the mobile
+    // "tap the thumbnail, then tap YouTube's play button too" bug (Peter 2026-07-31).
+    withYT(function () {});
   })();
   </script>
 
@@ -503,6 +517,27 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     try { bk = JSON.parse(localStorage.getItem('adq_book') || 'null'); } catch (e) {}
     var fresh = bk && bk.iso && bk.e && Date.now() - (bk.ts || 0) < 14 * 86400000 && Date.parse(bk.iso) > Date.now();
     var fmt = function (iso) { var d = new Date(iso); return d.toLocaleString(undefined, { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }); };
+    // Dynamic appointment line (Peter 2026-07-31): "later today at 8:30 PM EDT" / "tomorrow at
+    // 7:00 PM CST" / "on Friday at …" in the VISITOR's own timezone. Runs only when the booking
+    // stash passed every freshness guard (parseable, theirs, under 14 days old, still in the
+    // future) — any doubt and the generic line stays, so it can never claim a wrong time.
+    try {
+      var wp = document.getElementById('tyWhen');
+      if (wp && fresh) {
+        var ad = new Date(bk.iso);
+        var dayKey = function (x) { return x.toLocaleDateString('en-CA'); };
+        var now2 = new Date();
+        var when;
+        if (dayKey(ad) === dayKey(now2)) when = 'later today';
+        else if (dayKey(ad) === dayKey(new Date(now2.getTime() + 86400000))) when = 'tomorrow';
+        else {
+          var daysOut = Math.round((ad.getTime() - now2.getTime()) / 86400000);
+          when = 'on ' + ad.toLocaleDateString(undefined, daysOut > 5 ? { weekday: 'long', month: 'long', day: 'numeric' } : { weekday: 'long' });
+        }
+        var tstr = ad.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+        wp.textContent = 'We look forward to speaking with you ' + when + ' at ' + tstr + '. Please be in a quiet spot where we can talk about your goals.';
+      }
+    } catch (e) {}
     if (!fresh) { line.innerHTML = 'Need to move your call? Text us at <a href="sms:+16468329166" style="color:#C9A85C;font-weight:600">(646) 832-9166</a>.'; return; }
     var render = function () { line.innerHTML = 'If you won\'t be in a quiet place at <b>' + fmt(bk.iso) + '</b> then please <a href="#" id="tyRsLink" style="color:#C9A85C;font-weight:700;text-decoration:underline">reschedule here</a>.'; document.getElementById('tyRsLink').addEventListener('click', function (ev) { ev.preventDefault(); open(); }); };
     var css = document.createElement('style');
