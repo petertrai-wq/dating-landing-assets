@@ -45,7 +45,7 @@
     var hideQA = /[?&]bnr=n\b/.test(location.search);
     var dismissed = false;
     try { dismissed = sessionStorage.getItem('adq_bnr_x') === '1'; } catch (e) {}
-    if (live && !hideQA && !dismissed) {
+    if (live && !hideQA && !dismissed && !TY) {   // Peter 2026-07-31: no banner on the thank-you page (its eyebrow carries the price message)
       try {
         var fl = document.createElement('link'); fl.rel = 'stylesheet';
         fl.href = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap';

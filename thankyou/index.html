@@ -185,9 +185,15 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
 
   <!-- ═══ CONGRATULATIONS HEADER ═══ -->
   <div class="section-head section-head--top">
-    <p class="eyebrow">Booking confirmed</p>
+    <p class="eyebrow" id="tyEyebrow">Booking confirmed</p>
     <h1>Congratulations &mdash; <span class="gradient">your profile audit is pending</span></h1>
   </div>
+  <script>
+  /* Price-increase eyebrow (Peter 2026-07-31): urgency copy until the increase moment (end of
+     Aug 1 ET, same deadline as the retired banner), then this no-ops and the "Booking confirmed"
+     default above is back — no redeploy needed. */
+  try { if (Date.now() < new Date('2026-08-02T00:00:00-04:00').getTime()) document.getElementById('tyEyebrow').textContent = 'You made it just in time! Our prices are about to go up after Aug 1.'; } catch (e) {}
+  </script>
 
   <!-- ═══ WARNING + WELCOME ═══ -->
   <div class="intro-grid">
@@ -567,5 +573,5 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   } catch (e) {}
 })();
 </script>
-<script src="/bnr.js?v=20260801a" defer></script></body>
+<script src="/bnr.js?v=20260801b" defer></script></body>
 </html>
