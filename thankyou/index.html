@@ -113,6 +113,7 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   .welcome-text strong { color: var(--cream); }
   #tyResched { font-size: 14.5px; }
   #tyResched a { color: var(--gold); font-weight: 600; }
+  #tyResched a:hover { color: var(--cream); }
 
   /* ── VIDEO CARDS (cream facades — question lives in the TOP half so no YouTube
        title bar / watermark ever covers it; click swaps in the real embed) ── */
@@ -425,19 +426,19 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     try { bk = JSON.parse(localStorage.getItem('adq_book') || 'null'); } catch (e) {}
     var fresh = bk && bk.iso && bk.e && Date.now() - (bk.ts || 0) < 14 * 86400000 && Date.parse(bk.iso) > Date.now();
     var fmt = function (iso) { var d = new Date(iso); return d.toLocaleString(undefined, { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }); };
-    if (!fresh) { line.innerHTML = 'Need to move your call? Text us at <a href="sms:+16468329166" style="color:#e0655a;font-weight:600">(646) 832-9166</a> and we\'ll sort it out.'; return; }
-    var render = function () { line.innerHTML = 'If you won\'t be in a quiet place at <b>' + fmt(bk.iso) + '</b> then please <a href="#" id="tyRsLink" style="color:#e0655a;font-weight:700;text-decoration:underline">reschedule here</a>.'; document.getElementById('tyRsLink').addEventListener('click', function (ev) { ev.preventDefault(); open(); }); };
+    if (!fresh) { line.innerHTML = 'Need to move your call? Text us at <a href="sms:+16468329166" style="color:#C9A85C;font-weight:600">(646) 832-9166</a> and we\'ll sort it out.'; return; }
+    var render = function () { line.innerHTML = 'If you won\'t be in a quiet place at <b>' + fmt(bk.iso) + '</b> then please <a href="#" id="tyRsLink" style="color:#C9A85C;font-weight:700;text-decoration:underline">reschedule here</a>.'; document.getElementById('tyRsLink').addEventListener('click', function (ev) { ev.preventDefault(); open(); }); };
     var css = document.createElement('style');
     css.textContent = '#tyRsOv{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:400;display:flex;align-items:center;justify-content:center;padding:16px}'
       + '#tyRsCard{background:#101014;border:1px solid #2d2d33;border-radius:16px;max-width:430px;width:100%;max-height:86vh;overflow-y:auto;padding:20px;color:#fff;font-family:inherit}'
       + '#tyRsCard h3{margin:0 0 4px;font-size:19px}#tyRsCard .sub{color:#9a9aa2;font-size:13px;margin-bottom:12px}'
       + '.tyRsDay{display:inline-block;background:#1b1b21;border:1px solid #2d2d33;border-radius:999px;padding:7px 13px;margin:0 6px 8px 0;font-size:13.5px;cursor:pointer}'
-      + '.tyRsDay.on{background:#e0655a;border-color:#e0655a;font-weight:700}'
+      + '.tyRsDay.on{background:#C9A85C;border-color:#C9A85C;font-weight:700}'
       + '.tyRsSlot{display:inline-block;background:#1b1b21;border:1px solid #2d2d33;border-radius:9px;padding:9px 12px;margin:0 6px 8px 0;font-size:14px;cursor:pointer}'
-      + '.tyRsSlot.on{background:#e0655a;border-color:#e0655a;font-weight:700}'
-      + '#tyRsGo{display:block;width:100%;margin-top:12px;background:#e0655a;color:#fff;border:none;border-radius:10px;padding:13px;font-size:15.5px;font-weight:700;cursor:pointer}'
+      + '.tyRsSlot.on{background:#C9A85C;border-color:#C9A85C;font-weight:700}'
+      + '#tyRsGo{display:block;width:100%;margin-top:12px;background:#C9A85C;color:#fff;border:none;border-radius:10px;padding:13px;font-size:15.5px;font-weight:700;cursor:pointer}'
       + '#tyRsGo[disabled]{opacity:.45;cursor:default}#tyRsX{float:right;background:none;border:none;color:#9a9aa2;font-size:19px;cursor:pointer}'
-      + '#tyRsMsg{font-size:13px;margin-top:9px;color:#e0655a;min-height:16px}';
+      + '#tyRsMsg{font-size:13px;margin-top:9px;color:#C9A85C;min-height:16px}';
     document.head.appendChild(css);
     var st = { dates: null, day: null, slot: null, busy: false };
     var open = function () {
@@ -454,7 +455,7 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
       fetch('https://admin.automated.dating/api/apply/slots').then(function (r) { return r.json(); }).then(function (j) {
         st.dates = (j && j.dates) || {};
         var keys = Object.keys(st.dates).filter(function (k) { return (st.dates[k] || []).length; }).sort();
-        if (!keys.length) { document.getElementById('tyRsBody').innerHTML = 'No open times right now — text us at <a href="sms:+16468329166" style="color:#e0655a">(646) 832-9166</a>.'; return; }
+        if (!keys.length) { document.getElementById('tyRsBody').innerHTML = 'No open times right now — text us at <a href="sms:+16468329166" style="color:#C9A85C">(646) 832-9166</a>.'; return; }
         st.day = keys[0]; paint(keys);
       }).catch(function () { var b = document.getElementById('tyRsBody'); if (b) b.textContent = 'Could not load times — check your connection and try again.'; });
     };
@@ -488,17 +489,17 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
           render();
           setTimeout(function () { var ov = document.getElementById('tyRsOv'); if (ov) ov.remove(); }, 3200);
         } else if (j && /just taken/i.test(String(j.error || ''))) {
-          if (msg) { msg.style.color = '#e0655a'; msg.textContent = 'That time was just taken — pick another.'; }
+          if (msg) { msg.style.color = '#C9A85C'; msg.textContent = 'That time was just taken — pick another.'; }
           load();
         } else {
-          if (msg) { msg.style.color = '#e0655a'; msg.textContent = (j && j.error) || 'Could not reschedule — try again or text us at (646) 832-9166.'; }
+          if (msg) { msg.style.color = '#C9A85C'; msg.textContent = (j && j.error) || 'Could not reschedule — try again or text us at (646) 832-9166.'; }
           sync();
         }
-      }).catch(function () { st.busy = false; if (msg) { msg.style.color = '#e0655a'; msg.textContent = 'Network hiccup — try again.'; } sync(); });
+      }).catch(function () { st.busy = false; if (msg) { msg.style.color = '#C9A85C'; msg.textContent = 'Network hiccup — try again.'; } sync(); });
     };
     render();
   } catch (e) {}
 })();
 </script>
-<script src="/bnr.js?v=20260731d" defer></script></body>
+<script src="/bnr.js?v=20260731e" defer></script></body>
 </html>
