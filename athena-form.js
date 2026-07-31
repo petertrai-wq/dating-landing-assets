@@ -270,7 +270,21 @@
   var STATE_KEY = 'ath_state_v1';
   try {
     var sv = JSON.parse(localStorage.getItem(STATE_KEY) || 'null');
-    if (sv && sv.token === token && sv.A && typeof sv.step === 'number') { A = sv.A; step = sv.step; }
+    if (sv && sv.token === token && sv.A && typeof sv.step === 'number') {
+      A = sv.A;
+      step = Math.min(Math.max(0, sv.step), STEPS.length - 1);   // clamp (2026-07-31: removing questions shrank STEPS; unclamped resumes crashed / skipped the start question)
+      // A resumed session can carry answers for questions that no longer exist, and can land past
+      // the start question with it unanswered (wrong DQ after contact capture). Rewind to the
+      // first unanswered required step so shortened decks stay coherent.
+      var validKeys = {}; STEPS.forEach(function (q) { validKeys[q.key] = 1; });
+      Object.keys(A).forEach(function (k) { if (!validKeys[k] && ['first','last','email','phone'].indexOf(k) < 0) delete A[k]; });
+      for (var si = 0; si < STEPS.length && si < step; si++) {
+        var sq = STEPS[si];
+        if (sq.kind) continue;   // info/quote cards need no answer
+        var av = A[sq.key];
+        if (av == null || av === '' || (Array.isArray(av) && !av.length)) { step = si; break; }
+      }
+    }
   } catch (e) {}
   function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify({ token: token, A: A, step: step })); } catch (e) {} }
   function clearState() { try { localStorage.removeItem(STATE_KEY); } catch (e) {} }
