@@ -119,14 +119,17 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   .featured { margin-bottom: 88px; }
   .video-frame { position: relative; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: var(--cream-card); border: 1.5px solid var(--gold); box-shadow: 0 26px 64px rgba(0,0,0,.4); }
   .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .vfac { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--cream-card); cursor: pointer; font-family: inherit; display: block; text-align: center; padding: 0; }
-  .vfac .vq { position: absolute; top: 10%; left: 7%; right: 7%; font-family: 'Playfair Display', Georgia, serif; font-weight: 600; color: #182018; font-size: clamp(17px, 1.75vw, 23px); line-height: 1.3; }
+  .vfac { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--cream-card); cursor: pointer; font-family: inherit; padding: 7% 8%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center; }
+  .vfac .vq { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; color: #182018; font-size: clamp(19px, 2vw, 26px); line-height: 1.28; }
   .vfac .vq em { font-style: italic; }
-  .featured .vfac .vq { font-size: clamp(30px, 3.6vw, 46px); top: 15%; font-weight: 500; }
-  .vfac .vnum { display: block; color: var(--gold-deep); font-family: 'Figtree', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 8px; }
-  .vfac .vplay { position: absolute; left: 50%; bottom: 15%; transform: translateX(-50%); width: 60px; height: 60px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; transition: transform .15s, background .15s; box-shadow: 0 10px 26px rgba(0,0,0,.25); }
+  .featured .vfac { gap: 26px; }
+  .featured .vfac .vq { font-size: clamp(36px, 5vw, 64px); font-weight: 500; line-height: 1.1; }
+  .vfac .vnum { display: block; color: var(--gold-deep); font-family: 'Figtree', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 10px; }
+  .vfac .vplay { flex: none; width: 58px; height: 58px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; transition: transform .15s, background .15s; box-shadow: 0 10px 26px rgba(0,0,0,.25); }
+  .featured .vfac .vplay { width: 70px; height: 70px; }
   .vfac .vplay::before { content: ''; display: block; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent var(--cream); margin-left: 4px; }
-  .vfac:hover .vplay { transform: translateX(-50%) scale(1.06); background: #1a2a20; }
+  .featured .vfac .vplay::before { border-width: 13px 0 13px 21px; }
+  .vfac:hover .vplay { transform: scale(1.06); background: #1a2a20; }
 
   /* ── VIDEO GRID ── */
   .video-grid-section { margin-bottom: 88px; }
@@ -143,12 +146,27 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   .site-footer p { color: #8a857a; font-size: 13px; }
 
   @media (max-width: 760px) {
-    .page-wrapper { padding-top: 38px; }
-    .intro-grid { grid-template-columns: 1fr; gap: 18px; }
-    .video-grid { grid-template-columns: 1fr; gap: 20px; }
-    .vfac .vq { font-size: 17.5px; }
-    .featured .vfac .vq { font-size: clamp(26px, 7.5vw, 34px); }
-    .vfac .vplay { width: 52px; height: 52px; bottom: 12%; }
+    .page-wrapper { max-width: 100%; padding: 30px 16px 64px; }
+    .section-head--top { margin-bottom: 30px; }
+    .section-head { margin-bottom: 24px; }
+    .section-head h1 { font-size: clamp(27px, 8vw, 34px); line-height: 1.16; }
+    .section-head h2 { font-size: clamp(23px, 6.6vw, 29px); }
+    .section-head .eyebrow { font-size: 10.5px; margin-bottom: 11px; }
+    .intro-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 46px; }
+    .warning-card { padding: 18px 19px; font-size: 15px; border-radius: 15px; }
+    .welcome-text { font-size: 15px; gap: 10px; }
+    .featured { margin-bottom: 52px; }
+    .video-grid-section { margin-bottom: 52px; }
+    .video-grid { grid-template-columns: 1fr; gap: 16px; }
+    .video-frame { border-radius: 15px; }
+    .vfac { padding: 8% 7%; gap: 14px; }
+    .vfac .vq { font-size: 19px; line-height: 1.26; }
+    .vfac .vnum { font-size: 11px; margin-bottom: 7px; }
+    .featured .vfac { gap: 18px; }
+    .featured .vfac .vq { font-size: clamp(30px, 9vw, 40px); }
+    .vfac .vplay { width: 54px; height: 54px; }
+    .featured .vfac .vplay { width: 60px; height: 60px; }
+    .featured .vfac .vplay::before { border-width: 11px 0 11px 18px; }
   }
 </style>
 </head>
@@ -187,10 +205,6 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
 
   <!-- ═══ FEATURED VIDEO ═══ -->
   <div class="featured">
-    <div class="section-head">
-      <p class="eyebrow">Start here</p>
-      <h2>Watch <span class="gradient">this first</span></h2>
-    </div>
     <div class="video-frame" data-vkey="thanks" data-yt="6VZRmgKZJLQ" data-vtitle="Thanks for booking! Watch this first">
       <button class="vfac" type="button" aria-label="Play: Thanks for booking! Watch this first">
         <span class="vq">Watch <em>this first</em></span>
@@ -246,9 +260,9 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
       </div>
 
       <div class="video-cell">
-        <div class="video-frame" data-vkey="matchmakers" data-yt="for_kqy95wk" data-vtitle="Matchmakers suck">
-          <button class="vfac" type="button" aria-label="Play: Matchmakers suck">
-            <span class="vq"><span class="vnum">#5</span>Matchmakers suck</span>
+        <div class="video-frame" data-vkey="matchmakers" data-yt="for_kqy95wk" data-vtitle="Watch if you&#39;ve had bad matchmakers before">
+          <button class="vfac" type="button" aria-label="Play: Watch if you&#39;ve had bad matchmakers before">
+            <span class="vq"><span class="vnum">#5</span>Watch if you&#39;ve had bad matchmakers before</span>
             <span class="vplay"></span>
           </button>
         </div>
@@ -486,5 +500,5 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   } catch (e) {}
 })();
 </script>
-<script src="/bnr.js?v=20260731c" defer></script></body>
+<script src="/bnr.js?v=20260731d" defer></script></body>
 </html>
