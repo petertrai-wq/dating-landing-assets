@@ -102,70 +102,44 @@
         }
       } catch (err) {}
     });
-    // ── "Before your call" video grid (SOP-28 confirmation videos, Peter 2026-07-30). Renders only
-    // when the page defines window.__TY_VIDEOS = [{key:'how-it-works', title:'How this actually
-    // works', url:'…'}] — every play fires ty_vid with the video key, so the sheet's per-video
-    // table fills itself the moment videos exist. url = YouTube embed URL or hosted mp4.
+    // ── Per-video watch tracking on the page's OWN video grid (Peter 2026-07-31: the appended
+    // "Before your call" button list is gone — the new videos live in the static hero + numbered
+    // grid, tagged data-vkey). Click detection = the same blur+activeElement trick (cross-origin
+    // iframes); watched seconds = clicked + in-viewport + tab visible. Beacons unchanged
+    // (ty_vid once per video, ty_vid_time cumulative secs) so the relay's GHL sync keeps filling
+    // per-contact totals under the same keys.
     try {
-      var renderTyVids = function (vids) {
-        if (!vids || !vids.length || document.getElementById('tyVids')) return;
-        var vhost = document.createElement('div'); vhost.id = 'tyVids';
-        var vs = document.createElement('style');
-        vs.textContent = '#tyVids{max-width:860px;margin:26px auto;padding:0 18px}#tyVids h3{font-size:19px;margin:0 0 12px}#tyVids .tyv{display:block;width:100%;text-align:left;background:#101012;color:#fff;border:1px solid #2c2c30;border-radius:12px;padding:13px 15px;margin:8px 0;font-size:15px;cursor:pointer;font-family:inherit}#tyVids .tyv:hover{border-color:#e0655a}#tyVids .tyvPlayer{margin:8px 0 14px}#tyVids iframe,#tyVids video{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}';
-        document.head.appendChild(vs);
-        var h3v = document.createElement('h3'); h3v.textContent = 'Before your call: watch these';
-        vhost.appendChild(h3v);
-        // Watch-time tracking (Peter 2026-07-31 "which videos they clicked on and how long they
-        // watched"): mp4s count REAL played seconds (timeupdate deltas); YouTube iframes count
-        // open-and-visible seconds (cross-origin — can't read the player). Cumulative seconds
-        // beacon as ty_vid_time (pct = secs) every 15s + a final flush on pagehide; the relay
-        // syncs per-contact totals into GHL.
-        var tyW = {};
+      var tyW = {};
+      var vifs = [].slice.call(document.querySelectorAll('iframe[data-vkey]'));
+      if (vifs.length) {
+        var vio = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
+          es.forEach(function (en) { var k = en.target.getAttribute('data-vkey'); if (tyW[k]) tyW[k].vis = en.isIntersecting; });
+        }, { threshold: 0.4 }) : null;
+        vifs.forEach(function (f) {
+          var k = f.getAttribute('data-vkey');
+          tyW[k] = { on: false, vis: !vio, secs: 0, sent: 0 };
+          if (vio) vio.observe(f);
+        });
+        window.addEventListener('blur', function () {
+          try {
+            var a = document.activeElement;
+            if (a && a.tagName === 'IFRAME' && a.getAttribute('data-vkey')) {
+              var k2 = a.getAttribute('data-vkey');
+              if (tyW[k2] && !tyW[k2].on) { tyW[k2].on = true; beacon('ty_vid', { utm_content: k2 }); }
+            }
+          } catch (err) {}
+        });
         setInterval(function () {
           Object.keys(tyW).forEach(function (k) {
             var w = tyW[k];
-            if (w.open && !w.mp4 && !document.hidden) w.secs += 5;
+            if (w.on && w.vis && !document.hidden) w.secs += 5;
             if (w.secs - w.sent >= 15) { w.sent = w.secs; beacon('ty_vid_time', { utm_content: k, pct: Math.round(w.secs) }); }
           });
         }, 5000);
         window.addEventListener('pagehide', function () {
           Object.keys(tyW).forEach(function (k) { var w = tyW[k]; if (w.secs > w.sent) { w.sent = w.secs; beacon('ty_vid_time', { utm_content: k, pct: Math.round(w.secs) }); } });
         });
-        vids.forEach(function (v) {
-          var vkey = (v.key || v.title || '').slice(0, 60);
-          tyW[vkey] = { open: false, mp4: false, secs: 0, sent: 0, lastT: 0 };
-          var vb = document.createElement('button'); vb.className = 'tyv'; vb.textContent = '▶ ' + v.title;
-          var holder = document.createElement('div'); holder.className = 'tyvPlayer'; holder.style.display = 'none';
-          vb.addEventListener('click', function () {
-            beacon('ty_vid', { utm_content: vkey });
-            if (holder.style.display === 'none') {
-              if (!holder.firstChild) {
-                if (/\.(mp4|mov|webm)/i.test(String(v.url))) {
-                  var ve = document.createElement('video'); ve.src = v.url; ve.controls = true; ve.autoplay = true; ve.playsInline = true;
-                  tyW[vkey].mp4 = true;
-                  ve.addEventListener('timeupdate', function () {
-                    var w = tyW[vkey]; var t = ve.currentTime || 0; var dl = t - w.lastT;
-                    if (dl > 0 && dl < 3) w.secs += dl;   // real playback only — seeks/jumps don't count
-                    w.lastT = t;
-                  });
-                  holder.appendChild(ve);
-                } else { var fr = document.createElement('iframe'); fr.src = v.url; fr.title = v.title; fr.allow = 'autoplay; fullscreen'; fr.allowFullscreen = true; holder.appendChild(fr); }
-              }
-              holder.style.display = '';
-              tyW[vkey].open = true;
-            } else { holder.style.display = 'none'; tyW[vkey].open = false; }
-          });
-          vhost.appendChild(vb); vhost.appendChild(holder);
-        });
-        var anchor = document.querySelector('.intro-grid');
-        if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(vhost, anchor.nextSibling);
-        else if (document.body) document.body.appendChild(vhost);
-      };
-      // Dynamic list (Peter 2026-07-30 "update as I change and add videos"): the Drive-folder CMS
-      // syncs to /api/ty/videos every ~5 min. window.__TY_VIDEOS stays as a QA override.
-      var ovVids = window.__TY_VIDEOS || [];
-      if (ovVids.length) renderTyVids(ovVids);
-      else fetch('https://admin.automated.dating/api/ty/videos').then(function (r) { return r.json(); }).then(function (j) { try { renderTyVids((j && j.videos) || []); } catch (e) {} }).catch(function () {});
+      }
     } catch (e) {}
   } catch (e) {}
 })();
