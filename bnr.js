@@ -115,18 +115,45 @@
         document.head.appendChild(vs);
         var h3v = document.createElement('h3'); h3v.textContent = 'Before your call: watch these';
         vhost.appendChild(h3v);
+        // Watch-time tracking (Peter 2026-07-31 "which videos they clicked on and how long they
+        // watched"): mp4s count REAL played seconds (timeupdate deltas); YouTube iframes count
+        // open-and-visible seconds (cross-origin — can't read the player). Cumulative seconds
+        // beacon as ty_vid_time (pct = secs) every 15s + a final flush on pagehide; the relay
+        // syncs per-contact totals into GHL.
+        var tyW = {};
+        setInterval(function () {
+          Object.keys(tyW).forEach(function (k) {
+            var w = tyW[k];
+            if (w.open && !w.mp4 && !document.hidden) w.secs += 5;
+            if (w.secs - w.sent >= 15) { w.sent = w.secs; beacon('ty_vid_time', { utm_content: k, pct: Math.round(w.secs) }); }
+          });
+        }, 5000);
+        window.addEventListener('pagehide', function () {
+          Object.keys(tyW).forEach(function (k) { var w = tyW[k]; if (w.secs > w.sent) { w.sent = w.secs; beacon('ty_vid_time', { utm_content: k, pct: Math.round(w.secs) }); } });
+        });
         vids.forEach(function (v) {
+          var vkey = (v.key || v.title || '').slice(0, 60);
+          tyW[vkey] = { open: false, mp4: false, secs: 0, sent: 0, lastT: 0 };
           var vb = document.createElement('button'); vb.className = 'tyv'; vb.textContent = '▶ ' + v.title;
           var holder = document.createElement('div'); holder.className = 'tyvPlayer'; holder.style.display = 'none';
           vb.addEventListener('click', function () {
-            beacon('ty_vid', { utm_content: (v.key || v.title || '').slice(0, 60) });
+            beacon('ty_vid', { utm_content: vkey });
             if (holder.style.display === 'none') {
               if (!holder.firstChild) {
-                if (/\.(mp4|mov|webm)/i.test(String(v.url))) { var ve = document.createElement('video'); ve.src = v.url; ve.controls = true; ve.autoplay = true; ve.playsInline = true; holder.appendChild(ve); }
-                else { var fr = document.createElement('iframe'); fr.src = v.url; fr.title = v.title; fr.allow = 'autoplay; fullscreen'; fr.allowFullscreen = true; holder.appendChild(fr); }
+                if (/\.(mp4|mov|webm)/i.test(String(v.url))) {
+                  var ve = document.createElement('video'); ve.src = v.url; ve.controls = true; ve.autoplay = true; ve.playsInline = true;
+                  tyW[vkey].mp4 = true;
+                  ve.addEventListener('timeupdate', function () {
+                    var w = tyW[vkey]; var t = ve.currentTime || 0; var dl = t - w.lastT;
+                    if (dl > 0 && dl < 3) w.secs += dl;   // real playback only — seeks/jumps don't count
+                    w.lastT = t;
+                  });
+                  holder.appendChild(ve);
+                } else { var fr = document.createElement('iframe'); fr.src = v.url; fr.title = v.title; fr.allow = 'autoplay; fullscreen'; fr.allowFullscreen = true; holder.appendChild(fr); }
               }
               holder.style.display = '';
-            } else holder.style.display = 'none';
+              tyW[vkey].open = true;
+            } else { holder.style.display = 'none'; tyW[vkey].open = false; }
           });
           vhost.appendChild(vb); vhost.appendChild(holder);
         });
