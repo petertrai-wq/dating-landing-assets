@@ -61,269 +61,94 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
 <meta name="theme-color" content="#a78bfa">
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600;1,700;1,800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Figtree:wght@400;500;600;700&display=swap');
 
+  /* ── Athena skin (Peter 2026-07-31): same tokens as the athena-arm landing takeover ── */
+  :root{
+    --bg:#141210; --bg-hi:#2c2822; --cream:#F5F1E6; --cream-card:#FAF7EF;
+    --body-c:#E7E2D4; --mut:#D9D6CB; --eyebrow:#B9AE93; --gold:#C9A85C; --gold-deep:#B08D3F;
+    --ink:#141210; --ink-soft:#1e2820; --green:#24352B; --line:rgba(255,255,255,.08);
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html, body {
-    background-color: #000000;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 60px 60px;
-    background-attachment: fixed;
-    color: #ffffff;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: radial-gradient(1100px 540px at 50% -10%, var(--bg-hi) 0%, var(--bg) 62%), var(--bg);
+    color: var(--body-c);
+    font-family: 'Figtree', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
+  .bgCover { display: none !important; }
 
-  /* ‚îÄ‚îÄ HEADER (sticky, full viewport width) ‚îÄ‚îÄ */
+  /* ── HEADER ── */
   .site-header {
-    padding: 14px 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    padding: 16px 24px;
+    display: flex; justify-content: center; align-items: center;
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(20,18,16,.72);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
   }
-  .site-logo {
-    font-family: 'Inter', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-  }
-  .site-logo span {
-    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  .site-logo { display: inline-block; background: var(--cream); color: var(--ink); font-weight: 700; font-size: 14.5px; letter-spacing: -0.01em; padding: 8px 16px; border-radius: 99px; }
+  .site-logo span { color: var(--gold-deep); }
 
-  /* ‚îÄ‚îÄ PAGE WRAP ‚îÄ‚îÄ */
-  .page-wrapper {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 48px 24px 80px;
-  }
+  /* ── PAGE WRAP ── */
+  .page-wrapper { max-width: 1060px; margin: 0 auto; padding: 54px 22px 90px; }
 
-  /* ‚îÄ‚îÄ SECTION TITLE (shared style: teal eyebrow + large headline with italic gradient) ‚îÄ‚îÄ */
-  .section-head {
-    text-align: center;
-    margin-bottom: 44px;
-  }
-  .section-head .eyebrow {
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 13px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: #5eead4;
-    margin-bottom: 14px;
-  }
-  .section-head h1,
-  .section-head h2 {
-    font-family: 'Inter', sans-serif;
-    font-size: 46px;
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
-    color: #ffffff;
-  }
-  .section-head .gradient {
-    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-style: italic;
-    font-family: 'Playfair Display', serif;
-  }
-  .section-head--top { margin-bottom: 52px; }
+  /* ── SECTION HEADS ── */
+  .section-head { text-align: center; margin-bottom: 34px; }
+  .section-head--top { margin-bottom: 46px; }
+  .section-head .eyebrow { color: var(--eyebrow); font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; }
+  .section-head h1, .section-head h2 { font-family: 'Playfair Display', Georgia, serif; font-weight: 500; letter-spacing: -.005em; color: var(--cream); }
+  .section-head h1 { font-size: clamp(32px, 4.6vw, 52px); line-height: 1.12; }
+  .section-head h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.15; }
+  .gradient { font-style: italic; color: var(--cream); }
 
-  /* ‚îÄ‚îÄ INTRO TWO-COL (Warning + Welcome) ‚îÄ‚îÄ */
-  .intro-grid {
-    display: grid;
-    grid-template-columns: minmax(320px, 1fr) 1fr;
-    gap: 40px;
-    margin-bottom: 64px;
-    align-items: start;
-  }
-  .warning-card {
-    background: linear-gradient(135deg, rgba(248, 113, 113, 0.10), rgba(248, 113, 113, 0.03));
-    border: 1px solid rgba(248, 113, 113, 0.45);
-    border-radius: 16px;
-    padding: 26px 28px;
-    box-shadow: 0 0 40px rgba(248, 113, 113, 0.10);
-  }
-  .warning-card p {
-    font-size: 17px;
-    line-height: 1.55;
-    color: rgba(255, 255, 255, 0.92);
-    font-weight: 500;
-  }
-  .warning-card .warning-label {
-    color: #fca5a5;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-  }
-  .warning-card .accent {
-    color: #fca5a5;
-    font-weight: 700;
-  }
-  .welcome-text p {
-    font-size: 17px;
-    line-height: 1.65;
-    color: rgba(255, 255, 255, 0.75);
-    margin-bottom: 16px;
-  }
-  .welcome-text p:last-child { margin-bottom: 0; }
-  .welcome-text strong {
-    color: #ffffff;
-    font-weight: 700;
-    text-decoration: underline;
-    text-decoration-color: rgba(167, 139, 250, 0.6);
-    text-underline-offset: 4px;
-  }
+  /* ── WARNING + WELCOME ── */
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-bottom: 68px; align-items: start; }
+  .warning-card { background: var(--cream-card); border: 1.5px solid var(--gold); border-radius: 18px; padding: 24px 26px; color: var(--ink-soft); font-size: 16px; line-height: 1.6; box-shadow: 0 26px 64px rgba(0,0,0,.4); }
+  .warning-label { font-weight: 800; color: #9c2f22; letter-spacing: .04em; }
+  .warning-card .accent { display: block; margin-top: 10px; font-weight: 700; color: var(--ink); }
+  .welcome-text { font-size: 16px; color: var(--mut); display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
+  .welcome-text strong { color: var(--cream); }
+  #tyResched { font-size: 14.5px; }
+  #tyResched a { color: var(--gold); font-weight: 600; }
 
-  /* ‚îÄ‚îÄ FEATURED VIDEO ‚îÄ "Watch this First" ‚îÄ‚îÄ */
-  .featured {
-    margin-bottom: 80px;
-  }
-  .video-frame {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    border-radius: 16px;
-    overflow: hidden;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 0 40px rgba(167, 139, 250, 0.08);
-  }
+  /* ── VIDEO CARDS (cream facades — question lives in the TOP half so no YouTube
+       title bar / watermark ever covers it; click swaps in the real embed) ── */
+  .featured { margin-bottom: 88px; }
+  .video-frame { position: relative; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: var(--cream-card); border: 1.5px solid var(--gold); box-shadow: 0 26px 64px rgba(0,0,0,.4); }
   .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .vfac { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--cream-card); cursor: pointer; font-family: inherit; display: block; text-align: center; padding: 0; }
+  .vfac .vq { position: absolute; top: 10%; left: 7%; right: 7%; font-family: 'Playfair Display', Georgia, serif; font-weight: 600; color: #182018; font-size: clamp(17px, 1.75vw, 23px); line-height: 1.3; }
+  .vfac .vq em { font-style: italic; }
+  .featured .vfac .vq { font-size: clamp(30px, 3.6vw, 46px); top: 15%; font-weight: 500; }
+  .vfac .vnum { display: block; color: var(--gold-deep); font-family: 'Figtree', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 8px; }
+  .vfac .vplay { position: absolute; left: 50%; bottom: 15%; transform: translateX(-50%); width: 60px; height: 60px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; transition: transform .15s, background .15s; box-shadow: 0 10px 26px rgba(0,0,0,.25); }
+  .vfac .vplay::before { content: ''; display: block; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent var(--cream); margin-left: 4px; }
+  .vfac:hover .vplay { transform: translateX(-50%) scale(1.06); background: #1a2a20; }
 
-  /* ‚îÄ‚îÄ VIDEO GRID (#2 through #7) ‚îÄ‚îÄ */
-  .video-grid-section {
-    margin-bottom: 80px;
-  }
-  .video-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 36px 28px;
-    align-items: stretch;
-  }
-  .video-cell {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    /* Push label + frame to the bottom so labels sit just above their frames,
-       which aligns all frames at the row's bottom edge even when titles wrap differently */
-    justify-content: flex-end;
-  }
-  .video-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: -0.01em;
-    line-height: 1.3;
-  }
-  .video-label .num {
-    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
-    margin-right: 8px;
-  }
+  /* ── VIDEO GRID ── */
+  .video-grid-section { margin-bottom: 88px; }
+  .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .video-cell { display: flex; flex-direction: column; }
 
-  /* ‚îÄ‚îÄ TESTIMONIALS ‚îÄ‚îÄ */
-  .testimonials {
-    padding-top: 40px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  .testimonials-grid {
-    columns: 3;
-    column-gap: 18px;
-    column-fill: balance;
-  }
-  .testimonial-card {
-    break-inside: avoid;
-    margin-bottom: 18px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    overflow: hidden;
-    transition: border-color 0.2s ease, transform 0.2s ease;
-  }
-  .testimonial-card:hover {
-    border-color: rgba(167, 139, 250, 0.3);
-    transform: translateY(-2px);
-  }
-  .testimonial-card img { width: 100%; height: auto; display: block; }
-  .quote-callout {
-    break-inside: avoid;
-    margin-bottom: 18px;
-    padding: 20px 16px;
-    text-align: center;
-  }
-  .quote-callout p {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: #ffffff;
-  }
-  .testimonials-note {
-    text-align: center;
-    margin-top: 28px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.35);
-  }
+  /* ── TESTIMONIAL BAND fits the cream card language ── */
+  .adwall-sec { border-radius: 24px; overflow: hidden; }
 
-  /* ‚îÄ‚îÄ FOOTER ‚îÄ‚îÄ */
-  .site-footer {
-    text-align: center;
-    padding: 32px 24px 24px;
-    margin-top: 64px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.45);
-    font-size: 13px;
-  }
-  .footer-logo {
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 6px;
-  }
-  .footer-logo span {
-    background: linear-gradient(90deg, #60a5fa 0%, #a78bfa 55%, #c084fc 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  /* ── FOOTER ── */
+  .site-footer { border-top: 1px solid var(--line); padding: 34px 20px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; color: var(--cream); margin-bottom: 6px; }
+  .footer-logo span { color: var(--gold-deep); font-style: italic; }
+  .site-footer p { color: #8a857a; font-size: 13px; }
 
-  /* ‚îÄ‚îÄ MOBILE ‚îÄ‚îÄ */
-  @media (max-width: 720px) {
-    .page-wrapper { padding: 28px 16px 60px; }
-    .section-head { margin-bottom: 32px; }
-    .section-head--top { margin-bottom: 40px; }
-    .section-head h1, .section-head h2 { font-size: 28px; }
-    .intro-grid { grid-template-columns: 1fr; gap: 24px; margin-bottom: 44px; }
-    .warning-card { padding: 22px 20px; }
-    .warning-card p, .welcome-text p { font-size: 15px; }
-    .video-grid { grid-template-columns: 1fr; gap: 28px; }
-    .video-label { font-size: 17px; }
-    .testimonials-grid { columns: 1; }
+  @media (max-width: 760px) {
+    .page-wrapper { padding-top: 38px; }
+    .intro-grid { grid-template-columns: 1fr; gap: 18px; }
+    .video-grid { grid-template-columns: 1fr; gap: 20px; }
+    .vfac .vq { font-size: 17.5px; }
+    .featured .vfac .vq { font-size: clamp(26px, 7.5vw, 34px); }
+    .vfac .vplay { width: 52px; height: 52px; bottom: 12%; }
   }
 </style>
 </head>
@@ -336,12 +161,13 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
 
 <div class="page-wrapper">
 
-  <!-- ‚ïê‚ïê‚ïê CONGRATULATIONS HEADER ‚ïê‚ïê‚ïê -->
+  <!-- ═══ CONGRATULATIONS HEADER ═══ -->
   <div class="section-head section-head--top">
+    <p class="eyebrow">Booking confirmed</p>
     <h1>Congratulations &mdash; <span class="gradient">your profile audit is pending</span></h1>
   </div>
 
-  <!-- ‚ïê‚ïê‚ïê WARNING + WELCOME ‚ïê‚ïê‚ïê -->
+  <!-- ═══ WARNING + WELCOME ═══ -->
   <div class="intro-grid">
 
     <div class="warning-card">
@@ -359,18 +185,21 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
 
   </div>
 
-  <!-- ‚ïê‚ïê‚ïê FEATURED VIDEO ‚ïê‚ïê‚ïê -->
+  <!-- ═══ FEATURED VIDEO ═══ -->
   <div class="featured">
     <div class="section-head">
       <p class="eyebrow">Start here</p>
       <h2>Watch <span class="gradient">this first</span></h2>
     </div>
-    <div class="video-frame">
-      <iframe src="https://www.youtube.com/embed/6VZRmgKZJLQ" data-vkey="thanks" title="Thanks for booking! Watch this first" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+    <div class="video-frame" data-vkey="thanks" data-yt="6VZRmgKZJLQ" data-vtitle="Thanks for booking! Watch this first">
+      <button class="vfac" type="button" aria-label="Play: Thanks for booking! Watch this first">
+        <span class="vq">Watch <em>this first</em></span>
+        <span class="vplay"></span>
+      </button>
     </div>
   </div>
 
-  <!-- ‚ïê‚ïê‚ïê 6 NUMBERED VIDEOS ‚ïê‚ïê‚ïê -->
+  <!-- ═══ 8 NUMBERED VIDEOS ═══ -->
   <div class="video-grid-section">
 
     <div class="section-head">
@@ -381,63 +210,98 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     <div class="video-grid">
 
       <div class="video-cell">
-        <h3 class="video-label"><span class="num">#1</span>What if this doesn't work?</h3>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/enDhLLbjNPw" data-vkey="what-if-doesnt-work" title="What if this doesn't work?" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <div class="video-frame" data-vkey="what-if-doesnt-work" data-yt="enDhLLbjNPw" data-vtitle="What if this doesn&#39;t work?">
+          <button class="vfac" type="button" aria-label="Play: What if this doesn&#39;t work?">
+            <span class="vq"><span class="vnum">#1</span>What if this doesn&#39;t work?</span>
+            <span class="vplay"></span>
+          </button>
         </div>
       </div>
 
       <div class="video-cell">
-        <h3 class="video-label"><span class="num">#2</span>How can I trust you to run my dating apps?</h3>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/hHASAvR_CpE" data-vkey="trust" title="How can I trust you to run my dating apps?" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <div class="video-frame" data-vkey="trust" data-yt="hHASAvR_CpE" data-vtitle="How can I trust you to run my dating apps?">
+          <button class="vfac" type="button" aria-label="Play: How can I trust you to run my dating apps?">
+            <span class="vq"><span class="vnum">#2</span>How can I trust you to run my dating apps?</span>
+            <span class="vplay"></span>
+          </button>
         </div>
       </div>
 
       <div class="video-cell">
-        <h3 class="video-label"><span class="num">#3</span>Who is this actually for?</h3>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/ae5JjjjZvxM" data-vkey="who-for" title="Who is this actually for?" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <div class="video-frame" data-vkey="who-for" data-yt="ae5JjjjZvxM" data-vtitle="Who is this actually for?">
+          <button class="vfac" type="button" aria-label="Play: Who is this actually for?">
+            <span class="vq"><span class="vnum">#3</span>Who is this actually for?</span>
+            <span class="vplay"></span>
+          </button>
         </div>
       </div>
 
       <div class="video-cell">
-        <h3 class="video-label"><span class="num">#4</span>How do we guarantee quality dates?</h3>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/Jc1rSupp-WI" data-vkey="quality-dates" title="How do we guarantee quality dates?" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <div class="video-frame" data-vkey="quality-dates" data-yt="Jc1rSupp-WI" data-vtitle="How do we guarantee quality dates?">
+          <button class="vfac" type="button" aria-label="Play: How do we guarantee quality dates?">
+            <span class="vq"><span class="vnum">#4</span>How do we guarantee quality dates?</span>
+            <span class="vplay"></span>
+          </button>
         </div>
       </div>
 
       <div class="video-cell">
-        <h3 class="video-label"><span class="num">#5</span>Matchmakers suck</h3>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/for_kqy95wk" data-vkey="matchmakers" title="Matchmakers suck" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <div class="video-frame" data-vkey="matchmakers" data-yt="for_kqy95wk" data-vtitle="Matchmakers suck">
+          <button class="vfac" type="button" aria-label="Play: Matchmakers suck">
+            <span class="vq"><span class="vnum">#5</span>Matchmakers suck</span>
+            <span class="vplay"></span>
+          </button>
         </div>
       </div>
 
       <div class="video-cell">
-        <h3 class="video-label"><span class="num">#6</span>Aren't AI photos inauthentic?</h3>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/PVUI8Oqjk1Y" data-vkey="ai-photos" title="Aren't AI photos inauthentic?" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <div class="video-frame" data-vkey="ai-photos" data-yt="PVUI8Oqjk1Y" data-vtitle="Aren&#39;t AI photos inauthentic?">
+          <button class="vfac" type="button" aria-label="Play: Aren&#39;t AI photos inauthentic?">
+            <span class="vq"><span class="vnum">#6</span>Aren&#39;t AI photos inauthentic?</span>
+            <span class="vplay"></span>
+          </button>
         </div>
       </div>
 
       <div class="video-cell">
-        <h3 class="video-label"><span class="num">#7</span>Isn't texting for me inauthentic?</h3>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/K_LlYkzFM7A" data-vkey="texting" title="Isn't texting for me inauthentic?" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <div class="video-frame" data-vkey="texting" data-yt="K_LlYkzFM7A" data-vtitle="Isn&#39;t texting for me inauthentic?">
+          <button class="vfac" type="button" aria-label="Play: Isn&#39;t texting for me inauthentic?">
+            <span class="vq"><span class="vnum">#7</span>Isn&#39;t texting for me inauthentic?</span>
+            <span class="vplay"></span>
+          </button>
         </div>
       </div>
 
       <div class="video-cell">
-        <h3 class="video-label"><span class="num">#8</span>What about my privacy and data security?</h3>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/tnL2fm3TLp0" data-vkey="privacy" title="What about my privacy and data security?" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <div class="video-frame" data-vkey="privacy" data-yt="tnL2fm3TLp0" data-vtitle="What about my privacy and data security?">
+          <button class="vfac" type="button" aria-label="Play: What about my privacy and data security?">
+            <span class="vq"><span class="vnum">#8</span>What about my privacy and data security?</span>
+            <span class="vplay"></span>
+          </button>
         </div>
       </div>
 
     </div>
   </div>
+
+  <script>
+  /* Facade players (Peter 2026-07-31): cream thumbnails with the question in the TOP half — no
+     YouTube title bar or watermark covers it. Click swaps in the real embed with autoplay;
+     bnr.js tracks clicks + watch time on the [data-vkey] wrappers. */
+  (function () {
+    document.querySelectorAll('.video-frame[data-yt]').forEach(function (w) {
+      var btn = w.querySelector('.vfac'); if (!btn) return;
+      btn.addEventListener('click', function () {
+        var fr = document.createElement('iframe');
+        fr.src = 'https://www.youtube.com/embed/' + w.getAttribute('data-yt') + '?autoplay=1&rel=0';
+        fr.title = w.getAttribute('data-vtitle') || '';
+        fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        fr.allowFullscreen = true;
+        w.replaceChild(fr, btn);
+      });
+    });
+  })();
+  </script>
 
   <!-- ═══ TESTIMONIAL WALL (ported from /concierge, Peter 2026-07-17) ═══ -->
 <div class="adwall-sec">
@@ -450,10 +314,10 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   </div>
 </div>
 <style>
-  .adwall-sec{background:#f7f5f1;padding:72px 0}
+  .adwall-sec{background:#F7F4ED;padding:72px 0}
   .adwall-wrap{max-width:1140px;margin:0 auto;padding:0 22px}
   .adwall-sh{text-align:center;margin-bottom:34px}
-  .adwall-sh h2{color:#131210;font-size:34px;line-height:1.2;margin:0 0 10px;font-weight:800}
+  .adwall-sh h2{font-family:'Playfair Display',Georgia,serif;font-weight:500;letter-spacing:-.005em;color:#131210;font-size:34px;line-height:1.2;margin:0 0 10px}
   .adwall-sh p{color:#6d6a63;font-size:16.5px;margin:0}
   .adwall{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;height:780px;overflow:hidden;position:relative;
     -webkit-mask-image:linear-gradient(to bottom,transparent,#000 7%,#000 93%,transparent);
@@ -622,5 +486,5 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   } catch (e) {}
 })();
 </script>
-<script src="/bnr.js?v=20260731b" defer></script></body>
+<script src="/bnr.js?v=20260731c" defer></script></body>
 </html>

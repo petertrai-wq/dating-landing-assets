@@ -102,32 +102,26 @@
         }
       } catch (err) {}
     });
-    // ── Per-video watch tracking on the page's OWN video grid (Peter 2026-07-31: the appended
-    // "Before your call" button list is gone — the new videos live in the static hero + numbered
-    // grid, tagged data-vkey). Click detection = the same blur+activeElement trick (cross-origin
-    // iframes); watched seconds = clicked + in-viewport + tab visible. Beacons unchanged
-    // (ty_vid once per video, ty_vid_time cumulative secs) so the relay's GHL sync keeps filling
-    // per-contact totals under the same keys.
+    // ── Per-video watch tracking on the page's OWN video grid (Peter 2026-07-31). The videos are
+    // cream FACADE cards (question in the top half) that swap to a YouTube iframe on click, so the
+    // stable tracking anchor is the [data-vkey] WRAPPER, not the iframe: a click inside the wrapper
+    // (the only way to start playback) fires ty_vid once; watched seconds = clicked + wrapper
+    // in-viewport + tab visible. Beacons unchanged (ty_vid, ty_vid_time pct=secs) so the relay's
+    // GHL sync keeps filling per-contact totals under the same keys.
     try {
       var tyW = {};
-      var vifs = [].slice.call(document.querySelectorAll('iframe[data-vkey]'));
-      if (vifs.length) {
+      var vwraps = [].slice.call(document.querySelectorAll('[data-vkey]'));
+      if (vwraps.length) {
         var vio = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
           es.forEach(function (en) { var k = en.target.getAttribute('data-vkey'); if (tyW[k]) tyW[k].vis = en.isIntersecting; });
         }, { threshold: 0.4 }) : null;
-        vifs.forEach(function (f) {
-          var k = f.getAttribute('data-vkey');
+        vwraps.forEach(function (w) {
+          var k = w.getAttribute('data-vkey');
           tyW[k] = { on: false, vis: !vio, secs: 0, sent: 0 };
-          if (vio) vio.observe(f);
-        });
-        window.addEventListener('blur', function () {
-          try {
-            var a = document.activeElement;
-            if (a && a.tagName === 'IFRAME' && a.getAttribute('data-vkey')) {
-              var k2 = a.getAttribute('data-vkey');
-              if (tyW[k2] && !tyW[k2].on) { tyW[k2].on = true; beacon('ty_vid', { utm_content: k2 }); }
-            }
-          } catch (err) {}
+          if (vio) vio.observe(w);
+          w.addEventListener('click', function () {
+            if (!tyW[k].on) { tyW[k].on = true; beacon('ty_vid', { utm_content: k }); }
+          });
         });
         setInterval(function () {
           Object.keys(tyW).forEach(function (k) {
