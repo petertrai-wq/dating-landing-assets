@@ -198,7 +198,6 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
 
     <div class="welcome-text">
       <p>We look forward to speaking with you at your scheduled appointment time. Please be in a quiet spot where we can talk about your goals.</p>
-      <p><strong>We will not take calls</strong> when you're on the go or can't devote your full attention.</p>
       <p id="tyResched"></p>
     </div>
 
@@ -234,18 +233,9 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
       </div>
 
       <div class="video-cell">
-        <div class="video-frame" data-vkey="trust" data-yt="hHASAvR_CpE" data-vtitle="How can I trust you to run my dating apps?">
-          <button class="vfac" type="button" aria-label="Play: How can I trust you to run my dating apps?">
-            <span class="vq"><span class="vnum">#2</span>How can I trust you to run my dating apps?</span>
-            <span class="vplay"></span>
-          </button>
-        </div>
-      </div>
-
-      <div class="video-cell">
         <div class="video-frame" data-vkey="who-for" data-yt="ae5JjjjZvxM" data-vtitle="Who is this actually for?">
           <button class="vfac" type="button" aria-label="Play: Who is this actually for?">
-            <span class="vq"><span class="vnum">#3</span>Who is this actually for?</span>
+            <span class="vq"><span class="vnum">#2</span>Who is this actually for?</span>
             <span class="vplay"></span>
           </button>
         </div>
@@ -254,16 +244,7 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
       <div class="video-cell">
         <div class="video-frame" data-vkey="quality-dates" data-yt="Jc1rSupp-WI" data-vtitle="How do we guarantee quality dates?">
           <button class="vfac" type="button" aria-label="Play: How do we guarantee quality dates?">
-            <span class="vq"><span class="vnum">#4</span>How do we guarantee quality dates?</span>
-            <span class="vplay"></span>
-          </button>
-        </div>
-      </div>
-
-      <div class="video-cell">
-        <div class="video-frame" data-vkey="matchmakers" data-yt="for_kqy95wk" data-vtitle="Watch if you&#39;ve had bad matchmakers before">
-          <button class="vfac" type="button" aria-label="Play: Watch if you&#39;ve had bad matchmakers before">
-            <span class="vq"><span class="vnum">#5</span>Watch if you&#39;ve had bad matchmakers before</span>
+            <span class="vq"><span class="vnum">#3</span>How do we guarantee quality dates?</span>
             <span class="vplay"></span>
           </button>
         </div>
@@ -272,7 +253,7 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
       <div class="video-cell">
         <div class="video-frame" data-vkey="ai-photos" data-yt="PVUI8Oqjk1Y" data-vtitle="Aren&#39;t AI photos inauthentic?">
           <button class="vfac" type="button" aria-label="Play: Aren&#39;t AI photos inauthentic?">
-            <span class="vq"><span class="vnum">#6</span>Aren&#39;t AI photos inauthentic?</span>
+            <span class="vq"><span class="vnum">#4</span>Aren&#39;t AI photos inauthentic?</span>
             <span class="vplay"></span>
           </button>
         </div>
@@ -281,7 +262,25 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
       <div class="video-cell">
         <div class="video-frame" data-vkey="texting" data-yt="K_LlYkzFM7A" data-vtitle="Isn&#39;t texting for me inauthentic?">
           <button class="vfac" type="button" aria-label="Play: Isn&#39;t texting for me inauthentic?">
-            <span class="vq"><span class="vnum">#7</span>Isn&#39;t texting for me inauthentic?</span>
+            <span class="vq"><span class="vnum">#5</span>Isn&#39;t texting for me inauthentic?</span>
+            <span class="vplay"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="video-cell">
+        <div class="video-frame" data-vkey="trust" data-yt="hHASAvR_CpE" data-vtitle="How can I trust you to run my dating apps?">
+          <button class="vfac" type="button" aria-label="Play: How can I trust you to run my dating apps?">
+            <span class="vq"><span class="vnum">#6</span>How can I trust you to run my dating apps?</span>
+            <span class="vplay"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="video-cell">
+        <div class="video-frame" data-vkey="matchmakers" data-yt="for_kqy95wk" data-vtitle="Watch if you&#39;ve had bad matchmakers before">
+          <button class="vfac" type="button" aria-label="Play: Watch if you&#39;ve had bad matchmakers before">
+            <span class="vq"><span class="vnum">#7</span>Watch if you&#39;ve had bad matchmakers before</span>
             <span class="vplay"></span>
           </button>
         </div>
@@ -300,21 +299,77 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   </div>
 
   <script>
-  /* Facade players (Peter 2026-07-31): cream thumbnails with the question in the TOP half — no
-     YouTube title bar or watermark covers it. Click swaps in the real embed with autoplay;
-     bnr.js tracks clicks + watch time on the [data-vkey] wrappers. */
+  /* Facade players v2 (Peter 2026-07-31 voice notes): YouTube IFrame API instead of a bare embed so
+     (1) ONE video plays at a time — starting another re-covers the previous card with its facade,
+     (2) the hero autoplays on page load (muted — the only autoplay browsers allow without a tap;
+         the API script it loads also pre-warms one-tap playback below),
+     (3) ONE tap starts playback on iOS — onReady calls playVideo() so there's no second play press,
+     (4) real play/pause state reaches bnr.js via 'tyvid' CustomEvents on the [data-vkey] wrapper
+         (autoplay time stays MUTED-flagged so passive un-engaged seconds never count as watching). */
   (function () {
+    var current = null;                       // { w, btn, player, auto }
+    var apiQ = [], apiAsked = false;
+    function withYT(cb) {
+      if (window.YT && window.YT.Player) return cb();
+      apiQ.push(cb);
+      if (apiAsked) return;
+      apiAsked = true;
+      window.onYouTubeIframeAPIReady = function () { var q = apiQ.slice(); apiQ = []; q.forEach(function (f) { try { f(); } catch (e) {} }); };
+      var s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+    }
+    function emit(w, d) { try { w.dispatchEvent(new CustomEvent('tyvid', { detail: d })); } catch (e) {} }
+    function restore(entry) {
+      if (!entry) return;
+      try { if (entry.player && entry.player.destroy) entry.player.destroy(); } catch (e) {}
+      while (entry.w.firstChild) entry.w.removeChild(entry.w.firstChild);
+      entry.w.appendChild(entry.btn);
+      emit(entry.w, { playing: false, engaged: false });
+      if (current === entry) current = null;
+    }
+    function activate(w, auto) {
+      var btn = w.querySelector('.vfac'); if (!btn) return;
+      if (current && current.w !== w) restore(current);
+      var holder = document.createElement('div');
+      w.replaceChild(holder, btn);
+      var entry = { w: w, btn: btn, player: null, auto: !!auto };
+      current = entry;
+      withYT(function () {
+        entry.player = new YT.Player(holder, {
+          width: '100%', height: '100%',
+          videoId: w.getAttribute('data-yt'),
+          playerVars: { autoplay: 1, rel: 0, playsinline: 1, mute: auto ? 1 : 0 },
+          events: {
+            onReady: function (ev) { try { if (entry.auto) ev.target.mute(); ev.target.playVideo(); } catch (e) {} },
+            onStateChange: function (ev) {
+              var playing = ev.data === YT.PlayerState.PLAYING;
+              var muted = false; try { muted = !!ev.target.isMuted(); } catch (e) {}
+              emit(w, { playing: playing, engaged: !entry.auto || !muted });
+            }
+          }
+        });
+      });
+      return entry;
+    }
     document.querySelectorAll('.video-frame[data-yt]').forEach(function (w) {
       var btn = w.querySelector('.vfac'); if (!btn) return;
-      btn.addEventListener('click', function () {
-        var fr = document.createElement('iframe');
-        fr.src = 'https://www.youtube.com/embed/' + w.getAttribute('data-yt') + '?autoplay=1&rel=0';
-        fr.title = w.getAttribute('data-vtitle') || '';
-        fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-        fr.allowFullscreen = true;
-        w.replaceChild(fr, btn);
-      });
+      btn.addEventListener('click', function () { activate(w, false); });
     });
+    var hero = document.querySelector('.featured .video-frame[data-yt]');
+    if (hero) {
+      var heroEntry = activate(hero, true);
+      // Unmuting the autoplaying hero (YouTube's own volume button lives inside the iframe, so
+      // poll) = real engagement: from then on its watch time counts like a clicked video.
+      var unmutePoll = setInterval(function () {
+        try {
+          if (!heroEntry || current !== heroEntry) { clearInterval(unmutePoll); return; }
+          if (heroEntry.auto && heroEntry.player && heroEntry.player.isMuted && !heroEntry.player.isMuted()) {
+            heroEntry.auto = false;
+            emit(hero, { playing: heroEntry.player.getPlayerState() === 1, engaged: true });
+            clearInterval(unmutePoll);
+          }
+        } catch (e) {}
+      }, 2000);
+    }
   })();
   </script>
 
@@ -426,7 +481,7 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     try { bk = JSON.parse(localStorage.getItem('adq_book') || 'null'); } catch (e) {}
     var fresh = bk && bk.iso && bk.e && Date.now() - (bk.ts || 0) < 14 * 86400000 && Date.parse(bk.iso) > Date.now();
     var fmt = function (iso) { var d = new Date(iso); return d.toLocaleString(undefined, { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }); };
-    if (!fresh) { line.innerHTML = 'Need to move your call? Text us at <a href="sms:+16468329166" style="color:#C9A85C;font-weight:600">(646) 832-9166</a> and we\'ll sort it out.'; return; }
+    if (!fresh) { line.innerHTML = 'Need to move your call? Text us at <a href="sms:+16468329166" style="color:#C9A85C;font-weight:600">(646) 832-9166</a>.'; return; }
     var render = function () { line.innerHTML = 'If you won\'t be in a quiet place at <b>' + fmt(bk.iso) + '</b> then please <a href="#" id="tyRsLink" style="color:#C9A85C;font-weight:700;text-decoration:underline">reschedule here</a>.'; document.getElementById('tyRsLink').addEventListener('click', function (ev) { ev.preventDefault(); open(); }); };
     var css = document.createElement('style');
     css.textContent = '#tyRsOv{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:400;display:flex;align-items:center;justify-content:center;padding:16px}'
@@ -501,5 +556,5 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   } catch (e) {}
 })();
 </script>
-<script src="/bnr.js?v=20260731f" defer></script></body>
+<script src="/bnr.js?v=20260801a" defer></script></body>
 </html>

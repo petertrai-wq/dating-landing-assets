@@ -127,16 +127,26 @@
         }, { threshold: 0.4 }) : null;
         vwraps.forEach(function (w) {
           var k = w.getAttribute('data-vkey');
-          tyW[k] = { on: false, vis: !vio, secs: 0, sent: 0 };
+          tyW[k] = { on: false, vis: !vio, secs: 0, sent: 0, stateful: false, play: false, engaged: false };
           if (vio) vio.observe(w);
           w.addEventListener('click', function () {
             if (!tyW[k].on) { tyW[k].on = true; beacon('ty_vid', { utm_content: k }); }
+          });
+          // v2 facade players (2026-07-31) dispatch real play/pause state as 'tyvid' CustomEvents —
+          // engaged:false while the hero autoplay is still muted, so passive seconds never count.
+          // Once any tyvid arrives that wrapper's WATCH SECONDS follow true player state; the
+          // click heuristic above stays as the fallback (and still fires ty_vid on first tap).
+          w.addEventListener('tyvid', function (ev) {
+            var d = (ev && ev.detail) || {}, t = tyW[k]; if (!t) return;
+            t.stateful = true; t.play = !!d.playing; t.engaged = !!d.engaged;
+            if (t.play && t.engaged && !t.on) { t.on = true; beacon('ty_vid', { utm_content: k }); }
           });
         });
         setInterval(function () {
           Object.keys(tyW).forEach(function (k) {
             var w = tyW[k];
-            if (w.on && w.vis && !document.hidden) w.secs += 5;
+            var watching = w.stateful ? (w.play && w.engaged && !document.hidden) : (w.on && w.vis && !document.hidden);
+            if (watching) w.secs += 5;
             if (w.secs - w.sent >= 15) { w.sent = w.secs; beacon('ty_vid_time', { utm_content: k, pct: Math.round(w.secs) }); }
           });
         }, 5000);
