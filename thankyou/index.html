@@ -357,6 +357,14 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     var hero = document.querySelector('.featured .video-frame[data-yt]');
     if (hero) {
       var heroEntry = activate(hero, true);
+      // YouTube defers autoplay while the tab is hidden (background-tab open, app switcher) —
+      // kick it the moment the page becomes visible so "refresh → it's playing" always holds.
+      document.addEventListener('visibilitychange', function () {
+        try {
+          if (!document.hidden && heroEntry && current === heroEntry && heroEntry.auto && heroEntry.player
+              && heroEntry.player.getPlayerState && heroEntry.player.getPlayerState() !== 1) heroEntry.player.playVideo();
+        } catch (e) {}
+      });
       // Unmuting the autoplaying hero (YouTube's own volume button lives inside the iframe, so
       // poll) = real engagement: from then on its watch time counts like a clicked video.
       var unmutePoll = setInterval(function () {
