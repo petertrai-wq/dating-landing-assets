@@ -74,7 +74,12 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
-    background: radial-gradient(1100px 540px at 50% -10%, var(--bg-hi) 0%, var(--bg) 62%), var(--bg);
+    /* Athena's northern-lights green fade (Peter 2026-07-31) — replaces the warm-black radial */
+    background:
+      radial-gradient(1300px 780px at 12% -8%, rgba(58,118,92,.55) 0%, rgba(58,118,92,0) 58%),
+      radial-gradient(1100px 680px at 88% 6%, rgba(28,78,62,.45) 0%, rgba(28,78,62,0) 62%),
+      radial-gradient(1500px 900px at 50% 118%, rgba(22,62,50,.5) 0%, rgba(22,62,50,0) 64%),
+      linear-gradient(158deg, #0e1a15 0%, #10211a 46%, #0a1410 100%), #0c1613;
     color: var(--body-c);
     font-family: 'Figtree', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
@@ -88,7 +93,7 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
     display: flex; justify-content: center; align-items: center;
     border-bottom: 1px solid var(--line);
     position: sticky; top: 0; z-index: 100;
-    background: rgba(20,18,16,.72);
+    background: rgba(12,22,18,.72);
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
   }
@@ -192,7 +197,7 @@ if (window.self !== window.top) { try { window.top.location.href = window.locati
   /* Price-increase eyebrow (Peter 2026-07-31): urgency copy until the increase moment (end of
      Aug 1 ET, same deadline as the retired banner), then this no-ops and the "Booking confirmed"
      default above is back — no redeploy needed. */
-  try { if (Date.now() < new Date('2026-08-02T00:00:00-04:00').getTime()) document.getElementById('tyEyebrow').textContent = 'You made it just in time! Our prices are about to go up after Aug 1.'; } catch (e) {}
+  try { if (Date.now() < new Date('2026-08-02T00:00:00-04:00').getTime()) document.getElementById('tyEyebrow').textContent = 'You made it just in time! Our prices go up after Aug 1.'; } catch (e) {}
   </script>
 
   <!-- ═══ WARNING + WELCOME ═══ -->

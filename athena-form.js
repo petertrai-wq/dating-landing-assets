@@ -115,10 +115,12 @@
   '.athro{display:flex;align-items:center;justify-content:space-between;border:1px solid #DCDCDC;border-radius:9px;padding:12px 15px;font-size:14.5px;color:#222;cursor:pointer;margin-bottom:10px;transition:border .12s,background .12s;background:#fff}' +
   '.athro:hover{border-color:#24352B;background:#F6F8F5}' +
   /* stylized dark hero (Peter 2026-07-28 pm: "make it stylized more like the athena one, use our colors") */
-  'html.athena-arm .nav{background:#141210;border-bottom:1px solid rgba(255,255,255,.08)}' +
+  /* Athena's own northern-lights green fade (Peter 2026-07-31: "apply this same green fade
+     northern lights color background athena has") — nav shares the base so there's no seam. */
+  'html.athena-arm .nav{background:#0d1714;border-bottom:1px solid rgba(255,255,255,.08)}' +
   'html.athena-arm .nav .brand{background:#F5F1E6;color:#141210}' +
   'html.athena-arm .nav .btn.sm{display:none}' +   /* Sign In hidden on the B test (Peter 2026-07-28 pm) */
-  'html.athena-arm header.hero{background:radial-gradient(1100px 540px at 50% -10%,#2c2822 0%,#141210 62%),#141210;padding-bottom:70px}' +
+  'html.athena-arm header.hero{background:radial-gradient(1300px 780px at 12% -8%,rgba(58,118,92,.55) 0%,rgba(58,118,92,0) 58%),radial-gradient(1100px 680px at 88% 6%,rgba(28,78,62,.45) 0%,rgba(28,78,62,0) 62%),radial-gradient(1500px 900px at 50% 118%,rgba(22,62,50,.5) 0%,rgba(22,62,50,0) 64%),linear-gradient(158deg,#0e1a15 0%,#10211a 46%,#0a1410 100%),#0c1613;padding-bottom:70px}' +
   '.athEyebrow{color:#B9AE93;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;text-align:left;margin:10px 0 22px}' +
   'html.athena-arm .hero .wrap{text-align:left}' +
   'html.athena-arm .hero h1{font-family:"Playfair Display",Georgia,serif;color:#F5F1E6;font-weight:500;letter-spacing:-.005em;font-size:clamp(44px,5.8vw,72px);line-height:1.08;text-align:left;max-width:1000px;margin:0 0 30px}' +
