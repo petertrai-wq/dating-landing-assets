@@ -531,7 +531,12 @@
       if (cell % 7 === 0 && day < dim) h += '</tr><tr>';
     }
     h += '</tr></table>';
-    return '<div class="adbk-calwrap">' + head + h + bkTzSelHtml() + '</div>';
+    // Out-of-month availability chips (Peter 2026-07-31: July 31 grid hid tomorrow's Aug 1 slots
+    // behind the › arrow) — surface the next month's open days as one-tap chips under the grid.
+    var others = Object.keys(bk.dates).filter(function (k) { if (!(bk.dates[k] || []).length) return false; var d2 = new Date(k + 'T12:00:00'); return d2.getMonth() !== mo || d2.getFullYear() !== y; }).sort().slice(0, 6);
+    var extra = '';
+    if (others.length) extra = '<div style="margin-top:10px;text-align:center;font-size:13px;color:#55555c">Also available: ' + others.map(function (k) { var d3 = new Date(k + 'T12:00:00'); return '<span class="adbk-day av" data-bkdate="' + k + '" style="width:auto;height:30px;line-height:30px;padding:0 12px;border-radius:99px;margin:0 3px">' + d3.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + '</span>'; }).join('') + '</div>';
+    return '<div class="adbk-calwrap">' + head + h + extra + bkTzSelHtml() + '</div>';
   }
   function bkSlotsHtml() {
     var slots = (bk.dates[bk.selDate] || []);
@@ -577,7 +582,7 @@
     body.innerHTML = '<div class="adbk">' + inner + '</div>';
     body.scrollTop = 0;
     var scr = body.querySelector('.adbk'); if (scr) scr.scrollTop = 0;
-    body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.armed = ''; if (bkIsMob()) { bk.mStep = 'slots'; bkPush('slots'); } renderBooker(); }); });
+    body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.month = new Date(bk.selDate + 'T12:00:00'); bk.armed = ''; if (bkIsMob()) { bk.mStep = 'slots'; bkPush('slots'); } renderBooker(); }); });
     body.querySelectorAll('[data-bknav]').forEach(function (el) { el.addEventListener('click', function () { var m = bk.month || new Date(); bk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-bknav'), 10), 1); renderBooker(); }); });
     body.querySelectorAll('[data-bkarm]').forEach(function (el) { el.addEventListener('click', function () { bk.armed = el.getAttribute('data-bkarm'); renderBooker(); }); });
     body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); bk.view = 'details'; bk.err = ''; bk.confirmed = false; bkPush('details'); renderBooker(); }); });

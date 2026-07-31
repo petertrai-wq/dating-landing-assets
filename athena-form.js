@@ -249,7 +249,7 @@
       card: qi('✓', 'Discretion is built in — everything sounds like you, and nothing goes out without your approval.') },
     { key: 'wantmore', type: 'radio',
       title: 'What do you want more of right now?',
-      opts: ['More time for high-leverage work', 'Higher quality dates', 'Peace of mind', 'A long-term quality relationship', 'All four'] },
+      opts: ['More time for high-leverage work', 'Higher quality dates', 'Dates scheduled for me', 'A long-term quality relationship', 'All four'] },
     { key: 'ninety', type: 'radio',
       title: "If nothing changes in the next 90 days, what's most likely to happen?",
       opts: ["I'll keep grinding the apps with nothing to show", "I'll probably just stop trying again", "I'll still be the guy who has everything but the relationship", "Honestly, I'll be saying this same thing in 90 days"],
@@ -601,7 +601,10 @@
       if (cell % 7 === 0 && day < dim) h += '</tr><tr>';
     }
     h += '</tr></table>';
-    return '<div class="abk-calwrap">' + head + h + abkTzHtml() + '</div>';
+    var others = Object.keys(abk.dates).filter(function (k) { if (!(abk.dates[k] || []).length) return false; var d2 = new Date(k + 'T12:00:00'); return d2.getMonth() !== mo || d2.getFullYear() !== y; }).sort().slice(0, 6);
+    var extra = '';
+    if (others.length) extra = '<div style="margin-top:10px;text-align:center;font-size:13px;color:#5C665C">Also available: ' + others.map(function (k) { var d3 = new Date(k + 'T12:00:00'); return '<span class="abk-day av" data-abkdate="' + k + '" style="width:auto;height:30px;line-height:30px;padding:0 12px;border-radius:99px;margin:0 3px">' + d3.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + '</span>'; }).join('') + '</div>';
+    return '<div class="abk-calwrap">' + head + h + extra + abkTzHtml() + '</div>';
   }
   function abkSlotsHtml() {
     var slots = (abk.dates[abk.selDate] || []);
@@ -648,7 +651,7 @@
     }
     col.innerHTML = '<div class="abk">' + inner + '</div>';
     ov.scrollTop = 0;
-    col.querySelectorAll('[data-abkdate]').forEach(function (el) { el.addEventListener('click', function () { abk.selDate = el.getAttribute('data-abkdate'); abk.armed = ''; if (abkMob()) abk.mStep = 'slots'; abkRender(); }); });
+    col.querySelectorAll('[data-abkdate]').forEach(function (el) { el.addEventListener('click', function () { abk.selDate = el.getAttribute('data-abkdate'); abk.month = new Date(abk.selDate + 'T12:00:00'); abk.armed = ''; if (abkMob()) abk.mStep = 'slots'; abkRender(); }); });
     col.querySelectorAll('[data-abknav]').forEach(function (el) { el.addEventListener('click', function () { var m = abk.month || new Date(); abk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-abknav'), 10), 1); abkRender(); }); });
     col.querySelectorAll('[data-abkarm]').forEach(function (el) { el.addEventListener('click', function () { abk.armed = el.getAttribute('data-abkarm'); abkRender(); }); });
     col.querySelectorAll('[data-abksel]').forEach(function (el) { el.addEventListener('click', function () { abk.slot = el.getAttribute('data-abksel'); abk.view = 'details'; abk.err = ''; abk.confirmed = false; abkRender(); }); });
