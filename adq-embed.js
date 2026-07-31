@@ -647,7 +647,16 @@
     var done = function () { clearInterval(tick); clearInterval(mrot); };
     var bookBody = PHOTOPAGE
       ? JSON.stringify({ name: (first.trim() + ' ' + (A.last || '')).trim(), email: email.trim(), phone: phone.trim(), mode: bk.mode === 'zoom' ? 'zoom' : 'phone', start: bk.slot })
-      : JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot, red: redLead() ? '1' : '', fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') });
+      : (function () {
+          // Identity bridge (Krish 2026-07-31): if this booker was opened from a #p= magic link
+          // (the form identity) and the visitor TYPED a different email/phone, send the prefill
+          // identity along as pe/pp so the relay can tie the booking back to the form fill.
+          var _bkPre = {};
+          try { var _mh3 = (location.hash || '').match(/[#&]p=([A-Za-z0-9_-]+)/); if (_mh3) _bkPre = JSON.parse(decodeURIComponent(escape(atob(_mh3[1].replace(/-/g, '+').replace(/_/g, '/'))))) || {}; } catch (e) {}
+          var _peD = _bkPre.e && String(_bkPre.e).trim().toLowerCase() !== email.trim().toLowerCase() ? String(_bkPre.e) : undefined;
+          var _ppD = _bkPre.p && String(_bkPre.p).replace(/\D/g, '').slice(-10) !== phone.replace(/\D/g, '').slice(-10) ? String(_bkPre.p) : undefined;
+          return JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: bk.slot, red: redLead() ? '1' : '', fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc'), pe: _peD, pp: _ppD });
+        })();
     var bookFetch = function (left) {
       return fetch(PHOTOPAGE ? 'https://admin.automated.dating/api/photo-consult/book' : API_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: bookBody }).then(function (r) { return r.json(); })
         .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 3000); }).then(function () { return bookFetch(left - 1); }); throw e; });
