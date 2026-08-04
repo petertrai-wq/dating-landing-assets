@@ -2,12 +2,14 @@
 // Active ONLY when window.__ADQ_FORM === 'athena' (set by the boot in <head>; always-on since
 // 08-04 — no coin flip; /athenatest permalink unchanged; ?form=original = QA override).
 //
-// ATHENA2 = the Athena UX (hero role card → full-screen stylized takeover, one-question-at-a-time
+// ATHENA2 = the Athena UX (hero q1 card → full-screen stylized takeover, one-question-at-a-time
 // cards, Playfair/Figtree styling, inline native booker) carrying the ORIGINAL FORM's questions
 // VERBATIM from adq-embed.js QS — MINUS 'methow', 'interest', 'occupation', 'occ_years',
-// 'problem' and 'start' (Peter 2026-08-04 review cuts). Final order: q1, age, time_week,
-// dates30, income, phone, name, email, invest, commit — incl. the age wheel and the dynamic
-// invest title. With 'start' gone there is no timeline question and therefore no timeline DQ.
+// 'problem', 'start', 'age' and the athena-only 'role' (Peter 2026-08-04 review cuts). Final
+// flow: q1 answered IN THE HERO CARD (Yes/No — replaced the role card 08-04 pm), then the
+// takeover: time_week, dates30, income, phone, name, email, invest (dynamic title), commit.
+// With 'start' gone there is no timeline question and therefore no timeline DQ; q1 'No' still
+// DQs at invest exactly like the Original (contact captured first at phone/name/email).
 // Titles/opts must NEVER be paraphrased — the relay's DFORM refs + tfQualified/
 // tfLeadDisqualified/TF_ANSWER_FIELDS regexes key on the exact strings.
 // Submissions and beacons TAG form='athena2' (hidden.form + every analytics beacon).
@@ -228,10 +230,11 @@
   // Price disclosure fully RETIRED (Peter 2026-07-31) — kept as a function so the invest title
   // stays in lockstep with adq-embed.js's invqPriceShown() history.
   function invqPriceShown() { return false; }
+  // q1 lives in the HERO CARD (Peter 2026-08-04: it replaced the role question there) — answered
+  // before the takeover opens, prefilled into A.q1, still submitted + still the first DQ gate.
+  // 'age' REMOVED the same pass (never fed DQ — the 27-55 gate is in q1's wording).
   var STEPS = [
-    { key: 'q1', type: 'radio', rail: true, title: 'Are you a man (aged 27-55) looking to date high quality women?', opts: ['Yes', 'No'] },
-    { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },
-    { key: 'time_week', type: 'radio', title: 'How many hours are you spending each week texting, swiping, thinking about, or meeting women?', opts: ['Under 3 hours', '3-7 hours', '8-15 hours', '15+ hours'],
+    { key: 'time_week', type: 'radio', rail: true, title: 'How many hours are you spending each week texting, swiping, thinking about, or meeting women?', opts: ['Under 3 hours', '3-7 hours', '8-15 hours', '15+ hours'],
       card: qq('"I don\'t have too much trouble with women, I just can\'t afford to spend the hours it takes to land even one decent date now. It\'s almost like a full time job."', 'M', 'Marco C.', 'Exec, SF', 'tw-marco2.jpg') },
     { key: 'dates30', type: 'radio', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'],
       card: qi('◔', "Hinge's own data: a match that gets a reply within 24 hours is <b>72% more likely to turn into a date</b>. Slow follow-up is where dates die.") },
@@ -269,7 +272,7 @@
       // A resumed session can carry answers for questions that no longer exist, and can land past
       // a question with it unanswered (wrong DQ after contact capture). Rewind to the first
       // unanswered required step so edited decks stay coherent. skipIf steps count as answered.
-      var validKeys = { first: 1, last: 1, role: 1 }; STEPS.forEach(function (q) { if (q.key) validKeys[q.key] = 1; });
+      var validKeys = { first: 1, last: 1, q1: 1 /* answered in the hero card, not a STEPS entry */ }; STEPS.forEach(function (q) { if (q.key) validKeys[q.key] = 1; });   // 'role'/'age' dropped 2026-08-04 — swept from old saved state here
       Object.keys(A).forEach(function (k) { if (!validKeys[k]) delete A[k]; });
       for (var si = 0; si < STEPS.length && si < step; si++) {
         var sq = STEPS[si];
@@ -346,14 +349,14 @@
   function payload(complete) {
     fsBump();
     // Same answers shape as adq-embed's payload() — the relay's DFORM builders parse these keys.
-    // methow/methow_other/interest/occupation/occ_years/problem intentionally absent (removed
-    // from athena2 2026-08-04) — the relay's addChoices/addText builders no-op on missing keys.
+    // methow/methow_other/interest/occupation/occ_years/problem/start/age/role intentionally
+    // absent (Peter's 2026-08-04 review cuts) — the relay's addChoices/addText builders no-op on
+    // missing keys. q1 rides in from the HERO card answer.
     return JSON.stringify({ token: token, complete: !!complete, hp: '', hidden: hiddenFields(), answers: {
-      q1: A.q1 || '', age: A.age || '', time_week: A.time_week || '', dates30: A.dates30 || '',
+      q1: A.q1 || '', time_week: A.time_week || '', dates30: A.dates30 || '',
       income: A.income || '',
       first: A.first || '', last: A.last || '', phone: (A.phone ? phoneE164() : ''), email: A.email || '',
-      invest: A.invest || '', commit: A.commit || '',
-      role: A.role || ''
+      invest: A.invest || '', commit: A.commit || ''
     } });
   }
   // ── typed-question AUTOFOCUS (Peter 2026-08-04). iOS Safari only opens the keyboard from a
@@ -450,10 +453,11 @@
     return '<div class="athcard quote"><div class="qt">' + c.quote + '</div><div class="who">' + av + '<div class="nm">' + c.name + '</div><div class="rl">' + c.role + '</div></div></div>';
   }
 
-  function openTakeover(role) {
-    if (role) A.role = role;
+  function openTakeover() {
+    // q1 was answered in the HERO card (A.q1 already set + saved) — the takeover always begins at
+    // the next question (STEPS[0] = time_week). Peter 2026-08-04: role card retired.
     mountOverlay();
-    // banner GONE once they pick a role and enter the form (Peter 2026-07-29 — supersedes 7/28's
+    // banner GONE once they answer q1 and enter the form (Peter 2026-07-29 — supersedes 7/28's
     // "keep the banner at the top"; the countdown did its job on the landing, the form needs room)
     try { var bnr = document.getElementById('adBnr'); if (bnr) bnr.remove(); } catch (e) {}
     ov.classList.add('on');
@@ -891,7 +895,7 @@
   // ── hero variant (arm B page changes) ──
   // ── Ad-congruent hero routing (Peter 2026-08-04, pain-ads launch): the H1 + subline swap by the
   // arriving ad's utm_content ({{ad.name}} — every Meta ad carries it via the account url_tags).
-  // ONLY the H1/subline change; eyebrow, role card, quote, and the whole page stay identical.
+  // ONLY the H1/subline change; eyebrow, q1 hero card, quote, and the whole page stay identical.
   // Buckets: time (delegation) · stuck (invisible/nowhere/restart) · winners (successful, selective).
   // Prefix fallbacks so future ads degrade to a sensible hero, never the generic one: pain-* → stuck,
   // vsl-* → time. No utm / organic / unmapped → the default hero below, unchanged. The choice is
@@ -949,14 +953,23 @@
       }
     } catch (e) {}
     try {
+      // Hero card = the q1 question (Peter 2026-08-04: replaced the role card — same #athRole
+      // styling/frame, q1's VERBATIM title, Yes/No options). Answering it prefills A.q1 and opens
+      // the takeover at the NEXT question; q1 still submits and still gates DQ (isDq/tfQualified).
       var host = document.getElementById('adqInlineHost');
       if (host) {
-        host.innerHTML = '<div id="athRole"><h3>What best describes your role?</h3><p class="sub2">Apply for our professional dating app management team that pays for itself in time and results.</p>' +
-          ['Entrepreneur/founder', 'Business owner', 'VP/Executive/C-Suite', 'Established professional', 'Other'].map(function (r) {
-            return '<div class="athro" data-role="' + r + '"><span>' + r + '</span><b>→</b></div>';
+        host.innerHTML = '<div id="athRole"><h3>Are you a man (aged 27-55) looking to date high quality women?</h3><p class="sub2">Apply for our professional dating app management team that pays for itself in time and results.</p>' +
+          ['Yes', 'No'].map(function (r) {
+            return '<div class="athro" data-q1="' + r + '"><span>' + r + '</span><b>→</b></div>';
           }).join('') + '</div>';
         host.querySelectorAll('.athro').forEach(function (el) {
-          el.addEventListener('click', function () { pingStep('role'); openTakeover(el.getAttribute('data-role')); });
+          el.addEventListener('click', function () {
+            A.q1 = el.getAttribute('data-q1');
+            saveState();
+            pingStep('q1');
+            if (TYPED_Q[(STEPS[0] || {}).type]) primeKeyboard();   // gesture-synchronous, same as in-flow taps
+            openTakeover();
+          });
         });
       }
     } catch (e) {}
@@ -971,12 +984,13 @@
     } catch (e) {}
   }
 
-  // every CTA on arm B opens the Athena form (capture beats adq-embed's own listener)
+  // every CTA opens the Athena form (capture beats adq-embed's own listener). Until q1 is
+  // answered in the hero card, CTAs scroll back to it instead of opening the takeover.
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest && e.target.closest('[data-tf-popup]');
     if (!t) return;
     e.preventDefault(); e.stopImmediatePropagation();
-    if (A.role) openTakeover(null);
+    if (A.q1) openTakeover();
     else { var rc = document.getElementById('athRole'); if (rc) { try { rc.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { rc.scrollIntoView(); } } }
   }, true);
 
