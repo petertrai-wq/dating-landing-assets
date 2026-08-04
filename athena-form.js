@@ -889,11 +889,45 @@
   }
 
   // ── hero variant (arm B page changes) ──
+  // ── Ad-congruent hero routing (Peter 2026-08-04, pain-ads launch): the H1 + subline swap by the
+  // arriving ad's utm_content ({{ad.name}} — every Meta ad carries it via the account url_tags).
+  // ONLY the H1/subline change; eyebrow, role card, quote, and the whole page stay identical.
+  // Buckets: time (delegation) · stuck (invisible/nowhere/restart) · winners (successful, selective).
+  // Prefix fallbacks so future ads degrade to a sensible hero, never the generic one: pain-* → stuck,
+  // vsl-* → time. No utm / organic / unmapped → the default hero below, unchanged. The choice is
+  // remembered (localStorage) so a return visit without UTMs stays congruent. Tracking needs no new
+  // field: per-hero conversion falls out of utm_content grouping, which every beacon already carries.
+  var HERO_MAP = {
+    'pain-too-busy': 'time', 'vsl-0801-v1': 'time', 'vsl-0801-v2': 'time', 'vsl-0801-v5': 'time',
+    'pain-zero-matches': 'stuck', 'pain-matches-no-dates': 'stuck', 'pain-left-on-read': 'stuck',
+    'pain-texts-wont-meet': 'stuck', 'pain-photos-killing': 'stuck', 'pain-bots-ghosting': 'stuck',
+    'pain-new-city': 'stuck', 'pain-after-divorce': 'stuck', 'vsl-0801-v3': 'stuck',
+    'pain-successful-single': 'winners', 'pain-winning-work': 'winners', 'pain-close-deals': 'winners',
+    'pain-better-in-person': 'winners', 'pain-good-at-dating': 'winners', 'pain-only-matching': 'winners',
+    'vsl-0801-v4': 'winners'
+  };
+  var HERO_COPY = {
+    time: { h1: '<span class="l">If your time’s worth $50 an hour,</span><span class="l"><em>stop swiping.</em></span>',
+      sub: 'A professional team runs your apps. Dates land right on your calendar. You approve every match before it counts.' },
+    stuck: { h1: '<span class="l">It’s not you.</span><span class="l"><em>It’s the ranking system.</em></span>',
+      sub: 'A professional team runs your apps until real dates hit your calendar. You approve every match before it counts.' },
+    winners: { h1: '<span class="l">You built everything but the</span><span class="l"><em>one thing you actually want.</em></span>',
+      sub: 'A team runs your dating apps. You just approve matches and show up. Nothing gets booked without your yes.' }
+  };
+  function heroBucket() {
+    try {
+      var uc = new URLSearchParams(location.search).get('utm_content') || '';
+      var b = uc && (HERO_MAP[uc] || (uc.indexOf('pain-') === 0 ? 'stuck' : (uc.indexOf('vsl-') === 0 ? 'time' : '')));
+      if (b) { try { localStorage.setItem('adq_hero', b); } catch (e) {} return b; }
+      return localStorage.getItem('adq_hero') || '';
+    } catch (e) { return ''; }
+  }
   function heroVariant() {
+    var hb = null; try { hb = HERO_COPY[heroBucket()] || null; } catch (e) {}
     try {
       var h1 = document.querySelector('.hero h1');
       if (h1) {
-        h1.innerHTML = '<span class="l">You’re losing 10+ hours a week</span><span class="l"><em>to work someone else should do.</em></span>';
+        h1.innerHTML = hb ? hb.h1 : '<span class="l">You’re losing 10+ hours a week</span><span class="l"><em>to work someone else should do.</em></span>';
         var eb = document.createElement('div');
         eb.className = 'athEyebrow';
         eb.textContent = 'Trusted by 300+ founders, execs and high level professionals';
@@ -903,7 +937,7 @@
     try {
       var sub = document.querySelector('.hero .sub');
       if (sub) {
-        sub.textContent = 'We run your dating apps, matching you with women who fit your criteria, then schedule dates for you according to your preferences around your busy schedule.';
+        sub.textContent = hb ? hb.sub : 'We run your dating apps, matching you with women who fit your criteria, then schedule dates for you according to your preferences around your busy schedule.';
         var tq = document.createElement('div');
         tq.id = 'athHeroQuote';
         tq.innerHTML = '"If I just put in the time, I\'d be fine. But I can\'t afford to with my schedule. Landing high quality dates is literally a full time job nowadays."' +
