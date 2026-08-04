@@ -7,7 +7,8 @@
 // VERBATIM from adq-embed.js QS — MINUS 'methow', 'interest', 'occupation', 'occ_years',
 // 'problem', 'start', 'age' and the athena-only 'role' (Peter 2026-08-04 review cuts). Final
 // flow: q1 answered IN THE HERO CARD (Yes/No — replaced the role card 08-04 pm), then the
-// takeover: time_week, dates30, income, phone, name, email, invest (dynamic title), commit.
+// takeover: time_week, hinge_banned (added 08-04, pure intel — never DQs), dates30, income,
+// phone, name, email, invest (dynamic title), commit.
 // With 'start' gone there is no timeline question and therefore no timeline DQ; q1 'No' still
 // DQs at invest exactly like the Original (contact captured first at phone/name/email).
 // Titles/opts must NEVER be paraphrased — the relay's DFORM refs + tfQualified/
@@ -236,6 +237,10 @@
   var STEPS = [
     { key: 'time_week', type: 'radio', rail: true, title: 'How many hours are you spending each week texting, swiping, thinking about, or meeting women?', opts: ['Under 3 hours', '3-7 hours', '8-15 hours', '15+ hours'],
       card: qq('"I don\'t have too much trouble with women, I just can\'t afford to spend the hours it takes to land even one decent date now. It\'s almost like a full time job."', 'M', 'Marco C.', 'Exec, SF', 'tw-marco2.jpg') },
+    // QUESTION 3 (Peter 2026-08-04: hero q1 counts as question 1) — pure intel, NO DQ effect from
+    // any answer. Mirrored in the relay DFORM (hinge_banned); no GHL custom field — rides
+    // form_fills → admin /form + lead cards + #leads generically.
+    { key: 'hinge_banned', type: 'radio', title: 'Are you banned on Hinge currently?', opts: ['Yes', 'No', 'Not sure'] },
     { key: 'dates30', type: 'radio', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'],
       card: qi('◔', "Hinge's own data: a match that gets a reply within 24 hours is <b>72% more likely to turn into a date</b>. Slow follow-up is where dates die.") },
     // 'methow' + 'interest' (Peter 2026-08-04 review) and 'occupation' + 'occ_years' (Peter
@@ -353,7 +358,7 @@
     // absent (Peter's 2026-08-04 review cuts) — the relay's addChoices/addText builders no-op on
     // missing keys. q1 rides in from the HERO card answer.
     return JSON.stringify({ token: token, complete: !!complete, hp: '', hidden: hiddenFields(), answers: {
-      q1: A.q1 || '', time_week: A.time_week || '', dates30: A.dates30 || '',
+      q1: A.q1 || '', time_week: A.time_week || '', hinge_banned: A.hinge_banned || '', dates30: A.dates30 || '',
       income: A.income || '',
       first: A.first || '', last: A.last || '', phone: (A.phone ? phoneE164() : ''), email: A.email || '',
       invest: A.invest || '', commit: A.commit || ''
