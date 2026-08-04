@@ -915,13 +915,15 @@
     'pain-better-in-person': 'winners', 'pain-good-at-dating': 'winners', 'pain-only-matching': 'winners',
     'vsl-0801-v4': 'winners'
   };
+  // One shared subline across ALL hero variations (Peter 2026-08-04 pm: 'change this for every variation').
+  var HERO_SUB = '<b>First:</b> You tell us your type, your logistics and schedule.<br><b>Then:</b> We run all of your dating apps scheduling dates for you. You just show up.';
   var HERO_COPY = {
     time: { h1: '<span class="l">If your time’s worth $50 an hour,</span><span class="l"><em>stop swiping.</em></span>',
-      sub: 'A professional team runs your apps. Dates land right on your calendar. You approve every match before it counts.' },
+      sub: HERO_SUB },
     stuck: { h1: '<span class="l">It’s not you.</span><span class="l"><em>It’s the ranking system.</em></span>',
-      sub: 'A professional team runs your apps until real dates hit your calendar. You approve every match before it counts.' },
+      sub: HERO_SUB },
     winners: { h1: '<span class="l">You built everything but the</span><span class="l"><em>one thing you actually want.</em></span>',
-      sub: 'A team runs your dating apps. You just approve matches and show up. Nothing gets booked without your yes.' }
+      sub: HERO_SUB }
   };
   function heroBucket() {
     try {
@@ -946,7 +948,7 @@
     try {
       var sub = document.querySelector('.hero .sub');
       if (sub) {
-        sub.textContent = hb ? hb.sub : 'We run your dating apps, matching you with women who fit your criteria, then schedule dates for you according to your preferences around your busy schedule.';
+        sub.innerHTML = hb ? hb.sub : HERO_SUB;   // First/Then copy everywhere (labels bold via .sub b)
         var tq = document.createElement('div');
         tq.id = 'athHeroQuote';
         tq.innerHTML = '"If I just put in the time, I\'d be fine. But I can\'t afford to with my schedule. Landing high quality dates is literally a full time job nowadays."' +
