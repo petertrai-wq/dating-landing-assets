@@ -1,19 +1,25 @@
-// ═══ ATHENA FORM — split-test arm B (Peter 2026-07-28) ═══
-// Active ONLY when window.__ADQ_FORM === 'athena' (set by the form-split boot in <head>;
-// /athenatest forces it, apex splits 50/50 via the adq_form cookie).
+// ═══ ATHENA2 FORM — the ONLY form since 2026-08-04 (SPLIT TEST 10 concluded: ATHENA WON) ═══
+// Active ONLY when window.__ADQ_FORM === 'athena' (set by the boot in <head>; always-on since
+// 08-04 — no coin flip; /athenatest permalink unchanged; ?form=original = QA override).
 //
-// Arm B experience on the SAME page/URL:
-//   hero title swaps → role-question card in the hero → testimonial wall moves up underneath →
-//   answering the role question morphs the page into the Athena-style full-screen form
-//   (the design approved at admin.automated.dating/athenatest) → loader → contact →
-//   /api/apply submit (hidden.form = 'athena') → qualified: the SAME native booker as the
-//   Original Form (adq-embed bridge) · DQ'd: the standard DQ screen, no calendar, no automations.
+// ATHENA2 = the Athena UX (hero role card → full-screen stylized takeover, one-question-at-a-time
+// cards, Playfair/Figtree styling, inline native booker) carrying the ORIGINAL FORM's questions
+// VERBATIM from adq-embed.js QS — MINUS 'methow', 'interest', 'occupation', 'occ_years',
+// 'problem' and 'start' (Peter 2026-08-04 review cuts). Final order: q1, age, time_week,
+// dates30, income, phone, name, email, invest, commit — incl. the age wheel and the dynamic
+// invest title. With 'start' gone there is no timeline question and therefore no timeline DQ.
+// Titles/opts must NEVER be paraphrased — the relay's DFORM refs + tfQualified/
+// tfLeadDisqualified/TF_ANSWER_FIELDS regexes key on the exact strings.
+// Submissions and beacons TAG form='athena2' (hidden.form + every analytics beacon).
+// Typed questions AUTOFOCUS (Peter 2026-08-04): an offscreen input is focused SYNCHRONOUSLY
+// inside the tap that advances to a typed step (adq-embed's primeKeyboard trick — iOS only opens
+// the keyboard from a user gesture), then render() moves focus to the real input.
 //
-// DQ rules (client mirror — server is authoritative, keep in sync with relay tfLeadDisqualified):
-//   income 'Under 150k' OR timeline not ASAP. Contact is always captured BEFORE the DQ screen.
-// Shared-field contract: timeline posts as `start`, income maps onto the Original Form's buckets
-// ('150k to 200k' → '150k-200k') so GHL/SendBlue fields line up across both forms.
-// This file must load BEFORE adq-embed.js (its capture listener hijacks the CTA clicks on arm B).
+// DQ rules (client mirror — server is authoritative, keep in sync with the relay's
+// tfLeadDisqualified/tfQualified athena2 branch): q1 'No' · income '0k to 50k' / '50k to 100k' ·
+// invest 'No.' · commit 'Maybe'. NO timeline DQ — the start question is pure intel on athena2
+// (Peter 2026-08-04). DQ evaluates at INVEST (contact is captured before it, at phone/name/email).
+// This file must load BEFORE adq-embed.js (its capture listener hijacks the CTA clicks).
 (function () {
   'use strict';
   if (window.__ADQ_FORM !== 'athena') return;
@@ -192,71 +198,60 @@
   '.abk-prog-bar i{display:block;height:100%;width:0;background:#24352B;transition:width .35s}' +
   '.abk-prog-pct{font-size:12.5px;color:#8a9288;margin-top:8px}' +
   '.abk-prog-note{font-size:12.5px;color:#8a9288;margin-top:12px;line-height:1.45;max-width:340px;margin-left:auto;margin-right:auto}' +
-  '@media (max-width:760px){.abk-grid{display:block}.abk-calwrap{width:100%;max-width:360px;margin:0 auto}.abk-slotcol{max-width:none}}';
+  '@media (max-width:760px){.abk-grid{display:block}.abk-calwrap{width:100%;max-width:360px;margin:0 auto}.abk-slotcol{max-width:none}}' +
+  /* ATHENA2 (2026-08-04): prominent top progress bar, styled off the Original Form's #adqBar
+     (track #e7e9ee, fill #1A1A1A, pill, .3s width ease) but bigger + always visible up top. */
+  '#athProgWrap{flex:0 0 auto;background:#F7F4ED;padding:14px 22px 0}' +
+  '#athProg{max-width:1180px;margin:0 auto;height:10px;background:#e7e9ee;border-radius:99px;overflow:hidden}' +
+  '#athProg i{display:block;height:100%;width:0%;background:#1A1A1A;border-radius:99px;transition:width .3s ease}' +
+  /* iOS-style scroll wheel (ported from the Original Form's age/occ_years wheel, athena palette) */
+  '.athwheelwrap{position:relative;max-width:280px;margin:34px auto 0;width:100%}' +
+  '.athwheel{height:220px;box-sizing:border-box;overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;padding:88px 0;scrollbar-width:none;outline:none;touch-action:pan-y;overscroll-behavior:contain}' +
+  '.athwheel::-webkit-scrollbar{display:none}' +
+  '.athwitem{box-sizing:border-box;height:44px;line-height:44px;text-align:center;font-size:22px;color:#b6bdb4;scroll-snap-align:center;cursor:pointer;transition:color .12s ease,font-size .12s ease,font-weight .12s ease}' +
+  '.athwitem.cur{color:#1e2820;font-weight:700;font-size:26px}' +
+  '.athwhl{display:block;position:absolute;left:0;right:0;top:88px;height:44px;box-sizing:border-box;pointer-events:none;background:rgba(36,53,43,.08);border:2px solid #24352B;border-radius:10px}' +
+  'textarea.athin{resize:none;min-height:96px;line-height:1.5;font-family:inherit}' +
+  /* compact title (commit question): ~desc size + tight leading so the whole card fits one
+     mobile screen; options tighten up too on mobile */
+  '.athq.compact{font-size:19px;line-height:1.45;font-weight:600}' +
+  '@media (max-width:760px){.athq.compact{font-size:16.5px;line-height:1.42}.athq.compact~.athops{margin-top:18px;gap:14px}}';
   try { var stl = document.createElement('style'); stl.textContent = css; document.head.appendChild(stl); } catch (e) {}
 
-  // ── questions (final wording approved on /athenatest, 2026-07-28) ──
+  // ── questions (ATHENA2, 2026-08-04): the ORIGINAL FORM's questions VERBATIM from adq-embed.js
+  //    QS — same keys, titles, options, order, skipIf and dynamic titles. Rendered as Athena-style
+  //    cards (income stays a CARD, not a slider; age/occ_years keep the original's wheel). The
+  //    decorative quote/info cards below the options are Athena UX flair — NOT part of any
+  //    question — and never touch the matched strings. ──
   var qi = function (icon, text) { return { kind: 'info', icon: icon, text: text }; };
   var qq = function (quote, initial, name, role, img) { return { kind: 'quote', quote: quote, initial: initial, name: name, role: role, img: img ? PIC + img : null }; };
+  // Price disclosure fully RETIRED (Peter 2026-07-31) — kept as a function so the invest title
+  // stays in lockstep with adq-embed.js's invqPriceShown() history.
+  function invqPriceShown() { return false; }
   var STEPS = [
-    { key: 'usedApps', type: 'radio', rail: true,
-      title: 'Have you ever used any dating apps?',
-      opts: ['No, never', 'Yes, I have them now', 'Yes, but not currently'] },
-    { key: 'hours', type: 'radio',
-      title: "In a typical week, how much of your time goes to dating-related things that don't actually require you to do them?",
-      opts: ['Less than 2 hours', '2–6 hours', '6–10 hours', '10+ hours', "Honestly, I've never counted"],
+    { key: 'q1', type: 'radio', rail: true, title: 'Are you a man (aged 27-55) looking to date high quality women?', opts: ['Yes', 'No'] },
+    { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },
+    { key: 'time_week', type: 'radio', title: 'How many hours are you spending each week texting, swiping, thinking about, or meeting women?', opts: ['Under 3 hours', '3-7 hours', '8-15 hours', '15+ hours'],
       card: qq('"I don\'t have too much trouble with women, I just can\'t afford to spend the hours it takes to land even one decent date now. It\'s almost like a full time job."', 'M', 'Marco C.', 'Exec, SF', 'tw-marco2.jpg') },
-    { key: 'lastweek', type: 'radio',
-      title: 'How many high quality dates did you go on in the last 30 days?',
-      opts: ['0', '1-2', '3-4', '5+'] },
-    { key: 'tried', type: 'radio',
-      title: 'What have you tried so far to improve your dating life?',
-      opts: ['AI photos or a real photo shoot', 'Matchmakers', 'Deleting dating apps', 'Coaching', 'A mix of the above', "Haven't tried anything systematically"],
-      card: qi('⚙', 'Apps are great for landing high-quality dates, but someone still has to run them every single day.') },
-    { key: 'datinglife', type: 'radio',
-      title: 'Which best describes your current dating situation?', desc: 'Choose the closest match.',
-      opts: ['Frustrating', 'Non-existent', 'Annoying but tolerable', "I'm lost"],
-      card: qq('"I\'m way too busy... don\'t have the energy to text with women for three to five hours."', 'S', 'Shaun R.', 'Finance Exec, London', 'tw-shaun2.jpg') },
-    { key: 'effort', type: 'radio',
-      title: 'How is your effort spent in a typical day?', desc: 'Choose the closest match.',
-      opts: ['A mix of promising and dead-end conversations', 'A lot of swiping for not much return', 'Too much time on women who go nowhere', 'Mostly quality conversations', "I'm not sure"] },
-    { key: 'interrupt', type: 'radio',
-      title: 'Which one causes you to lose the most dates?',
-      opts: ["I don't have time to swipe enough", "I don't know how to text", "I can't follow up fast enough", 'I hate the pre date small talk'],
+    { key: 'dates30', type: 'radio', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'],
       card: qi('◔', "Hinge's own data: a match that gets a reply within 24 hours is <b>72% more likely to turn into a date</b>. Slow follow-up is where dates die.") },
-    { key: 'win', type: 'radio',
-      title: 'If a team of experts ran your dating apps starting next Monday, what would be the biggest win?',
-      desc: 'Most clients have their first date on the calendar within 7 days.',
-      opts: ['10+ hours a week back for high-leverage work', 'Never having to deal with swiping, texting or flaking again', 'Increasing the quality of the women I date', 'Real time back for family, health or personal priorities', '1 quality date ASAP with a woman who meets my standards'],
-      card: qq('"I\'m so tired of handling and managing my own stuff."', 'D', 'Derek M.', 'Startup Founder, Seattle', 'tw-derek.jpg') },
-    { key: 'handled', type: 'multi',
-      title: 'Which of these would you want handled for you?', desc: 'Select at least one.',
-      opts: ['Fast follow up with warm leads', 'High volume of outreach to your exact type', "Scheduling dates in cities I'm headed to", 'Constant photo optimization', 'Data backed messaging best practices', 'Weekly report of your matches, dates and pipeline', 'All of the above (most popular)'],
-      card: qi('✓', 'Your team runs it end to end. You just show up.') },
-    { key: 'age', type: 'radio', almost: true,
-      title: 'How old are you?',
-      opts: ['27–34', '35–44', '45–55', 'Outside this range'],
-      card: qi('👥', 'We work with professional men at every stage.') },
-    { key: 'income', type: 'radio',
-      title: "What's your annual income? (USD)",
-      opts: ['Under 100k', '100k to 150k', '150k to 200k', '200k+'] },   // split 2026-07-30: 100-150k qualifies (red tier) — only sub-100k DQs
-    { key: 'concerns', type: 'multi',
-      title: 'Do you have any concerns about hiring a team to manage your dating apps?',
-      desc: 'Understanding your concerns helps us address them early.',
-      opts: ['Texting in my voice and style', 'AI photos not matching me or my life', 'Privacy and data security', 'Poor experiences with matchmakers', 'Fear of trusting a team with swiping and texting for me', "Worried you won't be able to find matches who fit my criteria", 'Other'],
-      card: qi('✓', 'Discretion is built in — everything sounds like you, and nothing goes out without your approval.') },
-    { key: 'wantmore', type: 'radio',
-      title: 'What do you want more of right now?',
-      opts: ['More time for high-leverage work', 'Higher quality dates', 'Dates scheduled for me', 'A long-term quality relationship', 'All four'] },
-    { key: 'ninety', type: 'radio',
-      title: "If nothing changes in the next 90 days, what's most likely to happen?",
-      opts: ["I'll keep grinding the apps with nothing to show", "I'll probably just stop trying again", "I'll still be the guy who has everything but the relationship", "Honestly, I'll be saying this same thing in 90 days"],
+    // 'methow' + 'interest' (Peter 2026-08-04 review) and 'occupation' + 'occ_years' (Peter
+    // 2026-08-04 second pass) REMOVED from athena2 — the Original Form (adq-embed, ?form=original
+    // QA) still asks all four; the relay's DFORM keeps their entries and every parser no-ops when
+    // the keys are absent.
+    { key: 'income', type: 'radio', title: "What's your annual income? (USD)", desc: 'This helps us determine the lifestyle and type of profile you can realistically showcase without it coming off as incongruent.', opts: ['0k to 50k', '50k to 100k', '100k to 150k', '150k-200k', '200k+'],
+      card: qq('"I\'m way too busy... don\'t have the energy to text with women for three to five hours."', 'S', 'Shaun R.', 'Finance Exec, London', 'tw-shaun2.jpg') },
+    // 'problem' long-text and the 'start' timeline question also REMOVED (Peter 2026-08-04 review
+    // cuts) — same DFORM/parser tolerance as the other cuts; downstream surfaces (lead cards,
+    // /form view, GHL) render absence as empty, never 'undefined' (they enumerate present answers
+    // only). With no start answer, the server's red-tier derivation (GHL start field) simply never
+    // trips for athena2 leads — slots stay standard.
+    { key: 'phone', type: 'phone', almost: true, title: "What's your phone number?", descHtml: 'Please input your real number - we require a text confirmation for your appointment. We will not spam you.' },
+    { key: 'name', type: 'name', title: "What's your name?" },
+    { key: 'email', type: 'email', title: "What's your email address?" },
+    { key: 'invest', type: 'radio', title: function () { return invqPriceShown() ? 'Our minimum investment to get started is $3000 for a month. $6000 for 3 months. Are you able to invest if this is a great fit?' : 'Are you willing to invest if this makes sense for you?'; }, descHtml: function () { return invqPriceShown() ? '<span style="color:#d92d20;font-weight:600">We\'re scheduled to increase price $500 on August 1st so we can maintain high quality results for clients.</span>' : ''; }, opts: ["Yes. I'm willing and able to invest if this is a great fit.", "No. I'm not willing or able to invest at this time."],
       card: qq('"The likes you do get aren\'t women you\'re attracted to. I wanted fewer, better dates. That\'s exactly what this is."', 'C', 'Casey H.', 'CRO of a Series C company, Ogden UT', 'tw-casey.jpg') },
-    { key: 'start', type: 'radio',
-      title: 'What is your timeline for getting help?', desc: 'No pressure, this just helps us recommend next steps.',
-      opts: ['ASAP - this is a priority', 'Next week', 'Within the next month', 'In the next 2-3 months', 'Just exploring for now'],
-      card: qi('✓', 'Clients get their first date on the calendar within 7 days.') },
-    { type: 'contact' }
+    { key: 'commit', type: 'radio', compact: true /* long title renders at desc size so title+options+Continue fit one mobile screen (Peter 2026-08-04) */, title: 'Last Question - On the following page, you will be able to schedule a profile audit with one of our specialists (you do not need current active profiles for this). After working with 300+ clients, we know with 100% certainty we can help you. But we can NOT help you if you do NOT show up to the scheduled call time. Will you commit to attending your selected time slot and showing up in a quiet place ready to work on your dating transformation?', opts: ['Yes - I will double-check my calendar and commit 100% to the time I choose', "Maybe - I'm not sure if I'm serious about this"] }
   ];
 
   // ── state / token / attribution ──
@@ -265,20 +260,21 @@
   function newToken() { return 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12); }
   var token = '';
   try { token = sessionStorage.getItem('ath_token') || ''; if (!token) { token = newToken(); sessionStorage.setItem('ath_token', token); } } catch (e) { token = newToken(); }
-  var STATE_KEY = 'ath_state_v1';
+  var STATE_KEY = 'ath_state_v2';   // v2 (2026-08-04, athena2): the v1 deck's saved answers (usedApps/hours/…, athena income buckets) are incompatible with the Original question set — old state is simply ignored
   try {
     var sv = JSON.parse(localStorage.getItem(STATE_KEY) || 'null');
     if (sv && sv.token === token && sv.A && typeof sv.step === 'number') {
       A = sv.A;
       step = Math.min(Math.max(0, sv.step), STEPS.length - 1);   // clamp (2026-07-31: removing questions shrank STEPS; unclamped resumes crashed / skipped the start question)
       // A resumed session can carry answers for questions that no longer exist, and can land past
-      // the start question with it unanswered (wrong DQ after contact capture). Rewind to the
-      // first unanswered required step so shortened decks stay coherent.
-      var validKeys = {}; STEPS.forEach(function (q) { validKeys[q.key] = 1; });
-      Object.keys(A).forEach(function (k) { if (!validKeys[k] && ['first','last','email','phone'].indexOf(k) < 0) delete A[k]; });
+      // a question with it unanswered (wrong DQ after contact capture). Rewind to the first
+      // unanswered required step so edited decks stay coherent. skipIf steps count as answered.
+      var validKeys = { first: 1, last: 1, role: 1 }; STEPS.forEach(function (q) { if (q.key) validKeys[q.key] = 1; });
+      Object.keys(A).forEach(function (k) { if (!validKeys[k]) delete A[k]; });
       for (var si = 0; si < STEPS.length && si < step; si++) {
         var sq = STEPS[si];
-        if (sq.kind) continue;   // info/quote cards need no answer
+        if (sq.skipIf && sq.skipIf(A)) continue;
+        if (sq.type === 'name') { if (!A.first || !A.last) { step = si; break; } continue; }
         var av = A[sq.key];
         if (av == null || av === '' || (Array.isArray(av) && !av.length)) { step = si; break; }
       }
@@ -289,7 +285,7 @@
   function fsBump() { var now = Date.now(); if (fsLast && now - fsLast < 120000) fsAcc += (now - fsLast) / 1000; fsLast = now; }
   function pxCookie(name) { try { var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]+)')); return m ? decodeURIComponent(m[1]).slice(0, 400) : ''; } catch (e) { return ''; } }
   function hiddenFields() {
-    var out = { ab: (window.__ADQ_AB || window.__AB || 'c'), form: 'athena' };
+    var out = { ab: (window.__ADQ_AB || window.__AB || 'c'), form: 'athena2' };
     try {
       var el = document.querySelector('[data-tf-popup]');
       var s = (el && el.getAttribute('data-tf-hidden')) || '';
@@ -300,7 +296,7 @@
       });
     } catch (e) {}
     out.ab = (window.__ADQ_AB || window.__AB || 'c');
-    out.form = 'athena';
+    out.form = 'athena2';   // athena2 tag (2026-08-04): the relay's formLabel/recordFunnel/beacon gates all accept it
     try { if (fsAcc >= 1) out.form_secs = String(Math.round(fsAcc)); } catch (e) {}
     try { out.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
     try { var p = pxCookie('_fbp'); if (p) out.fbp = p; var c = pxCookie('_fbc'); if (c) out.fbc = c; } catch (e) {}
@@ -311,7 +307,7 @@
   var stepPinged = {};
   function pingEv(ev, pg) {
     try {
-      navigator.sendBeacon(EP, new Blob([JSON.stringify({ event: ev, page: pg, sid: sid, ab: (window.__ADQ_AB || 'c'), form: 'athena' })], { type: 'text/plain' }));
+      navigator.sendBeacon(EP, new Blob([JSON.stringify({ event: ev, page: pg, sid: sid, ab: (window.__ADQ_AB || 'c'), form: 'athena2' })], { type: 'text/plain' }));
     } catch (e) {}
   }
   function pingStep(key) { if (stepPinged[key]) return; stepPinged[key] = 1; pingEv('form_step', key); }
@@ -340,22 +336,51 @@
     return d.length === 10 && d.charAt(0) !== '0' && d.charAt(0) !== '1';
   }
 
-  // income maps onto the Original Form's GHL buckets; timeline posts verbatim as `start`.
-  function incomeOut() { return A.income === '150k to 200k' ? '150k-200k' : (A.income || ''); }
-  function isDq() { return A.income === 'Under 100k' || A.income === 'Under 150k' /* legacy pre-2026-07-30 saved state */ || !/^(ASAP|Next week)/i.test(A.start || ''); }
+  // ATHENA2 DQ (Peter 2026-08-04): the Original Form's gates MINUS the timeline — the start
+  // question was removed outright, so there is no timeline DQ. commit 'Maybe' DQs at the commit
+  // step (same as the Original's advance()). Keep in sync with relay tfLeadDisqualified/
+  // tfQualified (their athena2 branch skips the timeline gate the same way — server and client
+  // must agree).
+  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || ''); }
 
   function payload(complete) {
     fsBump();
+    // Same answers shape as adq-embed's payload() — the relay's DFORM builders parse these keys.
+    // methow/methow_other/interest/occupation/occ_years/problem intentionally absent (removed
+    // from athena2 2026-08-04) — the relay's addChoices/addText builders no-op on missing keys.
     return JSON.stringify({ token: token, complete: !!complete, hp: '', hidden: hiddenFields(), answers: {
-      role: A.role || '', usedApps: A.usedApps || '', hours: A.hours || '', tried: A.tried || '',
-      datinglife: A.datinglife || '', effort: A.effort || '', lastweek: A.lastweek || '', interrupt: A.interrupt || '',
-      win: A.win || '', timesinks: A.timesinks || [], support: A.support || [],
-      handled: A.handled || [], matters: A.matters || [],
-      age_bucket: A.age || '', concerns: A.concerns || [], wantmore: A.wantmore || '', ninety: A.ninety || '',
-      heard: A.heard || '',
-      income: incomeOut(), start: A.start || '',
-      first: A.first || '', last: A.last || '', phone: (A.phone ? phoneE164() : ''), email: A.email || ''
+      q1: A.q1 || '', age: A.age || '', time_week: A.time_week || '', dates30: A.dates30 || '',
+      income: A.income || '',
+      first: A.first || '', last: A.last || '', phone: (A.phone ? phoneE164() : ''), email: A.email || '',
+      invest: A.invest || '', commit: A.commit || '',
+      role: A.role || ''
     } });
+  }
+  // ── typed-question AUTOFOCUS (Peter 2026-08-04). iOS Safari only opens the keyboard from a
+  //    user gesture, and the step animation renders ~720ms after the tap — so an offscreen input
+  //    is focused SYNCHRONOUSLY inside the advancing tap (adq-embed's primeKeyboard trick), then
+  //    render() moves focus to the real input. ──
+  var TYPED_Q = { short: 1, long: 1, phone: 1, email: 1, name: 1 };
+  var _kbPrime = null;
+  function primeKeyboard() {
+    try {
+      if (!_kbPrime) {
+        _kbPrime = document.createElement('input');
+        _kbPrime.type = 'text';
+        _kbPrime.setAttribute('aria-hidden', 'true');
+        _kbPrime.style.cssText = 'position:fixed;top:-100px;left:0;width:1px;height:1px;opacity:0;border:none;padding:0;font-size:16px';
+        (ov || document.body).appendChild(_kbPrime);
+      }
+      _kbPrime.focus({ preventScroll: true });
+    } catch (e) {}
+  }
+  // The moment a valid phone lands, the lead is captured server-side as a partial (same contract
+  // as adq-embed's firePhonePartial) — even if they never answer another question.
+  var phonePartialFired = false;
+  function firePhonePartial() {
+    if (phonePartialFired || submitted) return;
+    phonePartialFired = true; partialSent = true;
+    try { fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload(false), keepalive: true }).catch(function () {}); } catch (e) {}
   }
   function submit(cb) {
     if (submitted) { if (cb) cb(); return; }
@@ -392,13 +417,32 @@
     ov = document.createElement('div');
     ov.id = 'athOv';
     ov.innerHTML = '<div id="athBnrSlot"></div><div id="athHead"><div class="inr"><button id="athBack">←</button><div class="athwm">AUTOMATED DATING</div></div></div>' +
+      '<div id="athProgWrap"><div id="athProg"><i id="athProgFill"></i></div></div>' +
       '<div id="athBody"><div id="athCol"></div>' +
       '<div id="athRail"><div class="lbl">Match progress</div><div class="athring"><div class="pc"><b>6%</b><span>Complete</span></div></div><div class="note">Each answer helps us build your exact dating profile plan</div></div></div>';
     document.body.appendChild(ov);
     col = document.getElementById('athCol'); railEl = document.getElementById('athRail'); backBtn = document.getElementById('athBack');
     backBtn.addEventListener('click', back);
   }
-  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  // ── prominent top progress bar (2026-08-04, styled off the Original Form's #adqBar): counts
+  //    answered questions + step position like adq-embed's setBar, so it moves on every card. ──
+  function answeredCount() {
+    var n = 0;
+    STEPS.forEach(function (q) {
+      if (q.skipIf && q.skipIf(A)) { n++; return; }   // skipped questions count as done or the bar can never fill
+      if (q.type === 'name') { if (A.first && A.last) n++; return; }
+      var v = A[q.key];
+      if (v != null && !(Array.isArray(v) && !v.length) && String(v).trim() !== '') n++;
+    });
+    return n;
+  }
+  function setBar(full) {
+    var el = document.getElementById('athProgFill'); if (!el) return;
+    var TOTAL = STEPS.length + 1;
+    var n = full ? TOTAL : Math.max(answeredCount(), Math.min(Math.max(step, 0), STEPS.length));
+    el.style.width = Math.max(3, Math.round(100 * n / TOTAL)) + '%';
+  }
   function cardHtml(c) {
     if (!c) return '';
     if (c.kind === 'info') return '<div class="athcard info"><div class="ic">' + c.icon + '</div><div>' + c.text + '</div></div>';
@@ -430,31 +474,50 @@
 
   function render(dir) {
     var s = STEPS[step];
+    setBar();
     railEl.style.display = (s.rail ? 'flex' : 'none');
-    backBtn.hidden = (s.type === 'loader' || finishedView === 'dq' || finishedView === 'booked');
+    backBtn.hidden = !!finishedView;
+    var _qt = (typeof s.title === 'function') ? s.title(A) : s.title;
+    var _qdH = (typeof s.descHtml === 'function') ? s.descHtml(A) : s.descHtml;
     var h = '';
-    if (s.almost) h += '<div class="athalmost"><div class="athbar"><i style="width:55%"></i></div><h1 class="athserif">You’re almost there!</h1><p>Just a few more questions to help us build your exact done-for-you dating app strategy.</p><hr></div>';
+    if (s.almost) h += '<div class="athalmost"><h1 class="athserif">You’re almost there!</h1><p>Just a few more questions to help us build your exact done-for-you dating app strategy.</p><hr></div>';
     if (s.type === 'radio' || s.type === 'multi') {
       if (step === 0) h += '<div class="athqual"><div class="ring"><b>6%</b></div><div><div class="ss">Each answer helps us build your exact dating profile plan.</div></div></div>';
-      h += '<div class="athq">' + esc(s.title) + '</div>';
-      if (s.desc) h += '<div class="athd">' + esc(s.desc) + '</div>';
+      h += '<div class="athq' + (s.compact ? ' compact' : '') + '">' + esc(_qt) + '</div>';
+      if (_qdH) h += '<div class="athd">' + _qdH + '</div>';
+      else if (s.desc) h += '<div class="athd">' + esc(s.desc) + '</div>';
       h += '<div class="athops">' + s.opts.map(function (o, i) {
         return '<div class="athop" data-i="' + i + '"><div class="' + (s.type === 'radio' ? 'r' : 'c') + '"></div><div>' + esc(o) + '</div></div>';
       }).join('') + '</div>';
       h += '<button class="athgo" id="athGo">Continue&nbsp;&nbsp;→</button>';
       h += cardHtml(s.card);
-    } else if (s.type === 'loader') {
-      h += '<div class="athload"><div class="athbar" style="max-width:520px"><i style="width:80%"></i></div><div class="athspin"></div>Building your profile plan...</div>';
-      setTimeout(function () { if (STEPS[step] === s) { step++; render(); } }, 2600);
-    } else if (s.type === 'contact') {
-      h += '<div><div class="athbar" style="max-width:520px"><i style="width:90%"></i></div>' +
-        '<h1 class="athserif" style="font-size:30px;color:#1e2820">Thanks! Last step.</h1>' +
-        '<p style="margin-top:8px;font-size:14px;color:#4c564c">Fill in your details to help us personalize our conversation with you.</p>' +
-        '<label class="athlbl">First name *</label><input class="athin" id="athF" autocomplete="given-name" value="' + esc(A.first || '') + '">' +
-        '<label class="athlbl">Last name *</label><input class="athin" id="athL" autocomplete="family-name" value="' + esc(A.last || '') + '">' +
-        '<label class="athlbl">Email *</label><input class="athin" id="athE" type="email" autocomplete="email" placeholder="you@email.com" value="' + esc(A.email || '') + '">' +
-        '<label class="athlbl">Phone *</label><div style="margin:2px 0 6px;font-size:13px;color:#4c564c">Please input your real number - we require a text confirmation for your appointment. We will not spam you.</div><input class="athin" id="athP" type="tel" autocomplete="tel" placeholder="(201) 555-0123" value="' + esc(A.phone || '') + '">' +
-        '<button class="athgo show" id="athGo" style="margin-top:24px">Continue&nbsp;&nbsp;→</button><div class="atherr" id="athErr"></div></div>';
+    } else if (s.type === 'wheel') {
+      // iOS-style scroll wheel — ported from adq-embed (age 18-65 def 35 / occ_years 1-99 def 8)
+      if (!A[s.key]) A[s.key] = String(s.def || s.min || 18);
+      h += '<div class="athq">' + esc(_qt) + '</div>';
+      var wItems = '';
+      for (var wv = (s.min || 18); wv <= (s.max || 65); wv++) wItems += '<div class="athwitem' + (String(wv) === String(A[s.key]) ? ' cur' : '') + '" data-wv="' + wv + '">' + wv + '</div>';
+      h += '<div class="athwheelwrap"><div class="athwheel" id="athWheel">' + wItems + '</div><div class="athwhl"></div></div>';
+      h += '<button class="athgo show" id="athGo">Continue&nbsp;&nbsp;→</button>';
+      h += cardHtml(s.card);
+    } else {
+      // typed questions: short / long / phone / email / name
+      h += '<div class="athq">' + esc(_qt) + '</div>';
+      if (_qdH) h += '<div class="athd">' + _qdH + '</div>';
+      else if (s.desc) h += '<div class="athd">' + esc(s.desc) + '</div>';
+      if (s.type === 'name') {
+        h += '<label class="athlbl" style="margin-top:26px">First name *</label><input class="athin" id="athF" autocomplete="given-name" placeholder="Jane" value="' + esc(A.first || '') + '" style="max-width:430px">' +
+             '<label class="athlbl">Last name *</label><input class="athin" id="athL" autocomplete="family-name" placeholder="Smith" value="' + esc(A.last || '') + '" style="max-width:430px">';
+      } else if (s.type === 'long') {
+        h += '<textarea class="athin" id="athIn" rows="3" placeholder="Type your answer here..." style="margin-top:26px">' + esc(A[s.key] || '') + '</textarea>';
+      } else {
+        var _it = s.type === 'email' ? 'email' : (s.type === 'phone' ? 'tel' : 'text');
+        var _ac = s.type === 'email' ? 'email' : (s.type === 'phone' ? 'tel' : 'off');
+        var _ph = s.type === 'email' ? 'name@example.com' : (s.type === 'phone' ? '(201) 555-0123' : 'Type your answer here...');
+        h += '<input class="athin" id="athIn" type="' + _it + '" ' + (s.type === 'phone' ? 'inputmode="tel" ' : '') + 'autocomplete="' + _ac + '" placeholder="' + _ph + '" value="' + esc(A[s.key] || '') + '" style="margin-top:26px;max-width:430px">';
+      }
+      h += '<button class="athgo show" id="athGo">Continue&nbsp;&nbsp;→</button><div class="atherr" id="athErr"></div>';
+      h += cardHtml(s.card);
     }
     col.innerHTML = h;
     if ((s.type === 'radio' || s.type === 'multi') && A[s.key] && A[s.key].length) {
@@ -466,8 +529,40 @@
     col.querySelectorAll('.athop').forEach(function (el) {
       el.addEventListener('click', function () { pick(parseInt(el.getAttribute('data-i'), 10)); });
     });
+    var wh = document.getElementById('athWheel');
+    if (wh) {
+      var IH = 44, wMin = s.min || 18, wMax = s.max || 65;
+      wh.scrollTop = (parseInt(A[s.key], 10) - wMin) * IH;
+      var _wt = null;
+      var wSync = function () {
+        var idx = Math.max(0, Math.min(wMax - wMin, Math.round(wh.scrollTop / IH)));
+        var val = String(wMin + idx);
+        if (val !== A[s.key]) {
+          A[s.key] = val;
+          var c0 = wh.querySelector('.athwitem.cur'); if (c0) c0.classList.remove('cur');
+          var c1 = wh.querySelector('[data-wv="' + val + '"]'); if (c1) c1.classList.add('cur');
+          if (_wt) clearTimeout(_wt);
+          _wt = setTimeout(saveState, 150);
+        }
+      };
+      wh.addEventListener('scroll', wSync);
+      wh.addEventListener('click', function (ev) {
+        var t = ev.target && ev.target.closest ? ev.target.closest('.athwitem') : null;
+        if (!t) return;
+        // Instant jump, not smooth-scroll (adq-embed lesson: snap + .cur retag cancel the animation)
+        wh.scrollTop = (parseInt(t.getAttribute('data-wv'), 10) - wMin) * IH;
+        wSync();
+      });
+    }
+    var ta = col.querySelector('textarea.athin');
+    if (ta) { var grow = function () { ta.style.height = 'auto'; ta.style.height = Math.min(Math.max(ta.scrollHeight, 96), 260) + 'px'; }; ta.addEventListener('input', grow); grow(); }
     var go = document.getElementById('athGo');
-    if (go) go.addEventListener('click', function () { (s.type === 'contact') ? contactDone() : next(); });
+    if (go) go.addEventListener('click', next);
+    // Autofocus every typed question — the keyboard prime in the advancing tap keeps iOS willing
+    // to show the keyboard even though this render happens after the gesture window.
+    var inp = document.getElementById('athIn') || document.getElementById('athF');
+    if (inp) { try { inp.focus({ preventScroll: true }); } catch (e) { try { inp.focus(); } catch (e2) {} } }
+    else if (_kbPrime) { try { _kbPrime.blur(); } catch (e) {} }
     col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth;
     col.classList.add(dir === 'back' ? 'animL' : 'anim');
     locked = false;
@@ -487,7 +582,11 @@
       A[s.key] = s.opts[i];
       clearTimeout(autoT);
       if (revisit) document.getElementById('athGo').classList.add('show');
-      else { locked = true; autoT = setTimeout(function () { if (STEPS[step] === s) next(); }, 320); }
+      else {
+        locked = true;
+        if (TYPED_Q[(STEPS[nextIdx(step)] || {}).type] && !(s.key === 'invest' && isDq()) && s.key !== 'commit') primeKeyboard();   // keyboard primes inside THIS tap's gesture (never before an ending screen)
+        autoT = setTimeout(function () { if (STEPS[step] === s) next(); }, 320);
+      }
     } else {
       var isAll = /^All of the above|^All four/.test(s.opts[i]);
       if (isAll) { els.forEach(function (e, j) { e.classList.toggle('on', j === i); }); }
@@ -498,51 +597,83 @@
     }
     saveState();
   }
+  function errMsg(m) { var e = document.getElementById('athErr'); if (e) e.textContent = m || ''; }
+  // Per-type validation + answer capture (mirror of adq-embed's collect())
+  function collect(s) {
+    if (s.type === 'name') {
+      var f = document.getElementById('athF'), l = document.getElementById('athL');
+      A.first = f ? f.value.trim() : ''; A.last = l ? l.value.trim() : '';
+      saveState();
+      if (!A.first || !A.last) { errMsg('Please fill in your first and last name.'); return false; }
+    } else if (s.type === 'phone') {
+      A.phone = ((document.getElementById('athIn') || {}).value || '').trim();
+      saveState();
+      if (!phoneValid()) { errMsg('Hmm... that phone number doesn\'t look right'); return false; }
+    } else if (s.type === 'email') {
+      A.email = ((document.getElementById('athIn') || {}).value || '').trim();
+      saveState();
+      if (!/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(A.email)) { errMsg('Hmm... that email doesn\'t look right'); return false; }
+    } else if (s.type === 'short' || s.type === 'long') {
+      var vt = ((document.getElementById('athIn') || {}).value || '').trim();
+      A[s.key] = vt; saveState();
+      if (!vt) { errMsg('Please fill this in'); return false; }
+    } else if (s.type === 'multi') {
+      if (!(A[s.key] || []).length) return false;
+    } else if (!A[s.key]) { return false; }
+    errMsg('');
+    return true;
+  }
+  function nextIdx(from) { var s2 = from + 1; while (s2 < STEPS.length - 1 && STEPS[s2].skipIf && STEPS[s2].skipIf(A)) s2++; return s2; }   // skipIf-aware (defensive — no skipIf steps in the current deck)
+  function prevIdx(from) { var s2 = from - 1; while (s2 > 0 && STEPS[s2].skipIf && STEPS[s2].skipIf(A)) s2--; return s2; }
   function next() {
     if (moving) return;
-    moving = true;
     var s = STEPS[step];
-    if (s && s.key) pingStep(s.key);
+    fsBump();
+    if (!collect(s)) { locked = false; return; }
+    if (s.key) pingStep(s.key);
+    if (s.key === 'phone') firePhonePartial();
+    // Original Form endings, verbatim (keep in sync with adq-embed's advance()): DQ evaluates at
+    // the INVEST question; commit "Maybe" DQs; else calendar. Submission fires when an ENDING is
+    // reached — before the calendar shows, so qualified non-bookers are never lost.
+    if (s.key === 'invest' && isDq()) { showDq(); return; }
+    if (s.key === 'commit') {
+      if (/^Maybe/.test(A.commit || '')) { showDq(); return; }
+      showBooker(); return;
+    }
+    moving = true;
+    if (TYPED_Q[(STEPS[nextIdx(step)] || {}).type]) primeKeyboard();   // Continue taps call next() synchronously — still inside the gesture
     col.classList.remove('anim', 'animL', 'outR'); void col.offsetWidth; col.classList.add('out');
-    setTimeout(function () { moving = false; step++; render(); }, 400);
+    setTimeout(function () { moving = false; step = nextIdx(step); render(); }, 400);
   }
   function back() {
     if (moving) return;
     if (finishedView) return;
     if (step <= 0) { closeTakeover(); return; }
     moving = true;
+    if (TYPED_Q[(STEPS[prevIdx(step)] || {}).type]) primeKeyboard();
     col.classList.remove('anim', 'animL', 'out'); void col.offsetWidth; col.classList.add('outR');
-    setTimeout(function () {
-      moving = false;
-      if (STEPS[step - 1] && STEPS[step - 1].type === 'loader') step--;
-      step--; render('back');
-    }, 400);
+    setTimeout(function () { moving = false; step = prevIdx(step); render('back'); }, 400);
   }
 
   var finishedView = '';
-  function contactDone() {
-    var g = function (id) { var e = document.getElementById(id); return e ? e.value.trim() : ''; };
-    A.first = g('athF'); A.last = g('athL'); A.email = g('athE'); A.phone = g('athP');
-    var err = document.getElementById('athErr');
-    if (!A.first || !A.last) { err.textContent = 'Please fill in your first and last name.'; return; }
-    if (!/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(A.email)) { err.textContent = 'Please enter a valid email.'; return; }
-    if (!phoneValid()) { err.textContent = 'Please enter a valid phone number.'; return; }
-    err.textContent = '';
-    pingStep('contact');
-    saveState();
-    // Submit FIRST (qualified non-bookers are never lost), then route: DQ screen or native booker.
-    var dq = isDq();
+  function showDq() {
+    // Submit FIRST (DQ'd leads are still captured — contact landed at phone/name/email), then the soft no.
     submit(function () {});
-    if (dq) {
-      finishedView = 'dq';
-      backBtn.hidden = true;
-      col.innerHTML = '<div class="athend"><p class="t">Unfortunately it seems like we aren’t a great fit right now.</p><p class="d">Feel free to check back if things change!</p></div>';
-      col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
-      ov.scrollTop = 0;
-      return;
-    }
+    finishedView = 'dq';
+    backBtn.hidden = true;
+    railEl.style.display = 'none';
+    setBar(1);
+    clearTimeout(autoT); moving = false; locked = false;
+    col.innerHTML = '<div class="athend"><p class="t">Unfortunately it seems like we aren’t a great fit right now.</p><p class="d">Feel free to check back if things change!</p></div>';
+    col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
+    ov.scrollTop = 0;
+  }
+  function showBooker() {
+    submit(function () {});
     finishedView = 'booker';
-    try { navigator.sendBeacon(EP, new Blob([JSON.stringify({ event: 'cal_shown', page: 'cal', sid: sid, ab: (window.__ADQ_AB || 'c'), form: 'athena', email: (A.email || '') })], { type: 'text/plain' })); } catch (e) {}
+    setBar(1);
+    clearTimeout(autoT); moving = false; locked = false;
+    try { navigator.sendBeacon(EP, new Blob([JSON.stringify({ event: 'cal_shown', page: 'cal', sid: sid, ab: (window.__ADQ_AB || 'c'), form: 'athena2', email: (A.email || '') })], { type: 'text/plain' })); } catch (e) {}
     openInlineBooker();
   }
 
@@ -550,8 +681,9 @@
   // ── inline native booker (Peter 2026-07-28 pm: "go in line with the form... same backend as
   //    the popup native one"). Ported 1:1 from the adq-embed popup booker — same /api/apply/slots
   //    + /api/apply/book pipeline, retries, mobile two-step, slot-taken recovery and /thankyou
-  //    redirect — rendered inside the takeover in the Athena skin. Athena leads are never
-  //    red-tier (non-ASAP and Under-150k DQ before booking), so slots are always standard.
+  //    redirect — rendered inside the takeover in the Athena skin. athena2 (2026-08-04): the
+  //    start/timeline question is gone, so the client never sends a red-tier hint — slots stay
+  //    standard (the server still re-derives red from the GHL contact for legacy/lied-on-app).
   var ABK_SLOTS = 'https://admin.automated.dating/api/apply/slots';
   var ABK_BOOK = 'https://admin.automated.dating/api/apply/book';
   var ABK_IC = {

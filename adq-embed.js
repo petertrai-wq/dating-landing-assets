@@ -778,7 +778,7 @@
   function pingEv(ev, pg) {
     try {
       navigator.sendBeacon('https://admin.automated.dating/api/analytics/track',
-        new Blob([JSON.stringify({ event: ev, page: pg || '', sid: token, ab: (window.__ADQ_AB || window.__AB || 'd'), form: (window.__ADQ_FORM === 'athena') ? 'athena' : 'original' })], { type: 'text/plain' }));
+        new Blob([JSON.stringify({ event: ev, page: pg || '', sid: token, ab: (window.__ADQ_AB || window.__AB || 'd'), form: (window.__ADQ_FORM === 'athena') ? 'athena2' : 'original' })], { type: 'text/plain' }));   // athena arm = athena2 since 2026-08-04 (ST10 concluded)
     } catch (e) {}
   }
   function pingStep(key) {
