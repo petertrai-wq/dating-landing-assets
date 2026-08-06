@@ -18,21 +18,16 @@
 
   // ---- slide data (DSL v3 copy, verbatim) ----
   var SLIDES = [
-    { k: "AUTOMATED DATING", h: "If your time's worth $50 an hour, stop swiping.",
+    { k: "AUTOMATED DATING", h: "If your time's worth $50 an hour, stop swiping.", harr: 1,
       ps: [["dsub", "Done-for-you dating for busy professionals."]],
       bullets: ["We learn your type", "We swipe, we text, we schedule", "You just show up to dates on your calendar"] },
 
-    { k: "WHO ARE WE", h: "Founded by Peter Trai.", dense: true,
-      ps: [["dsub", "A dating coach who's coached hundreds of successful men to more dates than they know what to do with."]],
-      bullets: ["300+ men coached with proven dating systems",
-                "Built the ONLY done-for-you automated dating system",
-                "99% of clients get higher volume AND higher quality matches from day 1",
-                "Hundreds of thousands of followers, millions of views across platforms"] },
+    // WHO ARE WE / "Founded by Peter Trai." slide removed (Peter 2026-08-06) — deck is 21 slides.
 
     { center: true, k: "THE PROBLEM WE SOLVE",
       runs: [["strong", "More dates. Higher quality dates."], ["accent", "While saving you hours every week for your higher leverage work."]] },
 
-    { k: "THE AGREEABLE TRUTH", h: "More high quality women than ever are using dating apps.",
+    { k: "THE AGREEABLE TRUTH", h: "More high quality women than ever are using dating apps.", vcenter: true,
       ps: [["para", "However. Landing a date with even one of them takes hours of swiping, hours of small talk, and then there's still a chance she flakes."]] },
 
     { k: "THE SOLUTION", h: "Luckily, we handle all of that for you.", hsm: true, dense: true,
@@ -51,7 +46,8 @@
 
     { k: "WHY THIS WORKS", hsm: true,
       h: "Right now, your photos are the number one reason your dating life isn't working the way you want it to.",
-      ps: [["para", "And almost nobody can make AI photos that actually work. You've probably tried them yourself. They looked nothing like you."],
+      ps: [["accent", "Photos make or break your dating life in 2026."],
+           ["para", "And almost nobody can make AI photos that actually work. You've probably tried them yourself. They looked nothing like you."],
            ["strong", "Photographers? Expensive, a hassle, and the results are not guaranteed to work."]] },
 
     { k: "WHY THIS WORKS", hsm: true,
@@ -93,11 +89,11 @@
         { img: "tw-jonathan.jpg", q: "the hinge/raya is firing btw, thanks a lot for the pics. game changer actually haha", n: "Jonathan", r: "Product Manager · New York, NY" }
       ], k: "FROM OUR CLIENTS" },
 
-    { k: "HOW WE'LL HELP YOU",
+    { k: "HOW WE'LL HELP YOU", vcenter: true, stackbig: true,
       stack: [["We learn your type.", 0], ["We swipe. You approve.", 2], ["We text.", 0], ["You get dates on your calendar.", 1]],
       ps: [["strong", "You have the final say. Nothing goes on your calendar without your approval."]] },
 
-    { k: "AND ONE MORE THING", h: "Plus, we'll even rebuild your entire profile.",
+    { k: "AND ONE MORE THING", h: "Plus, we'll even rebuild your entire profile.", vcenter: true, stackbig: true,
       ps: [["para", "Data-backed photos and prompts, guaranteed to increase your match rate."]] },
 
     { k: "SO...", hsm: true, cta: 1,
@@ -114,13 +110,13 @@
       guar: "Your first date in 7 days. Or you don't pay." },
 
     { k: "WHY NOW", h: "This advantage will not be here forever.", hsm: true,
-      ps: [["para", "AI is moving fast. Within a year or so, it will probably swipe for people. Right now the big AI models are locked against it. So it takes a trained team."],
+      ps: [["para", "AI is moving fast. Within a year or so, it will probably swipe for people. Right now, the big AI models \"SAFEGUARD\" any attempt to automate dating apps. So it takes a trained team."],
            ["para", "And AI photos that look real and actually convert will soon be in everyone's hands. Once everyone has them, the edge is gone."]] },
 
     { k: "THE WINDOW IS OPEN", hsm: true, cta: 1,
       h: "You're seeing this right now. That means you can still take advantage of it.",
-      ps: [["para", "Spaces are limited due to Hinge geolocation restrictions. We can only run 30 devices at a time in one location before accounts start getting flagged. When those spots are full, they are full."],
-           ["accent", "Fill out the application below right now, and invest in yourself."]] }
+      ps: [["para", "Spaces are limited due to Hinge geolocation restrictions."],
+           ["accent", "Fill out the application below right now."]] }
   ];
 
   // ---- render ----
@@ -132,7 +128,7 @@
 
   SLIDES.forEach(function (sl) {
     var d = document.createElement("div");
-    d.className = "dsl-slide" + (sl.center ? " center" : "") + (sl.hsm ? " hsm" : "") + (sl.dense ? " dense" : "") +
+    d.className = "dsl-slide" + (sl.center ? " center" : "") + (sl.vcenter ? " vcenter" : "") + (sl.stackbig ? " stackbig" : "") + (sl.hsm ? " hsm" : "") + (sl.dense ? " dense" : "") +
       (sl.cards && sl.cards.length === 3 ? " cards3" : "");
     var h = "";
     // kickers retired (Peter 2026-08-05 pm: "remove the yellow title at the very top of each of
@@ -166,6 +162,7 @@
     // Rendered BEFORE guar so the guarantee keeps its bottom-pinned row.
     if (sl.cta) h += '<button class="dsl-go" type="button">Apply Now</button>';
     if (sl.guar) h += '<div class="guar">' + esc(sl.guar) + "</div>";
+    if (sl.harr) h += '<div class="dsl-hintarrow" aria-hidden="true">&#8594;</div>';   // slide-1 nudge arrow
     d.innerHTML = h;
     stage.appendChild(d);
   });
@@ -173,7 +170,21 @@
   var slides = stage.children;
   var cur = 0;
   var animating = false;
-  var EASE = "transform .32s cubic-bezier(.22,.8,.3,1)";
+  var EASE = "transform .22s cubic-bezier(.22,.8,.3,1)";
+  // Interruptible animations (Peter 2026-08-06 "the buttons are slow"): a tap mid-glide
+  // fast-forwards the running transition instead of being swallowed by a lock.
+  var animTimer = null, animEnds = null;
+  function finishAnim() {
+    if (!animating) return;
+    if (animTimer) { clearTimeout(animTimer); animTimer = null; }
+    if (animEnds) { var f = animEnds; animEnds = null; f(); }
+    animating = false;
+  }
+  var userNav = false;
+  function markUserNav() {
+    userNav = true;
+    try { nextBtn.classList.remove("pulse"); } catch (e) {}
+  }
 
   /* ST14 slide-depth beacon: fires only on NEW max depth (back-taps and re-views stay silent),
      only on the live apex (localhost previews must not pollute the test). The 1-based slide
@@ -210,18 +221,21 @@
   // Animated advance (Peter 2026-08-06 "actually see the swipes"): the incoming slide glides in
   // from the tap/swipe direction while the old one glides out. instant=true only for first paint.
   function go(n, instant) {
-    if (n < 0 || n >= slides.length || n === cur || animating) return;
+    markUserNav();
+    finishAnim();
+    if (n < 0 || n >= slides.length || n === cur) return;
     var dir = n > cur ? 1 : -1;
     var old = slides[cur], nw = slides[n];
     if (instant) { old.classList.remove("on"); nw.classList.add("on"); applyState(n); return; }
     animating = true;
+    animEnds = function () { old.classList.remove("on"); clearFx(old); clearFx(nw); };
     nw.style.transition = "none"; nw.style.transform = "translateX(" + (dir * 100) + "%)";
     nw.classList.add("on");
     void nw.offsetWidth;
     nw.style.transition = EASE; old.style.transition = EASE;
     nw.style.transform = "translateX(0)";
     old.style.transform = "translateX(" + (-dir * 100) + "%)";
-    setTimeout(function () { old.classList.remove("on"); clearFx(old); clearFx(nw); animating = false; }, 340);
+    animTimer = setTimeout(finishAnim, 240);
     applyState(n);
   }
 
@@ -261,7 +275,7 @@
   var tx = null, ty = null, dragging = false, dragDx = 0, nbShown = -1;
   function hideNb() { if (nbShown >= 0) { slides[nbShown].classList.remove("on"); clearFx(slides[nbShown]); nbShown = -1; } }
   stage.addEventListener("touchstart", function (e) {
-    if (animating) return;
+    finishAnim();   // a new finger takes over immediately — no dead window after a glide
     tx = e.touches[0].clientX; ty = e.touches[0].clientY; dragging = false; dragDx = 0;
   }, { passive: true });
   stage.addEventListener("touchmove", function (e) {
@@ -292,24 +306,71 @@
     var dx = dragDx;
     var nb = dx < 0 ? cur + 1 : cur - 1;
     var s = slides[cur];
+    markUserNav();
     if (nb >= 0 && nb < slides.length && Math.abs(dx) > Math.max(48, w * 0.18)) {
       // commit: finish the glide from wherever the finger left off
       animating = true;
       var s2 = slides[nb];
+      var old = cur;
+      animEnds = function () { slides[old].classList.remove("on"); clearFx(slides[old]); clearFx(s2); };
       s.style.transition = EASE; s2.style.transition = EASE;
       s.style.transform = "translateX(" + (dx < 0 ? -w : w) + "px)";
       s2.style.transform = "translateX(0)";
-      var old = cur;
       nbShown = -1;
-      setTimeout(function () { slides[old].classList.remove("on"); clearFx(slides[old]); clearFx(s2); animating = false; }, 340);
+      animTimer = setTimeout(finishAnim, 240);
       applyState(nb);
     } else {
       // snap back
+      animating = true;
+      animEnds = function () { clearFx(s); hideNb(); };
       s.style.transition = EASE; s.style.transform = "translateX(0)";
       if (nbShown >= 0) { var sh = slides[nbShown]; sh.style.transition = EASE; sh.style.transform = "translateX(" + (dx < 0 ? w : -w) + "px)"; }
-      setTimeout(function () { clearFx(s); hideNb(); }, 340);
+      animTimer = setTimeout(finishAnim, 240);
     }
   }, { passive: true });
+
+  // Scroll-in peek (Peter 2026-08-06): the first time the deck is mostly in view, slide 1 nudges
+  // left to reveal the edge of slide 2 and springs back — "you can swipe this." Runs once, never
+  // after the visitor has navigated on their own, and any tap mid-peek fast-forwards it cleanly.
+  var peeked = false;
+  function peek() {
+    if (peeked || userNav || cur !== 0 || animating || slides.length < 2) return;
+    peeked = true;
+    try { window.__dslPeeked = 1; } catch (e) {}   // QA probe: proves the scroll-in peek ran
+    var s = slides[0], s2 = slides[1];
+    var PE = "transform .45s cubic-bezier(.22,.8,.3,1)";
+    animating = true;
+    animEnds = function () { s2.classList.remove("on"); clearFx(s); clearFx(s2); };
+    s2.style.transition = "none"; s2.style.transform = "translateX(100%)";
+    s2.classList.add("on");
+    void s2.offsetWidth;
+    s.style.transition = PE; s2.style.transition = PE;
+    s.style.transform = "translateX(-13%)"; s2.style.transform = "translateX(87%)";
+    animTimer = setTimeout(function () {
+      s.style.transform = "translateX(0)"; s2.style.transform = "translateX(100%)";
+      animTimer = setTimeout(finishAnim, 470);
+    }, 850);
+  }
+  function stageInView() {
+    try { var r = stage.getBoundingClientRect(); var vh = window.innerHeight || 0; return Math.min(r.bottom, vh) - Math.max(r.top, 0) > r.height * 0.6; } catch (e) { return false; }
+  }
+  function tryPeek() { if (stageInView()) peek(); }
+  try {
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (en) { if (en.intersectionRatio >= 0.6) { io.disconnect(); setTimeout(peek, 600); } });
+      }, { threshold: [0.6] });
+      io.observe(stage);
+    }
+    // IO gets throttled in backgrounded/hidden tabs — the scroll listener and the one-shot timer
+    // cover those paths (peek() self-guards, so multiple triggers are harmless).
+    window.addEventListener("scroll", function onSc() {
+      if (peeked || userNav) { window.removeEventListener("scroll", onSc); return; }
+      tryPeek();
+    }, { passive: true });
+    setTimeout(function () { if (document.visibilityState === "visible") tryPeek(); }, 2500);
+  } catch (e) {}
+  nextBtn.classList.add("pulse");   // gold pulse on the forward arrow until the first real navigation
 
   slides[0].classList.add("on");
   applyState(0);
