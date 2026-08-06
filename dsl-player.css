@@ -30,38 +30,46 @@ body.dslp-page{margin:0;background:#F7F4ED}
 /* framed player, Google-Slides-embed vibe */
 .dsl-frame{background:#0c1613;border:1px solid #d8d4c8;border-radius:14px;overflow:hidden;
   padding:0;box-shadow:0 18px 44px rgba(20,18,16,.16)} /* padding:0 beats the landing's section{padding} */
-.dsl-stage{position:relative;aspect-ratio:16/9;container-type:inline-size;background:var(--herobg);cursor:pointer;
-  -webkit-tap-highlight-color:transparent;user-select:none;overflow:hidden}
+/* 4/3 at EVERY width (was 16/9): after the type-size bump (Peter 2026-08-06 "some of it is too
+   small") the dense slides need the extra height on desktop exactly like they did on phones —
+   content fit beats the Google-Slides look. Fonts are cqw so only height changes, never scale. */
+.dsl-stage{position:relative;aspect-ratio:4/3;container-type:inline-size;background:var(--herobg);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;user-select:none;overflow:hidden;touch-action:pan-y}
 
 /* slides */
-.dsl-slide{position:absolute;inset:0;padding:7cqw 7cqw 9cqw;display:none;flex-direction:column;color:var(--herosub)}
+.dsl-slide{position:absolute;inset:0;padding:7cqw 7cqw 5.5cqw;display:none;flex-direction:column;color:var(--herosub)}
 .dsl-slide.on{display:flex}
 .dsl-slide .kick{font-family:'Figtree',Inter,sans-serif;font-weight:700;font-size:2.5cqw;letter-spacing:.22em;
   color:var(--gold);text-transform:uppercase;margin-bottom:2.6cqw}
 .dsl-slide h2{font-family:'Playfair Display',Georgia,serif;font-weight:600;color:var(--heroink);
   font-size:5.6cqw;line-height:1.14;margin:0 0 3cqw;max-width:92%}
 /* 'dsub' not 'sub': the landing's .hero .sub rules would hit a .sub inside the hero embed */
-.dsl-slide .dsub{font-family:'Figtree',Inter,sans-serif;font-size:3.3cqw;color:var(--herosub);margin-bottom:2.4cqw}
+.dsl-slide .dsub{font-family:'Figtree',Inter,sans-serif;font-size:3.7cqw;color:var(--herosub);margin-bottom:2.4cqw}
 .dsl-slide ul{list-style:none;margin-top:1cqw}
-.dsl-slide li{font-family:'Figtree',Inter,sans-serif;font-size:3.2cqw;line-height:1.4;margin:0 0 2.4cqw;padding-left:3.4cqw;position:relative}
-.dsl-slide li::before{content:"";position:absolute;left:0;top:1.15cqw;width:1.3cqw;height:1.3cqw;background:var(--gold)}
+.dsl-slide li{font-family:'Figtree',Inter,sans-serif;font-size:3.6cqw;line-height:1.4;margin:0 0 2.4cqw;padding-left:3.8cqw;position:relative}
+.dsl-slide li::before{content:"";position:absolute;left:0;top:1.35cqw;width:1.4cqw;height:1.4cqw;background:var(--gold)}
 .dsl-slide .accent{color:var(--gold)}
 .dsl-slide .strong{color:var(--heroink);font-weight:600}
-.dsl-slide .fine{font-family:'Figtree',Inter,sans-serif;font-size:2.6cqw;color:var(--heromuted);margin-top:auto}
-.dsl-slide .guar{font-family:'Figtree',Inter,sans-serif;font-weight:700;font-size:2.8cqw;color:var(--gold);margin-top:auto}
+.dsl-slide .fine{font-family:'Figtree',Inter,sans-serif;font-size:3cqw;color:var(--heromuted);margin-top:auto}
+.dsl-slide .guar{font-family:'Figtree',Inter,sans-serif;font-weight:700;font-size:3.2cqw;color:var(--gold);margin-top:auto}
+/* Apply Now CTA on the ask-slides (Peter 2026-08-06): scrolls to the q1 application card */
+.dsl-go{display:inline-block;align-self:flex-start;margin-top:2.6cqw;background:var(--gold);color:#141210;
+  font-family:'Figtree',Inter,sans-serif;font-weight:700;font-size:3.3cqw;padding:2.3cqw 5cqw;border:0;
+  border-radius:1.6cqw;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.dsl-go:active{transform:translateY(1px)}
 
 /* paragraph variants used by the renderer */
-.dsl-slide .para{font-family:'Figtree',Inter,sans-serif;font-size:3.2cqw;line-height:1.45;margin-bottom:2.2cqw;max-width:94%}
-.dsl-slide .para.accent{color:var(--gold);font-weight:600;font-size:3.5cqw}
+.dsl-slide .para{font-family:'Figtree',Inter,sans-serif;font-size:3.6cqw;line-height:1.45;margin-bottom:2.2cqw;max-width:94%}
+.dsl-slide .para.accent{color:var(--gold);font-weight:600;font-size:3.9cqw}
 .dsl-slide .para.strong{color:var(--heroink);font-weight:600}
-.dsl-slide .para.mut{color:var(--heromuted);font-size:2.8cqw}
+.dsl-slide .para.mut{color:var(--heromuted);font-size:3.2cqw}
 
 /* size modifiers: hsm = long headline, dense = many rows on one slide */
 .dsl-slide.hsm h2{font-size:4.6cqw}
 .dsl-slide.dense h2{font-size:4.8cqw}
-.dsl-slide.dense li{font-size:2.9cqw;margin-bottom:1.7cqw}
-.dsl-slide.dense .stack{font-size:3.4cqw}
-.dsl-slide.dense .para{font-size:2.9cqw}
+.dsl-slide.dense li{font-size:3.2cqw;margin-bottom:1.4cqw}
+.dsl-slide.dense .stack{font-size:3.6cqw}
+.dsl-slide.dense .para{font-size:3.2cqw}
 
 /* 3-card testimonial slides need the compact card treatment */
 .dsl-slide.cards3{padding:3.6cqw 6cqw 4cqw}
@@ -69,8 +77,8 @@ body.dslp-page{margin:0;background:#F7F4ED}
 .dsl-slide.cards3 .tcards{gap:1.6cqw}
 .dsl-slide.cards3 .dsl-tcard{padding:1.8cqw 2.4cqw}
 .dsl-slide.cards3 .dsl-tcard img{width:6cqw;height:6cqw}
-.dsl-slide.cards3 .qt{font-size:2.5cqw}
-.dsl-slide.cards3 .nm{font-size:2.1cqw;margin-top:.6cqw}
+.dsl-slide.cards3 .qt{font-size:2.9cqw}
+.dsl-slide.cards3 .nm{font-size:2.4cqw;margin-top:.6cqw}
 
 /* centered statement slides */
 .dsl-slide.center{justify-content:center;text-align:center;padding:7cqw 8cqw}
@@ -85,8 +93,8 @@ body.dslp-page{margin:0;background:#F7F4ED}
 .dsl-tcard{display:flex;gap:3cqw;align-items:center;background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.16);border-radius:1.8cqw;padding:2.6cqw 3.2cqw}
 .dsl-tcard img{width:9cqw;height:9cqw;border-radius:50%;object-fit:cover;flex:none}
-.dsl-tcard .qt{font-family:'Playfair Display',Georgia,serif;font-size:3cqw;line-height:1.4;color:#D9D6CB}
-.dsl-tcard .nm{font-family:'Figtree',Inter,sans-serif;font-size:2.5cqw;margin-top:1cqw}
+.dsl-tcard .qt{font-family:'Playfair Display',Georgia,serif;font-size:3.4cqw;line-height:1.4;color:#D9D6CB}
+.dsl-tcard .nm{font-family:'Figtree',Inter,sans-serif;font-size:2.8cqw;margin-top:1cqw}
 .dsl-tcard .nm b{color:#fff}
 .dsl-tcard .nm span{color:var(--heromuted);font-style:italic}
 
@@ -117,11 +125,7 @@ html.athena-arm #dslHeroMount .dsl-hint{color:#E7E2D4;opacity:.85;text-align:lef
 @media (max-width:560px){
   .dslp-wrap{padding:22px 10px 48px}
   .dsl-frame{border-radius:11px}
-  /* phones get a taller 4:3 stage: the 16:9 box can't hold the dense slides
-     (text sizes are cqw, so only the height changes, never the type scale) */
-  .dsl-stage{aspect-ratio:4/3}
-  .dsl-slide{padding-bottom:5.5cqw}
-  .dsl-slide.dense li{font-size:2.7cqw;margin-bottom:1.4cqw}
+  .dsl-slide.dense li{font-size:3cqw;margin-bottom:1.4cqw}
   .dsl-hint{font-size:13.5px;margin:12px auto 20px}
   .dsl-cta{width:100%;font-size:16px;padding:16px 0}
 }

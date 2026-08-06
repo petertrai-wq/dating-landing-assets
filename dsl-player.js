@@ -39,7 +39,7 @@
       stack: [["We learn your type.", 0], ["We do the swiping.", 0], ["We do the texting.", 0], ["We do the scheduling.", 0], ["You get the dates, right on your calendar.", 1]],
       ps: [["mut", "Zero effort on your part required."]] },
 
-    { k: "WHY MEN CHOOSE THIS", h: "It's the best method we've discovered to:",
+    { k: "WHY MEN CHOOSE THIS", h: "It's the best method we've discovered to:", cta: 1, dense: true,
       bullets: ["Land a high amount of high quality dates",
                 "Get higher quality dates on autopilot",
                 "Get into your ideal long-term relationship",
@@ -77,7 +77,7 @@
         { img: "tw-asang2.jpg", q: "On Hinge I actually just don't get matches. Like, I don't get any. This fixed that completely.", n: "Asang", r: "SaaS Owner · Sydney, Australia" }
       ], k: "FROM OUR CLIENTS" },
 
-    { k: "WE CAN DO ALL OF THIS FOR YOU", h: "Want us to do all of this for you?",
+    { k: "WE CAN DO ALL OF THIS FOR YOU", h: "Want us to do all of this for you?", cta: 1,
       ps: [["accent", "Then fill out the application below."],
            ["mut", "It takes about two minutes."],
            ["strong", "Spaces are limited due to Hinge geolocation restrictions."]] },
@@ -100,7 +100,7 @@
     { k: "AND ONE MORE THING", h: "Plus, we'll even rebuild your entire profile.",
       ps: [["para", "Data-backed photos and prompts, guaranteed to increase your match rate."]] },
 
-    { k: "SO...", hsm: true,
+    { k: "SO...", hsm: true, cta: 1,
       h: "If you want us to put high quality dates on your calendar, set to your preferences, while you get your time back for the things you care about...",
       ps: [["accent", "Then fill out the application on this page and talk to us."]],
       guar: "Your first date in 7 days. Or you don't pay." },
@@ -117,7 +117,7 @@
       ps: [["para", "AI is moving fast. Within a year or so, it will probably swipe for people. Right now the big AI models are locked against it. So it takes a trained team."],
            ["para", "And AI photos that look real and actually convert will soon be in everyone's hands. Once everyone has them, the edge is gone."]] },
 
-    { k: "THE WINDOW IS OPEN", hsm: true,
+    { k: "THE WINDOW IS OPEN", hsm: true, cta: 1,
       h: "You're seeing this right now. That means you can still take advantage of it.",
       ps: [["para", "Spaces are limited due to Hinge geolocation restrictions. We can only run 30 devices at a time in one location before accounts start getting flagged. When those spots are full, they are full."],
            ["accent", "Fill out the application below right now, and invest in yourself."]] }
@@ -162,6 +162,9 @@
           '<div class="nm"><b>' + esc(c.n) + "</b> <span>" + esc(c.r) + "</span></div></div></div>";
       }).join("") + "</div>";
     }
+    // Apply Now CTA on the ask-slides (Peter 2026-08-06): scrolls to the q1 application card.
+    // Rendered BEFORE guar so the guarantee keeps its bottom-pinned row.
+    if (sl.cta) h += '<button class="dsl-go" type="button">Apply Now</button>';
     if (sl.guar) h += '<div class="guar">' + esc(sl.guar) + "</div>";
     d.innerHTML = h;
     stage.appendChild(d);
@@ -169,6 +172,8 @@
 
   var slides = stage.children;
   var cur = 0;
+  var animating = false;
+  var EASE = "transform .32s cubic-bezier(.22,.8,.3,1)";
 
   /* ST14 slide-depth beacon: fires only on NEW max depth (back-taps and re-views stay silent),
      only on the live apex (localhost previews must not pollute the test). The 1-based slide
@@ -183,22 +188,63 @@
         new Blob([JSON.stringify({ event: 'dsl_slide', pct: idx + 1, sid: sid, form: 'athena2' })], { type: 'text/plain' }));
     } catch (e2) {}
   }
+  /* Apply-Now CTA click: same rails, event 'dsl_cta', slide number in pct. */
+  function emitCtaBeacon(idx) {
+    try {
+      if (!/(^|\.)automated\.dating$/.test(location.hostname)) return;
+      var sid; try { sid = sessionStorage.getItem('ad_sid') || ''; } catch (e) { sid = ''; }
+      navigator.sendBeacon('https://admin.automated.dating/api/analytics/track',
+        new Blob([JSON.stringify({ event: 'dsl_cta', pct: idx + 1, sid: sid, form: 'athena2' })], { type: 'text/plain' }));
+    } catch (e2) {}
+  }
 
-  function go(n) {
-    if (n < 0 || n >= slides.length) return;
-    for (var i = 0; i < slides.length; i++) slides[i].classList.toggle("on", i === n);
+  function applyState(n) {
     cur = n;
     countEl.textContent = (n + 1) + " / " + slides.length;
     prevBtn.disabled = n === 0;
     nextBtn.disabled = n === slides.length - 1;
     emitSlideBeacon(n);
   }
+  function clearFx(el) { el.style.transition = ""; el.style.transform = ""; }
+
+  // Animated advance (Peter 2026-08-06 "actually see the swipes"): the incoming slide glides in
+  // from the tap/swipe direction while the old one glides out. instant=true only for first paint.
+  function go(n, instant) {
+    if (n < 0 || n >= slides.length || n === cur || animating) return;
+    var dir = n > cur ? 1 : -1;
+    var old = slides[cur], nw = slides[n];
+    if (instant) { old.classList.remove("on"); nw.classList.add("on"); applyState(n); return; }
+    animating = true;
+    nw.style.transition = "none"; nw.style.transform = "translateX(" + (dir * 100) + "%)";
+    nw.classList.add("on");
+    void nw.offsetWidth;
+    nw.style.transition = EASE; old.style.transition = EASE;
+    nw.style.transform = "translateX(0)";
+    old.style.transform = "translateX(" + (-dir * 100) + "%)";
+    setTimeout(function () { old.classList.remove("on"); clearFx(old); clearFx(nw); animating = false; }, 340);
+    applyState(n);
+  }
 
   prevBtn.addEventListener("click", function () { go(cur - 1); });
   nextBtn.addEventListener("click", function () { go(cur + 1); });
 
-  // tap/click the slide: left quarter = back, rest = forward
+  // Apply Now CTAs: scroll to the q1 application card (the hero embed); the standalone preview
+  // page falls back to its placeholder button row. Never advances the slide underneath.
+  var ctaTarget = function () { return document.getElementById("adqInlineHost") || document.querySelector(".dsl-ctawrap"); };
+  Array.prototype.forEach.call(stage.querySelectorAll(".dsl-go"), function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var t = ctaTarget();
+      if (t) t.scrollIntoView({ behavior: "smooth", block: "center" });
+      emitCtaBeacon(cur);
+    });
+  });
+
+  // tap/click the slide: left quarter = back, rest = forward (suppressed right after a drag)
+  var suppressClick = false;
   stage.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest(".dsl-go")) return;
+    if (suppressClick) { suppressClick = false; return; }
     var r = stage.getBoundingClientRect();
     (e.clientX - r.left < r.width * 0.25) ? go(cur - 1) : go(cur + 1);
   });
@@ -209,15 +255,62 @@
     else if (e.key === "ArrowLeft") { e.preventDefault(); go(cur - 1); }
   });
 
-  // swipe
-  var tx = null;
-  stage.addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; }, { passive: true });
-  stage.addEventListener("touchend", function (e) {
+  // Finger-follow swipe: the current slide tracks the finger, the neighbor rides in alongside;
+  // release past ~18% of the width (or leave it short) decides commit vs snap-back. Edge slides
+  // get rubber-band resistance. Vertical scrolling stays native (touch-action: pan-y).
+  var tx = null, ty = null, dragging = false, dragDx = 0, nbShown = -1;
+  function hideNb() { if (nbShown >= 0) { slides[nbShown].classList.remove("on"); clearFx(slides[nbShown]); nbShown = -1; } }
+  stage.addEventListener("touchstart", function (e) {
+    if (animating) return;
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY; dragging = false; dragDx = 0;
+  }, { passive: true });
+  stage.addEventListener("touchmove", function (e) {
+    if (tx == null || animating) return;
+    var dx = e.touches[0].clientX - tx, dy = e.touches[0].clientY - ty;
+    if (!dragging) { if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return; dragging = true; }
+    dragDx = dx;
+    var w = stage.clientWidth;
+    var nb = dx < 0 ? cur + 1 : cur - 1;
+    var edge = nb < 0 || nb >= slides.length;
+    var d = edge ? dx * 0.3 : dx;
+    var s = slides[cur];
+    s.style.transition = "none"; s.style.transform = "translateX(" + d + "px)";
+    if (nbShown >= 0 && nbShown !== nb) hideNb();   // direction flipped mid-drag
+    if (!edge) {
+      var s2 = slides[nb];
+      if (nbShown !== nb) { s2.classList.add("on"); nbShown = nb; }
+      s2.style.transition = "none";
+      s2.style.transform = "translateX(" + (d + (dx < 0 ? w : -w)) + "px)";
+    }
+  }, { passive: true });
+  stage.addEventListener("touchend", function () {
     if (tx == null) return;
-    var dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 40) { dx < 0 ? go(cur + 1) : go(cur - 1); }
-    tx = null;
+    tx = null; ty = null;
+    if (!dragging) return;
+    dragging = false; suppressClick = true;
+    var w = stage.clientWidth;
+    var dx = dragDx;
+    var nb = dx < 0 ? cur + 1 : cur - 1;
+    var s = slides[cur];
+    if (nb >= 0 && nb < slides.length && Math.abs(dx) > Math.max(48, w * 0.18)) {
+      // commit: finish the glide from wherever the finger left off
+      animating = true;
+      var s2 = slides[nb];
+      s.style.transition = EASE; s2.style.transition = EASE;
+      s.style.transform = "translateX(" + (dx < 0 ? -w : w) + "px)";
+      s2.style.transform = "translateX(0)";
+      var old = cur;
+      nbShown = -1;
+      setTimeout(function () { slides[old].classList.remove("on"); clearFx(slides[old]); clearFx(s2); animating = false; }, 340);
+      applyState(nb);
+    } else {
+      // snap back
+      s.style.transition = EASE; s.style.transform = "translateX(0)";
+      if (nbShown >= 0) { var sh = slides[nbShown]; sh.style.transition = EASE; sh.style.transform = "translateX(" + (dx < 0 ? w : -w) + "px)"; }
+      setTimeout(function () { clearFx(s); hideNb(); }, 340);
+    }
   }, { passive: true });
 
-  go(0);
+  slides[0].classList.add("on");
+  applyState(0);
 })();
