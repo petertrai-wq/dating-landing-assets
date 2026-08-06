@@ -49,6 +49,7 @@ body.dslp-page{margin:0;background:#F7F4ED}
 .dsl-slide li{font-family:'Figtree',Inter,sans-serif;font-size:4cqw;line-height:1.4;margin:0 0 2.1cqw;padding-left:4.2cqw;position:relative}
 .dsl-slide li::before{content:"";position:absolute;left:0;top:1.5cqw;width:1.55cqw;height:1.55cqw;background:var(--gold)}
 .dsl-slide .accent{color:var(--gold)}
+.dsl-slide li.goldli{color:var(--gold)}   /* the renderer golds the MIDDLE bullet on 3+ lists */
 .dsl-slide .strong{color:var(--heroink);font-weight:600}
 .dsl-slide .fine{font-family:'Figtree',Inter,sans-serif;font-size:3.3cqw;color:var(--heromuted);margin-top:auto}
 .dsl-slide .guar{font-family:'Figtree',Inter,sans-serif;font-weight:700;font-size:3.5cqw;color:var(--gold);margin-top:auto}
@@ -64,6 +65,7 @@ body.dslp-page{margin:0;background:#F7F4ED}
 .dsl-slide .para.strong{color:var(--heroink);font-weight:600}
 .dsl-slide .para.mut{color:var(--heromuted);font-size:3.5cqw}
 .dsl-slide .para:last-child{margin-bottom:0}
+.dsl-slide .para.goldp{color:var(--gold)}   /* renderer's middle-section gold — after strong/mut so it wins */
 
 /* size modifiers: hsm = long headline, dense = many rows on one slide */
 .dsl-slide.hsm h2{font-size:5cqw}
@@ -137,7 +139,15 @@ html.athena-arm #dslHeroMount .dsl-hint{color:#E7E2D4;opacity:.85;text-align:lef
 @media (max-width:560px){
   .dslp-wrap{padding:22px 10px 48px}
   .dsl-frame{border-radius:11px}
+  /* square stage on phones: 1.4x titles + the bigger body need the height (desktop stays 4/3) */
+  .dsl-stage{aspect-ratio:1/1}
   .dsl-slide.dense li{font-size:3.3cqw;margin-bottom:1.2cqw}
+  /* titles 1.4x on phones (Peter 2026-08-06 pm) — cqw scales with the stage, so mobile gets its
+     own tier; desktop keeps the base sizes */
+  .dsl-slide h2{font-size:8.5cqw}
+  .dsl-slide.hsm h2{font-size:7cqw}
+  .dsl-slide.dense h2{font-size:7cqw}
+  .dsl-slide.center h2{font-size:8cqw}
   .dsl-hint{font-size:13.5px;margin:12px auto 20px}
   .dsl-cta{width:100%;font-size:16px;padding:16px 0}
 }

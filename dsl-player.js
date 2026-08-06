@@ -147,9 +147,17 @@
         return t;
       }).join("<br>") + "</div>";
     }
-    var para = function (p) { return '<p class="para ' + p[0] + '">' + esc(p[1]) + "</p>"; };
+    // Middle-section gold (Peter 2026-08-06 "throw some yellow in on middle sections when there
+    // are more than 2 sections"): on 3+ paragraph blocks or 3+ bullets, the middle one goes gold.
+    var para = function (p, i, arr) {
+      var mid = arr && arr.length > 2 && i === Math.floor(arr.length / 2) && p[0] !== "accent";
+      return '<p class="para ' + p[0] + (mid ? " goldp" : "") + '">' + esc(p[1]) + "</p>";
+    };
     if (sl.ps) h += sl.ps.map(para).join("");
-    if (sl.bullets) h += "<ul>" + sl.bullets.map(function (b) { return "<li>" + esc(b) + "</li>"; }).join("") + "</ul>";
+    if (sl.bullets) {
+      var midB = sl.bullets.length > 2 ? Math.floor(sl.bullets.length / 2) : -1;
+      h += "<ul>" + sl.bullets.map(function (b, i) { return "<li" + (i === midB ? ' class="goldli"' : "") + ">" + esc(b) + "</li>"; }).join("") + "</ul>";
+    }
     if (sl.psAfter) h += sl.psAfter.map(para).join("");
     if (sl.cards) {
       h += '<div class="tcards">' + sl.cards.map(function (c) {
