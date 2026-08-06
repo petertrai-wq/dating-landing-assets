@@ -341,6 +341,44 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   <p class="nopay">Your first date in 7 days or you don't pay.</p>
   <a href="#" id="heroCta" class="btn" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Land Quality Dates <span class="chev">&rsaquo;</span></a>
   <div id="applyNowHdr" data-tf-popup="qoQwwZI5" role="button" tabindex="0"><img class="anh-g g1" src="date-1.jpg" alt=""><span class="anh-txt">Apply Now <span class="anh-ar">&darr;</span></span><img class="anh-g g2" src="date-2.jpg" alt=""></div>
+  <!-- SPLIT TEST 14 — DSL DECK 50/50 (LIVE 2026-08-05 pm, Peter): arm a = the click-through deck
+       at the top of the athena hero, arm b = control. Sticky per browser (localStorage adq_dsl);
+       ALL heroes ride in both arms. QA forcing: ?dsl=1 → a, ?dsl=0 → b (also sticky, so a forced
+       device keeps one arm across the funnel). The arm beacons as event 'dsl_arm' with the arm
+       letter in `page` and the page_view session id, so ST14 joins views/opens/apps per arm.
+       The q1 card below stays the application step in both arms. Player = dsl-player.css/js. -->
+  <div id="dslHeroMount"></div>
+  <script>
+  (function () {
+    var arm = '';
+    try {
+      var q = new URLSearchParams(location.search).get('dsl');
+      if (q === '1') arm = 'a'; else if (q === '0') arm = 'b';
+      if (arm) localStorage.setItem('adq_dsl', arm);
+      if (!arm) arm = localStorage.getItem('adq_dsl') || '';
+      if (arm !== 'a' && arm !== 'b') { arm = Math.random() < 0.5 ? 'a' : 'b'; localStorage.setItem('adq_dsl', arm); }
+    } catch (e) { arm = 'b'; }
+    window.__ADQ_DSL = arm;
+    try {
+      if (/(^|\.)automated\.dating$/.test(location.hostname)) {   // live apex only — local/preview QA must not count as views
+        var sid; try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } } catch (e2) { sid = 'dsl' + Date.now().toString(36); }
+        navigator.sendBeacon('https://admin.automated.dating/api/analytics/track',
+          new Blob([JSON.stringify({ event: 'dsl_arm', page: arm, sid: sid, ab: (window.__ADQ_AB || 'c'), form: 'athena2' })], { type: 'text/plain' }));
+      }
+    } catch (e3) {}
+    if (arm !== 'a') return;
+    // root-absolute paths: index.html carries <base href="/concierge/">, bare names would 404
+    var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/dsl-player.css'; document.head.appendChild(l);
+    var m = document.getElementById('dslHeroMount');
+    m.innerHTML = '<section class="dsl-frame" aria-label="How Automated Dating works, slide presentation">' +
+      '<div class="dsl-stage" id="dslStage"></div>' +
+      '<div class="dsl-bar"><span class="dsl-count" id="dslCount">1 / 1</span><span class="dsl-nav">' +
+      '<button class="dsl-btn" id="dslPrev" aria-label="Previous slide">&#8249;</button>' +
+      '<button class="dsl-btn" id="dslNext" aria-label="Next slide">&#8250;</button></span></div></section>' +
+      '<p class="dsl-hint">Tap the slides or press the right arrow to move through the presentation at your own pace.</p>';
+    var s = document.createElement('script'); s.src = '/dsl-player.js'; document.body.appendChild(s);
+  })();
+  </script>
   <div id="adqInlineHost"></div>
 </div></header>
 
@@ -708,7 +746,7 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   } catch (e) {}
 })();
 </script>
-<script src="/athena-form.js?v=20260805a" defer></script>
+<script src="/athena-form.js?v=20260805c" defer></script>
 <script src="/adq-embed.js?v=20260804a" defer></script>
 <script src="/bnr.js?v=20260728g" defer></script>
 <script>

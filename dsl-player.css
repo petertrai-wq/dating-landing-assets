@@ -1,0 +1,127 @@
+/* DSL EMBED PREVIEW styles (staged, untracked). Tokens copied from the live page:
+   cream #F7F4ED + body #2E3A30 (athena-form.js:46), ink #1e2820 (:96), muted #556055 (:102),
+   deep green #24352B (:66), gold #C9A85C (:146), hero creams #F5F1E6/#E7E2D4 (:137/:141),
+   hero green gradient = exact CSS of html.athena-arm header.hero (athena-form.js:134).
+   Headline serif = Playfair Display (athena-form.js:48). Page sans = Onest (index.html:114). */
+
+/* Everything is scoped to the two player mounts (.dslp-wrap = standalone dsl-preview.html,
+   #dslHeroMount = the ?dsl=1 embed inside index.html's athena hero). index.html defines its own
+   --green/--ink/--muted at :root, so NOTHING here may leak to :root/body on that page. */
+:where(.dslp-wrap,#dslHeroMount),:where(.dslp-wrap,#dslHeroMount) *{margin:0;padding:0;box-sizing:border-box}
+.dslp-wrap,#dslHeroMount{
+  --ink:#1e2820; --body:#2E3A30; --muted:#556055; --cream:#F7F4ED;
+  --green:#24352B; --gold:#C9A85C; --heroink:#F5F1E6; --herosub:#E7E2D4; --heromuted:#9a958a;
+  --herobg:radial-gradient(1300px 780px at 12% -8%,rgba(58,118,92,.55) 0%,rgba(58,118,92,0) 58%),
+           radial-gradient(1100px 680px at 88% 6%,rgba(28,78,62,.45) 0%,rgba(28,78,62,0) 62%),
+           radial-gradient(1500px 900px at 50% 118%,rgba(22,62,50,.5) 0%,rgba(22,62,50,0) 64%),
+           linear-gradient(158deg,#0e1a15 0%,#10211a 46%,#0a1410 100%),#0c1613;
+}
+body.dslp-page{margin:0;background:#F7F4ED}
+.dslp-wrap,#dslHeroMount{color:var(--body);font-family:'Onest',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+
+.dslp-wrap{max-width:900px;margin:0 auto;padding:34px 16px 64px}
+
+/* headline (mirrors the hero H1 look, serif like the athena-armed hero) */
+.dslp-head h1{font-family:'Playfair Display',Georgia,serif;font-weight:500;color:var(--ink);
+  font-size:clamp(24px,5.6vw,40px);line-height:1.16;text-align:center;letter-spacing:-.005em;margin:0 0 26px}
+.dslp-head h1 .l{display:block}
+.dslp-head h1 .hl{display:inline-block;background:var(--green);color:var(--heroink);padding:2px 16px;border-radius:10px;margin-top:10px}
+
+/* framed player, Google-Slides-embed vibe */
+.dsl-frame{background:#0c1613;border:1px solid #d8d4c8;border-radius:14px;overflow:hidden;
+  padding:0;box-shadow:0 18px 44px rgba(20,18,16,.16)} /* padding:0 beats the landing's section{padding} */
+.dsl-stage{position:relative;aspect-ratio:16/9;container-type:inline-size;background:var(--herobg);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;user-select:none;overflow:hidden}
+
+/* slides */
+.dsl-slide{position:absolute;inset:0;padding:7cqw 7cqw 9cqw;display:none;flex-direction:column;color:var(--herosub)}
+.dsl-slide.on{display:flex}
+.dsl-slide .kick{font-family:'Figtree',Inter,sans-serif;font-weight:700;font-size:2.5cqw;letter-spacing:.22em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:2.6cqw}
+.dsl-slide h2{font-family:'Playfair Display',Georgia,serif;font-weight:600;color:var(--heroink);
+  font-size:5.6cqw;line-height:1.14;margin:0 0 3cqw;max-width:92%}
+/* 'dsub' not 'sub': the landing's .hero .sub rules would hit a .sub inside the hero embed */
+.dsl-slide .dsub{font-family:'Figtree',Inter,sans-serif;font-size:3.3cqw;color:var(--herosub);margin-bottom:2.4cqw}
+.dsl-slide ul{list-style:none;margin-top:1cqw}
+.dsl-slide li{font-family:'Figtree',Inter,sans-serif;font-size:3.2cqw;line-height:1.4;margin:0 0 2.4cqw;padding-left:3.4cqw;position:relative}
+.dsl-slide li::before{content:"";position:absolute;left:0;top:1.15cqw;width:1.3cqw;height:1.3cqw;background:var(--gold)}
+.dsl-slide .accent{color:var(--gold)}
+.dsl-slide .strong{color:var(--heroink);font-weight:600}
+.dsl-slide .fine{font-family:'Figtree',Inter,sans-serif;font-size:2.6cqw;color:var(--heromuted);margin-top:auto}
+.dsl-slide .guar{font-family:'Figtree',Inter,sans-serif;font-weight:700;font-size:2.8cqw;color:var(--gold);margin-top:auto}
+
+/* paragraph variants used by the renderer */
+.dsl-slide .para{font-family:'Figtree',Inter,sans-serif;font-size:3.2cqw;line-height:1.45;margin-bottom:2.2cqw;max-width:94%}
+.dsl-slide .para.accent{color:var(--gold);font-weight:600;font-size:3.5cqw}
+.dsl-slide .para.strong{color:var(--heroink);font-weight:600}
+.dsl-slide .para.mut{color:var(--heromuted);font-size:2.8cqw}
+
+/* size modifiers: hsm = long headline, dense = many rows on one slide */
+.dsl-slide.hsm h2{font-size:4.6cqw}
+.dsl-slide.dense h2{font-size:4.8cqw}
+.dsl-slide.dense li{font-size:2.9cqw;margin-bottom:1.7cqw}
+.dsl-slide.dense .stack{font-size:3.4cqw}
+.dsl-slide.dense .para{font-size:2.9cqw}
+
+/* 3-card testimonial slides need the compact card treatment */
+.dsl-slide.cards3{padding:3.6cqw 6cqw 4cqw}
+.dsl-slide.cards3 .kick{margin-bottom:1.6cqw}
+.dsl-slide.cards3 .tcards{gap:1.6cqw}
+.dsl-slide.cards3 .dsl-tcard{padding:1.8cqw 2.4cqw}
+.dsl-slide.cards3 .dsl-tcard img{width:6cqw;height:6cqw}
+.dsl-slide.cards3 .qt{font-size:2.5cqw}
+.dsl-slide.cards3 .nm{font-size:2.1cqw;margin-top:.6cqw}
+
+/* centered statement slides */
+.dsl-slide.center{justify-content:center;text-align:center;padding:7cqw 8cqw}
+.dsl-slide.center h2{max-width:100%;font-size:5.2cqw;line-height:1.3;margin:0}
+
+/* big stack slides (solution / how we'll help) */
+.dsl-slide .stack{font-family:'Playfair Display',Georgia,serif;font-weight:600;color:var(--heroink);
+  font-size:4.6cqw;line-height:1.5}
+
+/* testimonial cards: the armed hero quote-card treatment (athena-form.js:150-152) */
+.dsl-slide .tcards{display:flex;flex-direction:column;gap:2.6cqw;justify-content:center;flex:1}
+.dsl-tcard{display:flex;gap:3cqw;align-items:center;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.16);border-radius:1.8cqw;padding:2.6cqw 3.2cqw}
+.dsl-tcard img{width:9cqw;height:9cqw;border-radius:50%;object-fit:cover;flex:none}
+.dsl-tcard .qt{font-family:'Playfair Display',Georgia,serif;font-size:3cqw;line-height:1.4;color:#D9D6CB}
+.dsl-tcard .nm{font-family:'Figtree',Inter,sans-serif;font-size:2.5cqw;margin-top:1cqw}
+.dsl-tcard .nm b{color:#fff}
+.dsl-tcard .nm span{color:var(--heromuted);font-style:italic}
+
+/* control bar */
+.dsl-bar{display:flex;align-items:center;justify-content:space-between;background:#0a120e;
+  border-top:1px solid rgba(255,255,255,.1);padding:9px 14px}
+.dsl-count{font-family:'Figtree',Inter,sans-serif;font-size:13px;color:var(--heromuted)}
+.dsl-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:var(--heroink);
+  width:38px;height:34px;border-radius:9px;font-size:20px;line-height:1;cursor:pointer;margin-left:8px}
+.dsl-btn:active{background:rgba(255,255,255,.16)}
+.dsl-btn[disabled]{opacity:.35;cursor:default}
+
+/* instruction words + CTA */
+.dsl-hint{text-align:center;font-size:14.5px;color:var(--muted);margin:14px auto 26px;max-width:520px}
+.dsl-ctawrap{text-align:center}
+.dsl-cta{display:inline-flex;align-items:center;justify-content:center;background:var(--green);color:var(--heroink);
+  font-weight:600;font-size:17px;padding:17px 34px;border-radius:12px;text-decoration:none;
+  box-shadow:0 10px 26px rgba(20,40,30,.28);transition:transform .15s,box-shadow .15s}
+.dsl-cta:hover{transform:translateY(-1px);box-shadow:0 14px 30px rgba(20,40,30,.34)}
+
+/* When mounted INSIDE the athena hero (index.html #dslHeroMount, ?dsl=1 staged embed):
+   the hero is already the dark green gradient, so the frame loses its light border and
+   the hint goes cream. Widths follow the hero column (q1 card is 640px on desktop). */
+html.athena-arm #dslHeroMount{max-width:720px;margin:36px 0 4px}
+html.athena-arm #dslHeroMount .dsl-frame{border-color:rgba(255,255,255,.18);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+html.athena-arm #dslHeroMount .dsl-hint{color:#E7E2D4;opacity:.85;text-align:left;margin:12px 0 0;max-width:none}
+
+@media (max-width:560px){
+  .dslp-wrap{padding:22px 10px 48px}
+  .dsl-frame{border-radius:11px}
+  /* phones get a taller 4:3 stage: the 16:9 box can't hold the dense slides
+     (text sizes are cqw, so only the height changes, never the type scale) */
+  .dsl-stage{aspect-ratio:4/3}
+  .dsl-slide{padding-bottom:5.5cqw}
+  .dsl-slide.dense li{font-size:2.7cqw;margin-bottom:1.4cqw}
+  .dsl-hint{font-size:13.5px;margin:12px auto 20px}
+  .dsl-cta{width:100%;font-size:16px;padding:16px 0}
+}

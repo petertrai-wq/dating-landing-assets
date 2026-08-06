@@ -1,0 +1,62 @@
+<!doctype html>
+<!--
+  DSL EMBED PREVIEW (STAGED, NOT LIVE) - 2026-08-05
+  New untracked file. Not linked from anywhere. Do not deploy as-is.
+  Layout modeled on the decksalesletter example page Peter referenced:
+    conversion headline on top -> framed click-through deck player -> instruction line -> green CTA.
+  The headline below is the landing's CURRENT DEFAULT hero H1. It will swap per hero
+  (utm_content HERO_MAP) when this ships for real, exactly like the live hero does.
+  The player is our own HTML click-through (NOT a Google Slides iframe) so each
+  slide advance can emit a per-slide tracking beacon later. See dsl-player.js.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Automated Dating - How It Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Same families the live page uses: Onest (page body, index.html:114),
+     Playfair Display + Figtree (athena form, athena-form.js:39) -->
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dsl-player.css">
+</head>
+<body class="dslp-page">
+<main class="dslp-wrap">
+
+  <!-- Conversion headline: the landing's default hero H1 (index.html:339). Swaps per hero later. -->
+  <header class="dslp-head">
+    <h1>
+      <span class="l">We run your dating apps.</span>
+      <span class="l">We handle your conversations.</span>
+      <span class="l">We schedule your dates.</span>
+      <span class="hl">You just show up.</span>
+    </h1>
+  </header>
+
+  <!-- Framed click-through deck player -->
+  <section class="dsl-frame" aria-label="How Automated Dating works, slide presentation">
+    <div class="dsl-stage" id="dslStage"></div>
+    <div class="dsl-bar">
+      <span class="dsl-count" id="dslCount">1 / 1</span>
+      <span class="dsl-nav">
+        <button class="dsl-btn" id="dslPrev" aria-label="Previous slide">&#8249;</button>
+        <button class="dsl-btn" id="dslNext" aria-label="Next slide">&#8250;</button>
+      </span>
+    </div>
+  </section>
+
+  <!-- Instruction words under the frame (Peter's ask, phrased naturally, no dashes) -->
+  <p class="dsl-hint">Tap the slides or press the right arrow to move through the presentation at your own pace.</p>
+
+  <!-- Green CTA, styled like the example page's button. Anchor placeholder for now:
+       when this ships it opens the athena application form (same trigger as the hero). -->
+  <div class="dsl-ctawrap">
+    <a class="dsl-cta" id="dslCta" href="#apply">Fill Out The Application</a>
+  </div>
+
+</main>
+<script src="dsl-player.js"></script>
+</body>
+</html>

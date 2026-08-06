@@ -306,6 +306,9 @@
     } catch (e) {}
     out.ab = (window.__ADQ_AB || window.__AB || 'c');
     out.form = 'athena2';   // athena2 tag (2026-08-04): the relay's formLabel/recordFunnel/beacon gates all accept it
+    // ST14 DSL deck arm (2026-08-05 pm): localStorage is the assignment's source of truth (set by
+    // index.html's mount script); rides the hidden bag into form_fills for the ST14 money tail.
+    try { var dv = localStorage.getItem('adq_dsl'); if (dv === 'a' || dv === 'b') out.dsl = dv; } catch (e) {}
     try { if (fsAcc >= 1) out.form_secs = String(Math.round(fsAcc)); } catch (e) {}
     try { out.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
     try { var p = pxCookie('_fbp'); if (p) out.fbp = p; var c = pxCookie('_fbc'); if (c) out.fbc = c; } catch (e) {}
@@ -461,7 +464,7 @@
 
   function openTakeover() {
     // q1 was answered in the HERO card (A.q1 already set + saved) — the takeover always begins at
-    // the next question (STEPS[0] = time_week). Peter 2026-08-04: role card retired.
+    // the next question (STEPS[0] = hinge_banned since 0bfa467). Peter 2026-08-04: role card retired.
     mountOverlay();
     // banner GONE once they answer q1 and enter the form (Peter 2026-07-29 — supersedes 7/28's
     // "keep the banner at the top"; the countdown did its job on the landing, the form needs room)
@@ -917,7 +920,8 @@
     'vsl-0801-v4': 'winners'
   };
   // One shared subline across ALL hero variations (Peter 2026-08-04 pm: 'change this for every variation').
-  var HERO_SUB = '<b>First:</b> You tell us your type, your logistics and schedule.<br><b>Then:</b> We run all of your dating apps scheduling dates for you. You just show up.';
+  // 2026-08-05 pm (Peter, DSL pass): First/Then structure retired — one sentence, no labels.
+  var HERO_SUB = 'We run all of your dating apps scheduling dates for you. You just show up.';
   var HERO_COPY = {
     time: { h1: '<span class="l">If your time’s worth $50 an hour,</span><span class="l"><em>stop swiping.</em></span>',
       sub: HERO_SUB },
@@ -940,10 +944,8 @@
       var h1 = document.querySelector('.hero h1');
       if (h1) {
         h1.innerHTML = hb ? hb.h1 : '<span class="l">You’re losing 10+ hours a week</span><span class="l"><em>to work someone else should do.</em></span>';
-        var eb = document.createElement('div');
-        eb.className = 'athEyebrow';
-        eb.textContent = 'Trusted by 300+ founders, execs and high level professionals';
-        h1.parentNode.insertBefore(eb, h1);
+        // 'Trusted by 300+...' eyebrow retired on every hero (Peter 2026-08-05 pm: "remove this
+        // from everything"); the .athEyebrow style rule stays for old cached HTML, harmless.
       }
     } catch (e) {}
     try {
