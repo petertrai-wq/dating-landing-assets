@@ -244,6 +244,7 @@
       card: qq('"I don\'t have too much trouble with women, I just can\'t afford to spend the hours it takes to land even one decent date now. It\'s almost like a full time job."', 'M', 'Marco C.', 'Exec, SF', 'tw-marco2.jpg') },
     { key: 'dates30', type: 'radio', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'],
       card: qi('◔', "Hinge's own data: a match that gets a reply within 24 hours is <b>72% more likely to turn into a date</b>. Slow follow-up is where dates die.") },
+    { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },   // BACK as the wheel (Peter 2026-08-06 'use the same slider code'); relay age mapping + 40+ Ed-story gate already consume numeric age
     // 'methow' + 'interest' (Peter 2026-08-04 review) and 'occupation' + 'occ_years' (Peter
     // 2026-08-04 second pass) REMOVED from athena2 — the Original Form (adq-embed, ?form=original
     // QA) still asks all four; the relay's DFORM keeps their entries and every parser no-ops when
@@ -278,7 +279,9 @@
       // A resumed session can carry answers for questions that no longer exist, and can land past
       // a question with it unanswered (wrong DQ after contact capture). Rewind to the first
       // unanswered required step so edited decks stay coherent. skipIf steps count as answered.
-      var validKeys = { first: 1, last: 1, q1: 1 /* answered in the hero card, not a STEPS entry */ }; STEPS.forEach(function (q) { if (q.key) validKeys[q.key] = 1; });   // 'role'/'age' dropped 2026-08-04 — swept from old saved state here
+      var validKeys = { first: 1, last: 1, q1: 1 /* answered in the hero card, not a STEPS entry */ }; STEPS.forEach(function (q) { if (q.key) validKeys[q.key] = 1; });   // 'role' dropped 2026-08-04 — swept from old saved state here
+      // age is BACK as the WHEEL (2026-08-06); a resumed state carrying a bracket-era string ('27-34') would render as a bogus wheel value — drop non-numeric so the step re-asks.
+      if (A.age && !/^\d{1,3}$/.test(String(A.age))) delete A.age;
       Object.keys(A).forEach(function (k) { if (!validKeys[k]) delete A[k]; });
       for (var si = 0; si < STEPS.length && si < step; si++) {
         var sq = STEPS[si];
@@ -362,7 +365,7 @@
     // absent (Peter's 2026-08-04 review cuts) — the relay's addChoices/addText builders no-op on
     // missing keys. q1 rides in from the HERO card answer.
     return JSON.stringify({ token: token, complete: !!complete, hp: '', hidden: hiddenFields(), answers: {
-      q1: A.q1 || '', hinge_banned: A.hinge_banned || '', time_week: A.time_week || '', dates30: A.dates30 || '',
+      q1: A.q1 || '', hinge_banned: A.hinge_banned || '', time_week: A.time_week || '', dates30: A.dates30 || '', age: A.age || '',
       income: A.income || '',
       first: A.first || '', last: A.last || '', phone: (A.phone ? phoneE164() : ''), email: A.email || '',
       invest: A.invest || '', commit: A.commit || ''
