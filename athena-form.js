@@ -807,10 +807,14 @@
         (abk.err ? '<div class="abk-err">' + esc(abk.err) + '</div>' : '');
     }
     col.innerHTML = '<div class="abk">' + inner + '</div>';
-    ov.scrollTop = 0;
+    // Arming a slot re-renders the same list — keep the scroll (Peter 2026-08-06: tapping any
+    // time below the fold on mobile snapped the overlay back to the top). View CHANGES still
+    // start at the top like before.
+    if (abk._keepScroll != null) { ov.scrollTop = abk._keepScroll; abk._keepScroll = null; }
+    else ov.scrollTop = 0;
     col.querySelectorAll('[data-abkdate]').forEach(function (el) { el.addEventListener('click', function () { abk.selDate = el.getAttribute('data-abkdate'); abk.month = new Date(abk.selDate + 'T12:00:00'); abk.armed = ''; if (abkMob()) abk.mStep = 'slots'; abkRender(); }); });
     col.querySelectorAll('[data-abknav]').forEach(function (el) { el.addEventListener('click', function () { var m = abk.month || new Date(); abk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-abknav'), 10), 1); abkRender(); }); });
-    col.querySelectorAll('[data-abkarm]').forEach(function (el) { el.addEventListener('click', function () { abk.armed = el.getAttribute('data-abkarm'); abkRender(); }); });
+    col.querySelectorAll('[data-abkarm]').forEach(function (el) { el.addEventListener('click', function () { abk.armed = el.getAttribute('data-abkarm'); abk._keepScroll = ov.scrollTop; abkRender(); }); });
     col.querySelectorAll('[data-abksel]').forEach(function (el) { el.addEventListener('click', function () { abk.slot = el.getAttribute('data-abksel'); abk.view = 'details'; abk.err = ''; abk.confirmed = false; abkRender(); }); });
     var tzSel = document.getElementById('abkTz');
     if (tzSel) tzSel.addEventListener('change', function () { abk.tz = tzSel.value; abkRender(); });
