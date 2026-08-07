@@ -5,10 +5,12 @@
 // ATHENA2 = the Athena UX (hero q1 card → full-screen stylized takeover, one-question-at-a-time
 // cards, Playfair/Figtree styling, inline native booker) carrying the ORIGINAL FORM's questions
 // VERBATIM from adq-embed.js QS — MINUS 'methow', 'interest', 'occupation', 'occ_years',
-// 'problem', 'start', 'age' and the athena-only 'role' (Peter 2026-08-04 review cuts). Final
+// 'problem', 'start' and the athena-only 'role' (Peter 2026-08-04 review cuts). Final
 // flow: q1 answered IN THE HERO CARD (Yes/No — replaced the role card 08-04 pm), then the
-// takeover: hinge_banned (pure intel — never DQs), time_week, dates30, income, phone, name,
-// email, invest (dynamic title), commit.
+// takeover: hinge_banned (pure intel — never DQs), time_week, dates30, age, nearest_city,
+// ethnicity (2026-08-05 Peter: "put these 3 after the how many dates question" — sales +
+// date-setting intel, NONE of the three ever DQs; age is BACK as the v1 deck's brackets, not
+// the wheel), income, phone, name, email, invest (dynamic title), commit.
 // With 'start' gone there is no timeline question and therefore no timeline DQ; q1 'No' still
 // DQs at invest exactly like the Original (contact captured first at phone/name/email).
 // Titles/opts must NEVER be paraphrased — the relay's DFORM refs + tfQualified/
@@ -233,7 +235,8 @@
   function invqPriceShown() { return false; }
   // q1 lives in the HERO CARD (Peter 2026-08-04: it replaced the role question there) — answered
   // before the takeover opens, prefilled into A.q1, still submitted + still the first DQ gate.
-  // 'age' REMOVED the same pass (never fed DQ — the 27-55 gate is in q1's wording).
+  // 'age' was removed that pass, then RE-ADDED 2026-08-05 (Peter) as the v1 deck's brackets —
+  // still never feeds DQ (the 27-55 gate stays in q1's wording).
   var STEPS = [
     // QUESTION 2 (Peter 2026-08-05: moved to the FIRST takeover step, right after the hero q1) —
     // pure intel, NO DQ effect from any answer. Mirrored in the relay DFORM (hinge_banned); no
@@ -244,7 +247,17 @@
       card: qq('"I don\'t have too much trouble with women, I just can\'t afford to spend the hours it takes to land even one decent date now. It\'s almost like a full time job."', 'M', 'Marco C.', 'Exec, SF', 'tw-marco2.jpg') },
     { key: 'dates30', type: 'radio', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'],
       card: qi('◔', "Hinge's own data: a match that gets a reply within 24 hours is <b>72% more likely to turn into a date</b>. Slow follow-up is where dates die.") },
+    // ── +3 intel questions (Peter 2026-08-05: "put these 3 after the how many dates question" —
+    // used for sales + date-setting practices). NONE of them DQs, ever. 'age' = the Athena v1
+    // deck's brackets recovered from git (64e6dbc^; its en dashes normalized to plain hyphens per
+    // the no-dash copy rule). 'nearest_city' is required free text (autofocus rides the existing
+    // primeKeyboard machinery — TYPED_Q covers type 'short'). 'ethnicity' reuses the client app's
+    // HG_ETH list (hinge-proj portal-src/index.html) with the preference-only 'Open to all'
+    // swapped for 'Prefer not to say'. Phase B mirrors all three into the relay DFORM + GHL +
+    // lead cards before these answers are consumed anywhere. ──
     { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },   // BACK as the wheel (Peter 2026-08-06 'use the same slider code'); relay age mapping + 40+ Ed-story gate already consume numeric age
+    { key: 'nearest_city', type: 'short', title: "What's the nearest major city to you?" },
+    { key: 'ethnicity', type: 'radio', title: "What's your ethnicity?", opts: ['Black/African Descent', 'East Asian', 'Hispanic/Latino', 'Middle Eastern', 'Native American', 'Pacific Islander', 'South Asian', 'Southeast Asian', 'White/Caucasian', 'Other', 'Prefer not to say'] },
     // 'methow' + 'interest' (Peter 2026-08-04 review) and 'occupation' + 'occ_years' (Peter
     // 2026-08-04 second pass) REMOVED from athena2 — the Original Form (adq-embed, ?form=original
     // QA) still asks all four; the relay's DFORM keeps their entries and every parser no-ops when
@@ -280,9 +293,11 @@
       // a question with it unanswered (wrong DQ after contact capture). Rewind to the first
       // unanswered required step so edited decks stay coherent. skipIf steps count as answered.
       var validKeys = { first: 1, last: 1, q1: 1 /* answered in the hero card, not a STEPS entry */ }; STEPS.forEach(function (q) { if (q.key) validKeys[q.key] = 1; });   // 'role' dropped 2026-08-04 — swept from old saved state here
-      // age is BACK as the WHEEL (2026-08-06); a resumed state carrying a bracket-era string ('27-34') would render as a bogus wheel value — drop non-numeric so the step re-asks.
-      if (A.age && !/^\d{1,3}$/.test(String(A.age))) delete A.age;
       Object.keys(A).forEach(function (k) { if (!validKeys[k]) delete A[k]; });
+      // age is BACK as the WHEEL (2026-08-06, supersedes the 08-05 brackets that never shipped);
+      // a resumed state carrying a bracket-era string ('27-34') would render as a bogus wheel
+      // value — drop non-numeric so the step re-asks.
+      if (A.age && !/^\d{1,3}$/.test(String(A.age))) delete A.age;
       for (var si = 0; si < STEPS.length && si < step; si++) {
         var sq = STEPS[si];
         if (sq.skipIf && sq.skipIf(A)) continue;
@@ -361,11 +376,13 @@
   function payload(complete) {
     fsBump();
     // Same answers shape as adq-embed's payload() — the relay's DFORM builders parse these keys.
-    // methow/methow_other/interest/occupation/occ_years/problem/start/age/role intentionally
+    // methow/methow_other/interest/occupation/occ_years/problem/start/role intentionally
     // absent (Peter's 2026-08-04 review cuts) — the relay's addChoices/addText builders no-op on
-    // missing keys. q1 rides in from the HERO card answer.
+    // missing keys. q1 rides in from the HERO card answer. age is BACK 2026-08-05 (brackets now,
+    // not the wheel number) alongside the new nearest_city + ethnicity.
     return JSON.stringify({ token: token, complete: !!complete, hp: '', hidden: hiddenFields(), answers: {
-      q1: A.q1 || '', hinge_banned: A.hinge_banned || '', time_week: A.time_week || '', dates30: A.dates30 || '', age: A.age || '',
+      q1: A.q1 || '', hinge_banned: A.hinge_banned || '', time_week: A.time_week || '', dates30: A.dates30 || '',
+      age: A.age || '', nearest_city: A.nearest_city || '', ethnicity: A.ethnicity || '',
       income: A.income || '',
       first: A.first || '', last: A.last || '', phone: (A.phone ? phoneE164() : ''), email: A.email || '',
       invest: A.invest || '', commit: A.commit || ''
@@ -815,9 +832,15 @@
     // start at the top like before.
     if (abk._keepScroll != null) { ov.scrollTop = abk._keepScroll; abk._keepScroll = null; }
     else ov.scrollTop = 0;
+    // The times list is its OWN scroller (.abk-slots max-height+overflow) — 8dfd6f3 only preserved
+    // the overlay's scroll, so re-rendering still snapped the LIST back to its first time (Peter
+    // 2026-08-06 pm: "still scrolling up after i pick a time"). Restore it, then nudge the armed
+    // pair into view (block:'nearest' = no movement when it's already visible).
+    if (abk._keepSlots != null) { var _sl2 = col.querySelector('.abk-slots'); if (_sl2) _sl2.scrollTop = abk._keepSlots; abk._keepSlots = null;
+      var _pair = col.querySelector('.abk-pair'); if (_pair) { try { _pair.scrollIntoView({ block: 'nearest' }); } catch (e) {} } }
     col.querySelectorAll('[data-abkdate]').forEach(function (el) { el.addEventListener('click', function () { abk.selDate = el.getAttribute('data-abkdate'); abk.month = new Date(abk.selDate + 'T12:00:00'); abk.armed = ''; if (abkMob()) abk.mStep = 'slots'; abkRender(); }); });
     col.querySelectorAll('[data-abknav]').forEach(function (el) { el.addEventListener('click', function () { var m = abk.month || new Date(); abk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-abknav'), 10), 1); abkRender(); }); });
-    col.querySelectorAll('[data-abkarm]').forEach(function (el) { el.addEventListener('click', function () { abk.armed = el.getAttribute('data-abkarm'); abk._keepScroll = ov.scrollTop; abkRender(); }); });
+    col.querySelectorAll('[data-abkarm]').forEach(function (el) { el.addEventListener('click', function () { abk.armed = el.getAttribute('data-abkarm'); abk._keepScroll = ov.scrollTop; var _sl = col.querySelector('.abk-slots'); abk._keepSlots = _sl ? _sl.scrollTop : null; abkRender(); }); });
     col.querySelectorAll('[data-abksel]').forEach(function (el) { el.addEventListener('click', function () { abk.slot = el.getAttribute('data-abksel'); abk.view = 'details'; abk.err = ''; abk.confirmed = false; abkRender(); }); });
     var tzSel = document.getElementById('abkTz');
     if (tzSel) tzSel.addEventListener('change', function () { abk.tz = tzSel.value; abkRender(); });
