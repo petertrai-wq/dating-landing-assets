@@ -30,6 +30,7 @@
   if (window.__ADQ_FORM !== 'athena') return;
 
   var API = 'https://admin.automated.dating/api/apply';
+  var LIVE = /(^|\.)automated\.dating$/.test(location.hostname);   // preview servers never post real data
   var EP = 'https://admin.automated.dating/api/analytics/track';
   var PIC = 'https://automated.dating/concierge/';
 
@@ -242,6 +243,11 @@
     // pure intel, NO DQ effect from any answer. Mirrored in the relay DFORM (hinge_banned); no
     // GHL custom field — rides form_fills → admin /form + lead cards + #leads generically.
     // rail:true = the "Match progress" side panel shows on the first takeover card.
+    // PREMIUM FRAME (Jeremy 2026-08-08, Peter-approved): the filter IS the point — sub-100k
+    // self-selects out before a single answer; the 200k guy leans in. Income is Q1 after it.
+    { key: 'frame', type: 'info', title: 'Automated Dating is a premium service' },
+    { key: 'income', type: 'radio', title: "What's your annual income? (USD)", desc: 'We work exclusively with men earning $100K+.', opts: ['0k to 50k', '50k to 100k', '100k to 150k', '150k-200k', '200k+'],
+      card: qq('"I\'m way too busy... don\'t have the energy to text with women for three to five hours."', 'S', 'Shaun R.', 'Finance Exec, London', 'tw-shaun2.jpg') },
     { key: 'hinge_banned', type: 'radio', rail: true, title: 'Are you banned on Hinge currently?', opts: ['Yes', 'No', 'Not sure'] },
     { key: 'time_week', type: 'radio', title: 'How many hours are you spending each week texting, swiping, thinking about, or meeting women?', opts: ['Under 3 hours', '3-7 hours', '8-15 hours', '15+ hours'],
       card: qq('"I don\'t have too much trouble with women, I just can\'t afford to spend the hours it takes to land even one decent date now. It\'s almost like a full time job."', 'M', 'Marco C.', 'Exec, SF', 'tw-marco2.jpg') },
@@ -257,13 +263,11 @@
     // lead cards before these answers are consumed anywhere. ──
     { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },   // BACK as the wheel (Peter 2026-08-06 'use the same slider code'); relay age mapping + 40+ Ed-story gate already consume numeric age
     { key: 'nearest_city', type: 'short', title: "What's the nearest major city to you?" },
-    { key: 'ethnicity', type: 'radio', title: "What's your ethnicity?", opts: ['Black/African Descent', 'East Asian', 'Hispanic/Latino', 'Middle Eastern', 'Native American', 'Pacific Islander', 'South Asian', 'Southeast Asian', 'White/Caucasian', 'Other', 'Prefer not to say'] },
+    { key: 'ethnicity', type: 'multi', max: 2, title: "What's your ethnicity?", desc: 'Pick up to 2.', opts: ['Black/African Descent', 'East Asian', 'Hispanic/Latino', 'Middle Eastern', 'Native American', 'Pacific Islander', 'South Asian', 'Southeast Asian', 'White/Caucasian', 'Other', 'Prefer not to say'] },   // multi max-2 (Peter 2026-08-08: "Let me select 2 ethnicities if I want")
     // 'methow' + 'interest' (Peter 2026-08-04 review) and 'occupation' + 'occ_years' (Peter
     // 2026-08-04 second pass) REMOVED from athena2 — the Original Form (adq-embed, ?form=original
     // QA) still asks all four; the relay's DFORM keeps their entries and every parser no-ops when
     // the keys are absent.
-    { key: 'income', type: 'radio', title: "What's your annual income? (USD)", desc: 'This helps us determine the lifestyle and type of profile you can realistically showcase without it coming off as incongruent.', opts: ['0k to 50k', '50k to 100k', '100k to 150k', '150k-200k', '200k+'],
-      card: qq('"I\'m way too busy... don\'t have the energy to text with women for three to five hours."', 'S', 'Shaun R.', 'Finance Exec, London', 'tw-shaun2.jpg') },
     // 'problem' long-text and the 'start' timeline question also REMOVED (Peter 2026-08-04 review
     // cuts) — same DFORM/parser tolerance as the other cuts; downstream surfaces (lead cards,
     // /form view, GHL) render absence as empty, never 'undefined' (they enumerate present answers
@@ -324,6 +328,7 @@
     } catch (e) {}
     out.ab = (window.__ADQ_AB || window.__AB || 'c');
     out.form = 'athena2';   // athena2 tag (2026-08-04): the relay's formLabel/recordFunnel/beacon gates all accept it
+    try { out.hero = heroBucket(); } catch (e) {}   // hero split 2 arm rides every fill (relay hidden whitelist 2026-08-08)
     // ST14 DSL deck REMOVED for everyone (Peter 2026-08-08: "remove the DSL from everything" —
     // deck arm cost 36% of form-clicks, median 1.7/21 slides read). No dsl field on fills anymore.
     try { if (fsAcc >= 1) out.form_secs = String(Math.round(fsAcc)); } catch (e) {}
@@ -334,9 +339,12 @@
   var sid;
   try { sid = sessionStorage.getItem('ad_sid') || ''; if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } } catch (e) { sid = Date.now().toString(36); }
   var stepPinged = {};
-  function pingEv(ev, pg) {
+  function pingEv(ev, pg, extra) {
     try {
-      navigator.sendBeacon(EP, new Blob([JSON.stringify({ event: ev, page: pg, sid: sid, ab: (window.__ADQ_AB || 'c'), form: 'athena2' })], { type: 'text/plain' }));
+      if (!LIVE) return;
+      var p = { event: ev, page: pg, sid: sid, ab: (window.__ADQ_AB || 'c'), form: 'athena2' };
+      if (extra) for (var k in extra) p[k] = extra[k];
+      navigator.sendBeacon(EP, new Blob([JSON.stringify(p)], { type: 'text/plain' }));
     } catch (e) {}
   }
   function pingStep(key) { if (stepPinged[key]) return; stepPinged[key] = 1; pingEv('form_step', key); }
@@ -411,9 +419,11 @@
   function firePhonePartial() {
     if (phonePartialFired || submitted) return;
     phonePartialFired = true; partialSent = true;
+    if (!LIVE) return;
     try { fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload(false), keepalive: true }).catch(function () {}); } catch (e) {}
   }
   function submit(cb) {
+    if (!LIVE) { try { console.log('[preview] submit suppressed'); } catch (e) {} if (cb) cb(); return; }
     if (submitted) { if (cb) cb(); return; }
     submitted = true;
     var attempt = function (left) {
@@ -421,7 +431,7 @@
         fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload(true), keepalive: true })
           .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
           .then(function () {
-            try { pingEv(isDq() ? 'form_done_dq' : 'form_done_q', 'done'); } catch (e) {}
+            try { pingEv(isDq() ? 'form_done_dq' : 'form_done_q', 'done', (A.email && /.+@.+\..+/.test(A.email)) ? { email: String(A.email).toLowerCase().slice(0, 120) } : null); } catch (e) {}   // email on done → per-hero booked attribution joins
             try { if (A.email) localStorage.setItem('adq_em', String(A.email).toLowerCase().slice(0, 120)); } catch (e) {}
             try { sessionStorage.removeItem('ath_token'); } catch (e) {}
             clearState();
@@ -447,12 +457,13 @@
     if (ov) return;
     ov = document.createElement('div');
     ov.id = 'athOv';
-    ov.innerHTML = '<div id="athBnrSlot"></div><div id="athHead"><div class="inr"><button id="athBack">←</button><div class="athwm">AUTOMATED DATING</div></div></div>' +
+    ov.innerHTML = '<div id="athBnrSlot"></div><div id="athHead"><div class="inr"><button id="athBack">←</button><div class="athwm">AUTOMATED DATING</div><button id="athX" title="Close" style="margin-left:auto;width:30px;height:30px;border-radius:7px;border:none;background:#CDD9CC;color:#2E3A30;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button></div></div>' +
       '<div id="athProgWrap"><div id="athProg"><i id="athProgFill"></i></div></div>' +
       '<div id="athBody"><div id="athCol"></div>' +
       '<div id="athRail"><div class="lbl">Match progress</div><div class="athring"><div class="pc"><b>6%</b><span>Complete</span></div></div><div class="note">Each answer helps us build your exact dating profile plan</div></div></div>';
     document.body.appendChild(ov);
     col = document.getElementById('athCol'); railEl = document.getElementById('athRail'); backBtn = document.getElementById('athBack');
+    try { document.getElementById('athX').addEventListener('click', function () { closeTakeover(); }); } catch (e) {}
     backBtn.addEventListener('click', back);
   }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
@@ -471,7 +482,7 @@
   function setBar(full) {
     var el = document.getElementById('athProgFill'); if (!el) return;
     var TOTAL = STEPS.length + 1;
-    var n = full ? TOTAL : Math.max(answeredCount(), Math.min(Math.max(step, 0), STEPS.length));
+    var n = full ? TOTAL : Math.min(Math.max(step, 0), STEPS.length);   // position-based: the bar moves BACK when you go back (Peter 2026-08-08)
     el.style.width = Math.max(3, Math.round(100 * n / TOTAL)) + '%';
   }
   function cardHtml(c) {
@@ -513,8 +524,11 @@
     var _qdH = (typeof s.descHtml === 'function') ? s.descHtml(A) : s.descHtml;
     var h = '';
     if (s.almost) h += '<div class="athalmost"><h1 class="athserif">You’re almost there!</h1><p>Just a few more questions to help us build your exact done-for-you dating app strategy.</p><hr></div>';
-    if (s.type === 'radio' || s.type === 'multi') {
-      if (step === 0) h += '<div class="athqual"><div class="ring"><b>6%</b></div><div><div class="ss">Each answer helps us build your exact dating profile plan.</div></div></div>';
+    if (s.type === 'info') {
+      h += '<div class="athq">' + esc(_qt) + '</div>';
+      h += '<div class="athd" style="font-size:16.5px;line-height:1.6">For men earning <b>$100K+</b> who are ready to delegate their dating life. We rebuild your photos, run your apps, and schedule your dates. <b>12 dates in 90 days, guaranteed.</b><br><br>If that sounds like you, let\'s see if we\'re a fit.</div>';
+      h += '<button class="athgo show" id="athGo">Continue&nbsp;&nbsp;\u2192</button>';
+    } else if (s.type === 'radio' || s.type === 'multi') {
       h += '<div class="athq' + (s.compact ? ' compact' : '') + '">' + esc(_qt) + '</div>';
       if (_qdH) h += '<div class="athd">' + _qdH + '</div>';
       else if (s.desc) h += '<div class="athd">' + esc(s.desc) + '</div>';
@@ -616,22 +630,33 @@
       if (revisit) document.getElementById('athGo').classList.add('show');
       else {
         locked = true;
-        if (TYPED_Q[(STEPS[nextIdx(step)] || {}).type] && !(s.key === 'invest' && isDq()) && s.key !== 'commit') primeKeyboard();   // keyboard primes inside THIS tap's gesture (never before an ending screen)
+        if (TYPED_Q[(STEPS[nextIdx(step)] || {}).type] && !((s.key === 'invest' || s.key === 'income') && isDq()) && s.key !== 'commit') primeKeyboard();   // keyboard primes inside THIS tap's gesture (never before an ending screen)
         autoT = setTimeout(function () { if (STEPS[step] === s) next(); }, 320);
       }
     } else {
       var isAll = /^All of the above|^All four/.test(s.opts[i]);
       if (isAll) { els.forEach(function (e, j) { e.classList.toggle('on', j === i); }); }
       else { els[i].classList.toggle('on'); els.forEach(function (e, j) { if (/^All of the above/.test(s.opts[j])) e.classList.remove('on'); }); }
+      var prev = Array.isArray(A[s.key]) ? A[s.key].slice() : [];
       var on = [].slice.call(els).filter(function (e) { return e.classList.contains('on'); });
-      A[s.key] = on.map(function (e) { return e.textContent; });
-      document.getElementById('athGo').classList.toggle('show', on.length > 0);
+      var cur = on.map(function (e) { return e.textContent; });
+      if (s.max && cur.length > s.max) {
+        // cap in PICK order: the newest tap always lands, the oldest selection drops (ethnicity max 2)
+        var ordered = prev.filter(function (x) { return cur.indexOf(x) >= 0; });
+        cur.forEach(function (x) { if (ordered.indexOf(x) < 0) ordered.push(x); });
+        while (ordered.length > s.max) ordered.shift();
+        cur = ordered;
+        els.forEach(function (e) { e.classList.toggle('on', cur.indexOf(e.textContent) >= 0); });
+      }
+      A[s.key] = cur;
+      document.getElementById('athGo').classList.toggle('show', cur.length > 0);
     }
     saveState();
   }
   function errMsg(m) { var e = document.getElementById('athErr'); if (e) e.textContent = m || ''; }
   // Per-type validation + answer capture (mirror of adq-embed's collect())
   function collect(s) {
+    if (s.type === 'info') { A[s.key] = 'seen'; saveState(); return true; }
     if (s.type === 'name') {
       var f = document.getElementById('athF'), l = document.getElementById('athL');
       A.first = f ? f.value.trim() : ''; A.last = l ? l.value.trim() : '';
@@ -667,6 +692,7 @@
     // Original Form endings, verbatim (keep in sync with adq-embed's advance()): DQ evaluates at
     // the INVEST question; commit "Maybe" DQs; else calendar. Submission fires when an ENDING is
     // reached — before the calendar shows, so qualified non-bookers are never lost.
+    if (s.key === 'income' && (A.income === '0k to 50k' || A.income === '50k to 100k')) { showDq('income'); return; }   // premium gate: DQ BEFORE contact capture (Peter 2026-08-08)
     if (s.key === 'invest' && isDq()) { showDq(); return; }
     if (s.key === 'commit') {
       if (/^Maybe/.test(A.commit || '')) { showDq(); return; }
@@ -688,7 +714,7 @@
   }
 
   var finishedView = '';
-  function showDq() {
+  function showDq(reason) {
     // Submit FIRST (DQ'd leads are still captured — contact landed at phone/name/email), then the soft no.
     submit(function () {});
     finishedView = 'dq';
@@ -696,7 +722,9 @@
     railEl.style.display = 'none';
     setBar(1);
     clearTimeout(autoT); moving = false; locked = false;
-    col.innerHTML = '<div class="athend"><p class="t">Unfortunately it seems like we aren’t a great fit right now.</p><p class="d">Feel free to check back if things change!</p></div>';
+    col.innerHTML = reason === 'income'
+      ? '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Our service is built for men earning $100K+, and at this time we\u2019re only accepting clients who meet that threshold. If your situation changes, we\u2019d love to hear from you.</p></div>'
+      : '<div class="athend"><p class="t">Unfortunately it seems like we aren\u2019t a great fit right now.</p><p class="d">Feel free to check back if things change!</p></div>';
     col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
     ov.scrollTop = 0;
   }
@@ -743,6 +771,11 @@
   }
   function abkFetch() {
     var f = function (left) {
+      if (!LIVE) {   // preview: relay rejects localhost origin — synthesize realistic slots
+        var fake = { ok: true, durationMins: 30, dates: {} };
+        for (var fd = 1; fd <= 6; fd++) { var dd = new Date(Date.now() + fd * 86400000); var dk = dd.toISOString().slice(0, 10); fake.dates[dk] = ['15:00', '16:30', '18:00', '19:30'].map(function (hm) { return dk + 'T' + hm + ':00-04:00'; }); }
+        return Promise.resolve(fake);
+      }
       return fetch(ABK_SLOTS, { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); })
         .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 2500); }).then(function () { return f(left - 1); }); throw e; });
     };
@@ -898,6 +931,7 @@
     var done = function () { clearInterval(tick); clearInterval(mrot); };
     var body = JSON.stringify({ first: first.trim(), last: A.last || '', email: email.trim(), phone: phone.trim(), startTime: abk.slot, red: '', fbp: pxCookie('_fbp'), fbc: pxCookie('_fbc') });
     var bookFetch = function (left) {
+      if (!LIVE) return Promise.resolve({ ok: true, preview: true });   // preview: booking disabled, fake success
       return fetch(ABK_BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: body }).then(function (r) { return r.json(); })
         .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 3000); }).then(function () { return bookFetch(left - 1); }); throw e; });
     };
@@ -943,10 +977,26 @@
   // every utm_content, gets the DEFAULT delegation hero below — it had all 6 most-recent buyers
   // and the best views→apps (15.2% vs winners 11.7 / stuck 4.4 / time 0). The variant copy +
   // HERO_MAP history lives in git (pre-2026-08-08). Stale localStorage adq_hero is ignored.
-  var HERO_SUB = 'We run all of your dating apps scheduling dates for you. You just show up.';
-  function heroBucket() { return ''; }
+  var HERO_SUB = 'We rebuild your photos, run your dating apps, and schedule your dates. You just show up.';
+  var HERO_GUARANTEE = '12 dates in 90 days, guaranteed.';   // own line under the sub (Peter 2026-08-08: third sub-heading, not part of the paragraph)
+  // Hero split test 2 (Peter 2026-08-08 "put it live"): sticky 50/50, default delegation hero vs
+  // the "photos are with your ex" pain hero (Ryan Yee verbatim). Assignment persists in
+  // localStorage adq_hero2; ?hero=photos|default forces a variant for QA (not sticky). Every
+  // pageload beacons hero_view (page = variant) and fills carry hidden.hero — per-hero funnel
+  // joins on sid (beacons) or hidden.hero (fills). Deploy head-to-head per Jeremy: never straight-swap.
+  function heroBucket() {
+    try {
+      var qs = new URLSearchParams(location.search).get('hero');
+      if (qs === 'photos' || qs === 'default') return qs;
+      var v = localStorage.getItem('adq_hero2');
+      if (v !== 'photos' && v !== 'default') { v = (Math.random() < 0.5) ? 'photos' : 'default'; try { localStorage.setItem('adq_hero2', v); } catch (e) {} }
+      return v;
+    } catch (e) { return 'default'; }
+  }
   function heroVariant() {
-    var hb = null;   // always the default hero since 2026-08-08 (heroBucket stub above)
+    var hb = null;   // null = default delegation hero below
+    try { if (heroBucket() === 'photos') hb = { h1: '<span class="l">Your good photos are with your ex.</span><span class="l"><em>The apps are a part-time job.</em></span>', sub: 'We rebuild your photos, run your dating apps, and schedule your dates. You just show up.' }; } catch (e) {}
+    try { pingEv('hero_view', heroBucket()); } catch (e) {}
     try {
       var h1 = document.querySelector('.hero h1');
       if (h1) {
@@ -959,6 +1009,14 @@
       var sub = document.querySelector('.hero .sub');
       if (sub) {
         sub.innerHTML = hb ? hb.sub : HERO_SUB;   // First/Then copy everywhere (labels bold via .sub b)
+        var gl = document.getElementById('athGuarantee');
+        if (!gl) {
+          gl = document.createElement('p');
+          gl.id = 'athGuarantee';
+          gl.className = 'nopay';   // reuses the existing guarantee-line style (light + left-aligned under html.athena-arm)
+          sub.parentNode.insertBefore(gl, sub.nextSibling);
+        }
+        gl.textContent = HERO_GUARANTEE;
         var tq = document.createElement('div');
         tq.id = 'athHeroQuote';
         tq.innerHTML = '"If I just put in the time, I\'d be fine. But I can\'t afford to with my schedule. Landing high quality dates is literally a full time job nowadays."' +
@@ -975,7 +1033,7 @@
       // the takeover at the NEXT question; q1 still submits and still gates DQ (isDq/tfQualified).
       var host = document.getElementById('adqInlineHost');
       if (host) {
-        host.innerHTML = '<div id="athRole"><h3>Are you a man (aged 27-55) looking to date high quality women?</h3><p class="sub2">Apply for our professional dating app management team that pays for itself in time and results.</p>' +
+        host.innerHTML = '<div id="athRole"><h3>Are you a man (aged 30-55) looking to date high quality women?</h3><p class="sub2">Apply for our professional dating app management team that pays for itself in time and results.</p>' +
           ['Yes', 'No'].map(function (r) {
             return '<div class="athro" data-q1="' + r + '"><span>' + r + '</span><b>→</b></div>';
           }).join('') + '</div>';
