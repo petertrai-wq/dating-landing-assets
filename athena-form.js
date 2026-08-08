@@ -324,9 +324,8 @@
     } catch (e) {}
     out.ab = (window.__ADQ_AB || window.__AB || 'c');
     out.form = 'athena2';   // athena2 tag (2026-08-04): the relay's formLabel/recordFunnel/beacon gates all accept it
-    // ST14 DSL deck arm (2026-08-05 pm): localStorage is the assignment's source of truth (set by
-    // index.html's mount script); rides the hidden bag into form_fills for the ST14 money tail.
-    try { var dv = localStorage.getItem('adq_dsl'); if (dv === 'a' || dv === 'b') out.dsl = dv; } catch (e) {}
+    // ST14 DSL deck REMOVED for everyone (Peter 2026-08-08: "remove the DSL from everything" —
+    // deck arm cost 36% of form-clicks, median 1.7/21 slides read). No dsl field on fills anymore.
     try { if (fsAcc >= 1) out.form_secs = String(Math.round(fsAcc)); } catch (e) {}
     try { out.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
     try { var p = pxCookie('_fbp'); if (p) out.fbp = p; var c = pxCookie('_fbc'); if (c) out.fbc = c; } catch (e) {}
@@ -940,36 +939,14 @@
   // vsl-* → time. No utm / organic / unmapped → the default hero below, unchanged. The choice is
   // remembered (localStorage) so a return visit without UTMs stays congruent. Tracking needs no new
   // field: per-hero conversion falls out of utm_content grouping, which every beacon already carries.
-  var HERO_MAP = {
-    'pain-too-busy': 'time', 'vsl-0801-v1': 'time', 'vsl-0801-v2': 'time', 'vsl-0801-v5': 'time',
-    'pain-zero-matches': 'stuck', 'pain-matches-no-dates': 'stuck', 'pain-left-on-read': 'stuck',
-    'pain-texts-wont-meet': 'stuck', 'pain-photos-killing': 'stuck', 'pain-bots-ghosting': 'stuck',
-    'pain-new-city': 'stuck', 'pain-after-divorce': 'stuck', 'vsl-0801-v3': 'stuck',
-    'pain-successful-single': 'winners', 'pain-winning-work': 'winners', 'pain-close-deals': 'winners',
-    'pain-better-in-person': 'winners', 'pain-good-at-dating': 'winners', 'pain-only-matching': 'winners',
-    'vsl-0801-v4': 'winners'
-  };
-  // One shared subline across ALL hero variations (Peter 2026-08-04 pm: 'change this for every variation').
-  // 2026-08-05 pm (Peter, DSL pass): First/Then structure retired — one sentence, no labels.
+  // ST12 hero variants RETIRED (Peter 2026-08-08: "All UTMS run to that default"). Every visitor,
+  // every utm_content, gets the DEFAULT delegation hero below — it had all 6 most-recent buyers
+  // and the best views→apps (15.2% vs winners 11.7 / stuck 4.4 / time 0). The variant copy +
+  // HERO_MAP history lives in git (pre-2026-08-08). Stale localStorage adq_hero is ignored.
   var HERO_SUB = 'We run all of your dating apps scheduling dates for you. You just show up.';
-  var HERO_COPY = {
-    time: { h1: '<span class="l">If your time’s worth $50 an hour,</span><span class="l"><em>stop swiping.</em></span>',
-      sub: HERO_SUB },
-    stuck: { h1: '<span class="l">It’s not you.</span><span class="l"><em>It’s the ranking system.</em></span>',
-      sub: HERO_SUB },
-    winners: { h1: '<span class="l">You built everything but the</span><span class="l"><em>one thing you actually want.</em></span>',
-      sub: HERO_SUB }
-  };
-  function heroBucket() {
-    try {
-      var uc = new URLSearchParams(location.search).get('utm_content') || '';
-      var b = uc && (HERO_MAP[uc] || (uc.indexOf('pain-') === 0 ? 'stuck' : (uc.indexOf('vsl-') === 0 ? 'time' : '')));
-      if (b) { try { localStorage.setItem('adq_hero', b); } catch (e) {} return b; }
-      return localStorage.getItem('adq_hero') || '';
-    } catch (e) { return ''; }
-  }
+  function heroBucket() { return ''; }
   function heroVariant() {
-    var hb = null; try { hb = HERO_COPY[heroBucket()] || null; } catch (e) {}
+    var hb = null;   // always the default hero since 2026-08-08 (heroBucket stub above)
     try {
       var h1 = document.querySelector('.hero h1');
       if (h1) {
