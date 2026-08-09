@@ -263,7 +263,8 @@
     // lead cards before these answers are consumed anywhere. ──
     { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },   // BACK as the wheel (Peter 2026-08-06 'use the same slider code'); relay age mapping + 40+ Ed-story gate already consume numeric age
     { key: 'nearest_city', type: 'short', title: "What's the nearest major city to you?" },
-    { key: 'ethnicity', type: 'multi', max: 2, title: "What's your ethnicity?", desc: 'Pick up to 2.', opts: ['Black/African Descent', 'East Asian', 'Hispanic/Latino', 'Middle Eastern', 'Native American', 'Pacific Islander', 'South Asian', 'Southeast Asian', 'White/Caucasian', 'Other', 'Prefer not to say'] },   // multi max-2 (Peter 2026-08-08: "Let me select 2 ethnicities if I want")
+    // ethnicity question REMOVED (Peter 2026-08-08 pm: "Remove the ethnicity question") — payload
+    // still sends A.ethnicity for the cached-JS window; the relay DFORM entry keeps accepting it.
     // 'methow' + 'interest' (Peter 2026-08-04 review) and 'occupation' + 'occ_years' (Peter
     // 2026-08-04 second pass) REMOVED from athena2 — the Original Form (adq-embed, ?form=original
     // QA) still asks all four; the relay's DFORM keeps their entries and every parser no-ops when
@@ -465,6 +466,16 @@
     col = document.getElementById('athCol'); railEl = document.getElementById('athRail'); backBtn = document.getElementById('athBack');
     try { document.getElementById('athX').addEventListener('click', function () { closeTakeover(); }); } catch (e) {}
     backBtn.addEventListener('click', back);
+    // Desktop: Enter advances — clicks Continue when it's actionable (Peter 2026-08-08 pm: "Make
+    // enter work on the forms on desktop... to hit the button or go to the next question").
+    document.addEventListener('keydown', function (e) {
+      try {
+        if (e.key !== 'Enter' || !ov || !ov.classList.contains('on') || finishedView || moving) return;
+        if ((e.target || {}).tagName === 'TEXTAREA') return;   // keep newlines in long answers
+        var go = document.getElementById('athGo');
+        if (go && go.classList.contains('show')) { e.preventDefault(); go.click(); }
+      } catch (err) {}
+    });
   }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   // ── prominent top progress bar (2026-08-04, styled off the Original Form's #adqBar): counts
@@ -483,7 +494,18 @@
     var el = document.getElementById('athProgFill'); if (!el) return;
     var TOTAL = STEPS.length + 1;
     var n = full ? TOTAL : Math.min(Math.max(step, 0), STEPS.length);   // position-based: the bar moves BACK when you go back (Peter 2026-08-08)
-    el.style.width = Math.max(3, Math.round(100 * n / TOTAL)) + '%';
+    var pct = Math.max(3, Math.round(100 * n / TOTAL));
+    el.style.width = pct + '%';
+    // Desktop rail ring mirrors the same % (was hardcoded 6% — Peter 2026-08-08 pm: "Give an
+    // accurate % completion at this point")
+    try {
+      var ring = document.querySelector('#athRail .athring');
+      if (ring) {
+        var deg = Math.round(360 * pct / 100);
+        ring.style.background = 'conic-gradient(#24352B 0deg ' + deg + 'deg,#E3E0D5 ' + deg + 'deg 360deg)';
+        var rb = ring.querySelector('.pc b'); if (rb) rb.textContent = pct + '%';
+      }
+    } catch (e) {}
   }
   function cardHtml(c) {
     if (!c) return '';
