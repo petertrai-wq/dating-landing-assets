@@ -262,7 +262,7 @@
     // swapped for 'Prefer not to say'. Phase B mirrors all three into the relay DFORM + GHL +
     // lead cards before these answers are consumed anywhere. ──
     { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },   // BACK as the wheel (Peter 2026-08-06 'use the same slider code'); relay age mapping + 40+ Ed-story gate already consume numeric age
-    { key: 'nearest_city', type: 'short', title: "What's the nearest major city to you?" },
+    { key: 'nearest_city', type: 'short', title: 'What city are you in?' },   // reworded 2026-08-09 (Peter); same key — relay DFORM entry unchanged in meaning
     // ethnicity question REMOVED (Peter 2026-08-08 pm: "Remove the ethnicity question") — payload
     // still sends A.ethnicity for the cached-JS window; the relay DFORM entry keeps accepting it.
     // 'methow' + 'interest' (Peter 2026-08-04 review) and 'occupation' + 'occ_years' (Peter
