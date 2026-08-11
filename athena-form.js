@@ -274,7 +274,7 @@
     // /form view, GHL) render absence as empty, never 'undefined' (they enumerate present answers
     // only). With no start answer, the server's red-tier derivation (GHL start field) simply never
     // trips for athena2 leads — slots stay standard.
-    { key: 'phone', type: 'phone', almost: true, title: "What's your phone number?", descHtml: 'Please input your real number - we require a text confirmation for your appointment. We will not spam you.' },
+    { key: 'phone', type: 'phone', almost: true, title: "What's your phone number?", descHtml: "Please input your real number - we will text you to confirm your appointment. We won't spam you." },
     { key: 'name', type: 'name', title: "What's your name?" },
     { key: 'email', type: 'email', title: "What's your email address?" },
     { key: 'invest', type: 'radio', title: function () { return invqPriceShown() ? 'Our minimum investment to get started is $3000 for a month. $6000 for 3 months. Are you able to invest if this is a great fit?' : 'Are you willing to invest if this makes sense for you?'; }, descHtml: function () { return invqPriceShown() ? '<span style="color:#d92d20;font-weight:600">We\'re scheduled to increase price $500 on August 1st so we can maintain high quality results for clients.</span>' : ''; }, opts: ["Yes. I'm willing and able to invest if this is a great fit.", "No. I'm not willing or able to invest at this time."],
@@ -548,7 +548,7 @@
     if (s.almost) h += '<div class="athalmost"><h1 class="athserif">You’re almost there!</h1><p>Just a few more questions to help us build your exact done-for-you dating app strategy.</p><hr></div>';
     if (s.type === 'info') {
       h += '<div class="athq">' + esc(_qt) + '</div>';
-      h += '<div class="athd" style="font-size:16.5px;line-height:1.6">For men earning <b>$100K+</b> who are ready to delegate their dating life. We rebuild your photos, run your apps, and schedule your dates. <b>12 dates in 90 days, guaranteed.</b><br><br>If that sounds like you, let\'s see if we\'re a fit.</div>';
+      h += '<div class="athd" style="font-size:16.5px;line-height:1.6">For men earning <b>$100K+</b> who are ready to delegate their dating life. We rebuild your photos, run your apps, and schedule your dates. <b>12+ dates in 90 days, guaranteed.</b><br><br>If that sounds like you, let\'s see if we\'re a fit.</div>';
       h += '<button class="athgo show" id="athGo">Continue&nbsp;&nbsp;\u2192</button>';
     } else if (s.type === 'radio' || s.type === 'multi') {
       h += '<div class="athq' + (s.compact ? ' compact' : '') + '">' + esc(_qt) + '</div>';
@@ -1000,7 +1000,7 @@
   // and the best views→apps (15.2% vs winners 11.7 / stuck 4.4 / time 0). The variant copy +
   // HERO_MAP history lives in git (pre-2026-08-08). Stale localStorage adq_hero is ignored.
   var HERO_SUB = 'We rebuild your photos, run your dating apps, and schedule your dates. You just show up.';
-  var HERO_GUARANTEE = '12 dates in 90 days, guaranteed.';   // own line under the sub (Peter 2026-08-08: third sub-heading, not part of the paragraph)
+  var HERO_GUARANTEE = '12+ dates in 90 days, guaranteed.';   // own line under the sub (Peter 2026-08-08: third sub-heading, not part of the paragraph)
   // Hero split test 2 (Peter 2026-08-08 "put it live"): sticky 50/50, default delegation hero vs
   // the "photos are with your ex" pain hero (Ryan Yee verbatim). Assignment persists in
   // localStorage adq_hero2; ?hero=photos|default forces a variant for QA (not sticky). Every
