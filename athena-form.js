@@ -379,7 +379,7 @@
   // step (same as the Original's advance()). Keep in sync with relay tfLeadDisqualified/
   // tfQualified (their athena2 branch skips the timeline gate the same way — server and client
   // must agree).
-  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || ''); }
+  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || '') || (Number(A.age) > 0 && Number(A.age) < 30); }   // age gate 2026-08-12: under-30 hard-DQs (server mirror in relay tfLeadDisqualified)
 
   function payload(complete) {
     fsBump();
@@ -715,6 +715,7 @@
     // the INVEST question; commit "Maybe" DQs; else calendar. Submission fires when an ENDING is
     // reached — before the calendar shows, so qualified non-bookers are never lost.
     if (s.key === 'income' && (A.income === '0k to 50k' || A.income === '50k to 100k')) { showDq('income'); return; }   // premium gate: DQ BEFORE contact capture (Peter 2026-08-08)
+    if (s.key === 'age' && Number(A.age) > 0 && Number(A.age) < 30) { showDq('age'); return; }   // age gate: q1 already promises 30-55 — enforce it pre-contact (Peter 2026-08-12)
     if (s.key === 'invest' && isDq()) { showDq(); return; }
     if (s.key === 'commit') {
       if (/^Maybe/.test(A.commit || '')) { showDq(); return; }
@@ -746,6 +747,8 @@
     clearTimeout(autoT); moving = false; locked = false;
     col.innerHTML = reason === 'income'
       ? '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Our service is built for men earning $100K+, and at this time we\u2019re only accepting clients who meet that threshold. If your situation changes, we\u2019d love to hear from you.</p></div>'
+      : reason === 'age'
+      ? '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Our service is designed for men aged 30\u201355, and right now we\u2019re only taking on clients in that range. We\u2019d love to hear from you down the road.</p></div>'
       : '<div class="athend"><p class="t">Unfortunately it seems like we aren\u2019t a great fit right now.</p><p class="d">Feel free to check back if things change!</p></div>';
     col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
     ov.scrollTop = 0;
