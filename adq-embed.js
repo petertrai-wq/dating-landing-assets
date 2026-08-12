@@ -211,7 +211,8 @@
   // Red tier (Peter 2026-07-22): income 100k-150k OR "Next Month" start → 15-min slots that may
   // triple-book (server mirrors this from the GHL contact; this is the low-latency hint). The
   // standalone /book page has no answers → standard tier; the server still re-derives red there.
-  function redLead() { return (A.start === 'Next Month') || (A.start === 'Next Week'); }   // Next Week added 2026-07-27 (16.7% show — red 15-min slots); income 100-150k left the red tier 2026-07-30 (standard 30-min slot + normal double-booking rules)
+  function redLead() { return (A.start === 'Next Month') || (A.start === 'Next Week'); }
+  function hiLead() { return A.income === '150k-200k' || A.income === '200k+'; }   // 6-8pm Thu/Fri/Sat overflow slots (Peter's calendar) — server re-verifies income from the stored fill before routing   // Next Week added 2026-07-27 (16.7% show — red 15-min slots); income 100-150k left the red tier 2026-07-30 (standard 30-min slot + normal double-booking rules)
   // E.164 normalizer: honors a typed +country, the selected country code, US 10/11-digit styles,
   // and 00-prefixed international dialing — the relay fires automations off this exact string.
   function phoneE164() {
@@ -497,7 +498,7 @@
   }
   function bkFetch() {
     var slotsFetch = function (left) {
-      return fetch(PHOTOPAGE ? 'https://admin.automated.dating/api/photo-consult/slots' : (API_SLOTS + (redLead() ? '?red=1' : '')), { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); })
+      return fetch(PHOTOPAGE ? 'https://admin.automated.dating/api/photo-consult/slots' : (API_SLOTS + (redLead() ? '?red=1' : (hiLead() ? '?tier=hi' : ''))), { headers: { 'Content-Type': 'text/plain' } }).then(function (r) { return r.json(); })
         .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 2500); }).then(function () { return slotsFetch(left - 1); }); throw e; });
     };
     slotsFetch(3).then(function (j) {
