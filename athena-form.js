@@ -380,7 +380,8 @@
   // step (same as the Original's advance()). Keep in sync with relay tfLeadDisqualified/
   // tfQualified (their athena2 branch skips the timeline gate the same way — server and client
   // must agree).
-  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || '') || (Number(A.age) > 0 && Number(A.age) < 30); }   // age gate 2026-08-12: under-30 hard-DQs (server mirror in relay tfLeadDisqualified)
+  function isDq() { return A.q1 === 'No' || A.income === '0k to 50k' || A.income === '50k to 100k' || /^No\./.test(A.invest || '') || (Number(A.age) > 0 && Number(A.age) < 30); }
+  function dqReasonNow() { if (A.income === '0k to 50k' || A.income === '50k to 100k') return 'income'; if (Number(A.age) > 0 && Number(A.age) < 30) return 'age'; return ''; }   // age gate 2026-08-12: under-30 hard-DQs (server mirror in relay tfLeadDisqualified)
 
   function payload(complete) {
     fsBump();
@@ -527,7 +528,12 @@
     ov.classList.remove('enter'); void ov.offsetWidth; ov.classList.add('enter');
     document.documentElement.style.overflow = 'hidden';
     if (!stepPinged.form_open) { stepPinged.form_open = 1; pingEv('form_open', 'open'); }
-    if (finishedView === 'dq') { renderDq(); return; }   // a DQ is final — reopening never resurfaces the questions
+    if (finishedView === 'dq') {   // reopen after a DQ = fresh start from question one (Peter 2026-08-13)
+      redoDq = true; A = { q1: A.q1 || 'Yes' }; step = 0;
+      finishedView = ''; dqReason = ''; submitted = false; submittedDq = false; partialSent = false;
+      token = newToken(); try { sessionStorage.setItem('ath_token', token); } catch (e) {}
+      clearState();
+    }
     if (step < 0) step = 0;
     fsLast = Date.now();
     render();
@@ -718,9 +724,12 @@
     // Original Form endings, verbatim (keep in sync with adq-embed's advance()): DQ evaluates at
     // the INVEST question; commit "Maybe" DQs; else calendar. Submission fires when an ENDING is
     // reached — before the calendar shows, so qualified non-bookers are never lost.
-    if (s.key === 'income' && (A.income === '0k to 50k' || A.income === '50k to 100k')) { showDq('income'); return; }   // premium gate: DQ BEFORE contact capture (Peter 2026-08-08)
-    if (s.key === 'age' && Number(A.age) > 0 && Number(A.age) < 30) { showDq('age'); return; }   // age gate: q1 already promises 30-55 — enforce it pre-contact (Peter 2026-08-12)
-    if (s.key === 'invest' && isDq()) { showDq(); return; }
+    // DEFERRED DQ (Peter 2026-08-13 "collect their emails and then DQ after the invest question"):
+    // the instant income gate taught people to lie upward, so income/age no longer end the form
+    // early — everyone reaches contact capture, and the single DQ decision happens after invest.
+    // DQ'd completes record WITH contact, fire NO Lead/Schedule CAPI (tfQualified is false), and
+    // never see the booker.
+    if (s.key === 'invest' && isDq()) { showDq(dqReasonNow()); return; }
     if (s.key === 'commit') {
       if (/^Maybe/.test(A.commit || '')) { showDq(); return; }
       showBooker(); return;
@@ -741,14 +750,15 @@
   }
 
   var finishedView = '', dqReason = '', redoDq = false;
-  // Hard-DQ lock restore MUST run after this declaration line — the var initializer above would
-  // wipe an earlier assignment (the 08-13 reload-bypass bug).
+  // Prior-DQ marker (must run after the declaration line — a var initializer wipes earlier
+  // assignments, the 08-13 reload-bypass bug): a returning DQ'd visitor starts FRESH from step
+  // one (no resume, no lock) and any completion they produce carries redo_dq for the red flag.
   try {
-    var _dqL = String(localStorage.getItem('ath_dq_lock') || '').split('|');
-    if (_dqL[0] && Date.now() - (parseInt(_dqL[1], 10) || 0) < 30 * 86400000) {
-      finishedView = 'dq'; dqReason = _dqL[0] === 'x' ? '' : _dqL[0];
-      if (!A.q1) A.q1 = 'Yes';   // the CTA handler needs q1 answered to open the takeover — which now only ever shows the DQ screen
-    } else if (_dqL[0]) { try { localStorage.removeItem('ath_dq_lock'); } catch (e) {} }
+    if (localStorage.getItem('ath_dq_kick') || localStorage.getItem('ath_dq_lock')) {
+      localStorage.removeItem('ath_dq_lock');
+      redoDq = true;
+      A = { q1: A.q1 || 'Yes' }; step = 0;   // wipe any resumed answers — every question re-asked
+    }
   } catch (e) {}
   function renderDq() {
     backBtn.hidden = true;
@@ -767,7 +777,7 @@
     submit(function () {});
     finishedView = 'dq';
     dqReason = reason || '';
-    try { localStorage.setItem('ath_dq_lock', (reason || 'x') + '|' + Date.now()); } catch (e) {}
+    try { localStorage.setItem('ath_dq_kick', String(Date.now())); localStorage.removeItem('ath_dq_lock'); } catch (e) {}   // reopen/reload after a DQ = start over from question one (retries carry redo_dq → red flag)
     clearTimeout(autoT); moving = false; locked = false;
     renderDq();
   }
