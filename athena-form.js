@@ -284,7 +284,7 @@
 
   // ── state / token / attribution ──
   var A = {};
-  var step = -1, moving = false, locked = false, submitted = false, partialSent = false, autoT = null, fsAcc = 0, fsLast = 0;
+  var step = -1, moving = false, locked = false, submitted = false, submittedDq = false, partialSent = false, autoT = null, fsAcc = 0, fsLast = 0;
   function newToken() { return 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12); }
   var token = '';
   try { token = sessionStorage.getItem('ath_token') || ''; if (!token) { token = newToken(); sessionStorage.setItem('ath_token', token); } } catch (e) { token = newToken(); }
@@ -427,6 +427,7 @@
     if (!LIVE) { try { console.log('[preview] submit suppressed'); } catch (e) {} if (cb) cb(); return; }
     if (submitted) { if (cb) cb(); return; }
     submitted = true;
+    submittedDq = isDq();
     var attempt = function (left) {
       try {
         fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload(true), keepalive: true })
@@ -525,6 +526,7 @@
     ov.classList.remove('enter'); void ov.offsetWidth; ov.classList.add('enter');
     document.documentElement.style.overflow = 'hidden';
     if (!stepPinged.form_open) { stepPinged.form_open = 1; pingEv('form_open', 'open'); }
+    if (finishedView === 'dq') { renderDq(); return; }   // a DQ is final — reopening never resurfaces the questions
     if (step < 0) step = 0;
     fsLast = Date.now();
     render();
@@ -538,6 +540,7 @@
   }
 
   function render(dir) {
+    if (finishedView === 'dq') { renderDq(); return; }
     var s = STEPS[step];
     setBar();
     railEl.style.display = (s.rail ? 'flex' : 'none');
@@ -736,24 +739,29 @@
     setTimeout(function () { moving = false; step = prevIdx(step); render('back'); }, 400);
   }
 
-  var finishedView = '';
-  function showDq(reason) {
-    // Submit FIRST (DQ'd leads are still captured — contact landed at phone/name/email), then the soft no.
-    submit(function () {});
-    finishedView = 'dq';
+  var finishedView = '', dqReason = '';
+  function renderDq() {
     backBtn.hidden = true;
     railEl.style.display = 'none';
     setBar(1);
-    clearTimeout(autoT); moving = false; locked = false;
-    col.innerHTML = reason === 'income'
+    col.innerHTML = dqReason === 'income'
       ? '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Our service is built for men earning $100K+, and at this time we\u2019re only accepting clients who meet that threshold. If your situation changes, we\u2019d love to hear from you.</p></div>'
-      : reason === 'age'
+      : dqReason === 'age'
       ? '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Our service is designed for men aged 30\u201355, and right now we\u2019re only taking on clients in that range. We\u2019d love to hear from you down the road.</p></div>'
       : '<div class="athend"><p class="t">Unfortunately it seems like we aren\u2019t a great fit right now.</p><p class="d">Feel free to check back if things change!</p></div>';
     col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
     ov.scrollTop = 0;
   }
+  function showDq(reason) {
+    // Submit FIRST (DQ'd leads are still captured — contact landed at phone/name/email), then the soft no.
+    submit(function () {});
+    finishedView = 'dq';
+    dqReason = reason || '';
+    clearTimeout(autoT); moving = false; locked = false;
+    renderDq();
+  }
   function showBooker() {
+    if (submitted && submittedDq) { submitted = false; }   // the earlier send was a DQ complete — this qualified pass must still record contact
     submit(function () {});
     finishedView = 'booker';
     setBar(1);
