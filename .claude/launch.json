@@ -1,11 +1,6 @@
 {
   "version": "0.0.1",
   "configurations": [
-    {
-      "name": "landing",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["live-server", "--port=8765", "--no-browser", "--quiet"],
-      "port": 8765
-    }
+    { "name": "landing-preview", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8077"], "port": 8077 }
   ]
 }
