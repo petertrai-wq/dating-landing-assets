@@ -312,13 +312,6 @@
       }
     }
   } catch (e) {}
-  try {
-    var _dqL = String(localStorage.getItem('ath_dq_lock') || '').split('|');
-    if (_dqL[0] && Date.now() - (parseInt(_dqL[1], 10) || 0) < 30 * 86400000) {
-      finishedView = 'dq'; dqReason = _dqL[0] === 'x' ? '' : _dqL[0];
-      if (!A.q1) A.q1 = 'Yes';   // the CTA handler needs q1 answered to open the takeover — which now only ever shows the DQ screen
-    } else if (_dqL[0]) { try { localStorage.removeItem('ath_dq_lock'); } catch (e) {} }
-  } catch (e) {}
   function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify({ token: token, A: A, step: step })); } catch (e) {} }
   function clearState() { try { localStorage.removeItem(STATE_KEY); } catch (e) {} }
   function fsBump() { var now = Date.now(); if (fsLast && now - fsLast < 120000) fsAcc += (now - fsLast) / 1000; fsLast = now; }
@@ -748,6 +741,15 @@
   }
 
   var finishedView = '', dqReason = '', redoDq = false;
+  // Hard-DQ lock restore MUST run after this declaration line — the var initializer above would
+  // wipe an earlier assignment (the 08-13 reload-bypass bug).
+  try {
+    var _dqL = String(localStorage.getItem('ath_dq_lock') || '').split('|');
+    if (_dqL[0] && Date.now() - (parseInt(_dqL[1], 10) || 0) < 30 * 86400000) {
+      finishedView = 'dq'; dqReason = _dqL[0] === 'x' ? '' : _dqL[0];
+      if (!A.q1) A.q1 = 'Yes';   // the CTA handler needs q1 answered to open the takeover — which now only ever shows the DQ screen
+    } else if (_dqL[0]) { try { localStorage.removeItem('ath_dq_lock'); } catch (e) {} }
+  } catch (e) {}
   function renderDq() {
     backBtn.hidden = true;
     railEl.style.display = 'none';
