@@ -312,6 +312,13 @@
       }
     }
   } catch (e) {}
+  try {
+    var _dqL = String(localStorage.getItem('ath_dq_lock') || '').split('|');
+    if (_dqL[0] && Date.now() - (parseInt(_dqL[1], 10) || 0) < 30 * 86400000) {
+      finishedView = 'dq'; dqReason = _dqL[0] === 'x' ? '' : _dqL[0];
+      if (!A.q1) A.q1 = 'Yes';   // the CTA handler needs q1 answered to open the takeover — which now only ever shows the DQ screen
+    } else if (_dqL[0]) { try { localStorage.removeItem('ath_dq_lock'); } catch (e) {} }
+  } catch (e) {}
   function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify({ token: token, A: A, step: step })); } catch (e) {} }
   function clearState() { try { localStorage.removeItem(STATE_KEY); } catch (e) {} }
   function fsBump() { var now = Date.now(); if (fsLast && now - fsLast < 120000) fsAcc += (now - fsLast) / 1000; fsLast = now; }
@@ -741,16 +748,6 @@
   }
 
   var finishedView = '', dqReason = '', redoDq = false;
-  function restartForm() {
-    redoDq = true;                      // rides hiddenFields() → relay red-flags the redo
-    A = { q1: A.q1 || 'Yes' };          // q1 lives in the hero card — keep it, re-ask everything else
-    step = 0; finishedView = ''; dqReason = '';
-    submitted = false; submittedDq = false; partialSent = false;
-    token = newToken(); try { sessionStorage.setItem('ath_token', token); } catch (e) {}
-    clearState();
-    render();
-    ov.scrollTop = 0;
-  }
   function renderDq() {
     backBtn.hidden = true;
     railEl.style.display = 'none';
@@ -760,8 +757,6 @@
       : dqReason === 'age'
       ? '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Our service is designed for men aged 30\u201355, and right now we\u2019re only taking on clients in that range. We\u2019d love to hear from you down the road.</p></div>'
       : '<div class="athend"><p class="t">Unfortunately it seems like we aren\u2019t a great fit right now.</p><p class="d">Feel free to check back if things change!</p></div>';
-    col.innerHTML += '<p class="athredo" style="margin-top:18px;font-size:13.5px;color:#8a938a;text-align:center">Answered something incorrectly? <a href="#" style="color:#556055;text-decoration:underline" data-athredo>Start over</a></p>';
-    try { col.querySelector('[data-athredo]').addEventListener('click', function (ev) { ev.preventDefault(); restartForm(); }); } catch (e) {}
     col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
     ov.scrollTop = 0;
   }
@@ -770,6 +765,7 @@
     submit(function () {});
     finishedView = 'dq';
     dqReason = reason || '';
+    try { localStorage.setItem('ath_dq_lock', (reason || 'x') + '|' + Date.now()); } catch (e) {}
     clearTimeout(autoT); moving = false; locked = false;
     renderDq();
   }
