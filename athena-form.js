@@ -318,6 +318,7 @@
   function pxCookie(name) { try { var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]+)')); return m ? decodeURIComponent(m[1]).slice(0, 400) : ''; } catch (e) { return ''; } }
   function hiddenFields() {
     var out = { ab: (window.__ADQ_AB || window.__AB || 'c'), form: 'athena2' };
+    if (redoDq) out.redo_dq = '1';   // restarted after a DQ — the relay red-flags this application
     try {
       var el = document.querySelector('[data-tf-popup]');
       var s = (el && el.getAttribute('data-tf-hidden')) || '';
@@ -739,7 +740,17 @@
     setTimeout(function () { moving = false; step = prevIdx(step); render('back'); }, 400);
   }
 
-  var finishedView = '', dqReason = '';
+  var finishedView = '', dqReason = '', redoDq = false;
+  function restartForm() {
+    redoDq = true;                      // rides hiddenFields() → relay red-flags the redo
+    A = { q1: A.q1 || 'Yes' };          // q1 lives in the hero card — keep it, re-ask everything else
+    step = 0; finishedView = ''; dqReason = '';
+    submitted = false; submittedDq = false; partialSent = false;
+    token = newToken(); try { sessionStorage.setItem('ath_token', token); } catch (e) {}
+    clearState();
+    render();
+    ov.scrollTop = 0;
+  }
   function renderDq() {
     backBtn.hidden = true;
     railEl.style.display = 'none';
@@ -749,6 +760,8 @@
       : dqReason === 'age'
       ? '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Our service is designed for men aged 30\u201355, and right now we\u2019re only taking on clients in that range. We\u2019d love to hear from you down the road.</p></div>'
       : '<div class="athend"><p class="t">Unfortunately it seems like we aren\u2019t a great fit right now.</p><p class="d">Feel free to check back if things change!</p></div>';
+    col.innerHTML += '<p class="athredo" style="margin-top:18px;font-size:13.5px;color:#8a938a;text-align:center">Answered something incorrectly? <a href="#" style="color:#556055;text-decoration:underline" data-athredo>Start over</a></p>';
+    try { col.querySelector('[data-athredo]').addEventListener('click', function (ev) { ev.preventDefault(); restartForm(); }); } catch (e) {}
     col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
     ov.scrollTop = 0;
   }
