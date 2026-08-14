@@ -889,7 +889,7 @@
       '<div class="abk-err" id="abkErr">' + esc(abk.err || '') + '</div></div>';
   }
   function abkDayLabel() { return abk.selDate ? new Date(abk.selDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''; }
-  var ABK_HEAD = '<div class="abk-title">Select a Date &amp; Time for Your Profile Audit</div><div class="abk-sub">30 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div>';
+  var ABK_HEAD = '<div class="abk-title">Last Step: Pick a Time for Your Strategy Session</div><div class="abk-sub">30 min - This is where we see if our program will work for you based on your current results, logistics and goals.</div>';
   function abkRender() {
     if (!abk.loaded) { col.innerHTML = '<div class="abk"><div class="abk-load">Loading available times…</div></div>'; if (!abk.fetching) { abk.fetching = true; abkFetch(); } return; }
     var inner;
