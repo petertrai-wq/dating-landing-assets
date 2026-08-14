@@ -764,11 +764,9 @@
     backBtn.hidden = true;
     railEl.style.display = 'none';
     setBar(1);
-    col.innerHTML = dqReason === 'income'
-      ? '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Our service is built for men earning $100K+, and at this time we\u2019re only accepting clients who meet that threshold. If your situation changes, we\u2019d love to hear from you.</p></div>'
-      : dqReason === 'age'
-      ? '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Our service is designed for men aged 30\u201355, and right now we\u2019re only taking on clients in that range. We\u2019d love to hear from you down the road.</p></div>'
-      : '<div class="athend"><p class="t">Unfortunately it seems like we aren\u2019t a great fit right now.</p><p class="d">Feel free to check back if things change!</p></div>';
+    // Never reveal WHICH answer disqualified (Peter 2026-08-14 "don't mention income being the
+    // reason") \u2014 one soft ending for every DQ cause, or the screen teaches evaders what to change.
+    col.innerHTML = '<div class="athend"><p class="t">Thanks for your interest in Automated Dating.</p><p class="d">Based on your answers, it looks like this probably isn\u2019t the best fit at this time. If things change, we\u2019d love to hear from you.</p></div>';
     col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
     ov.scrollTop = 0;
   }

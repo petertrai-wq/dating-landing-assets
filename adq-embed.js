@@ -298,7 +298,7 @@
       body.style.padding = '';
       // Photo-consult DQ offer RETIRED (Peter 2026-07-28 "just DQ all future ones") — back to the
       // original soft no from before the $500 photo pitch existed.
-      body.innerHTML = '<div class="adq-end"><p class="adq-title">Unfortunately it seems like we aren\'t a great fit right now.</p><p class="adq-desc">Feel free to check back if things change!</p></div>';
+      body.innerHTML = '<div class="adq-end"><p class="adq-title">Thanks for your interest in Automated Dating.</p><p class="adq-desc">Based on your answers, it looks like this probably isn\'t the best fit at this time. If things change, we\'d love to hear from you.</p></div>';
       return;
     }
     if (finished === 'cal') {
