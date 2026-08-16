@@ -3,7 +3,7 @@
      which would re-anchor every RELATIVE src (photos!) to the apex and 404 them. -->
 <base href="/concierge/">
 <title>Automated Dating — We run your dating apps. You just show up.</title>
-<meta name="description" content="We run your dating apps, handle your conversations, and schedule your dates. You just show up. Your first date in 7 days or you don't pay.">
+<meta name="description" content="We run your dating apps, handle your conversations, and schedule your dates. You just show up. 12+ dates in 90 days, guaranteed.">
 <meta property="og:title" content="Automated Dating - Your Personal Matchmaker">
 <meta property="og:description" content="We run your dating apps, handle your conversations, and schedule your dates. You just show up.">
 <meta property="og:image" content="https://automated.dating/concierge/cta-woman.jpg">
@@ -119,6 +119,12 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   .soft{background:var(--soft)}
   /* buttons */
   .btn{display:inline-flex;align-items:center;gap:9px;background:var(--black);color:#fff;font-weight:600;font-size:16px;padding:16px 30px;border-radius:12px;text-decoration:none;transition:transform .15s,box-shadow .15s;box-shadow:0 10px 26px rgba(0,0,0,.16);cursor:pointer;border:none;font-family:inherit}
+  /* Brand type (Peter 2026-08-15 "use the same font throughout... this is the new brand text"):
+     every section heading + button carries the athena serif, matching the hero. Playfair loads via
+     athena-form.js (weights 500/600); body copy stays Onest for readability. */
+  h2,h3,.btn{font-family:'Playfair Display',Georgia,serif}
+  h2,h3{font-weight:600}
+  .btn{font-weight:600;letter-spacing:.01em}
   .btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.22)}
   .btn .chev{font-size:19px;line-height:0;margin-top:-1px}
   .btn.sm{padding:10px 20px;font-size:14.5px;border-radius:10px}
@@ -338,9 +344,11 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
 
   <h1><span class="l">We run your dating apps.</span><span class="l">We handle your conversations.</span><span class="l">We schedule your dates.</span><span class="hl" data-tf-popup="qoQwwZI5" role="button" tabindex="0">You just show up.</span></h1>
   <p class="sub">Go on enough dates with your exact type of woman, and you <b>WILL</b> find the one.</p>
-  <p class="nopay">Your first date in 7 days or you don't pay.</p>
   <a href="#" id="heroCta" class="btn" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Land Quality Dates <span class="chev">&rsaquo;</span></a>
   <div id="applyNowHdr" data-tf-popup="qoQwwZI5" role="button" tabindex="0"><img class="anh-g g1" src="date-1.jpg" alt=""><span class="anh-txt">Apply Now <span class="anh-ar">&darr;</span></span><img class="anh-g g2" src="date-2.jpg" alt=""></div>
+  <!-- ST14 DSL deck REMOVED for everyone (Peter 2026-08-08): deck arm converted 36% worse
+       (form-click 18.3% vs 28.8% control, median 1.7 of 21 slides read). Mount div, arm
+       assignment, dsl_arm beacon, and dsl-player.css/js loader all deleted - history in git. -->
   <div id="adqInlineHost"></div>
 </div></header>
 
@@ -507,7 +515,7 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
 
 <section class="closer"><div class="wrap">
   <h2>Ready to go on dates with women you actually like?</h2>
-  <p>Your first date lands within 7 days, or you don't pay.</p>
+  <p>12+ dates in 90 days, guaranteed.</p>
   <a href="#" class="btn inv" data-tf-popup="qoQwwZI5" data-tf-size="90" data-tf-iframe-props="title=Automated Dating Application" data-tf-medium="snippet" onclick="return false;">Automate Your Dating <span class="chev">&rsaquo;</span></a>
   <p class="ctext">Questions? <a href="sms:+13478732187">Text us: (347) 873-2187</a></p>
 </div></section>
