@@ -119,6 +119,12 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   .soft{background:var(--soft)}
   /* buttons */
   .btn{display:inline-flex;align-items:center;gap:9px;background:var(--black);color:#fff;font-weight:600;font-size:16px;padding:16px 30px;border-radius:12px;text-decoration:none;transition:transform .15s,box-shadow .15s;box-shadow:0 10px 26px rgba(0,0,0,.16);cursor:pointer;border:none;font-family:inherit}
+  /* Brand type (Peter 2026-08-15 "use the same font throughout... this is the new brand text"):
+     every section heading + button carries the athena serif, matching the hero. Playfair loads via
+     athena-form.js (weights 500/600); body copy stays Onest for readability. */
+  h2,h3,.btn{font-family:'Playfair Display',Georgia,serif}
+  h2,h3{font-weight:600}
+  .btn{font-weight:600;letter-spacing:.01em}
   .btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.22)}
   .btn .chev{font-size:19px;line-height:0;margin-top:-1px}
   .btn.sm{padding:10px 20px;font-size:14.5px;border-radius:10px}
@@ -710,7 +716,7 @@ fbq('init', '997126436410749');fbq('track','PageView');</script>
   } catch (e) {}
 })();
 </script>
-<script src="/athena-form.js?v=20260814b" defer></script>
+<script src="/athena-form.js?v=20260815a" defer></script>
 <script src="/adq-embed.js?v=20260814b" defer></script>
 <script src="/bnr.js?v=20260728g" defer></script>
 <script>

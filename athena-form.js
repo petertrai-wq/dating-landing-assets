@@ -331,6 +331,7 @@
     out.ab = (window.__ADQ_AB || window.__AB || 'c');
     out.form = 'athena2';   // athena2 tag (2026-08-04): the relay's formLabel/recordFunnel/beacon gates all accept it
     try { out.hero = heroBucket(); } catch (e) {}   // hero split 2 arm rides every fill (relay hidden whitelist 2026-08-08)
+    try { var _v = vslBucket(); out.vsl = (_v.forced ? 'qa-' : '') + _v.arm; } catch (e) {}   // VSL split arm (relay hidden whitelist 2026-08-15); qa- = forced preview, excluded from reads
     // ST14 DSL deck REMOVED for everyone (Peter 2026-08-08: "remove the DSL from everything" —
     // deck arm cost 36% of form-clicks, median 1.7/21 slides read). No dsl field on fills anymore.
     try { if (fsAcc >= 1) out.form_secs = String(Math.round(fsAcc)); } catch (e) {}
@@ -1037,24 +1038,58 @@
   // pageload beacons hero_view (page = variant) and fills carry hidden.hero — per-hero funnel
   // joins on sid (beacons) or hidden.hero (fills). Deploy head-to-head per Jeremy: never straight-swap.
   function heroBucket() {
+    // ST hero2 ENDED 2026-08-15: dead heat at every stage after 6 days (photos 937 views/32 booked
+    // vs default 909/31) — killed on Jeremy's congruence ruling, not performance: every ad in the
+    // founder-delegator batch opens on the delegation frame, so the page must too. ?hero= QA force
+    // still works; the sticky cookie is ignored. The photos verbatim lives on in the VSL pain beat.
     try {
       var qs = new URLSearchParams(location.search).get('hero');
       if (qs === 'photos' || qs === 'default') return qs;
-      var v = localStorage.getItem('adq_hero2');
-      if (v !== 'photos' && v !== 'default') { v = (Math.random() < 0.5) ? 'photos' : 'default'; try { localStorage.setItem('adq_hero2', v); } catch (e) {} }
-      return v;
-    } catch (e) { return 'default'; }
+    } catch (e) {}
+    return 'default';
+  }
+  // ── VSL split test (Peter 2026-08-15 "put this video on 50/50 of people"): sticky 50/50.
+  // Arm 'on' = Vidalytics player right under the H1 + Apply Now button; the sub headline and the
+  // guarantee line are hidden so the hero reads H1 → video → button → q1 card. Arm 'off' =
+  // unchanged hero. ?vsl=1|0 forces for QA — forced views are NOT sticky, fire NO exposure
+  // beacon, and tag fills 'qa-*' so previews never pollute the test read.
+  function vslBucket() {
+    try {
+      var qs = new URLSearchParams(location.search).get('vsl');
+      if (qs === '1' || qs === '0') return { arm: qs === '1' ? 'on' : 'off', forced: true };
+      var v = localStorage.getItem('adq_vsl');
+      if (v !== 'on' && v !== 'off') { v = (Math.random() < 0.5) ? 'on' : 'off'; try { localStorage.setItem('adq_vsl', v); } catch (e) {} }
+      return { arm: v, forced: false };
+    } catch (e) { return { arm: 'off', forced: false }; }
+  }
+  function mountVsl(h1) {
+    var wrap = document.createElement('div');
+    wrap.id = 'athVslWrap';
+    wrap.innerHTML = '<div id="vidalytics_embed_amaxD0X4yQdQFfUY" style="width:100%;position:relative;padding-top:56.25%;"></div>' +
+      '<a href="#" id="vslApplyBtn" class="btn" data-tf-popup="qoQwwZI5" onclick="return false;">Apply Now <span class="chev">&rsaquo;</span></a>';
+    h1.parentNode.insertBefore(wrap, h1.nextSibling);
+    var st = document.createElement('style');
+    st.textContent = '#athVslWrap{max-width:820px;margin:26px auto 6px}html.athena-arm #athVslWrap{margin:26px 0 6px}#athVslWrap #vidalytics_embed_amaxD0X4yQdQFfUY{border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}#vslApplyBtn{display:flex;justify-content:center;width:100%;box-sizing:border-box;margin:18px 0 0;font-size:19px;padding:19px 0}';
+    document.head.appendChild(st);
+    // Vidalytics loader (their embed IIFE, executed via a real script element)
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.text = "(function (v, i, d, a, l, y, t, c, s) {y='_'+d.toLowerCase();c=d+'L';if(!v[d]){v[d]={};}if(!v[c]){v[c]={};}if(!v[y]){v[y]={};}var vl='Loader',vli=v[y][vl],vsl=v[c][vl + 'Script'],vlf=v[c][vl + 'Loaded'],ve='Embed';if (!vsl){vsl=function(u,cb){if(t){cb();return;}s=i.createElement(\"script\");s.type=\"text/javascript\";s.async=1;s.src=u;if(s.readyState){s.onreadystatechange=function(){if(s.readyState===\"loaded\"||s.readyState==\"complete\"){s.onreadystatechange=null;vlf=1;cb();}};}else{s.onload=function(){vlf=1;cb();};}i.getElementsByTagName(\"head\")[0].appendChild(s);};}vsl(l+'loader.min.js',function(){if(!vli){var vlc=v[c][vl];vli=new vlc();}vli.loadScript(l+'player.min.js',function(){var vec=v[d][ve];t=new vec();t.run(a);});});})(window, document, 'Vidalytics', 'vidalytics_embed_amaxD0X4yQdQFfUY', 'https://fast.vidalytics.com/embeds/3ZOVmn3h/amaxD0X4yQdQFfUY/');";
+    document.head.appendChild(s);
   }
   function heroVariant() {
     var hb = null;   // null = default delegation hero below
     try { if (heroBucket() === 'photos') hb = { h1: '<span class="l">Your good photos are with your ex.</span><span class="l"><em>The apps are a part-time job.</em></span>', sub: 'We rebuild your photos, run your dating apps, and schedule your dates. You just show up.' }; } catch (e) {}
     try { pingEv('hero_view', heroBucket()); } catch (e) {}
+    var _vb = vslBucket();
+    try { if (!_vb.forced) pingEv('vsl_view', _vb.arm); } catch (e) {}
     try {
       var h1 = document.querySelector('.hero h1');
       if (h1) {
         h1.innerHTML = hb ? hb.h1 : '<span class="l">You’re losing 10+ hours a week</span><span class="l"><em>to work someone else should do.</em></span>';
         // 'Trusted by 300+...' eyebrow retired on every hero (Peter 2026-08-05 pm: "remove this
         // from everything"); the .athEyebrow style rule stays for old cached HTML, harmless.
+        if (_vb.arm === 'on') { try { mountVsl(h1); } catch (e) {} }
       }
     } catch (e) {}
     try {
@@ -1069,6 +1104,9 @@
           sub.parentNode.insertBefore(gl, sub.nextSibling);
         }
         gl.textContent = HERO_GUARANTEE;
+        // Video arm: H1 → video → Apply Now only (Peter 2026-08-15 "remove the sub headline and
+        // the third sub headline when the video is on there") — the video pitches, the page doesn't.
+        if (_vb.arm === 'on') { sub.style.display = 'none'; gl.style.display = 'none'; }
         var tq = document.createElement('div');
         tq.id = 'athHeroQuote';
         tq.innerHTML = '"If I just put in the time, I\'d be fine. But I can\'t afford to with my schedule. Landing high quality dates is literally a full time job nowadays."' +
