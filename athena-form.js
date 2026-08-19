@@ -1065,11 +1065,13 @@
   function mountVsl(h1) {
     var wrap = document.createElement('div');
     wrap.id = 'athVslWrap';
-    wrap.innerHTML = '<div id="vidalytics_embed_amaxD0X4yQdQFfUY" style="width:100%;position:relative;padding-top:56.25%;"></div>' +
+    wrap.innerHTML = '<div id="vslSub">We run your dating apps and put 12-24 high quality dates directly onto your calendar.</div>' +
+      '<div id="vidalytics_embed_amaxD0X4yQdQFfUY" style="width:100%;position:relative;padding-top:56.25%;"></div>' +
       '<a href="#" id="vslApplyBtn" class="btn" data-tf-popup="qoQwwZI5" onclick="return false;">Apply Now <span class="chev">&rsaquo;</span></a>';
     h1.parentNode.insertBefore(wrap, h1.nextSibling);
     var st = document.createElement('style');
-    st.textContent = '#athVslWrap{max-width:820px;margin:26px auto 6px}html.athena-arm #athVslWrap{margin:26px 0 6px}#athVslWrap #vidalytics_embed_amaxD0X4yQdQFfUY{border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}#vslApplyBtn{display:flex;justify-content:center;width:100%;box-sizing:border-box;margin:18px 0 0;font-size:19px;padding:19px 0}';
+    st.textContent = '#athVslWrap{max-width:820px;margin:26px auto 6px}html.athena-arm #athVslWrap{margin:26px 0 6px}#athVslWrap #vidalytics_embed_amaxD0X4yQdQFfUY{border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}#vslApplyBtn{display:flex;justify-content:center;width:100%;box-sizing:border-box;margin:18px 0 0;font-size:19px;padding:19px 0}' +
+      '#athVslWrap #vslSub{font-size:19px;line-height:1.55;margin:0 auto 18px;max-width:640px;text-align:center;opacity:.94}html.athena-arm #athVslWrap #vslSub{margin:0 0 18px;text-align:left}';
     document.head.appendChild(st);
     // Vidalytics loader (their embed IIFE, executed via a real script element)
     var s = document.createElement('script');
