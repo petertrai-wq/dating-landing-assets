@@ -1071,7 +1071,8 @@
     h1.parentNode.insertBefore(wrap, h1.nextSibling);
     var st = document.createElement('style');
     st.textContent = '#athVslWrap{max-width:820px;margin:26px auto 6px}html.athena-arm #athVslWrap{margin:26px 0 6px}#athVslWrap #vidalytics_embed_amaxD0X4yQdQFfUY{border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}#vslApplyBtn{display:flex;justify-content:center;width:100%;box-sizing:border-box;margin:18px 0 0;font-size:19px;padding:19px 0}' +
-      '#athVslWrap #vslSub{font-size:19px;line-height:1.55;margin:0 auto 18px;max-width:640px;text-align:center;opacity:.94}html.athena-arm #athVslWrap #vslSub{margin:0 0 18px;text-align:left}';
+      '#athVslWrap #vslSub{font-family:Figtree,Inter,-apple-system,sans-serif;font-size:19.5px;line-height:1.55;margin:0 auto 18px;max-width:640px;text-align:center;color:#fff}html.athena-arm #athVslWrap #vslSub{margin:0 0 18px;text-align:left}' +
+      'html.athena-arm #athVslWrap #vslApplyBtn{background:#F5F1E6;color:#1F2A20;border:1.5px solid #C9A85C;font-size:20px;font-weight:600;box-shadow:0 16px 38px rgba(0,0,0,.4)}html.athena-arm #athVslWrap #vslApplyBtn:hover{background:#fff}html.athena-arm #athVslWrap #vslApplyBtn .chev{color:#B08D3F}';
     document.head.appendChild(st);
     // Vidalytics loader (their embed IIFE, executed via a real script element)
     var s = document.createElement('script');
