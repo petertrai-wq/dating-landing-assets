@@ -1155,14 +1155,17 @@
     } catch (e) {}
   }
 
-  // every CTA opens the Athena form (capture beats adq-embed's own listener). Until q1 is
-  // answered in the hero card, CTAs scroll back to it instead of opening the takeover.
+  // every CTA scrolls to the hero q1 card (Peter 2026-08-19 "i want the cta buttons to scroll to
+  // the form" — a saved q1 from an earlier visit used to shoot Apply Now straight into question 2).
+  // Answering the card is what opens the takeover; if the card isn't on the page, fall back to
+  // opening the takeover directly so CTAs never dead-end.
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest && e.target.closest('[data-tf-popup]');
     if (!t) return;
     e.preventDefault(); e.stopImmediatePropagation();
-    if (A.q1) openTakeover();
-    else { var rc = document.getElementById('athRole'); if (rc) { try { rc.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { rc.scrollIntoView(); } } }
+    var rc = document.getElementById('athRole');
+    if (rc) { try { rc.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { rc.scrollIntoView(); } }
+    else openTakeover();
   }, true);
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', heroVariant); else heroVariant();
