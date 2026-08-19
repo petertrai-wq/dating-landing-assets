@@ -528,6 +528,9 @@
     ov.classList.add('on');
     ov.classList.remove('enter'); void ov.offsetWidth; ov.classList.add('enter');
     document.documentElement.style.overflow = 'hidden';
+    // VSL keeps talking under the form overlay (Peter 2026-08-19 mobile) — pause it the moment the
+    // takeover opens, every path in (q1 Yes card, Apply Now, CTA buttons all land here).
+    try { [].forEach.call(document.querySelectorAll('#athVslWrap video'), function (v) { try { v.pause(); } catch (e) {} }); } catch (e) {}
     if (!stepPinged.form_open) { stepPinged.form_open = 1; pingEv('form_open', 'open'); }
     if (finishedView === 'dq') {   // reopen after a DQ = fresh start from question one (Peter 2026-08-13)
       redoDq = true; A = { q1: A.q1 || 'Yes' }; step = 0;
