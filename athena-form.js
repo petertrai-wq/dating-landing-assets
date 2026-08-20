@@ -562,7 +562,7 @@
     if (s.almost) h += '<div class="athalmost"><h1 class="athserif">You’re almost there!</h1><p>Just a few more questions to help us build your exact done-for-you dating app strategy.</p><hr></div>';
     if (s.type === 'info') {
       h += '<div class="athq">' + esc(_qt) + '</div>';
-      h += '<div class="athd" style="font-size:16.5px;line-height:1.6">For men earning <b>$100K+</b> who are ready to delegate their dating life. We rebuild your photos, run your apps, and schedule your dates. <b>12+ dates in 90 days, guaranteed.</b><br><br>If that sounds like you, let\'s see if we\'re a fit.</div>';
+      h += '<div class="athd" style="font-size:16.5px;line-height:1.6">For men earning <b>$150K+</b> who are ready to delegate their dating life. We rebuild your photos, run your apps, and schedule your dates. <b>12+ dates in 90 days, guaranteed.</b><br><br>If that sounds like you, let\'s see if we\'re a fit.</div>';
       h += '<button class="athgo show" id="athGo">Continue&nbsp;&nbsp;\u2192</button>';
     } else if (s.type === 'radio' || s.type === 'multi') {
       h += '<div class="athq' + (s.compact ? ' compact' : '') + '">' + esc(_qt) + '</div>';
@@ -1068,7 +1068,7 @@
   function mountVsl(h1) {
     var wrap = document.createElement('div');
     wrap.id = 'athVslWrap';
-    wrap.innerHTML = '<div id="vslSub">We run your dating apps and put 12-24 high quality dates directly onto your calendar.</div>' +
+    wrap.innerHTML = '<div id="vslSub">We run your dating apps and put 12-24 high quality dates directly onto your calendar in 90 days.</div>' +
       '<div id="vidalytics_embed_amaxD0X4yQdQFfUY" style="width:100%;position:relative;padding-top:56.25%;"></div>' +
       '<a href="#" id="vslApplyBtn" class="btn" data-tf-popup="qoQwwZI5" onclick="return false;">Apply Now <span class="chev">&rsaquo;</span></a>';
     h1.parentNode.insertBefore(wrap, h1.nextSibling);
