@@ -320,7 +320,10 @@
     var out = { ab: (window.__ADQ_AB || window.__AB || 'c'), form: 'athena2' };
     if (redoDq) out.redo_dq = '1';   // restarted after a DQ — the relay red-flags this application
     try {
-      var el = document.querySelector('[data-tf-popup]');
+      // MUST select an element that actually CARRIES data-tf-hidden (attribution bug 2026-08-15..20:
+      // mountVsl's Apply button has data-tf-popup but no data-tf-hidden and sits FIRST in the DOM,
+      // so every VSL-arm fill read null here and lost utm/fbclid/vsl — landed as "direct").
+      var el = document.querySelector('[data-tf-popup][data-tf-hidden]') || document.querySelector('[data-tf-popup]');
       var s = (el && el.getAttribute('data-tf-hidden')) || '';
       s.split(',').forEach(function (pair) {
         var i = pair.indexOf('='); if (i < 1) return;
@@ -1072,6 +1075,9 @@
       '<div id="vidalytics_embed_amaxD0X4yQdQFfUY" style="width:100%;position:relative;padding-top:56.25%;"></div>' +
       '<a href="#" id="vslApplyBtn" class="btn" data-tf-popup="qoQwwZI5" onclick="return false;">Apply Now <span class="chev">&rsaquo;</span></a>';
     h1.parentNode.insertBefore(wrap, h1.nextSibling);
+    // Copy the UTM hidden payload onto the fresh Apply button (belt to the [data-tf-hidden]
+    // selector fix) — the legacy builder ran at parse time and only tagged elements that existed then.
+    try { var _tagged = document.querySelector('[data-tf-popup][data-tf-hidden]'); var _btn = wrap.querySelector('#vslApplyBtn'); if (_tagged && _btn) _btn.setAttribute('data-tf-hidden', _tagged.getAttribute('data-tf-hidden')); } catch (e) {}
     var st = document.createElement('style');
     st.textContent = '#athVslWrap{max-width:820px;margin:26px auto 6px}html.athena-arm #athVslWrap{margin:26px 0 6px}#athVslWrap #vidalytics_embed_amaxD0X4yQdQFfUY{border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}#vslApplyBtn{display:flex;justify-content:center;width:100%;box-sizing:border-box;margin:18px 0 0;font-size:19px;padding:19px 0}' +
       '#athVslWrap #vslSub{font-family:Figtree,Inter,-apple-system,sans-serif;font-size:19.5px;line-height:1.55;margin:0 auto 18px;max-width:640px;text-align:center;color:#fff}html.athena-arm #athVslWrap #vslSub{margin:0 0 18px;text-align:left}' +
