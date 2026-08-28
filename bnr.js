@@ -8,9 +8,9 @@
 (function () {
   try {
     var EP = 'https://admin.automated.dating/api/analytics/track';
-    var DEADLINE = new Date('2026-08-02T00:00:00-04:00').getTime();   // increase hits after Aug 1 = end of Aug 1 ET
+    var DEADLINE = new Date('2026-09-01T00:00:00-04:00').getTime();   // $500 increase hits Sep 1 ET (Peter 2026-08-27); banner self-retires at midnight
     var TY = location.pathname.indexOf('thankyou') >= 0;
-    var MSG = '$500 Off Until Aug 1';
+    var MSG = '$500 Price Increase Sep 1';
     var sid;
     try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } }
     catch (e) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
@@ -45,7 +45,8 @@
     var hideQA = /[?&]bnr=n\b/.test(location.search);
     var dismissed = false;
     try { dismissed = sessionStorage.getItem('adq_bnr_x') === '1'; } catch (e) {}
-    if (live && !hideQA && !dismissed && !TY) {   // Peter 2026-07-31: no banner on the thank-you page (its eyebrow carries the price message)
+    var LANDING = /^\/(index\.html)?$/.test(location.pathname);   // Peter 2026-08-27: banner on the LANDING page only
+    if (live && !hideQA && !dismissed && !TY && LANDING) {   // Peter 2026-07-31: no banner on the thank-you page (its eyebrow carries the price message)
       try {
         var fl = document.createElement('link'); fl.rel = 'stylesheet';
         fl.href = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap';
@@ -79,6 +80,15 @@
       };
       tick();
       setInterval(tick, 30000);
+      // Peter 2026-08-27 'remove it when they click into the form': any form entry —
+      // a Typeform-popup CTA click or focus/click inside the inline hero form — drops the bar.
+      var hideOnForm = function () { try { bar.remove(); } catch (e) {} };
+      document.addEventListener('click', function (e) {
+        try { if (e.target && e.target.closest && (e.target.closest('[data-tf-popup]') || e.target.closest('#adqInlineHost'))) hideOnForm(); } catch (err) {}
+      }, true);
+      document.addEventListener('focusin', function (e) {
+        try { if (e.target && e.target.closest && e.target.closest('#adqInlineHost')) hideOnForm(); } catch (err) {}
+      }, true);
     }
 
     if (!TY) { if (live) beacon('bnr_view'); return; }
