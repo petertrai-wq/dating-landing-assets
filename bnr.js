@@ -10,10 +10,10 @@
     var EP = 'https://admin.automated.dating/api/analytics/track';
     var DEADLINE = new Date('2026-09-01T00:00:00-04:00').getTime();   // increase hits Sep 1 ET (Peter 2026-08-27); banner self-retires at midnight
     var TY = location.pathname.indexOf('thankyou') >= 0;
-    // Copy swapped to capacity framing 2026-08-28 (Peter's call, matches the rt-0827 ad captions:
-    // "3 spots open at the current rate before September 1"). Was '$500 Price Increase Sep 1' —
-    // price-panic framing; keep the spots number REAL and in sync with the ads.
-    var MSG = '3 Spots Left at the Current Rate';
+    // Copy history 2026-08-28: '$500 Price Increase Sep 1' (price-panic, live 08-27 9:30pm-08-28
+    // 4pm) -> '3 Spots Left at the Current Rate' (~30 min) -> Peter settled on the July-proven
+    // discount framing ("$500 Off Until Aug 1" ran 3.6 days 07-29..08-01 and held the funnel):
+    var MSG = '$500 Off Until Sep 1';
     var sid;
     try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } }
     catch (e) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
@@ -61,8 +61,10 @@
       // is removed whenever the banner goes (dismiss / form-click / deadline) so the nav
       // returns to its normal look.
       st.textContent = '.nav{background:#FCF7E6 !important;backdrop-filter:none !important;border-bottom:1px solid #efe8d2 !important}' +
-        '.nav .wrap a:not(.btn),.nav .txtus{color:#111 !important;opacity:.92}' +
-        '.nav .txtus svg{color:#111 !important}' +
+        '.nav .wrap a:not(.btn){color:#111 !important;opacity:.92}' +
+        // Peter 2026-08-28: no Questions?/phone while the banner is live (frees the row for one line);
+        // returns automatically when the banner retires (this style element is removed with it).
+        '.nav .txtus{display:none !important}' +
         '#adBnrIn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:9px;white-space:nowrap}' +
         '#adBnrIn .m{font-size:13.5px;font-weight:700;letter-spacing:-0.01em;color:#111}' +
         '.adBnrChip{flex:none;background:#1F2A20;color:#fff;border-radius:5px;padding:3px 7px 2px;text-align:center;line-height:1}' +
@@ -70,10 +72,21 @@
         '.adBnrChip span{font-size:7px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}' +
         '#adBnrX{border:none;background:none;color:#9a9a90;font-size:15px;line-height:1;cursor:pointer;padding:4px;font-family:inherit}' +
         '#adBnrX:hover{color:#111}' +
+        // Peter 2026-08-28 "make it all on one line even on mobile": no second-row wrap anywhere —
+        // the banner sits inline between the brand pill and Sign In, shrinking type as width drops.
         '@media (max-width:1180px){' +
-          '.nav .wrap{flex-wrap:wrap;height:auto;min-height:66px;position:relative}' +
-          '#adBnrIn{position:static;transform:none;width:100%;justify-content:center;order:3;padding:6px 0 8px;border-top:1px solid rgba(0,0,0,.07);margin-top:2px}' +
-        '}';
+          '.nav .wrap{flex-wrap:nowrap;position:relative}' +
+          '#adBnrIn{position:static;transform:none;flex:1 1 auto;min-width:0;justify-content:center;order:0;padding:0;margin:0 8px}' +
+        '}' +
+        '@media (max-width:560px){' +
+          '#adBnrIn{gap:6px;margin:0 5px}' +
+          '#adBnrIn .m{font-size:11px}' +
+          '.adBnrChip{padding:2px 5px 2px}.adBnrChip b{font-size:10.5px}.adBnrChip span{font-size:6px}' +
+          '#adBnrX{font-size:13px;padding:2px}' +
+        '}' +
+        '@media (max-width:430px){#adBnrIn .m{font-size:10.5px}}' +
+        // Sub-370px safety net: the countdown chips go before the line is allowed to break.
+        '@media (max-width:370px){.adBnrChip{display:none}}';
       document.head.appendChild(st);
       // ONE top bar (Peter 2026-08-27 "put these both on the same top banner"): the message +
       // countdown live INSIDE the site nav next to the brand pill — no second stacked strip.
