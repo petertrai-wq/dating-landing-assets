@@ -53,7 +53,14 @@
         document.head.appendChild(fl);
       } catch (e) {}
       var st = document.createElement('style');
-      st.textContent = '#adBnrIn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:9px;white-space:nowrap}' +
+      // Cream top bar while the banner is live (Peter 2026-08-27: the nav renders dark on the
+      // landing — black text was invisible; "should be a cream colored top bar"). The override
+      // is removed whenever the banner goes (dismiss / form-click / deadline) so the nav
+      // returns to its normal look.
+      st.textContent = '.nav{background:#FCF7E6 !important;backdrop-filter:none !important;border-bottom:1px solid #efe8d2 !important}' +
+        '.nav .wrap a:not(.btn),.nav .txtus{color:#111 !important;opacity:.92}' +
+        '.nav .txtus svg{color:#111 !important}' +
+        '#adBnrIn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:9px;white-space:nowrap}' +
         '#adBnrIn .m{font-size:13.5px;font-weight:700;letter-spacing:-0.01em;color:#111}' +
         '.adBnrChip{flex:none;background:#1F2A20;color:#fff;border-radius:5px;padding:3px 7px 2px;text-align:center;line-height:1}' +
         '.adBnrChip b{font-size:12.5px;font-variant-numeric:tabular-nums;display:block;font-weight:700}' +
@@ -76,10 +83,11 @@
         '<button id="adBnrX" aria-label="Dismiss">\u2715</button>';
       if (host) { try { host.style.position = 'relative'; } catch (e) {} host.appendChild(bar); }
       else if (document.body) document.body.insertBefore(bar, document.body.firstChild);
-      try { document.getElementById('adBnrX').addEventListener('click', function () { try { sessionStorage.setItem('adq_bnr_x', '1'); } catch (e) {} try { bar.remove(); } catch (e) {} }); } catch (e) {}
+      var retire = function () { try { bar.remove(); } catch (e) {} try { st.remove(); } catch (e) {} };
+      try { document.getElementById('adBnrX').addEventListener('click', function () { try { sessionStorage.setItem('adq_bnr_x', '1'); } catch (e) {} retire(); }); } catch (e) {}
       var tick = function () {
         var left = DEADLINE - Date.now();
-        if (left <= 0) { try { bar.remove(); } catch (e) {} return; }
+        if (left <= 0) { retire(); return; }
         var d2 = function (n) { return (n < 10 ? '0' : '') + n; };
         var dEl = document.getElementById('adBnrD'), hEl = document.getElementById('adBnrH');
         if (dEl) dEl.textContent = d2(Math.floor(left / 86400000));
@@ -89,7 +97,7 @@
       setInterval(tick, 30000);
       // Peter 2026-08-27 'remove it when they click into the form': any form entry —
       // a Typeform-popup CTA click or focus/click inside the inline hero form — drops the bar.
-      var hideOnForm = function () { try { bar.remove(); } catch (e) {} };
+      var hideOnForm = function () { retire(); };
       document.addEventListener('click', function (e) {
         try { if (e.target && e.target.closest && (e.target.closest('[data-tf-popup]') || e.target.closest('#adqInlineHost'))) hideOnForm(); } catch (err) {}
       }, true);
