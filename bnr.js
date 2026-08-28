@@ -8,9 +8,12 @@
 (function () {
   try {
     var EP = 'https://admin.automated.dating/api/analytics/track';
-    var DEADLINE = new Date('2026-09-01T00:00:00-04:00').getTime();   // $500 increase hits Sep 1 ET (Peter 2026-08-27); banner self-retires at midnight
+    var DEADLINE = new Date('2026-09-01T00:00:00-04:00').getTime();   // increase hits Sep 1 ET (Peter 2026-08-27); banner self-retires at midnight
     var TY = location.pathname.indexOf('thankyou') >= 0;
-    var MSG = '$500 Price Increase Sep 1';
+    // Copy swapped to capacity framing 2026-08-28 (Peter's call, matches the rt-0827 ad captions:
+    // "3 spots open at the current rate before September 1"). Was '$500 Price Increase Sep 1' —
+    // price-panic framing; keep the spots number REAL and in sync with the ads.
+    var MSG = '3 Spots Left at the Current Rate';
     var sid;
     try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } }
     catch (e) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
