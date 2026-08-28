@@ -53,22 +53,29 @@
         document.head.appendChild(fl);
       } catch (e) {}
       var st = document.createElement('style');
-      st.textContent = '#adBnr{position:relative;z-index:70;background:#FCF7E6;color:#41402f;border-bottom:1px solid #efe8d2;display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 40px;font-family:Figtree,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}' +
-        '#adBnr .m{font-size:13.5px;font-weight:500;text-align:center;line-height:1.35}' +
+      st.textContent = '#adBnrIn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:9px;white-space:nowrap}' +
+        '#adBnrIn .m{font-size:13.5px;font-weight:700;letter-spacing:-0.01em;color:#111}' +
         '.adBnrChip{flex:none;background:#1F2A20;color:#fff;border-radius:5px;padding:3px 7px 2px;text-align:center;line-height:1}' +
-        '.adBnrChip b{font-size:13px;font-variant-numeric:tabular-nums;display:block;font-weight:700}' +
-        '.adBnrChip span{font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}' +
-        '#adBnrX{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:none;color:#b3a97e;font-size:17px;line-height:1;cursor:pointer;padding:6px;font-family:inherit}' +
-        '#adBnrX:hover{color:#41402f}' +
-        '@media (max-width:768px){#adBnr{padding:7px 34px;gap:8px}#adBnr .m{font-size:11.5px}}';
+        '.adBnrChip b{font-size:12.5px;font-variant-numeric:tabular-nums;display:block;font-weight:700}' +
+        '.adBnrChip span{font-size:7px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}' +
+        '#adBnrX{border:none;background:none;color:#9a9a90;font-size:15px;line-height:1;cursor:pointer;padding:4px;font-family:inherit}' +
+        '#adBnrX:hover{color:#111}' +
+        '@media (max-width:1180px){' +
+          '.nav .wrap{flex-wrap:wrap;height:auto;min-height:66px;position:relative}' +
+          '#adBnrIn{position:static;transform:none;width:100%;justify-content:center;order:3;padding:6px 0 8px;border-top:1px solid rgba(0,0,0,.07);margin-top:2px}' +
+        '}';
       document.head.appendChild(st);
+      // ONE top bar (Peter 2026-08-27 "put these both on the same top banner"): the message +
+      // countdown live INSIDE the site nav next to the brand pill — no second stacked strip.
+      var host = document.querySelector('.nav .wrap');
       var bar = document.createElement('div');
-      bar.id = 'adBnr';
+      bar.id = 'adBnrIn';
       bar.innerHTML = '<span class="m">' + MSG + '</span>' +
         '<span class="adBnrChip"><b id="adBnrD">0</b><span>days</span></span>' +
         '<span class="adBnrChip"><b id="adBnrH">0</b><span>hrs</span></span>' +
-        '<button id="adBnrX" aria-label="Dismiss">✕</button>';
-      if (document.body) document.body.insertBefore(bar, document.body.firstChild);
+        '<button id="adBnrX" aria-label="Dismiss">\u2715</button>';
+      if (host) { try { host.style.position = 'relative'; } catch (e) {} host.appendChild(bar); }
+      else if (document.body) document.body.insertBefore(bar, document.body.firstChild);
       try { document.getElementById('adBnrX').addEventListener('click', function () { try { sessionStorage.setItem('adq_bnr_x', '1'); } catch (e) {} try { bar.remove(); } catch (e) {} }); } catch (e) {}
       var tick = function () {
         var left = DEADLINE - Date.now();
