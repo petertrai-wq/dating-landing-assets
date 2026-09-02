@@ -8,12 +8,12 @@
 (function () {
   try {
     var EP = 'https://admin.automated.dating/api/analytics/track';
-    var DEADLINE = new Date('2026-09-01T00:00:00-04:00').getTime();   // increase hits Sep 1 ET (Peter 2026-08-27); banner self-retires at midnight
+    var DEADLINE = new Date('2026-10-01T00:00:00-04:00').getTime();   // capacity banner safety-retires end of September so it can never go stale into October
     var TY = location.pathname.indexOf('thankyou') >= 0;
-    // Copy history 2026-08-28: '$500 Price Increase Sep 1' (price-panic, live 08-27 9:30pm-08-28
-    // 4pm) -> '3 Spots Left at the Current Rate' (~30 min) -> Peter settled on the July-proven
-    // discount framing ("$500 Off Until Aug 1" ran 3.6 days 07-29..08-01 and held the funnel):
-    var MSG = '$500 Off Until Sep 1';
+    // Copy history: '$500 Off Until Sep 1' (08-28..08-31, retired itself Sep 1 midnight) ->
+    // capacity framing (Peter 2026-09-01 "28/30 September spots taken" — honest-scarcity per the
+    // Jeremy framework, no price message). No countdown chips: capacity has no timer.
+    var MSG = '28/30 September spots taken';
     var sid;
     try { sid = sessionStorage.getItem('ad_sid'); if (!sid) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('ad_sid', sid); } }
     catch (e) { sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
@@ -94,23 +94,13 @@
       var bar = document.createElement('div');
       bar.id = 'adBnrIn';
       bar.innerHTML = '<span class="m">' + MSG + '</span>' +
-        '<span class="adBnrChip"><b id="adBnrD">0</b><span>days</span></span>' +
-        '<span class="adBnrChip"><b id="adBnrH">0</b><span>hrs</span></span>' +
         '<button id="adBnrX" aria-label="Dismiss">\u2715</button>';
       if (host) { try { host.style.position = 'relative'; } catch (e) {} host.appendChild(bar); }
       else if (document.body) document.body.insertBefore(bar, document.body.firstChild);
       var retire = function () { try { bar.remove(); } catch (e) {} try { st.remove(); } catch (e) {} };
       try { document.getElementById('adBnrX').addEventListener('click', function () { try { sessionStorage.setItem('adq_bnr_x', '1'); } catch (e) {} retire(); }); } catch (e) {}
-      var tick = function () {
-        var left = DEADLINE - Date.now();
-        if (left <= 0) { retire(); return; }
-        var d2 = function (n) { return (n < 10 ? '0' : '') + n; };
-        var dEl = document.getElementById('adBnrD'), hEl = document.getElementById('adBnrH');
-        if (dEl) dEl.textContent = d2(Math.floor(left / 86400000));
-        if (hEl) hEl.textContent = d2(Math.floor(left % 86400000 / 3600000));
-      };
-      tick();
-      setInterval(tick, 30000);
+      // No countdown on the capacity banner — just the stale-guard retire check.
+      setInterval(function () { if (Date.now() >= DEADLINE) retire(); }, 60000);
       // Peter 2026-08-27 'remove it when they click into the form': any form entry —
       // a Typeform-popup CTA click or focus/click inside the inline hero form — drops the bar.
       var hideOnForm = function () { retire(); };
