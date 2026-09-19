@@ -502,13 +502,17 @@
         .catch(function (e) { if (left > 0) return new Promise(function (rz) { setTimeout(rz, 2500); }).then(function () { return slotsFetch(left - 1); }); throw e; });
     };
     slotsFetch(3).then(function (j) {
-      if (!j || !j.ok) { bk.err = (j && j.error) || 'Could not load times'; bk.loaded = true; renderBooker(); return; }
+      if (!j || !j.ok) { bk.err = (j && j.error) || 'Could not load times'; bk.loaded = true; try { pingEv('cal_error', String(bk.err).slice(0, 40)); } catch (e) {} renderBooker(); return; }
       bk.dates = j.dates || {}; bk.mins = j.durationMins || 30; bk.loaded = true; bk.err = '';
       var keys = Object.keys(bk.dates).filter(function (k) { return (bk.dates[k] || []).length; }).sort();
+      // Booker drop-off telemetry (2026-09-19): every qualified non-booker traced to cal_shown and then went dark —
+      // these pings (cal_loaded/cal_day/cal_slot/cal_details/cal_submit/cal_invalid/cal_bookerr/cal_error) make the
+      // step they stopped at visible in /api/analytics/booker-funnel and session-trace. Fire-and-forget, never gate UI.
+      try { pingEv('cal_loaded', keys.length ? (keys.length + 'd/' + keys.reduce(function (n, k) { return n + bk.dates[k].length; }, 0) + 's') : 'empty'); } catch (e) {}
       if (!bk.selDate || keys.indexOf(bk.selDate) < 0) bk.selDate = keys[0] || '';
       bk.month = bk.selDate ? new Date(bk.selDate + 'T12:00:00') : new Date();
       renderBooker();
-    }).catch(function () { bk.err = 'Could not load times'; bk.loaded = true; renderBooker(); });
+    }).catch(function () { bk.err = 'Could not load times'; bk.loaded = true; try { pingEv('cal_error', 'fetch-failed'); } catch (e) {} renderBooker(); });
   }
   function bkTzSelHtml() {
     return '<div class="adbk-tzwrap"><div class="adbk-tzlbl">Time zone</div>' + IC.globe + ' <select id="bkTz">' +
@@ -583,10 +587,10 @@
     body.innerHTML = '<div class="adbk">' + inner + '</div>';
     body.scrollTop = 0;
     var scr = body.querySelector('.adbk'); if (scr) scr.scrollTop = 0;
-    body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); bk.month = new Date(bk.selDate + 'T12:00:00'); bk.armed = ''; if (bkIsMob()) { bk.mStep = 'slots'; bkPush('slots'); } renderBooker(); }); });
+    body.querySelectorAll('[data-bkdate]').forEach(function (el) { el.addEventListener('click', function () { bk.selDate = el.getAttribute('data-bkdate'); try { pingEv('cal_day', bk.selDate); } catch (e) {} bk.month = new Date(bk.selDate + 'T12:00:00'); bk.armed = ''; if (bkIsMob()) { bk.mStep = 'slots'; bkPush('slots'); } renderBooker(); }); });
     body.querySelectorAll('[data-bknav]').forEach(function (el) { el.addEventListener('click', function () { var m = bk.month || new Date(); bk.month = new Date(m.getFullYear(), m.getMonth() + parseInt(el.getAttribute('data-bknav'), 10), 1); renderBooker(); }); });
-    body.querySelectorAll('[data-bkarm]').forEach(function (el) { el.addEventListener('click', function () { bk.armed = el.getAttribute('data-bkarm'); renderBooker(); }); });
-    body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); bk.view = 'details'; bk.err = ''; bk.confirmed = false; bkPush('details'); renderBooker(); }); });
+    body.querySelectorAll('[data-bkarm]').forEach(function (el) { el.addEventListener('click', function () { bk.armed = el.getAttribute('data-bkarm'); try { pingEv('cal_slot', String(bk.armed).slice(0, 25)); } catch (e) {} renderBooker(); }); });
+    body.querySelectorAll('[data-bksel]').forEach(function (el) { el.addEventListener('click', function () { bk.slot = el.getAttribute('data-bksel'); try { pingEv('cal_details', String(bk.slot).slice(0, 25)); } catch (e) {} bk.view = 'details'; bk.err = ''; bk.confirmed = false; bkPush('details'); renderBooker(); }); });
     var tzSel = document.getElementById('bkTz');
     if (tzSel) tzSel.addEventListener('change', function () { bk.tz = tzSel.value; renderBooker(); });
     var bt = document.getElementById('bkBackTimes');
@@ -618,7 +622,7 @@
     var email = (document.getElementById('bkEmail') || {}).value || '';
     var conf = document.getElementById('bkConfirm');
     var errEl = document.getElementById('bkErr');
-    var fail = function (m) { if (errEl) errEl.textContent = m; };
+    var fail = function (m) { if (errEl) errEl.textContent = m; try { pingEv('cal_invalid', String(m).slice(0, 40)); } catch (e) {} };
     if (!first.trim()) return fail('Please enter your first name');
     if (phone.replace(/\D/g, '').length < 8) return fail('Please enter a valid phone number');
     if (/^(\d)\1{6}$/.test(phone.replace(/\D/g, '').slice(-7))) return fail("That phone number doesn't look right. Please double-check it");
@@ -626,6 +630,7 @@
     if (!conf || !conf.checked) return fail('Please confirm above that you will be ready, or pick a new time below.');
     bk.busy = true;
     bk.err = '';
+    try { pingEv('cal_submit', String(bk.slot).slice(0, 25)); } catch (e) {}
     bk.vals = { first: first, phone: phone, email: email };
     bk.confirmed = true;
     var BMSGS = ['Locking in your time slot...', 'Confirming with our calendar...', 'Finalizing your booking...'];
@@ -679,10 +684,11 @@
         }
         bk.busy = false;
         var msg = (j && j.error) || 'Booking failed - please try again';
+        try { pingEv('cal_bookerr', String(msg).slice(0, 40)); } catch (e) {}
         if (/just taken|pick another/i.test(msg)) { bk.view = 'time'; bk.mStep = 'date'; bk.armed = ''; bk.slot = ''; bk.err = msg; bk.loaded = false; bk._fetching = false; renderBooker(); return; }
         bk.err = msg; renderBooker();
       })
-      .catch(function () { done(); bk.busy = false; bk.err = 'Network error - please try again'; renderBooker(); });
+      .catch(function () { done(); bk.busy = false; bk.err = 'Network error - please try again'; try { pingEv('cal_bookerr', 'network'); } catch (e) {} renderBooker(); });
   }
 
   var _animBusy = false;
