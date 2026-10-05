@@ -261,7 +261,7 @@
     // HG_ETH list (hinge-proj portal-src/index.html) with the preference-only 'Open to all'
     // swapped for 'Prefer not to say'. Phase B mirrors all three into the relay DFORM + GHL +
     // lead cards before these answers are consumed anywhere. ──
-    { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },   // BACK as the wheel (Peter 2026-08-06 'use the same slider code'); relay age mapping + 40+ Ed-story gate already consume numeric age
+    { key: 'age', type: 'wheel', title: 'How old are you?', min: 16, max: 65, def: 35 },   // 18+ age gate 2026-10-05 (Stripe account review): the wheel starts at 16 so an under-age answer can be given; under 18 ends the application at this step (next() → finishedView 'age'), nothing is submitted. BACK as the wheel (Peter 2026-08-06 'use the same slider code'); relay age mapping + 40+ Ed-story gate already consume numeric age
     { key: 'nearest_city', type: 'short', title: 'What city are you in?' },   // reworded 2026-08-09 (Peter); same key — relay DFORM entry unchanged in meaning
     // ethnicity question REMOVED (Peter 2026-08-08 pm: "Remove the ethnicity question") — payload
     // still sends A.ethnicity for the cached-JS window; the relay DFORM entry keeps accepting it.
@@ -555,6 +555,7 @@
 
   function render(dir) {
     if (finishedView === 'dq') { renderDq(); return; }
+    if (finishedView === 'age') { renderAgeGate(); return; }
     var s = STEPS[step];
     setBar();
     railEl.style.display = (s.rail ? 'flex' : 'none');
@@ -736,6 +737,7 @@
     // early — everyone reaches contact capture, and the single DQ decision happens after invest.
     // DQ'd completes record WITH contact, fire NO Lead/Schedule CAPI (tfQualified is false), and
     // never see the booker.
+    if (s.key === 'age' && Number(A.age) > 0 && Number(A.age) < 18) { finishedView = 'age'; renderAgeGate(); return; }   // 18+ gate: stop here, no submit
     if (s.key === 'invest' && isDq()) { showDq(dqReasonNow()); return; }
     if (s.key === 'commit') {
       if (/^Maybe/.test(A.commit || '')) { showDq(); return; }
@@ -767,6 +769,15 @@
       A = { q1: A.q1 || 'Yes' }; step = 0;   // wipe any resumed answers — every question re-asked
     }
   } catch (e) {}
+  // 18+ age gate (2026-10-05): the one ending that DOES say why — an under-age applicant is told plainly and cannot continue.
+  function renderAgeGate() {
+    backBtn.hidden = true;
+    railEl.style.display = 'none';
+    setBar(1);
+    col.innerHTML = '<div class="athend"><p class="t">Sorry, you must be 18 or older to apply.</p><p class="d">Automated Dating is only available to adults aged 18 and over, so we can\u2019t accept your application.</p></div>';
+    col.classList.remove('anim', 'animL', 'out', 'outR'); void col.offsetWidth; col.classList.add('anim');
+    ov.scrollTop = 0;
+  }
   function renderDq() {
     backBtn.hidden = true;
     railEl.style.display = 'none';

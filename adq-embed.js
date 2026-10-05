@@ -32,7 +32,9 @@
     { key: 'q1', type: 'choice', title: 'Are you a man (aged 27-55) looking to date high quality women?', opts: ['Yes', 'No'] },
     // 3 intake questions + conditional follow-up (Peter 2026-07-23). No DQ logic on any of these —
     // pure intel, synced to GHL for Brando. methow only shows when dates30 > 0 (skipIf).
-    { key: 'age', type: 'wheel', title: 'How old are you?', min: 18, max: 65, def: 35 },
+    // 18+ age gate (2026-10-05, Stripe account review): the wheel starts at 16 so an under-age answer can be given; under 18 ends the
+    // application at this step with a clear message (advance → finished = 'age'). Nothing is submitted for an under-age applicant.
+    { key: 'age', type: 'wheel', title: 'How old are you?', min: 16, max: 65, def: 35 },
     { key: 'time_week', type: 'choice', title: 'How many hours are you spending each week texting, swiping, thinking about, or meeting women?', opts: ['Under 3 hours', '3-7 hours', '8-15 hours', '15+ hours'] },
     { key: 'dates30', type: 'choice', title: 'How many quality dates did you go on in the last 30 days?', opts: ['0', '1-2', '3-5', '5+'] },
     { key: 'methow', type: 'multi', title: "How'd you meet those dates?", desc: 'Check all that apply.', opts: ['Dating apps', 'Instagram / Social Media', 'Social Circle', 'Approaching', 'Matchmaker', 'Other'], skipIf: function (ans) { return (ans.dates30 || '') === '0'; } },
@@ -299,6 +301,11 @@
       // Photo-consult DQ offer RETIRED (Peter 2026-07-28 "just DQ all future ones") — back to the
       // original soft no from before the $500 photo pitch existed.
       body.innerHTML = '<div class="adq-end"><p class="adq-title">Thanks for your interest in Automated Dating.</p><p class="adq-desc">Based on your answers, it looks like this probably isn\'t the best fit at this time. If things change, we\'d love to hear from you.</p></div>';
+      return;
+    }
+    if (finished === 'age') {
+      body.style.padding = '';
+      body.innerHTML = '<div class="adq-end"><p class="adq-title">Sorry, you must be 18 or older to apply.</p><p class="adq-desc">Automated Dating is only available to adults aged 18 and over, so we can\'t accept your application.</p></div>';
       return;
     }
     if (finished === 'cal') {
@@ -802,6 +809,7 @@
     var q = QS[step];
     pingStep(q.key);
     if (q.key === 'phone') firePhonePartial();
+    if (q.key === 'age' && parseInt(A.age, 10) < 18) { finished = 'age'; saveState(); render(true); return; }   // 18+ gate: stop here, no submit
     // Typeform-mirrored logic: DQ (Q1 No / income 0k-50k / invest No) evaluates at the INVEST
     // question; commit "Maybe" DQs; else calendar. Submission fires when an ENDING is reached —
     // before the calendar shows, so qualified non-bookers are never lost.
